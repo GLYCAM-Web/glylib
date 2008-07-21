@@ -1,0 +1,13 @@
+Using or adding to the library:
+
+setenv GLYLIB /usr/local/programs/GLYLIB/lib ## or whatever the current path is
+setenv GLYINC /usr/local/programs/GLYLIB/inc ## or whatever the current path is
+
+gcc -Wall myprogram.c -I$GLYINC -L$GLYLIB -lglylib
+
+
+Adding to the library:
+
+gcc -c -Wall -I$GLYINC -L$GLYLIB ../src/mynewfunction.c
+ar rvs libglylib.a mynewfunction.o
+

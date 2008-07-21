@@ -1,0 +1,87 @@
+File connection_tree.txt begun on 20080606 by BLFoley
+
+Purpose: describe the entries in the connection_tree structure in greater
+detail than what is practical in the header file.
+
+The purpose of the connection_tree structure is to provide connectivity
+information in a similar manner to that used by many other programs.  It
+should be used for building initial structures of molecules or atoms or
+for translating current structures into human-readable forms.
+
+The connections need not always be actual bonds.  There might be a need to
+describe or construct certain spatial arrangements between non-bonded entities.
+Note that the bond order arrays can contain information regarding whether or 
+not a particular connection is a bond (and how strong it is, etc.)
+
+Also note that there might be more than one "incoming" connection.  This
+is needed to handle closed structures (cycles, baskets, balls, etc.).  For
+the sanity of the programmers, there should only be multiple incoming bonded
+connections if the geometry is actually closed in some manner.  Programs 
+should return an error if the find some other situation.
+
+Each entry in the connection_tree structure is described in detail below.  
+Before reading further, it is important to note that one the data in this 
+library are intentionally structured so that each entity (atom, residue,
+molecule, etc.) contains, in some manner, all the information it needs in
+order to interact with its environment.  This does cause data redundancy, but
+usually the redundancy is minimal and the programming ease is increased in a
+significant manner.  For example, each atom knows every other atom to which 
+it is bonded.  So, one need not consult external lists to find all the bond
+partners for an atom.
+
+This is the connection_tree structure:
+
+typedef struct {
+// See the documentation directory for more information
+        int ni; // number incoming connections
+        molindex *i; // atoms making incoming connections
+	double *boi; // bond order; negative for H-bond (or similar)
+        int no; // number outgoing connections
+        molindex *o; // atoms making outgoing connections
+	double *boo; // bond order; negative for H-bond (or similar)
+        char RS, DL; // for R/S and D/L type chirality
+        int pm; // for optical activity
+        char *iso; // other description of isomerism
+        double *angle; // angles (no + ni - 1)
+        double *distance; // distances (no)
+} connection_tree; // for detailed descriptions of 
+
+To use the tree, define an array of them, one for each atom (or residue
+or molecule or assembly) in your system.  For example:
+
+connection_tree *C; // array
+molecule *M; //
+/* read something into molecule M */
+C=(connection_tree*)calloc(M[0].na,sizeof(connection_tree));
+
+Now, you can, if you need, place each molecule in relation to others.
+
+Chirality and other geometrical information:
+
+The RS, DL and iso information is there to facilitate communication with
+chemists.  The pm information is there for convenience, but at this time is
+not used in the generation of structures.  
+
+In order to build stuctures with the proper chirality, we borrow from the 
+notions central to the RS ideology.  But, we adapt it somewhat so that it is
+more easily used by a computer.
+
+The geometries are defined in this manner:
+
+The first incoming atom is placed directly behind the current atom.  A plane 
+is defined by the first outgoing atom that does not lie along the line formed 
+by the first incoming atom and the current atom.  This atom is stored, for 
+convenience, in oref.  The plane is rotated around the line so that the 
+plane-designating atom occupies a position representing zero degrees (for 
+those who are visualizing this, it helps to put it at the 12 o'clock position).
+All other chirot angles are defined relative to that axis.  If there is no 
+outgoing atom, or when all the outgoing atoms are used up, the incoming atoms 
+may be used, though an error message should be generated if the incoming atom's
+geometry conflicts.
+
+The torsion must correspond to some other atom in the incoming atom's set.
+Since any arbitrary atom might make a straight line with the current and 
+the incoming atom, this field is left to be designated case-by-case.
+
+The distances are the simple distances, and the angles are the simple three
+atom angles.

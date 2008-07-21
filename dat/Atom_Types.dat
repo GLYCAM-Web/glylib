@@ -1,0 +1,39 @@
+## Atom_Types.dat` -- begun 20071128 by BLFoley
+## This file contains a database of atom types 
+## FILE FORMAT:
+## n:N:NT:m:desc:nb(bo1,bo2,bo3,...):nlp
+## lines beginning with a hash mark are ignored
+## ions get 0 (zero) bonds, but for the bond order, give the charge
+##	(in the code, nb is specified as -1 to distinguish from uncharged, no 
+##		bonds, e.g., a noble gas)
+## Field definitions from the header file:
+##	typedef struct {
+##		int n; // atomic number
+##		char *N; // element name (that is, the name for this type of atom)
+##		char *NT; // name for element type (the name for the type of element)
+##		double m; // mass of element type
+##		char *desc; // brief free-form description field
+##		int nb; // number of typical bonds for this atom type
+##		double *bo; // typical bond orders (nb of these)
+##		int nlp; // number of typical lone pairs (to check geometry sanity)
+##	} atype; // atom types, with other info 
+1:H:H:1.00794:H bonded to a nitrogen:1(1):0
+1:H1:H:1.00794:H aliph. bond. to C with 1 electrwd. groups:1(1):0
+1:H2:H:1.00794:H aliph. bond. to C with 2 electrwd. groups:1(1):0
+1:HC:H:1.00794:H aliph. bond. to C without electrwd. groups:1(1):0
+1:HO:H:1.00794:H hydroxyl group:1(1):0
+1:HW:H:1.00794:H TIP3P water:1(1):0
+6:CG:C:12.011:sp3 aliphatic glycan carbon:4(1,1,1,1):0
+6:CT:C:12.011:sp3 aliphatic carbon (other):4(1,1,1,1):0
+6:CY:C:12.011:sp3 C aliphatic - for sialic acid only!:4(1,1,1,1):0
+6:C:C:12.011:sp2 carbonyl C:3(1,1,2):0
+7:N:N:14.01:sp2 N amide group:3(1,1,1):1
+8:O:O:15.994:O carbonyl group:1(2):2
+8:O2:O:15.994:O carbonyl group:1(2):2
+8:OH:O:15.994:O hydroxyl group:2(1,1):2
+8:OS:O:15.994:O ether:2(1,1):2
+8:OY:O:15.994:O ether - for sialic acid only:2(1,1):2
+8:OW:O:15.994:O TIP3P water:2(1,1):2
+11:IP:Na:15.994:Na sodium ion:0(+1):0
+15:P:P:30.97:phosphate in phosphates ABY 04/24/05:4(1,1,1,1):0
+16:S:S:32.06:sulphur in sulphates ABY 03/15/05:4(1,1,1,1):0

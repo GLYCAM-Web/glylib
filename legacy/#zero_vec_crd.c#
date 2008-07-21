@@ -1,0 +1,24 @@
+// Function written by B. Lachele Foley, 2007
+// ...and puzzled over by BLFoley some months later
+//   Why do these functions require arguments??????
+// 	(do change that soon...)
+#include "../inc/mylib.h"
+#include "../inc/molecules.h"
+/* this zero's a vector */
+vectormag_3D zero_vec(vectormag_3D v){
+vectormag_3D nv;
+
+nv.i=nv.j=nv.k=nv.d=0;
+
+return nv;
+}
+
+
+/* this zero's a coordinate set */
+coord_3D zero_coord(coord_3D c){
+coord_3D nc;
+
+nc.i=nc.j=nc.k=0;
+
+return nc;
+}

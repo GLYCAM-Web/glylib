@@ -1,0 +1,6 @@
+base referer
+rect $db/d94/get__type_8c.html 5,5 88,32
+rect $d7/df2/init__struct_8c.html 112,5 200,32
+rect $d8/df6/load__pdb_8c.html 224,5 309,32
+rect $dc/d44/pdb__def_8c.html 333,5 413,32
+rect $da/d7a/rwm__line_8c.html 437,5 523,32

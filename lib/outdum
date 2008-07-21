@@ -1,0 +1,52 @@
+../src/assign_COM.c: In function `assign_assembly_COM':
+../src/assign_COM.c:88: error: request for member `nr' in something not a structure or union
+../src/assign_COM.c:89: error: request for member `r' in something not a structure or union
+../src/assign_COM.c:90: error: request for member `r' in something not a structure or union
+../src/assign_COM.c:104: error: request for member `nr' in something not a structure or union
+../src/assign_COM.c:105: error: request for member `r' in something not a structure or union
+../src/assign_COM.c:106: error: request for member `r' in something not a structure or union
+../src/assign_COM.c:106: error: request for member `r' in something not a structure or union
+../src/assign_COM.c:107: error: request for member `r' in something not a structure or union
+../src/assign_COM.c:107: error: request for member `r' in something not a structure or union
+../src/assign_COM.c:108: error: request for member `r' in something not a structure or union
+../src/assign_COM.c:108: error: request for member `r' in something not a structure or union
+../src/get_COM.c: In function `get_assembly_COM':
+../src/get_COM.c:111: error: request for member `nr' in something not a structure or union
+../src/get_COM.c:112: error: request for member `r' in something not a structure or union
+../src/get_COM.c:113: error: request for member `r' in something not a structure or union
+../src/get_COM.c:128: error: request for member `nr' in something not a structure or union
+../src/get_COM.c:129: error: request for member `r' in something not a structure or union
+../src/get_COM.c:130: error: request for member `r' in something not a structure or union
+../src/get_COM.c:130: error: request for member `r' in something not a structure or union
+../src/get_COM.c:131: error: request for member `r' in something not a structure or union
+../src/get_COM.c:131: error: request for member `r' in something not a structure or union
+../src/get_COM.c:132: error: request for member `r' in something not a structure or union
+../src/get_COM.c:132: error: request for member `r' in something not a structure or union
+../src/get_COM.c:139: error: request for member `nr' in something not a structure or union
+../src/get_COM.c:140: error: request for member `r' in something not a structure or union
+../src/get_COM.c:141: error: request for member `r' in something not a structure or union
+../src/get_COM.c:141: error: request for member `r' in something not a structure or union
+../src/get_COM.c:142: error: request for member `r' in something not a structure or union
+../src/get_COM.c:142: error: request for member `r' in something not a structure or union
+../src/get_COM.c:143: error: request for member `r' in something not a structure or union
+../src/get_COM.c:143: error: request for member `r' in something not a structure or union
+../src/initialize_GLYstruct.c: In function `initialize_molecule':
+../src/initialize_GLYstruct.c:154: error: structure has no member named `nat'
+../src/initialize_GLYstruct.c: In function `initialize_assembly':
+../src/initialize_GLYstruct.c:186: warning: assignment from incompatible pointer type
+../src/initialize_GLYstruct.c:187: error: structure has no member named `nmb'
+../src/initialize_GLYstruct.c:188: error: structure has no member named `mb'
+../src/load_dlg_mol.c: In function `load_dlg_mol':
+../src/load_dlg_mol.c:31: error: structure has no member named `nat'
+../src/load_dlg_mol.c:102: error: structure has no member named `nat'
+../src/load_dlg_mol.c:300: error: structure has no member named `nat'
+../src/load_pdb.c: In function `getAssembly':
+../src/load_pdb.c:56: warning: assignment from incompatible pointer type
+../src/outputPDB.c: In function `outputAsmblPDB':
+../src/outputPDB.c:90: warning: assignment from incompatible pointer type
+../src/rotation.c: In function `rollAssembly':
+../src/rotation.c:85: warning: assignment from incompatible pointer type
+../src/rotation.c: In function `pitchAssembly':
+../src/rotation.c:112: warning: assignment from incompatible pointer type
+../src/rotation.c: In function `yawAssembly':
+../src/rotation.c:139: warning: assignment from incompatible pointer type

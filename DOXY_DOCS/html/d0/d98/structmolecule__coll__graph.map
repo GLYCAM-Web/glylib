@@ -1,0 +1,16 @@
+base referer
+rect $da/d81/structatom.html 175,259 225,285
+rect $d0/d7e/structresidue.html 495,403 559,429
+rect $d3/df7/structvectormag__3D.html 173,131 280,157
+rect $d6/d7c/structbond.html 629,131 680,157
+rect $d6/df4/structbondset.html 653,259 723,285
+rect $dc/d7a/structatype.html 304,131 357,157
+rect $d8/d31/structcoord__3D.html 381,131 459,157
+rect $da/d96/structensindex.html 508,131 583,157
+rect $d2/d4f/structmolindex.html 405,5 480,32
+rect $df/d7e/structmolbond.html 5,131 77,157
+rect $dc/d34/structconnection__tree.html 797,259 912,285
+rect $d0/dda/structmolbondset.html 67,331 157,357
+rect $d6/dde/structmtype.html 871,403 927,429
+rect $d8/d1b/structrtype.html 351,259 401,285
+rect $d7/d04/structplane.html 425,259 479,285

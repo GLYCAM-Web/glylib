@@ -1,0 +1,12 @@
+base referer
+rect $db/d68/structparameter__set.html 512,5 619,32
+rect $da/d81/structatom.html 191,321 241,348
+rect $dc/d7f/structmolecule.html 528,476 603,503
+rect $d0/d7e/structresidue.html 368,379 432,405
+rect $d8/d31/structcoord__3D.html 7,369 84,396
+rect $da/d96/structensindex.html 8,203 83,229
+rect $df/d7e/structmolbond.html 9,653 81,680
+rect $d0/dda/structmolbondset.html 355,708 445,735
+rect $dc/d34/structconnection__tree.html 159,556 273,583
+rect $d2/d3d/structtorsion__index.html 516,827 615,853
+rect $da/d09/structangle__index.html 519,877 612,904
