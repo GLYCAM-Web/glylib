@@ -1,12 +1,19 @@
-/* File read_prep.h begun on 20071120 by BLFoley
-Purpose: header file for function read_prep that reads the 
-contents of a prep file into an existing molecule structure */
+/** \file read_prep.h Header file for function read_prep that reads the 
+contents of a prep file into an existing molecule structure 
 
-//#include <mylib.h>  // these are loaded in the source
-//#include <molecules.h>
-//#include <general.h>
+begun on 20071120 by BLFoley
 
-// see also AMBER documentation for prep file entry information
+These are loaded in the source
+ - #include <mylib.h>  
+ - #include <molecules.h>
+ - #include <general.h>
+
+See also AMBER documentation for prep file entry information
+*/
+
+#if !defined(GLYLIB_AMBER_PREP_HEADERS)
+#define GLYLIB_AMBER_PREP_HEADERS
+
 typedef struct{
 	char *FN; // file name from which this set of preps originated
 	char *NAMDBF; // name of database to which this set belongs
@@ -45,3 +52,4 @@ void read_prep(molecule *M, fileset F, types *TYP);
 residue read_prepres(fileset F, types *TYP);
 atom read_prepatom(const char *line, types *TYP);
 
+#endif

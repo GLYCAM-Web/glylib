@@ -9,6 +9,9 @@ like the "extent of" descriptors, will not be so evident.
 Eventually, I'll document how they are determined -- they
 basically boil down to normalized dot products, but the exact
 definitions might be more subtle. */
+
+#if !defined(GLYLIB_MODES)
+#define GLYLIB_MODES
 //#include "molecules.h"
 
 typedef struct {
@@ -218,4 +221,4 @@ typedef struct { // info tied to atom number
 } atommode;
 
 void get_transition_intensity(molecule *M, int xl, int vl, vibmode *v, atype *ATYPE, FILE *F);
-
+#endif

@@ -1,9 +1,11 @@
-/* molecules.h
-	-- header file for molecule structures */
+/** \file molecules.h
+	Header file for molecule structures 
 
-/* File begun May 2007 by Lachele Foley and modified continually ever since
+File begun May 2007 by Lachele Foley and modified continually ever since
 	by Lachele Foley and others, including Mike Tessier. */
 
+#if !defined(GLYLIB_MOLECULES)
+#define GLYLIB_MOLECULES
 #include "geometries.h"
 #include "parameter_sets.h"
 
@@ -11,47 +13,15 @@ char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; // locations of type databases,
 	// to be set by the program, but globally visible
 
 // these now in geometries.h
-//typedef struct {
-	//double i,j,k; 
-//} coord_3D; // cartesian, polar, direction cosines, etc.
-//typedef struct {
-	//double i,j,k,d; // i,j,k vector with magnitude d
-//} vectormag_3D; // same as "plane" but with easier naming
-//
-//typedef struct {
-	//double A,B,C,D;
-//} plane; // standard plane, Ax+By+Cz+D=0
+// coord_3D; // cartesian, polar, direction cosines, etc.
+// vectormag_3D; // same as "plane" but with easier naming
+// plane; // standard plane, Ax+By+Cz+D=0
 
 // these now in parameter_sets.h, and greatly expanded
-//typedef struct {
-	//int n; // atomic number
-	//char *N; // element name
-	//char *NT; // name for element type
-	//double m; // mass of element type
-	//char *desc; // brief free-form description field
-	//int nb; // number of typical bonds for this atom type
-	//double *bo; // typical bond orders (nb of these)
-	//int nlp; // number of typical lone pairs (to check geometry sanity)
-//} atype; // atom types, with other info
-//typedef struct {
-	//int c; // main class (amino acid, glycan, solvent, etc.)
-	//int nac, *ac; // number alternate classes, those classes
-	//int nVP; // number of other information
-	//void *VP; // pointers to the nVP holders of other information
-//} rtype; // residue types, with other info
-//typedef struct {
-	//int c; // type class (amino acid, glycan, solvent, etc.)
-	//int nVP; // number of other information
-	//void *VP; // pointers to the no holders of other information
-//} mtype; // molecule types, with oter info
-//typedef struct {
-	//int na; // # of atom types
-	//atype *a; // na of these
-	//int nr; // # of residue types
-	//rtype *r; // nr of these
-	//int nm; // # of molecule types
-	//mtype *m; // nm of these
-//} types; // superstructure for typing information
+// atype; // atom types, with other info
+// rtype; // residue types, with other info
+// mtype; // molecule types, with oter info
+// types; // superstructure for typing information
 
 typedef struct {
 	int i; // general index
@@ -460,3 +430,5 @@ void initialize_molecule(molecule *m);
 void initialize_dockinfo(dockinfo *di);
 void initialize_assembly(assembly *A);
 void initialize_ensemble(ensemble *E);
+
+#endif

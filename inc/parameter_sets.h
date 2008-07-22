@@ -1,15 +1,20 @@
-/* File parameter_sets.h begun on 20080606 by BLFoley
-  Purpose: structures for adding parameters to ensembles
+/** \file parameter_sets.h Structures for adding parameters to ensembles
 	and assemblies.
-  NOTE!!!  This file is loaded with the molecules.h header file by default.
-	It should only be loaded explicitly in a program if, for some reason,
-	you are using it separately. */
 
-/* The parameter_set structure will eventually contain pointers for
+Begun on 20080606 by BLFoley
+
+This file is loaded with the molecules.h header file by default.
+	It should only be loaded explicitly in a program if, for some reason,
+	you are using it separately. 
+
+The parameter_set structure will eventually contain pointers for
 just about any type of data typically used in simulations.  As usual,
 there is also a void pointer for situations where information is needed
 that is not already included in the structure.  In any case, this is
 likely to be one whopping big structure, hence the separate file. */
+
+#if !defined(GLYLIB_PARAMETERS)
+#define GLYLIB_PARAMETERS
 
 /************ sub structures for the parameter_set structure *****************/
 typedef struct{ // bond_type
@@ -134,3 +139,5 @@ typedef struct {
 	int nTRT;
 	torsion_type *TRT;
 } parameter_set;
+
+#endif

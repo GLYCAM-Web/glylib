@@ -1,3 +1,10 @@
+/** \file load_pdb.h Header file for loading pdb files into structures.
+
+Begun at some point in the past by BLFoley and possibly modified at some
+point by Mike Tessier.  See also the load_pdb functions.*/
+
+#if !defined(GLYLIB_LOADPDB)
+#define GLYLIB_LOADPDB
 #include <molecules.h>
 #include <structures.h>
 #include <mylib.h>
@@ -27,3 +34,4 @@ int UNCUT,UNx,UNy,UNz; /* flags for uncutting the box */
 int LASTRES,LASTOKX,LASTOKY,LASTOKZ;
 float UNCTOL,CRYX,CRYY,CRYZ,LASTX,LASTY,LASTZ;
 int DEBUG;
+#endif

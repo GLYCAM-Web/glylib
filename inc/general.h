@@ -1,12 +1,16 @@
-/* general.h -- 
-	convenience structures used by various programs 
+/** \file general.h 
+\brief	Convenience structures used by various functions
+	within the library.  
 */
 
 // Header file written by Lachele Foley, summer 2007
 
-// for convenient arrays of strings ("Text")
-// get rid of these ASAP...  Can they go now?
-typedef struct {
+#if !defined(GLYLIB_GENERAL)
+#define GLYLIB_GENERAL
+/** Convenient, but dreadfully wasteful, arrays of strings ("Text")
+
+Need get rid of these ASAP...  Can they go now?*/
+typedef struct { 
 	char *T;
 } llcharset;
 typedef struct {
@@ -22,13 +26,17 @@ typedef struct {
 	char T[11];
 } sscharset;
 
-// for ease in passing sets of file info between functions
+/** \addtogroup FILE_UTILS */
+/*@{*/
+/** A structure for ease in passing sets of file info between functions */
 typedef struct {
-	char *N; // the name of the file -- use strdup to allocate/copy
-	FILE *F; // the file pointer
+	char *N; /// the name of the file -- use strdup to allocate/copy
+	FILE *F; /// the file pointer
 } fileset;
-// similar to the perl notion of "slurping" a file
+/// A structure for a function similar to the perl notion of "slurping" a file
 typedef struct {
-	int n; // number of lines
-	char **L; // each line
+	int n; /// number of lines
+	char **L; /// each line
 } fileslurp; 
+/*@}*/
+#endif

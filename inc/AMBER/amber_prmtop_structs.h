@@ -1,10 +1,17 @@
-/* File amber_prmtop_structs.h begun on 20080424 by BLFoley
-	Purpose: structure for amber prmtop file info */
+/** \file amber_prmtop_structs.h Structure for amber prmtop file info 
 
-// If you add new flags, also add formats, preserving order -AND- define the
-//	new flag in the amber_prmtop structure below and in the initialization
-//	function (currently amber_prmtop_init.c).
-//	NOTE: one space to separate fields, no space at end of set!
+begun on 20080424 by BLFoley
+
+If you add new flags, also add formats, preserving order -AND- define the
+new flag in the amber_prmtop structure below and in the initialization
+function (currently amber_prmtop_init.c).
+
+NOTE: one space to separate fields, no space at end of set!
+*/
+
+#if !defined(GLYLIB_AMBER_PRMTOP_STRUCTS)
+#define GLYLIB_AMBER_PRMTOP_STRUCTS
+
 #define AMBER_PRMTOP_FLAGS "TITLE POINTERS ATOM_NAME CHARGE MASS \
 ATOM_TYPE_INDEX NUMBER_EXCLUDED_ATOMS NONBONDED_PARM_INDEX RESIDUE_LABEL RESIDUE_ID \
 RESIDUE_POINTER BOND_FORCE_CONSTANT BOND_EQUIL_VALUE ANGLE_FORCE_CONSTANT ANGLE_EQUIL_VALUE \
@@ -311,3 +318,5 @@ typedef struct {
 // FORMAT(5E18.8) (ATPOL1(i), i=1,NATOM)
   	int ATPOL1 ; // ATPOL1 : atomic polarizabilities at lambda = 1 (above is at lambda = 0) 
 } amber_prmtop;
+
+#endif

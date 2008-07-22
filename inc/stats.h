@@ -1,3 +1,11 @@
+/** \file  stats.h  Statistics utilities for glylib.
+
+Begun in the spring of 2008 by BLFoley and modified by heaven only
+knows who since then. */
+
+#if !defined(GLYLIB_STATS)
+#define GLYLIB_STATS
+
 typedef struct {
   char t; // type, population (p) or sample (s)
   int n; // number in sample/population
@@ -25,3 +33,4 @@ autocorr zero_autocorr(); // if only one allocation
 autocorr init_autocorr(); // for dynamic allocations
 autocorr get_autocorr_est_array(statsarray S,meanvar M);
 
+#endif

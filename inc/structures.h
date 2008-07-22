@@ -1,3 +1,12 @@
+/** \file structures.h Very poorly named file containing structures
+pertinent to the loading of pdb files.  Recommend name change.
+
+Begun a long time ago by BLFoley and if it was modified at some point since 
+then, the person who did so was likely Mike Tessier. */
+
+#if !defined(GLYLIB_PDB_STRUCTURES)
+#define GLYLIB_PDB_STRUCTURES
+
 typedef struct {
 	int a; /* integer describing the class for this record name */
 	int b; /* integer describing record type in class */
@@ -21,17 +30,6 @@ typedef struct {
         char c[50]; // for sets of short strings
 } charlist;
 
-/*
-typedef struct{
-	int i;   number of "wrong" synonyms -- can't be more than 20
-			or you have to change the next declaration 
-	linefield w[20];  list of "wrong" synonyms 
-	char  c[81];   correct synonym 
-} changenamelist;
-typedef struct{
-       int i;  number of possible correct entries -- limit 100 for now 
-       changenamelist l[100];  list of 20 "wrong" synonyms plus "correct" answer 
-} fieldinfo; */
 typedef struct {
 	char typ[100]; /* type of line -- padded for extra info.  Also
 			used for line rule designations. */
@@ -74,3 +72,4 @@ pdb_line umod_a[6];
 linedef *ln;
 queery_set QS; //only one allowed currently
 
+#endif

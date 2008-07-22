@@ -1,7 +1,10 @@
-/*! \file run_control.h Contains information pertinent to amber simulations.
+/** \file AMBER/run_control.h Contains information pertinent to amber simulations.
 
 	Begun on 20080715 by BLFoley.  
  */
+
+#if !defined(GLYLIB_AMBER_RUN_CONTROL)
+#define GLYLIB_AMBER_RUN_CONTROL
 
 /*! The following structure contains 
         lists of information requested by a user to be output from an amber
@@ -206,4 +209,4 @@ typedef struct{
 } sander_pmemd_MD_run_info;
 
 
-
+#endif

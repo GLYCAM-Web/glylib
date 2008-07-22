@@ -1,3 +1,4 @@
 base referer
-rect $d9/d9b/stats_8h.html 231,80 289,107
-rect $dd/dea/mylib_8h.html 313,80 377,107
+rect $d9/d9b/stats_8h.html 275,80 333,107
+rect $dd/dea/mylib_8h.html 357,80 421,107
+rect $d9/d14/general_8h.html 704,5 781,32
