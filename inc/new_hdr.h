@@ -3,6 +3,7 @@
 #if !defined(TESTHDR)
 #define TESTHDR
 
-#include <malloc.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 #endif
