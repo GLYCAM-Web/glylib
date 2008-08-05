@@ -12,7 +12,7 @@
 
 //dockinfo *load_dlg_mol(fileset F,atype *AT);
 
-dockinfo *load_dlg_mol(fileset F,types *T){
+dockinfo *load_dlg_mol(fileset F,atype *AT){
 int a=0,b=-1000,anum=0,rnum=0,ndock=0,ai=0,di=0,ri=0,ti=0;
 int scntst=0,*AI,nat=0,localdebug=1;
 int fRes = -1;
@@ -20,7 +20,6 @@ fpos_t* start = (fpos_t*)calloc(1,sizeof(fpos_t));
 char line[501],dum1[50],dum2[50],at[10],res[10]; // maybe no lines longer than 500...
 char whinetext[501];
 double x=0,y=0,z=0,xl=0,xh=0,yl=0,yh=0,zl=0,zh=0;
-atype* AT = T[0].a;
 dockinfo *D;
 
 if(localdebug>0){printf("load_dlg_mol: At top.\n");}
@@ -33,7 +32,7 @@ D[0].M.r[0].na=D[0].M.r[0].m=0;
 D[0].M.r[0].a=(atom*)calloc(1,sizeof(atom));
 D[0].M.COM.i=D[0].M.COM.j=D[0].M.COM.k=D[0].M.m=0;
 D[0].M.r[0].COM.i=D[0].M.r[0].COM.j=D[0].M.r[0].COM.k=D[0].M.r[0].m=0;
-//if(localdebug>1){dprint_molecule(&D[0].M,10);}
+if(localdebug>1){dprint_molecule(&D[0].M,10);}
 if(localdebug>0){printf("load_dlg_mol: After init.\n");}
 rewind(F.F);
 // find the start of the input PDBQ file
@@ -145,7 +144,7 @@ if(localdebug>3){printf("\tload_dlg_mol: ri is %d ; ai is %d ; D[0].M.r[ri].a[ai
 			D[0].M.r[ri].a[ai].x.i=x;
 			D[0].M.r[ri].a[ai].x.j=y;
 			D[0].M.r[ri].a[ai].x.k=z;
-			for(b=0;b<T[0].na;b++){ // might be a problem, the NUMAT(fixed)
+			for(b=0;b<NUMAT;b++){ // might be a problem, the NUMAT(fixed)
 				if(at[0]==AT[b].NT[0]){
 					D[0].M.r[ri].a[ai].t=b;
 					ti=b; // for convenience
