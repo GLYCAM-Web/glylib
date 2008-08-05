@@ -11,7 +11,7 @@ begun on 20080622 by BLFoley
 #include <general.h> 
 #include <molecules.h>
 #include <declarations.h>
-#include "amber_prmtop_structs.h"
+#include <AMBER/amber_prmtop_structs.h>
 
 void amber_prmtop_init(amber_prmtop *P);
 void read_amber_prmtop_asis(fileset F,amber_prmtop *P);
