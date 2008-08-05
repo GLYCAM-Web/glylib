@@ -4,4 +4,6 @@ GLYINC = ../inc
 default: $(SOURCE)
 	gcc -c -Wall -I$(GLYINC) $(SOURCE)
 	ar rvs libglylib.a *.o
-
+clean:	
+	rm *.o
+	rm *.a

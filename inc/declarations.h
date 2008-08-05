@@ -3,6 +3,6 @@
  */
 #if !defined(GLYLIB_DECLARES)
 #define GLYLIB_DECLARES
-dockinfo *load_dlg_mol(fileset F,atype *AT);
+dockinfo *load_dlg_mol(fileset F,types *T);
 void load_atypes(fileset FT, types *T);
 #endif
