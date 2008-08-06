@@ -53,6 +53,7 @@ assembly* getAssembly()
   assembly* asmbl = (assembly*) malloc (1 * sizeof(assembly));
   (*asmbl).nm = molNum;
   molecule* mol = (molecule*) malloc (molNum * sizeof(molecule));
+  (*asmbl).m = (molecule**)calloc(1,sizeof(molecule*));//added by MNT on 20080806
   (*asmbl).m[0] = mol; // changed by BLF on 20080622 -- might need revisiting
   molecule* curMol; residue* curRes;// residue* res;
   atom* curAtm;// atom* atm;
@@ -106,7 +107,7 @@ assembly* getAssembly()
       sscanf(temp,"%lf",&z);   
 
       (*curAtm).n = atom_num;//set the atom #
-      strcpy((*curAtm).N,atmName);//set the atom name
+      (*curAtm).N = strdup(atmName);//set the atom name
       //set the atom's coordinates
       (*curAtm).x.i = x; (*curAtm).x.j = y; (*curAtm).x.k = z;
       l++;
@@ -161,7 +162,7 @@ void getResInfo(residue* res, int start)
   //Getting the residue name
   temp = (*(ln+i)).f[5].c;
   sscanf(temp,"%s",resName);
-  strcpy((*(res+j)).N, resName);
+  (*(res+j)).N = strdup(resName);
   //Getting the residue #
   temp  = (*(ln+i)).f[8].c;
   sscanf(temp,"%d",&thisRes);
@@ -183,7 +184,7 @@ void getResInfo(residue* res, int start)
         //Getting the residue name for the new res
         temp = (*(ln+i)).f[5].c;
         sscanf(temp,"%s",resName);
-        strcpy((*(res+j)).N, resName);
+        (*(res+j)).N = strdup(resName);
         //Setting the residue # on the new res
         (*(res+j)).n = resNum;
       }
