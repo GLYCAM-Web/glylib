@@ -53,7 +53,7 @@ assembly* getAssembly()
   assembly* asmbl = (assembly*) malloc (1 * sizeof(assembly));
   (*asmbl).nm = molNum;
   molecule* mol = (molecule*) malloc (molNum * sizeof(molecule));
-  (*asmbl).m = (molecule**)calloc(1,sizeof(molecule*));//added by MNT on 20080806
+  asmbl.m = (molecule**)calloc(1,sizeof(molecule*));//added by MNT on 20080806
   (*asmbl).m[0] = mol; // changed by BLF on 20080622 -- might need revisiting
   molecule* curMol; residue* curRes;// residue* res;
   atom* curAtm;// atom* atm;
