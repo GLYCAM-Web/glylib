@@ -62,148 +62,149 @@
 00053   <a class="code" href="../../db/dac/structassembly.html">assembly</a>* asmbl = (<a class="code" href="../../db/dac/structassembly.html">assembly</a>*) malloc (1 * <span class="keyword">sizeof</span>(<a class="code" href="../../db/dac/structassembly.html">assembly</a>));
 00054   (*asmbl).<a class="code" href="../../db/dac/structassembly.html#assemblyo5">nm</a> = molNum;
 00055   <a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>* mol = (<a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>*) malloc (molNum * <span class="keyword">sizeof</span>(<a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>));
-00056   (*asmbl).<a class="code" href="../../db/dac/structassembly.html#assemblyo6">m</a>[0] = mol; <span class="comment">// changed by BLF on 20080622 -- might need revisiting</span>
-00057   molecule* curMol; <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes;<span class="comment">// residue* res;</span>
-00058   <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;<span class="comment">// atom* atm;</span>
-00059   <span class="comment">//Get all the information for the first molecule</span>
-00060   curMol = (mol+j);
-00061   (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#moleculeo11">nr</a> = <a class="code" href="../../d8/df6/load__pdb_8c.html#a3">findTotalResidue</a>(i);
-00062   (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#moleculeo12">r</a> = (<a class="code" href="../../d0/d7e/structresidue.html">residue</a>*) malloc ((*curMol).nr*<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>));
-00063   <a class="code" href="../../d8/df6/load__pdb_8c.html#a6">getResInfo</a>((*curMol).r,i);
-00064   curRes = ((*curMol).r+k);
-00065   (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#residueo9">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
-00066   curAtm = ((*curRes).a+l);
-00067   <span class="keywordflow">for</span>(i = 0; i &lt; INWC; i++)
-00068   {
-00069     <span class="comment">//If it is a TER, LINK, or CONECT card</span>
-00070     <span class="keywordflow">if</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a4">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 1)
-00071     {
-00072       j++;
-00073       curMol = (mol+j);
-00074       (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#moleculeo11">nr</a> = <a class="code" href="../../d8/df6/load__pdb_8c.html#a3">findTotalResidue</a>(i+1);
-00075       (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#moleculeo12">r</a> = (residue*) malloc ((*curMol).nr*<span class="keyword">sizeof</span>(residue));
-00076       <a class="code" href="../../d8/df6/load__pdb_8c.html#a6">getResInfo</a>((*curMol).r,i+1);
-00077       curRes = ((*curMol).r+k);
-00078       k = 0;l = 0;
-00079       (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#residueo9">a</a> = (atom*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(atom));
-00080       curAtm = ((*curRes).a+l);
-00081     }
-00082     <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 1)
-00083     {
-00084       <span class="keywordflow">if</span>(l == (*curRes).na)
-00085       {
-00086        k++;l = 0;
-00087        curRes = ((*curMol).r+k);
-00088        (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#residueo9">a</a> = (atom*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(atom)); 
-00089        <span class="comment">//curAtm = ((*curRes).a+l);</span>
-00090       }
-00091       curAtm = ((*curRes).a+l);
-00092       <span class="comment">//Getting the atom #</span>
-00093       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[1].c;
-00094       sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;atom_num);
-00095       <span class="comment">//Getting the atom name</span>
-00096       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[3].c;
-00097       sscanf(temp,<span class="stringliteral">"%s"</span>,atmName);
-00098       <span class="comment">//Getting the X coordinate</span>
-00099       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[11].c;
-00100       sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;x);
-00101       <span class="comment">//Getting the Y coordinate</span>
-00102       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[12].c;
-00103       sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;y);
-00104       <span class="comment">//Getting the Z coordinate</span>
-00105       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[13].c;
-00106       sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;z);   
-00107 
-00108       (*curAtm).<a class="code" href="../../da/d81/structatom.html#atomo0">n</a> = atom_num;<span class="comment">//set the atom #</span>
-00109       strcpy((*curAtm).N,atmName);<span class="comment">//set the atom name</span>
-00110       <span class="comment">//set the atom's coordinates</span>
-00111       (*curAtm).<a class="code" href="../../da/d81/structatom.html#atomo11">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#coord__3Do0">i</a> = x; (*curAtm).x.<a class="code" href="../../d8/d31/structcoord__3D.html#coord__3Do1">j</a> = y; (*curAtm).x.<a class="code" href="../../d8/d31/structcoord__3D.html#coord__3Do2">k</a> = z;
-00112       l++;
-00113     }
-00114   }
-00115  <span class="keywordflow">return</span> asmbl;
-00116 }
-00117 
-<a name="l00118"></a><a class="code" href="../../d8/df6/load__pdb_8c.html#a3">00118</a> <span class="keywordtype">int</span> <a class="code" href="../../d8/df6/load__pdb_8c.html#a3">findTotalResidue</a>(<span class="keywordtype">int</span> start)
-00119 {
-00120   <span class="keywordtype">int</span> ret = 0;<span class="keywordtype">int</span> i = start;<span class="keywordtype">int</span> curRes = 0;<span class="keywordtype">int</span> thisRes;
-00121   <span class="keywordtype">char</span>* temp;
-00122   <span class="keywordflow">while</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a4">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 0 &amp;&amp; i != INWC)
-00123   {
-00124     <span class="keywordflow">if</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 1)
-00125     {
-00126       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[8].c;
-00127       sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;thisRes);
-00128       <span class="keywordflow">if</span>(thisRes != curRes)
-00129       { 
-00130         ret ++;
-00131         curRes = thisRes;
-00132       }
-00133     }
-00134    i++;
-00135   }
-00136   <span class="keywordflow">return</span> ret;
-00137 }
-00138 
-<a name="l00139"></a><a class="code" href="../../d8/df6/load__pdb_8c.html#a4">00139</a> <span class="keywordtype">int</span> <a class="code" href="../../d8/df6/load__pdb_8c.html#a4">endOfMol</a>(<a class="code" href="../../d4/da1/structlinedef.html">linedef</a>* line)
-00140 {
-00141   <span class="keywordflow">if</span>(((*line).a == 4 &amp;&amp; (*line).b == 2)||
-00142      ((*line).a == 2 &amp;&amp; ((*line).b == 9||(*line).b == 3)))
-00143     <span class="keywordflow">return</span> 1;
-00144   <span class="keywordflow">else</span>
-00145     <span class="keywordflow">return</span> 0;
-00146 }
-00147 
-<a name="l00148"></a><a class="code" href="../../d8/df6/load__pdb_8c.html#a5">00148</a> <span class="keywordtype">int</span> <a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>(<a class="code" href="../../d4/da1/structlinedef.html">linedef</a>* line)
-00149 {
-00150   <span class="keywordflow">if</span>(((*line).a == 2 || (*line).a == 3) &amp;&amp; (*line).b == 1)
-00151     <span class="keywordflow">return</span> 1;
-00152   <span class="keywordflow">else</span>
-00153     <span class="keywordflow">return</span> 0;
-00154 }
-<a name="l00155"></a><a class="code" href="../../d8/df6/load__pdb_8c.html#a6">00155</a> <span class="keywordtype">void</span> <a class="code" href="../../d8/df6/load__pdb_8c.html#a6">getResInfo</a>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>* res, <span class="keywordtype">int</span> start)
-00156 {
-00157   <span class="keywordtype">int</span> atmTot = 0;<span class="keywordtype">int</span> resNum,thisRes;<span class="keywordtype">int</span> i = start;<span class="keywordtype">int</span> j = 0;
-00158   <span class="keywordtype">char</span> name [10];<span class="keywordtype">char</span>* temp;<span class="keywordtype">char</span>* resName = name;
-00159   <span class="keywordflow">while</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i) == 0 &amp;&amp; i &lt; INWC)
-00160    i++;
-00161   <span class="comment">//Getting the residue name</span>
-00162   temp = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[5].c;
-00163   sscanf(temp,<span class="stringliteral">"%s"</span>,resName);
-00164   strcpy((*(res+j)).N, resName);
-00165   <span class="comment">//Getting the residue #</span>
-00166   temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[8].c;
-00167   sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;thisRes);
-00168   resNum = thisRes;
-00169   (*(res+j)).n = resNum;
-00170   i = start;
-00171   <span class="keywordflow">while</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a4">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 0 &amp;&amp; i != INWC)
-00172   {
-00173     <span class="keywordflow">if</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 1)
-00174     {
-00175       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[8].c;
-00176       sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;thisRes);
-00177       <span class="keywordflow">if</span>(thisRes != resNum)
-00178       { 
-00179         <span class="comment">//Setting the total # of atoms on the old res</span>
-00180         resNum = thisRes;
-00181         (*(res+j)).<a class="code" href="../../db/dac/structassembly.html#assemblyo11">na</a> = atmTot;
-00182         atmTot = 0; j++;
-00183         <span class="comment">//Getting the residue name for the new res</span>
-00184         temp = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[5].c;
-00185         sscanf(temp,<span class="stringliteral">"%s"</span>,resName);
-00186         strcpy((*(res+j)).N, resName);
-00187         <span class="comment">//Setting the residue # on the new res</span>
-00188         (*(res+j)).n = resNum;
-00189       }
-00190       <span class="keywordflow">else</span>
-00191         atmTot++;
-00192     }
-00193    i++;
-00194   }
-00195  (*(res+j)).<a class="code" href="../../db/dac/structassembly.html#assemblyo11">na</a> = atmTot;
-00196 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jul 22 12:10:50 2008 for GLYLIB by&nbsp;
+00056   (*asmbl).<a class="code" href="../../db/dac/structassembly.html#assemblyo6">m</a> = (molecule**)calloc(1,<span class="keyword">sizeof</span>(molecule*));<span class="comment">//added by MNT on 20080806</span>
+00057   (*asmbl).<a class="code" href="../../dc/d7f/structmolecule.html#moleculeo3">m</a>[0] = mol; <span class="comment">// changed by BLF on 20080622 -- might need revisiting</span>
+00058   molecule* curMol; <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes;<span class="comment">// residue* res;</span>
+00059   <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;<span class="comment">// atom* atm;</span>
+00060   <span class="comment">//Get all the information for the first molecule</span>
+00061   curMol = (mol+j);
+00062   (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#moleculeo11">nr</a> = <a class="code" href="../../d8/df6/load__pdb_8c.html#a3">findTotalResidue</a>(i);
+00063   (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#moleculeo12">r</a> = (<a class="code" href="../../d0/d7e/structresidue.html">residue</a>*) malloc ((*curMol).nr*<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>));
+00064   <a class="code" href="../../d8/df6/load__pdb_8c.html#a6">getResInfo</a>((*curMol).r,i);
+00065   curRes = ((*curMol).r+k);
+00066   (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#residueo9">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
+00067   curAtm = ((*curRes).a+l);
+00068   <span class="keywordflow">for</span>(i = 0; i &lt; INWC; i++)
+00069   {
+00070     <span class="comment">//If it is a TER, LINK, or CONECT card</span>
+00071     <span class="keywordflow">if</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a4">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 1)
+00072     {
+00073       j++;
+00074       curMol = (mol+j);
+00075       (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#moleculeo11">nr</a> = <a class="code" href="../../d8/df6/load__pdb_8c.html#a3">findTotalResidue</a>(i+1);
+00076       (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#moleculeo12">r</a> = (residue*) malloc ((*curMol).nr*<span class="keyword">sizeof</span>(residue));
+00077       <a class="code" href="../../d8/df6/load__pdb_8c.html#a6">getResInfo</a>((*curMol).r,i+1);
+00078       curRes = ((*curMol).r+k);
+00079       k = 0;l = 0;
+00080       (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#residueo9">a</a> = (atom*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(atom));
+00081       curAtm = ((*curRes).a+l);
+00082     }
+00083     <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 1)
+00084     {
+00085       <span class="keywordflow">if</span>(l == (*curRes).na)
+00086       {
+00087        k++;l = 0;
+00088        curRes = ((*curMol).r+k);
+00089        (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#residueo9">a</a> = (atom*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(atom)); 
+00090        <span class="comment">//curAtm = ((*curRes).a+l);</span>
+00091       }
+00092       curAtm = ((*curRes).a+l);
+00093       <span class="comment">//Getting the atom #</span>
+00094       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[1].c;
+00095       sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;atom_num);
+00096       <span class="comment">//Getting the atom name</span>
+00097       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[3].c;
+00098       sscanf(temp,<span class="stringliteral">"%s"</span>,atmName);
+00099       <span class="comment">//Getting the X coordinate</span>
+00100       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[11].c;
+00101       sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;x);
+00102       <span class="comment">//Getting the Y coordinate</span>
+00103       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[12].c;
+00104       sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;y);
+00105       <span class="comment">//Getting the Z coordinate</span>
+00106       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[13].c;
+00107       sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;z);   
+00108 
+00109       (*curAtm).<a class="code" href="../../da/d81/structatom.html#atomo0">n</a> = atom_num;<span class="comment">//set the atom #</span>
+00110       (*curAtm).<a class="code" href="../../da/d81/structatom.html#atomo1">N</a> = strdup(atmName);<span class="comment">//set the atom name</span>
+00111       <span class="comment">//set the atom's coordinates</span>
+00112       (*curAtm).<a class="code" href="../../da/d81/structatom.html#atomo11">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#coord__3Do0">i</a> = x; (*curAtm).x.<a class="code" href="../../d8/d31/structcoord__3D.html#coord__3Do1">j</a> = y; (*curAtm).x.<a class="code" href="../../d8/d31/structcoord__3D.html#coord__3Do2">k</a> = z;
+00113       l++;
+00114     }
+00115   }
+00116  <span class="keywordflow">return</span> asmbl;
+00117 }
+00118 
+<a name="l00119"></a><a class="code" href="../../d8/df6/load__pdb_8c.html#a3">00119</a> <span class="keywordtype">int</span> <a class="code" href="../../d8/df6/load__pdb_8c.html#a3">findTotalResidue</a>(<span class="keywordtype">int</span> start)
+00120 {
+00121   <span class="keywordtype">int</span> ret = 0;<span class="keywordtype">int</span> i = start;<span class="keywordtype">int</span> curRes = 0;<span class="keywordtype">int</span> thisRes;
+00122   <span class="keywordtype">char</span>* temp;
+00123   <span class="keywordflow">while</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a4">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 0 &amp;&amp; i != INWC)
+00124   {
+00125     <span class="keywordflow">if</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 1)
+00126     {
+00127       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[8].c;
+00128       sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;thisRes);
+00129       <span class="keywordflow">if</span>(thisRes != curRes)
+00130       { 
+00131         ret ++;
+00132         curRes = thisRes;
+00133       }
+00134     }
+00135    i++;
+00136   }
+00137   <span class="keywordflow">return</span> ret;
+00138 }
+00139 
+<a name="l00140"></a><a class="code" href="../../d8/df6/load__pdb_8c.html#a4">00140</a> <span class="keywordtype">int</span> <a class="code" href="../../d8/df6/load__pdb_8c.html#a4">endOfMol</a>(<a class="code" href="../../d4/da1/structlinedef.html">linedef</a>* line)
+00141 {
+00142   <span class="keywordflow">if</span>(((*line).a == 4 &amp;&amp; (*line).b == 2)||
+00143      ((*line).a == 2 &amp;&amp; ((*line).b == 9||(*line).b == 3)))
+00144     <span class="keywordflow">return</span> 1;
+00145   <span class="keywordflow">else</span>
+00146     <span class="keywordflow">return</span> 0;
+00147 }
+00148 
+<a name="l00149"></a><a class="code" href="../../d8/df6/load__pdb_8c.html#a5">00149</a> <span class="keywordtype">int</span> <a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>(<a class="code" href="../../d4/da1/structlinedef.html">linedef</a>* line)
+00150 {
+00151   <span class="keywordflow">if</span>(((*line).a == 2 || (*line).a == 3) &amp;&amp; (*line).b == 1)
+00152     <span class="keywordflow">return</span> 1;
+00153   <span class="keywordflow">else</span>
+00154     <span class="keywordflow">return</span> 0;
+00155 }
+<a name="l00156"></a><a class="code" href="../../d8/df6/load__pdb_8c.html#a6">00156</a> <span class="keywordtype">void</span> <a class="code" href="../../d8/df6/load__pdb_8c.html#a6">getResInfo</a>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>* res, <span class="keywordtype">int</span> start)
+00157 {
+00158   <span class="keywordtype">int</span> atmTot = 0;<span class="keywordtype">int</span> resNum,thisRes;<span class="keywordtype">int</span> i = start;<span class="keywordtype">int</span> j = 0;
+00159   <span class="keywordtype">char</span> name [10];<span class="keywordtype">char</span>* temp;<span class="keywordtype">char</span>* resName = name;
+00160   <span class="keywordflow">while</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i) == 0 &amp;&amp; i &lt; INWC)
+00161    i++;
+00162   <span class="comment">//Getting the residue name</span>
+00163   temp = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[5].c;
+00164   sscanf(temp,<span class="stringliteral">"%s"</span>,resName);
+00165   (*(res+j)).<a class="code" href="../../db/dac/structassembly.html#assemblyo1">N</a> = strdup(resName);
+00166   <span class="comment">//Getting the residue #</span>
+00167   temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[8].c;
+00168   sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;thisRes);
+00169   resNum = thisRes;
+00170   (*(res+j)).n = resNum;
+00171   i = start;
+00172   <span class="keywordflow">while</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a4">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 0 &amp;&amp; i != INWC)
+00173   {
+00174     <span class="keywordflow">if</span>(<a class="code" href="../../d8/df6/load__pdb_8c.html#a5">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)) == 1)
+00175     {
+00176       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[8].c;
+00177       sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;thisRes);
+00178       <span class="keywordflow">if</span>(thisRes != resNum)
+00179       { 
+00180         <span class="comment">//Setting the total # of atoms on the old res</span>
+00181         resNum = thisRes;
+00182         (*(res+j)).<a class="code" href="../../db/dac/structassembly.html#assemblyo11">na</a> = atmTot;
+00183         atmTot = 0; j++;
+00184         <span class="comment">//Getting the residue name for the new res</span>
+00185         temp = (*(<a class="code" href="../../dd/da3/structures_8h.html#a4">ln</a>+i)).f[5].c;
+00186         sscanf(temp,<span class="stringliteral">"%s"</span>,resName);
+00187         (*(res+j)).<a class="code" href="../../db/dac/structassembly.html#assemblyo1">N</a> = strdup(resName);
+00188         <span class="comment">//Setting the residue # on the new res</span>
+00189         (*(res+j)).n = resNum;
+00190       }
+00191       <span class="keywordflow">else</span>
+00192         atmTot++;
+00193     }
+00194    i++;
+00195   }
+00196  (*(res+j)).<a class="code" href="../../db/dac/structassembly.html#assemblyo11">na</a> = atmTot;
+00197 }
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Aug 8 10:31:04 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
 </body>
