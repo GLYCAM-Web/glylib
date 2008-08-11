@@ -1,11 +1,10 @@
-base referer
-rect $d3/df7/structvectormag__3D.html 5,128 112,155
-rect $d6/d7c/structbond.html 136,128 187,155
-rect $d6/def/structbond__type.html 120,5 203,32
-rect $dc/d7a/structatype.html 211,128 264,155
-rect $df/d7e/structmolbond.html 488,128 560,155
-rect $da/d03/structtorsion__type.html 227,5 320,32
-rect $dc/ddd/structangle__type.html 344,5 429,32
-rect $d8/d31/structcoord__3D.html 288,128 365,155
-rect $da/d96/structensindex.html 389,128 464,155
-rect $d2/d4f/structmolindex.html 549,5 624,32
+<area shape="rect" href="$d3/df7/structvectormag__3D.html" title="vectormag_3D" alt="" coords="5,128,104,155">
+<area shape="rect" href="$d6/d7c/structbond.html" title="bond" alt="" coords="128,128,176,155">
+<area shape="rect" href="$d6/def/structbond__type.html" title="bond_type" alt="" coords="113,5,191,32">
+<area shape="rect" href="$dc/d7a/structatype.html" title="atype" alt="" coords="200,128,251,155">
+<area shape="rect" href="$df/d7e/structmolbond.html" title="molbond" alt="" coords="467,128,536,155">
+<area shape="rect" href="$da/d03/structtorsion__type.html" title="torsion_type" alt="" coords="215,5,303,32">
+<area shape="rect" href="$dc/ddd/structangle__type.html" title="angle_type" alt="" coords="329,5,409,32">
+<area shape="rect" href="$d8/d31/structcoord__3D.html" title="coord_3D" alt="" coords="275,128,349,155">
+<area shape="rect" href="$da/d96/structensindex.html" title="ensindex" alt="" coords="373,128,443,155">
+<area shape="rect" href="$d2/d4f/structmolindex.html" title="molindex" alt="" coords="527,5,599,32">

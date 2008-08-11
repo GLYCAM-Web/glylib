@@ -1,3 +1,2 @@
-base referer
-rect $d2/d0e/structvibindex.html 5,5 75,32
-rect $d2/d4f/structmolindex.html 99,5 173,32
+<area shape="rect" href="$d2/d0e/structvibindex.html" title="vibindex" alt="" coords="5,5,72,32">
+<area shape="rect" href="$d2/d4f/structmolindex.html" title="molindex" alt="" coords="96,5,168,32">

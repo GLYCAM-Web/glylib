@@ -1,4 +1,3 @@
-base referer
-rect $da/d03/structtorsion__type.html 5,5 99,32
-rect $d6/def/structbond__type.html 123,5 205,32
-rect $dc/ddd/structangle__type.html 229,5 315,32
+<area shape="rect" href="$da/d03/structtorsion__type.html" title="torsion_type" alt="" coords="5,5,93,32">
+<area shape="rect" href="$d6/def/structbond__type.html" title="bond_type" alt="" coords="117,5,195,32">
+<area shape="rect" href="$dc/ddd/structangle__type.html" title="angle_type" alt="" coords="219,5,299,32">

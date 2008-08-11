@@ -1,3 +1,2 @@
-base referer
-rect $d6/d7c/structbond.html 21,96 72,123
-rect $d6/def/structbond__type.html 5,5 88,32
+<area shape="rect" href="$d6/d7c/structbond.html" title="bond" alt="" coords="20,96,68,123">
+<area shape="rect" href="$d6/def/structbond__type.html" title="bond_type" alt="" coords="5,5,83,32">

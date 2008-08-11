@@ -1,3 +1,2 @@
-base referer
-rect $dc/ddd/structangle__type.html 5,5 91,32
-rect $d2/d4f/structmolindex.html 115,5 189,32
+<area shape="rect" href="$dc/ddd/structangle__type.html" title="angle_type" alt="" coords="5,5,85,32">
+<area shape="rect" href="$d2/d4f/structmolindex.html" title="molindex" alt="" coords="109,5,181,32">

@@ -1,3 +1,2 @@
-base referer
-rect $dd/dea/mylib_8h.html 400,80 464,107
-rect $d9/d14/general_8h.html 704,5 781,32
+<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="383,80,444,107">
+<area shape="rect" href="$d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="675,155,744,181">

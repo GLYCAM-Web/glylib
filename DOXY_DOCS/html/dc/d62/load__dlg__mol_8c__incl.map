@@ -1,5 +1,6 @@
-base referer
-rect $dd/dea/mylib_8h.html 39,80 135,107
-rect $d9/d14/general_8h.html 5,5 83,32
-rect $d3/de6/molecules_8h.html 159,80 281,107
-rect $db/d40/declarations_8h.html 305,80 441,107
+<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="367,80,460,107">
+<area shape="rect" href="$d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="675,155,744,181">
+<area shape="rect" href="$d3/de6/molecules_8h.html" title="../inc/molecules.h" alt="" coords="752,80,867,107">
+<area shape="rect" href="$db/d40/declarations_8h.html" title="../inc/declarations.h" alt="" coords="891,80,1016,107">
+<area shape="rect" href="$d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="768,155,856,181">
+<area shape="rect" href="$d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="880,155,989,181">

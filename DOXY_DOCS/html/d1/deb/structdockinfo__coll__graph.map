@@ -1,11 +1,19 @@
-base referer
-rect $dc/d7f/structmolecule.html 363,368 437,395
-rect $da/d81/structatom.html 276,115 327,141
-rect $d0/d7e/structresidue.html 368,267 432,293
-rect $d3/df7/structvectormag__3D.html 5,5 112,32
-rect $d8/d31/structcoord__3D.html 160,5 237,32
-rect $da/d96/structensindex.html 337,5 412,32
-rect $df/d7e/structmolbond.html 607,5 679,32
-rect $d0/dda/structmolbondset.html 660,187 751,213
-rect $d6/dde/structmtype.html 288,267 344,293
-rect $dc/d34/structconnection__tree.html 423,115 537,141
+<area shape="rect" href="$dc/d7f/structmolecule.html" title="molecule" alt="" coords="273,528,343,555">
+<area shape="rect" href="$da/d81/structatom.html" title="atom" alt="" coords="689,275,737,301">
+<area shape="rect" href="$d0/d7e/structresidue.html" title="residue" alt="" coords="459,427,517,453">
+<area shape="rect" href="$d3/df7/structvectormag__3D.html" title="vectormag_3D" alt="" coords="905,147,1004,173">
+<area shape="rect" href="$d6/d7c/structbond.html" title="bond" alt="" coords="611,147,659,173">
+<area shape="rect" href="$d6/df4/structbondset.html" title="bondset" alt="" coords="457,275,519,301">
+<area shape="rect" href="$d6/def/structbond__type.html" title="bond_type" alt="" coords="568,5,645,32">
+<area shape="rect" href="$dc/d7a/structatype.html" title="atype" alt="" coords="684,147,735,173">
+<area shape="rect" href="$df/d7e/structmolbond.html" title="molbond" alt="" coords="111,147,180,173">
+<area shape="rect" href="$da/d03/structtorsion__type.html" title="torsion_type" alt="" coords="773,5,861,32">
+<area shape="rect" href="$dc/ddd/structangle__type.html" title="angle_type" alt="" coords="669,5,749,32">
+<area shape="rect" href="$d8/d31/structcoord__3D.html" title="coord_3D" alt="" coords="788,147,863,173">
+<area shape="rect" href="$da/d96/structensindex.html" title="ensindex" alt="" coords="377,147,447,173">
+<area shape="rect" href="$d2/d4f/structmolindex.html" title="molindex" alt="" coords="221,5,293,32">
+<area shape="rect" href="$dc/d34/structconnection__tree.html" title="connection_tree" alt="" coords="156,275,263,301">
+<area shape="rect" href="$d0/dda/structmolbondset.html" title="molbondset" alt="" coords="5,347,88,373">
+<area shape="rect" href="$d6/dde/structmtype.html" title="mtype" alt="" coords="217,427,271,453">
+<area shape="rect" href="$d8/d1b/structrtype.html" title="rtype" alt="" coords="543,275,591,301">
+<area shape="rect" href="$d7/d04/structplane.html" title="plane" alt="" coords="615,275,665,301">

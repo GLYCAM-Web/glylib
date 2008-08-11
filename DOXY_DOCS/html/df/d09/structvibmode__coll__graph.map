@@ -1,8 +1,7 @@
-base referer
-rect $d4/dc9/structanglebend.html 329,139 412,165
-rect $d8/d31/structcoord__3D.html 295,5 372,32
-rect $d2/d3e/structtorsion.html 159,139 220,165
-rect $d3/d34/structstretch.html 244,139 305,165
-rect $d2/d4f/structmolindex.html 149,5 224,32
-rect $d1/d6e/structringmotion.html 52,139 135,165
-rect $d3/df7/structvectormag__3D.html 8,5 115,32
+<area shape="rect" href="$d4/dc9/structanglebend.html" title="anglebend" alt="" coords="324,139,399,165">
+<area shape="rect" href="$d8/d31/structcoord__3D.html" title="coord_3D" alt="" coords="288,5,363,32">
+<area shape="rect" href="$d2/d3e/structtorsion.html" title="torsion" alt="" coords="161,139,220,165">
+<area shape="rect" href="$d3/d34/structstretch.html" title="stretch" alt="" coords="244,139,300,165">
+<area shape="rect" href="$d2/d4f/structmolindex.html" title="molindex" alt="" coords="152,5,224,32">
+<area shape="rect" href="$d1/d6e/structringmotion.html" title="ringmotion" alt="" coords="57,139,137,165">
+<area shape="rect" href="$d3/df7/structvectormag__3D.html" title="vectormag_3D" alt="" coords="5,5,104,32">

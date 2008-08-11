@@ -1,5 +1,4 @@
-base referer
-rect $dc/d0a/structsander__pmemd__MD__control__info.html 184,96 403,123
-rect $dd/d29/structsander__pmemd__cntrl.html 5,5 152,32
-rect $d3/dc3/structsander__pmemd__nmropt__wt__change.html 176,5 411,32
-rect $d6/def/structsander__pmemd__ewald.html 435,5 589,32
+<area shape="rect" href="$dc/d0a/structsander__pmemd__MD__control__info.html" title="sander_pmemd_MD_control_info" alt="" coords="167,96,369,123">
+<area shape="rect" href="$dd/d29/structsander__pmemd__cntrl.html" title="sander_pmemd_cntrl" alt="" coords="5,5,139,32">
+<area shape="rect" href="$d3/dc3/structsander__pmemd__nmropt__wt__change.html" title="sander_pmemd_nmropt_wt_change" alt="" coords="163,5,373,32">
+<area shape="rect" href="$d6/def/structsander__pmemd__ewald.html" title="sander_pmemd_ewald" alt="" coords="397,5,539,32">

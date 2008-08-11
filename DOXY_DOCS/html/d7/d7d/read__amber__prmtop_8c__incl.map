@@ -1,7 +1,8 @@
-base referer
-rect $d6/d78/amber__prmtop_8h.html 95,155 265,181
-rect $dd/dea/mylib_8h.html 47,80 111,107
-rect $d9/d14/general_8h.html 5,5 83,32
-rect $d3/de6/molecules_8h.html 135,80 225,107
-rect $db/d40/declarations_8h.html 249,80 353,107
-rect $d4/d08/amber__prmtop__structs_8h.html 377,80 593,107
+<area shape="rect" href="$d6/d78/amber__prmtop_8h.html" title="AMBER/amber_prmtop.h" alt="" coords="725,80,885,107">
+<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="383,155,444,181">
+<area shape="rect" href="$d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="675,229,744,256">
+<area shape="rect" href="$d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="763,155,848,181">
+<area shape="rect" href="$db/d40/declarations_8h.html" title="declarations.h" alt="" coords="872,155,968,181">
+<area shape="rect" href="$d4/d08/amber__prmtop__structs_8h.html" title="AMBER/amber_prmtop_structs.h" alt="" coords="992,155,1195,181">
+<area shape="rect" href="$d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="768,229,856,256">
+<area shape="rect" href="$d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="880,229,989,256">

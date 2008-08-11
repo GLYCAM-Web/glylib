@@ -1,7 +1,6 @@
-base referer
-rect $d6/dde/structmtype.html 5,128 61,155
-rect $d8/d1b/structrtype.html 85,128 136,155
-rect $dc/d7a/structatype.html 160,128 213,155
-rect $da/d03/structtorsion__type.html 28,5 121,32
-rect $d6/def/structbond__type.html 145,5 228,32
-rect $dc/ddd/structangle__type.html 252,5 337,32
+<area shape="rect" href="$d6/dde/structmtype.html" title="mtype" alt="" coords="5,128,59,155">
+<area shape="rect" href="$d8/d1b/structrtype.html" title="rtype" alt="" coords="83,128,131,155">
+<area shape="rect" href="$dc/d7a/structatype.html" title="atype" alt="" coords="155,128,205,155">
+<area shape="rect" href="$da/d03/structtorsion__type.html" title="torsion_type" alt="" coords="29,5,117,32">
+<area shape="rect" href="$d6/def/structbond__type.html" title="bond_type" alt="" coords="141,5,219,32">
+<area shape="rect" href="$dc/ddd/structangle__type.html" title="angle_type" alt="" coords="243,5,323,32">
