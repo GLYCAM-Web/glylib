@@ -350,17 +350,37 @@ if(localdebug>3){printf("\tload_dlg_mol: found a set; in COM calc.\n");}
 		} // close if FINAL LAMARCKIAN etc.
 	} // close overall read through file while-fgets line
 
-D[0].M.boxl.i=xl;
-D[0].M.boxl.j=yl;
-D[0].M.boxl.k=zl;
-D[0].M.boxh.i=xh;
-D[0].M.boxh.j=yh;
-D[0].M.boxh.k=zh;
+/// Add BOX information to the molecule structure.
+D[0].M.nBOX=1;
+D[0].M.BOX=(box_info*)calloc(1,sizeof(box_info));
+D[0].M.BOX.STYPE=strdup("non-periodic");
+D[0].M.BOX.GTYPE=strdup("rectangular, defined by minimum and maximum x,y,z coordinate values");
+D[0].M.BOX.nC=D[0].M.BOX.nCD=2; 
+D[0].M.BOX.C=(coord_nD*)calloc(D[0].M.BOX.nC,sizeof(coord_nD));
+D[0].M.BOX.CD=(char**)calloc(D[0].M.BOX.nCD,sizeof(char*));
+D[0].M.BOX.C[0].nD=D[0].M.BOX.C[1].nD=3;
+D[0].M.BOX.C[0].D=(double*)calloc(3,sizeof(double));
+D[0].M.BOX.C[1].D=(double*)calloc(3,sizeof(double));
+D[0].M.BOX.CD[0]=strdup("Lowest x, y and z values in the data set.");
+D[0].M.BOX.C[0].D[0]=xl;
+D[0].M.BOX.C[0].D[1]=yl;
+D[0].M.BOX.C[0].D[2]=zl;
+D[0].M.BOX.CD[1]=strdup("Highest x, y and z values in the data set.");
+D[0].M.BOX.C[1].D[0]=xh;
+D[0].M.BOX.C[1].D[1]=yh;
+D[0].M.BOX.C[1].D[2]=zh;
+
+//D[0].M.boxl.i=xl; // removed on 20080813 by BLFoley
+//D[0].M.boxl.j=yl;
+//D[0].M.boxl.k=zl;
+//D[0].M.boxh.i=xh;
+//D[0].M.boxh.j=yh;
+//D[0].M.boxh.k=zh;
 
 if(localdebug==2){
 	dXprint_molecule(&D[0].M,5);
-	dXprint_coord_3D(&D[0].M.boxl);
-	dXprint_coord_3D(&D[0].M.boxh);
+	//dXprint_coord_3D(&D[0].M.boxl); // removed on 20080813 by BLFoley
+	//dXprint_coord_3D(&D[0].M.boxh);
 	}
 if(localdebug>2){dXprint_molecule(&D[0].M,150);}
 

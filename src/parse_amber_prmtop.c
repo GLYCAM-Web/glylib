@@ -119,6 +119,30 @@ for(pa=0;pa<P[0].nS;pa++){ // get pointers first...
 		if(P[0].IFBOX==1){A.boxtype=strdup("standard periodic");}
 		if(P[0].IFBOX==2){A.boxtype=strdup("truncated octahedral");}
 		if(P[0].IFBOX>2){A.boxtype=strdup("unknown box type");}
+
+		if(P[0].IFBOX==0){A.nBOX=0;} ///< There are no boxes defined in this prmtop
+		else{
+			A.nBOX=1;
+			A.BOX=(box_info*)calloc(A.nBOX,sizeof(box_info));
+			A.BOX[0].nC=A.BOX[0].nCD=2; ///< One for the "boxang" and the other for the x,y,z values
+			A.BOX[0].C=(coord_nD*)calloc(A.BOX[0].nC,sizeof(coord_nD));
+			A.BOX[0].CD=(char**)calloc(A.BOX[0].nCD,sizeof(char*));
+			A.BOX[0].CD[0]=strdup("Periodic box, angle between the XY and YZ planes in degrees.");
+			A.BOX[0].C[0].nD=1; ///< Just an angle ("BETA" in the amber file specs)
+			A.BOX[0].C[0].D=(double*)calloc(A.BOX[0].C[0].nD,sizeof(double));
+			A.BOX[0].CD[1]=strdup("The periodic box lengths in the X, Y, and Z directions");
+			A.BOX[0].C[1].nD=3; ///< 3-D coordinate
+			A.BOX[0].C[1].D=(double*)calloc(A.BOX[0].C[1].nD,sizeof(double));
+			A.BOX[0].STYPE=strdup("standard periodic");
+			if(P[0].IFBOX==1){A.BOX[0].GTYPE=strdup("rectangular");}
+			if(P[0].IFBOX==2){A.BOX[0].GTYPE=strdup("truncated octahedral");}
+			if(P[0].IFBOX>2){A.BOX[0].GTYPE=strdup("unknown box type");} 
+			}
+		//if(P[0].IFBOX==0){A.boxtype=strdup("none");}   // changed to new box_info type by BLF on 20080813
+		//if(P[0].IFBOX==1){A.boxtype=strdup("standard periodic");}
+		//if(P[0].IFBOX==2){A.boxtype=strdup("truncated octahedral");}
+		//if(P[0].IFBOX>2){A.boxtype=strdup("unknown box type");}
+
 		// NOT adding these at all 
   		sscanf(P[0].S[pa].D[28],"%d",&P[0].NMXRS); // number of atoms in the largest residue
   		sscanf(P[0].S[pa].D[29],"%d",&P[0].IFCAP); // set to 1 if the CAP option from edit was specified
@@ -760,11 +784,16 @@ if(strcmp(P[0].S[pa].N,"BOX_DIMENSIONS")==0){
   	P[0].BOX    =pa; // BOX    : the periodic box lengths in the X, Y, and Z directions 
 	P[0].S[pa].is_standard=0; // set as a standard section
 	if(P[0].S[pa].nt==4){
-		sscanf(P[0].S[pa].D[0],"%lf",&A.boxang);
-		sscanf(P[0].S[pa].D[1],"%lf",&A.boxl.i);
-		sscanf(P[0].S[pa].D[2],"%lf",&A.boxl.j);
-		sscanf(P[0].S[pa].D[3],"%lf",&A.boxl.k);
+		sscanf(P[0].S[pa].D[0],"%lf",&A.BOX[0].C[0].D[0]); ///< Record value of BETA
+		sscanf(P[0].S[pa].D[1],"%lf",&A.BOX[0].C[1].D[0]); ///< Record BOX X
+		sscanf(P[0].S[pa].D[2],"%lf",&A.BOX[0].C[1].D[1]); ///< Record BOX Y
+		sscanf(P[0].S[pa].D[3],"%lf",&A.BOX[0].C[1].D[2]); ///< Record BOX Z
+		//sscanf(P[0].S[pa].D[0],"%lf",&A.boxang); // changed for new box_info by BLF on 20080813
+		//sscanf(P[0].S[pa].D[1],"%lf",&A.boxl.i);
+		//sscanf(P[0].S[pa].D[2],"%lf",&A.boxl.j);
+		//sscanf(P[0].S[pa].D[3],"%lf",&A.boxl.k);
 		}
+	else{fprintf(stderr,"\nIn parse_amber_prmtop.c : unexpected number of entries in section BOX_DIMENSIONS.  Ignoring contents.\n\n");}
 }
 // The following are only present if IFCAP .gt. 0 
 // FORMAT(12I6)  NATCAP

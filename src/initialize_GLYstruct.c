@@ -1,11 +1,15 @@
-/* File initialize_GLYstruct.c begun on 20071207 by BLFoley
- * Purpose: provide initialization functions for structures in molecules.h
+/** \file initialize_GLYstruct.c 
+ * Provides initialization functions for structures in molecules.h
+ *
+ * Probably needs some serious updating (20080813, BLF).
  *
  * NOTES:	char* variables are not initialized
  *		void pointers are not initialized
  *		all other pointers:
  *			-- the number of pointers integer is set to zero
  *			-- one pointer is calloc'd (in anticipation of realloc)
+ * 
+ * begun on 20071207 by BLFoley 
  */
 #include <mylib.h>
 #include <molecules.h>
@@ -160,8 +164,9 @@ m[0].nrbs=0; // number of sets of bonds between residues (for example, linear ch
 m[0].rbs=(molbondset*)calloc(1,sizeof(molbondset)); // nrbs of these sets
 m[0].nrc=0; // number of additional reference coordinates (rings, for example)
 m[0].rc=(coord_3D*)calloc(1,sizeof(coord_3D)); // nrc of these
-m[0].boxl.i=m[0].boxl.j=m[0].boxl.k=0;
-m[0].boxh.i=m[0].boxh.j=m[0].boxh.k=0;
+m[0].nBOX=0; // changed to new BOX member on 20080813 BLF
+//m[0].boxl.i=m[0].boxl.j=m[0].boxl.k=0;
+//m[0].boxh.i=m[0].boxh.j=m[0].boxh.k=0;
 m[0].noi=0; // number of other indices
 m[0].oi=(int*)calloc(1,sizeof(int)); // other indices, as needed (ni of these)
 m[0].nd=0; // number of double-precision parameters
@@ -188,8 +193,9 @@ A[0].nb=0; // number of bonds/connections between molecules (H-bonds, for exampl
 A[0].b=(molbond*)calloc(1,sizeof(molbond)); // nmb of these descriptions of connection 
 A[0].nmbs=0; // number of sets of connections between molecules (for example, linear chains)
 A[0].mbs=(molbondset*)calloc(1,sizeof(molbondset)); // nmbs of these sets
-A[0].boxl.i=A[0].boxl.j=A[0].boxl.k=0; // center of mass 
-A[0].boxh.i=A[0].boxh.j=A[0].boxh.k=0; // center of mass 
+A[0].nBOX=0; ///< changed to new BOX member on 20080813 BLF
+//A[0].boxl.i=A[0].boxl.j=A[0].boxl.k=0; 
+//A[0].boxh.i=A[0].boxh.j=A[0].boxh.k=0; 
 A[0].nVP=0; // number of void structures
 return;
 }
@@ -202,8 +208,9 @@ E[0].nm=0; // number of molecule structures
 E[0].m=(molecule*)calloc(1,sizeof(molecule)); // nm of these
 E[0].na=0; // number of assembly structures
 E[0].a=(assembly*)calloc(1,sizeof(assembly)); // na of these
-E[0].boxl.i=E[0].boxl.j=E[0].boxl.k=0; // center of mass 
-E[0].boxh.i=E[0].boxh.j=E[0].boxh.k=0; // center of mass 
+E[0].nBOX=0; ///< changed to new BOX member on 20080813 BLF
+//E[0].boxl.i=E[0].boxl.j=E[0].boxl.k=0; // center of mass 
+//E[0].boxh.i=E[0].boxh.j=E[0].boxh.k=0; // center of mass 
 E[0].nVP=0; // number of void structures
 return;
 }

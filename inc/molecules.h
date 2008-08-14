@@ -9,7 +9,7 @@ File begun May 2007 by Lachele Foley and modified continually ever since
 #include "geometries.h"
 #include "parameter_sets.h"
 
-char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; // locations of type databases,
+char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; ///< locations of type databases,
 	// to be set by the program, but globally visible
 
 // these now in geometries.h
@@ -24,30 +24,39 @@ char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; // locations of type databases,
 // types; // superstructure for typing information
 
 typedef struct {
-	int i; // general index
-	int m; // molecule index
-	int r; // residue index
-	int a; // atom index
+	int i; ///< general index
+	int m; ///< molecule index
+	int r; ///< residue index
+	int a; ///< atom index
 } molindex;
 typedef struct {
-	int i; // general index
-	int E; // ensemble
-	int A; // assembly
-	int m; // molecule index
-	int r; // residue index
-	int a; // atom index
+	int i; ///< general index
+	int E; ///< ensemble
+	int A; ///< assembly
+	int m; ///< molecule index
+	int r; ///< residue index
+	int a; ///< atom index
 } ensindex;
+typedef struct {
+	int nmN,nmi,*mi; //</ # of molecule names & indicies, nmi indices
+	char **mN; ///< nmN names
+	int nrN,nri,*ri; ///< # of residue names & indicies, nri indices
+	char **rN; ///< nrN names
+	int naN,nai,*ai; ///< # of atom names & indicies, nai indices
+	char **aN; ///< naN names
+} moiety_selection; 
 
-typedef struct { // for simple, all-one-residue bonding (for early programs)
-	int s; // "source" -- index to first atom in bond
-		// this is redundant within an atom structure, but
-		// not if the bond structure is used independently
-	int t; // "target" -- index to the other atom in the bond
-	double o; // order of bond
-	bond_type *typ; // pointer to type of bond
-	int i; // index -- for example as alternative to *typ
-	char *D; // free-form description
-} bond; // an actual bond (as opposed to an expected one)
+/// for simple, all-one-residue bonding (for early programs)
+typedef struct { 
+	int s; ///< "source" -- index to first atom in bond
+		///< this is redundant within an atom structure, but
+		///< not if the bond structure is used independently
+	int t; ///< "target" -- index to the other atom in the bond
+	double o; ///< order of bond
+	bond_type *typ; ///< pointer to type of bond
+	int i; ///< index -- for example as alternative to *typ
+	char *D; ///< free-form description
+} bond; ///< an actual bond (as opposed to an expected one)
 typedef struct {
 	int n; // number of bonds
 	bond *b; // n of these
@@ -188,7 +197,9 @@ typedef struct {
 	molbondset *rbs; // nrbs of these sets
 	int nrc; // number of additional reference coordinates (rings, for example)
 	coord_3D *rc; // nrc of these
-	coord_3D boxl,boxh; // box dimensions
+	int nBOX; ///< Number of box_info structures defined
+	boxinfo *BOX: ///< The nBOX structures
+	//coord_3D boxl,boxh; // box dimensions
 	int noi; // number of other indices
 	int *oi; // other indices, as needed (ni of these)
 	int nd; // number of double-precision parameters
@@ -238,7 +249,8 @@ typedef struct { // structure for groups of molecules within a larger structure
 	connection_tree *rT; // nr of these
 	int na; // number of atoms
 	atom **a; // na of these -- probably best to point into mol/res combos
-	connection_tree *aT; // nat of these
+	int naT; // naT connection trees defined.
+	connection_tree *aT; // naT of these
 	int nb; // total number of bonds
 	molbond *b; // the bonds
 	int nANG; // # of angles
@@ -249,9 +261,11 @@ typedef struct { // structure for groups of molecules within a larger structure
 	parameter_set *PRM; // pointer to parameter sets
 	int nmbs; // number of sets of connections between molecules 
 	molbondset *mbs; // nmbs of these sets
-	coord_3D boxl,boxh; // box dimensions (limits low & high or just use one for size)
-	double boxang; // coord_3D is x, y and z -- angle (probably between XY and YZ planes in degrees, maybe).  
-	char *boxtype; // type of box
+	int nBOX; ///< Number of box_info structures defined
+	boxinfo *BOX: ///< The nBOX structures
+	//coord_3D boxl,boxh; // simple box dimensions (limits low & high or just use one for size)
+	//double boxang; // coord_3D is x, y and z -- angle (probably between XY and YZ planes in degrees, maybe).  
+	//char *boxtype; // type of simple box (cubic, trapezoidal, etc.)
 	int nOD; // number of other descriptors
 	char **OD; // the nOD descriptors
 	int nensi; // number of ensemble indices
@@ -271,7 +285,9 @@ typedef struct { // structure for an entire system of molecules
 	molecule *m; // nm of these
 	int na; // number of assembly structures
 	assembly *a; // na of these
-	coord_3D boxl,boxh; // box dimensions
+	int nBOX; ///< Number of box_info structures defined
+	boxinfo *BOX: ///< The nBOX structures
+	//coord_3D boxl,boxh; // box dimensions
 	int nPRM; // number of parameter sets
 	parameter_set *PRM; // pointer to parameter sets
 	int nOD; // number of other descriptors

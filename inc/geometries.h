@@ -6,15 +6,54 @@
         you are using it separately. */
 #if !defined(GLYLIB_GEOMETRIES)
 #define GLYLIB_GEOMETRIES
-typedef struct {
-	double i,j,k; 
-} coord_3D; // cartesian, polar, direction cosines, etc.
 
+/**************************************************************//**
+			Coordinates 
+******************************************************************/
+// Fixed Dimension
 typedef struct {
-	double i,j,k,d; // i,j,k vector with magnitude d
-} vectormag_3D; // same as "plane" but with easier naming
+	double i,j,k; ///< Values assigned to the three coordinates.
+} coord_3D; ///< Any 3D coordinate: cartesian, polar, direction cosines, etc.  
+typedef struct {
+	double i,j,k,d; ///< i,j,k vector with magnitude d
+} vectormag_3D; ///< Vector manipulations often require magnitudes, so this struct contains that information.
 
+// Multi-Dimensional
+typedef struct {
+	int nD; ///< Number of dimensions.
+	double *D;///< Values in each of the nD dimensions
+} coord_nD; ///< An n-dimensional coordinate 
+typedef struct {
+	int nDi; ///< Number of dimensions.
+	int *Di;///< Indicies for values in each of the nD dimensions
+} nD_index; ///< Set of indices to n-dimensional coordinate
+typedef struct {
+	int nDp; ///< Number of dimensions.
+	double **Dp;///< Pointers to values in each of the nD dimensions
+} nD_ptrs; ///< Set of pointers to n-dimensional coordinate
+typedef struct {
+	int nD; ///< Number of dimensions.
+	double *D;///< Values in each of the nD dimensions
+	int *Di;///< Indicies for values in each of the nD dimensions
+} coord_nDi; ///< An n-dimensional coordinate 
+
+
+
+/**************************************************************//**
+			Geometrical Objects 
+******************************************************************/
 typedef struct {
 	double A,B,C,D;
-} plane; // standard plane, Ax+By+Cz+D=0
+} plane; ///< Standard cartesian plane with equation Ax+By+Cz+D=0
+
+/**************************************************************//**
+			Special Objects 
+******************************************************************/
+typedef struct {
+	char *STYPE,*GTYPE; ///< Types relevant to simulations (e.g., periodic) and to basic geometry (e.g., cubic)
+	int nC; ///< Number of coordinates defined
+	coord_nD *C; ///< nC coordinates (the dimensions are defined inside the structures, and might all be different)
+	int nCD; ///< Number of descriptions defined
+	char **CD; ///< nCD descriptions of the coordinate relevances (e.g, "lower corner" or "A in z=f(A)"). 
+} box_info;
 #endif
