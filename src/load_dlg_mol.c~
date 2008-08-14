@@ -19,6 +19,7 @@ int fRes = -1;
 fpos_t* start = (fpos_t*)calloc(1,sizeof(fpos_t));
 char line[501],dum1[50],dum2[50],at[10],res[10]; // maybe no lines longer than 500...
 char whinetext[501];
+char* cid = (char*)calloc(5,sizeof(char));
 double x=0,y=0,z=0,xl=0,xh=0,yl=0,yh=0,zl=0,zh=0;
 atype* AT = T[0].a;
 dockinfo *D;
@@ -48,7 +49,8 @@ if(localdebug>0){printf("load_dlg_mol: After found PDBQ.\n");}
 //Find the smallest residue number
 fgetpos(F.F,start);
 while(strstr(line,"__________________________________") == NULL){
-	if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL){
+	if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL ||
+           strstr(line,"INPUT-PDBQ: HETATM")!=NULL){
 		scntst=sscanf(line,"%s %s %d %s %s %d",dum1,dum2,&anum,at,res,&rnum);
 		if(rnum < fRes || fRes < 0)
 			fRes = rnum;
@@ -64,12 +66,18 @@ if(localdebug>3){printf("load_dlg_mol: Reading file.\n");}
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
 	if(strstr(line,"INPUT-PDBQ")!=NULL){
 if(localdebug>3){printf("load_dlg_mol: Reading PDBQ.\n");}
-		if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL){
+		if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL ||
+		   strstr(line,"INPUT-PDBQ: HETATM")!=NULL){
 			scntst=sscanf(line,"%s %s %d %s %s %d %lf %lf %lf",\
 				dum1,dum2,&anum,at,res,&rnum,&x,&y,&z);
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
 			rnum-=fRes;
-			if(scntst!=9){read_eek("end of line while reading INPUT-PDBQ: ATOM",F.N);}
+			//***START EDIT MNT Aug,14 2008
+			if(scntst!=9){
+				scntst=sscanf(line,"%s %s %d %s %s %c %d %lf %lf %lf",\
+					dum1,dum2,&anum,at,res,cid,&rnum,&x,&y,&z);
+				if(scntst!=10){read_eek("end of line while reading INPUT-PDBQ: ATOM",F.N);}
+			}//***END EDIT
 			if(b==-1000){
 				xl=xh=x; 
 				yl=yh=y; 
@@ -145,6 +153,13 @@ if(localdebug>3){printf("\tload_dlg_mol: ri is %d ; ai is %d ; D[0].M.r[ri].a[ai
 			D[0].M.r[ri].a[ai].x.i=x;
 			D[0].M.r[ri].a[ai].x.j=y;
 			D[0].M.r[ri].a[ai].x.k=z;
+			//***START EDIT MNT Aug,14 2008 
+			if(scntst == 10)
+				D[0].M.r[ri].a[ai].cID = cid[0];
+			if(strstr(line,"INPUT-PDBQ: HETATM")!=NULL)
+				D[0].M.r[ri].a[ai].D = strdup("HETATM");
+			else
+				D[0].M.r[ri].a[ai].D = strdup("ATOM");//***END EDIT
 			for(b=0;b<T[0].na;b++){ // might be a problem, the NUMAT(fixed)
 				if(at[0]==AT[b].NT[0]){
 					D[0].M.r[ri].a[ai].t=b;
@@ -353,22 +368,22 @@ if(localdebug>3){printf("\tload_dlg_mol: found a set; in COM calc.\n");}
 /// Add BOX information to the molecule structure.
 D[0].M.nBOX=1;
 D[0].M.BOX=(boxinfo*)calloc(1,sizeof(boxinfo));
-D[0].M.BOX.STYPE=strdup("non-periodic");
-D[0].M.BOX.GTYPE=strdup("rectangular, defined by minimum and maximum x,y,z coordinate values");
-D[0].M.BOX.nC=D[0].M.BOX.nCD=2; 
-D[0].M.BOX.C=(coord_nD*)calloc(D[0].M.BOX.nC,sizeof(coord_nD));
-D[0].M.BOX.CD=(char**)calloc(D[0].M.BOX.nCD,sizeof(char*));
-D[0].M.BOX.C[0].nD=D[0].M.BOX.C[1].nD=3;
-D[0].M.BOX.C[0].D=(double*)calloc(3,sizeof(double));
-D[0].M.BOX.C[1].D=(double*)calloc(3,sizeof(double));
-D[0].M.BOX.CD[0]=strdup("Lowest x, y and z values in the data set.");
-D[0].M.BOX.C[0].D[0]=xl;
-D[0].M.BOX.C[0].D[1]=yl;
-D[0].M.BOX.C[0].D[2]=zl;
-D[0].M.BOX.CD[1]=strdup("Highest x, y and z values in the data set.");
-D[0].M.BOX.C[1].D[0]=xh;
-D[0].M.BOX.C[1].D[1]=yh;
-D[0].M.BOX.C[1].D[2]=zh;
+D[0].M.BOX[0].STYPE=strdup("non-periodic");
+D[0].M.BOX[0].GTYPE=strdup("rectangular, defined by minimum and maximum x,y,z coordinate values");
+D[0].M.BOX[0].nC=D[0].M.BOX[0].nCD=2; 
+D[0].M.BOX[0].C=(coord_nD*)calloc(D[0].M.BOX[0].nC,sizeof(coord_nD));
+D[0].M.BOX[0].CD=(char**)calloc(D[0].M.BOX[0].nCD,sizeof(char*));
+D[0].M.BOX[0].C[0].nD=D[0].M.BOX[0].C[1].nD=3;
+D[0].M.BOX[0].C[0].D=(double*)calloc(3,sizeof(double));
+D[0].M.BOX[0].C[1].D=(double*)calloc(3,sizeof(double));
+D[0].M.BOX[0].CD[0]=strdup("Lowest x, y and z values in the data set.");
+D[0].M.BOX[0].C[0].D[0]=xl;
+D[0].M.BOX[0].C[0].D[1]=yl;
+D[0].M.BOX[0].C[0].D[2]=zl;
+D[0].M.BOX[0].CD[1]=strdup("Highest x, y and z values in the data set.");
+D[0].M.BOX[0].C[1].D[0]=xh;
+D[0].M.BOX[0].C[1].D[1]=yh;
+D[0].M.BOX[0].C[1].D[2]=zh;
 
 //D[0].M.boxl.i=xl; // removed on 20080813 by BLFoley
 //D[0].M.boxl.j=yl;
@@ -401,6 +416,6 @@ printf("\t\tres %d alt %d : %20.15e %20.15e %20.15e\n",a,b,D[0].M.r[a].rc[b].i,D
 }
 }
 }
-
+free(cid);
 return D;
 }

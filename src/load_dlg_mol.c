@@ -19,6 +19,7 @@ int fRes = -1;
 fpos_t* start = (fpos_t*)calloc(1,sizeof(fpos_t));
 char line[501],dum1[50],dum2[50],at[10],res[10]; // maybe no lines longer than 500...
 char whinetext[501];
+char* cid = (char*)calloc(5,sizeof(char));
 double x=0,y=0,z=0,xl=0,xh=0,yl=0,yh=0,zl=0,zh=0;
 atype* AT = T[0].a;
 dockinfo *D;
@@ -48,7 +49,8 @@ if(localdebug>0){printf("load_dlg_mol: After found PDBQ.\n");}
 //Find the smallest residue number
 fgetpos(F.F,start);
 while(strstr(line,"__________________________________") == NULL){
-	if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL){
+	if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL ||
+           strstr(line,"INPUT-PDBQ: HETATM")!=NULL){
 		scntst=sscanf(line,"%s %s %d %s %s %d",dum1,dum2,&anum,at,res,&rnum);
 		if(rnum < fRes || fRes < 0)
 			fRes = rnum;
@@ -64,12 +66,18 @@ if(localdebug>3){printf("load_dlg_mol: Reading file.\n");}
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
 	if(strstr(line,"INPUT-PDBQ")!=NULL){
 if(localdebug>3){printf("load_dlg_mol: Reading PDBQ.\n");}
-		if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL){
+		if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL ||
+		   strstr(line,"INPUT-PDBQ: HETATM")!=NULL){
 			scntst=sscanf(line,"%s %s %d %s %s %d %lf %lf %lf",\
 				dum1,dum2,&anum,at,res,&rnum,&x,&y,&z);
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
 			rnum-=fRes;
-			if(scntst!=9){read_eek("end of line while reading INPUT-PDBQ: ATOM",F.N);}
+			//***START EDIT MNT Aug,14 2008
+			if(scntst!=9){
+				scntst=sscanf(line,"%s %s %d %s %s %c %d %lf %lf %lf",\
+					dum1,dum2,&anum,at,res,cid,&rnum,&x,&y,&z);
+				if(scntst!=10){read_eek("end of line while reading INPUT-PDBQ: ATOM",F.N);}
+			}//***END EDIT
 			if(b==-1000){
 				xl=xh=x; 
 				yl=yh=y; 
@@ -145,6 +153,13 @@ if(localdebug>3){printf("\tload_dlg_mol: ri is %d ; ai is %d ; D[0].M.r[ri].a[ai
 			D[0].M.r[ri].a[ai].x.i=x;
 			D[0].M.r[ri].a[ai].x.j=y;
 			D[0].M.r[ri].a[ai].x.k=z;
+			//***START EDIT MNT Aug,14 2008 
+			if(scntst == 10)
+				D[0].M.r[ri].a[ai].cID = cid[0];
+			if(strstr(line,"INPUT-PDBQ: HETATM")!=NULL)
+				D[0].M.r[ri].a[ai].D = strdup("HETATM");
+			else
+				D[0].M.r[ri].a[ai].D = strdup("ATOM");//***END EDIT
 			for(b=0;b<T[0].na;b++){ // might be a problem, the NUMAT(fixed)
 				if(at[0]==AT[b].NT[0]){
 					D[0].M.r[ri].a[ai].t=b;
@@ -301,9 +316,14 @@ if(localdebug>3){printf("\tload_dlg_mol: found a set; in atom scan.\n");}
 				dum1,dum2,&anum,at,res,&rnum,&x,&y,&z);
 			//if(rnum>3020){rnum%=3020;}//Added to handle LSTC_1918 (Temporary)
 			rnum-=fRes;
+			//***START EDIT MNT Aug,14 2008
 			if(scntst!=9){
-				sprintf(whinetext,"end of line while reading DOCKED: ATOM (run %d)",(di+1));
-				read_eek(whinetext,F.N);}
+				scntst=sscanf(line,"%s %s %d %s %s %c %d %lf %lf %lf",\
+					dum1,dum2,&anum,at,res,cid,&rnum,&x,&y,&z);
+				if(scntst!=10){
+					sprintf(whinetext,"end of line while reading DOCKED: ATOM (run %d)",(di+1));
+					read_eek(whinetext,F.N);}
+			}//***END EDIT
 			if(x<xl){xl=x;}
 			if(x>xh){xh=x;}
 			if(y<yl){yl=y;}
@@ -401,6 +421,6 @@ printf("\t\tres %d alt %d : %20.15e %20.15e %20.15e\n",a,b,D[0].M.r[a].rc[b].i,D
 }
 }
 }
-
+free(cid);
 return D;
 }

@@ -137,6 +137,7 @@ typedef struct {
 	int nOD; // number of other descriptors
 	char **OD; // the nOD descriptors
 	int nVP; // number of void structures
+	char cID; // chain identifier
 	void *VP; // nVP of these, whatever they may be
 } atom; // an actual atom in a residue/molecule
 
