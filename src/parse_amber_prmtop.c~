@@ -115,10 +115,15 @@ for(pa=0;pa<P[0].nS;pa++){ // get pointers first...
   		sscanf(P[0].S[pa].D[26],"%d",&P[0].MDPER); // number of dihedrals with atoms completely in perturbed groups
 		// Box information
   		sscanf(P[0].S[pa].D[27],"%d",&P[0].IFBOX); // set to 1 if standard periodic box, 2 when truncated octahedral
+		if(P[0].IFBOX==0){A.boxtype=strdup("none");}
+		if(P[0].IFBOX==1){A.boxtype=strdup("standard periodic");}
+		if(P[0].IFBOX==2){A.boxtype=strdup("truncated octahedral");}
+		if(P[0].IFBOX>2){A.boxtype=strdup("unknown box type");}
+
 		if(P[0].IFBOX==0){A.nBOX=0;} ///< There are no boxes defined in this prmtop
 		else{
 			A.nBOX=1;
-			A.BOX=(boxinfo*)calloc(A.nBOX,sizeof(boxinfo));
+			A.BOX=(box_info*)calloc(A.nBOX,sizeof(box_info));
 			A.BOX[0].nC=A.BOX[0].nCD=2; ///< One for the "boxang" and the other for the x,y,z values
 			A.BOX[0].C=(coord_nD*)calloc(A.BOX[0].nC,sizeof(coord_nD));
 			A.BOX[0].CD=(char**)calloc(A.BOX[0].nCD,sizeof(char*));

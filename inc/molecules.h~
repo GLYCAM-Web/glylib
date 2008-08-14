@@ -262,7 +262,7 @@ typedef struct { // structure for groups of molecules within a larger structure
 	int nmbs; // number of sets of connections between molecules 
 	molbondset *mbs; // nmbs of these sets
 	int nBOX; ///< Number of box_info structures defined
-	boxinfo *BOX; ///< The nBOX structures
+	boxinfo *BOX: ///< The nBOX structures
 	//coord_3D boxl,boxh; // simple box dimensions (limits low & high or just use one for size)
 	//double boxang; // coord_3D is x, y and z -- angle (probably between XY and YZ planes in degrees, maybe).  
 	//char *boxtype; // type of simple box (cubic, trapezoidal, etc.)
@@ -286,7 +286,7 @@ typedef struct { // structure for an entire system of molecules
 	int na; // number of assembly structures
 	assembly *a; // na of these
 	int nBOX; ///< Number of box_info structures defined
-	boxinfo *BOX; ///< The nBOX structures
+	boxinfo *BOX: ///< The nBOX structures
 	//coord_3D boxl,boxh; // box dimensions
 	int nPRM; // number of parameter sets
 	parameter_set *PRM; // pointer to parameter sets
