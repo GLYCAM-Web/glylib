@@ -55,5 +55,5 @@ typedef struct {
 	coord_nD *C; ///< nC coordinates (the dimensions are defined inside the structures, and might all be different)
 	int nCD; ///< Number of descriptions defined
 	char **CD; ///< nCD descriptions of the coordinate relevances (e.g, "lower corner" or "A in z=f(A)"). 
-} boxinfo;
+} box_info;
 #endif
