@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: translate_to_COM.c File Reference</title>
+<title>GLYLIB: src/translate_to_COM.c File Reference</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="../../main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../classes.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../dirs.html"><span>Directories</span></a></li>
     <li>
@@ -25,7 +25,7 @@
     </li>
     </ul>
   </div>
-  <div class="navpath"><a class="el" href="../../dir_fba7d38c13d62fc3c519a83038ccbec0.html">src</a>
+  <div class="navpath"><a class="el" href="../../dir_4c50504df4ef4681d4a5a0710190c908.html">src</a>
   </div>
 </div>
 <div class="contents">
@@ -36,9 +36,9 @@
 <div class="dynheader">
 Include dependency graph for translate_to_COM.c:</div>
 <div class="dynsection">
-<p><center><img src="../../d8/de9/translate__to__COM_8c__incl.gif" border="0" usemap="#translate_to_COM.c_map" alt=""></center>
-<map name="translate_to_COM.c_map">
-<area shape="rect" href="../../dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="383,80,444,107"><area shape="rect" href="../../d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="769,80,855,107"><area shape="rect" href="../../d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="675,155,744,181"><area shape="rect" href="../../d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="768,155,856,181"><area shape="rect" href="../../d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="880,155,989,181"></map>
+<p><center><img src="../../d8/de9/translate__to__COM_8c__incl.png" border="0" usemap="#src/translate_to_COM.c_map" alt=""></center>
+<map name="src/translate_to_COM.c_map">
+<area shape="rect" href="../../dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="413,81,477,105"><area shape="rect" href="../../d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="832,81,928,105"><area shape="rect" href="../../d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="725,156,805,180"><area shape="rect" href="../../d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="829,156,931,180"><area shape="rect" href="../../d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="955,156,1083,180"></map>
 </div>
 
 <p>
@@ -84,66 +84,13 @@ Include dependency graph for translate_to_COM.c:</div>
 
 <p>Definition at line <a class="el" href="../../d5/d4a/translate__to__COM_8c-source.html#l00015">15</a> of file <a class="el" href="../../d5/d4a/translate__to__COM_8c-source.html">translate_to_COM.c</a>.</p>
 
-<p>References <a class="el" href="../../da/dff/molecules_8h-source.html#l00145">residue::a</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00178">molecule::COM</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00010">coord_3D::i</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00010">coord_3D::j</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00010">coord_3D::k</a>, <a class="el" href="../../d5/d69/parameter__sets_8h-source.html#l00055">atype::m</a>, <a class="el" href="../../d7/d30/mywhine_8c-source.html#l00007">mywhine()</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00142">residue::na</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00183">molecule::r</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00107">atom::t</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00114">atom::x</a>, and <a class="el" href="../../da/dff/molecules_8h-source.html#l00116">atom::xa</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00015"></a>00015                                                       {
-<a name="l00016"></a>00016 <span class="keywordtype">int</span> ta=0,tuse=0,tsz=0,tbins=0;
-<a name="l00017"></a>00017 <span class="keywordtype">double</span> tmm=0; 
-<a name="l00018"></a>00018 
-<a name="l00019"></a>00019 <span class="comment">// calculate the molecular weight of residue 0 (the molecule, here) </span>
-<a name="l00020"></a>00020 <span class="keywordflow">for</span>(ta=0;ta&lt;m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>;ta++){
-<a name="l00021"></a>00021         tmm+=ATYPE[m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a">t</a>].<a class="code" href="../../dc/d7a/structatype.html#7b33ba31bb5de997c6c19f5dd65a29f2">m</a>;
-<a name="l00022"></a>00022         }
-<a name="l00023"></a>00023 <span class="comment">//printf("the molecular weight is %f\n",tmm);</span>
-<a name="l00024"></a>00024 <span class="keywordflow">if</span>(tmm==0){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"molecular weight of molecule %s is zero.\n(Have types/masses been assigned?"</span>);}
-<a name="l00025"></a>00025 <span class="comment">// glucose $molwt=174.078;</span>
-<a name="l00026"></a>00026 
-<a name="l00027"></a>00027 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>=0;
-<a name="l00028"></a>00028 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>=0;
-<a name="l00029"></a>00029 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>=0; 
-<a name="l00030"></a>00030 <span class="comment">//printf("center of mass is at: %f %f %f \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);</span>
-<a name="l00031"></a>00031 <span class="comment">// calculate the center of mass</span>
-<a name="l00032"></a>00032 <span class="keywordflow">for</span>(ta=0;ta&lt;m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>;ta++){ <span class="comment">// COM = sum(m_i * r_i) / sum(m_i)</span>
-<a name="l00033"></a>00033         m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>+=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>*ATYPE[m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a">t</a>].<a class="code" href="../../dc/d7a/structatype.html#7b33ba31bb5de997c6c19f5dd65a29f2">m</a>;
-<a name="l00034"></a>00034         m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>+=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>*ATYPE[m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a">t</a>].<a class="code" href="../../dc/d7a/structatype.html#7b33ba31bb5de997c6c19f5dd65a29f2">m</a>;
-<a name="l00035"></a>00035         m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>+=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>*ATYPE[m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a">t</a>].<a class="code" href="../../dc/d7a/structatype.html#7b33ba31bb5de997c6c19f5dd65a29f2">m</a>;
-<a name="l00036"></a>00036         }
-<a name="l00037"></a>00037 <span class="comment">//printf("center of mass is at: %f %f %f \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);</span>
-<a name="l00038"></a>00038 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>/=tmm;
-<a name="l00039"></a>00039 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>/=tmm;
-<a name="l00040"></a>00040 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>/=tmm; 
-<a name="l00041"></a>00041 <span class="comment">//printf("center of mass is at: %20.12e %20.12e %20.12e \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);</span>
-<a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="comment">// move center of mass to specified location</span>
-<a name="l00044"></a>00044 <span class="keywordflow">if</span>(tw==-1){
-<a name="l00045"></a>00045         <span class="keywordflow">for</span>(ta=0;ta&lt;m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>;ta++){ <span class="comment">// xyz(new) = xyz(old) - COM</span>
-<a name="l00046"></a>00046                 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>-=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>;
-<a name="l00047"></a>00047                 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>-=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>;
-<a name="l00048"></a>00048                 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>-=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>;
-<a name="l00049"></a>00049                 }
-<a name="l00050"></a>00050         }
-<a name="l00051"></a>00051 <span class="keywordflow">else</span>{
-<a name="l00052"></a>00052         <span class="keywordflow">for</span>(ta=0;ta&lt;m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>;ta++){ <span class="comment">// xyz(new) = xyz(old) - COM</span>
-<a name="l00053"></a>00053                 tuse=malloc_usable_size(m[0].r[0].a[ta].xa);
-<a name="l00054"></a>00054                 tsz=<span class="keyword">sizeof</span>(<a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a>);
-<a name="l00055"></a>00055                 <span class="keywordflow">if</span>(tsz==0){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"memory issue: sizeof(coord_3D) given as zero in translate_to_COM.c"</span>);}
-<a name="l00056"></a>00056                 tbins=tuse/tsz; 
-<a name="l00057"></a>00057                 <span class="comment">//print_coord_3D(&amp;m[0].r[0].a[ta].x);</span>
-<a name="l00058"></a>00058                 <span class="keywordflow">if</span>(tbins&lt;(tw+1)){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"insufficient memory allocated before translate_to_COM"</span>);}
-<a name="l00059"></a>00059                 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#618013672563803088131d1ea38f22ed">xa</a>[tw].<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>-m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>;
-<a name="l00060"></a>00060                 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#618013672563803088131d1ea38f22ed">xa</a>[tw].<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>-m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>;
-<a name="l00061"></a>00061                 m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#618013672563803088131d1ea38f22ed">xa</a>[tw].<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[0].<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[ta].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>-m[0].<a class="code" href="../../dc/d7f/structmolecule.html#dfde3d40a897c5c90a7dd358a74d59dc">COM</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>;
-<a name="l00062"></a>00062                 }
-<a name="l00063"></a>00063         }
-<a name="l00064"></a>00064 <span class="keywordflow">return</span>;
-<a name="l00065"></a>00065 }
-</pre></div>
-<p>
+<p>References <a class="el" href="../../da/dff/molecules_8h-source.html#l00155">residue::a</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00188">molecule::COM</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00015">coord_3D::i</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00015">coord_3D::j</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00015">coord_3D::k</a>, <a class="el" href="../../d5/d69/parameter__sets_8h-source.html#l00055">atype::m</a>, <a class="el" href="../../d7/d30/mywhine_8c-source.html#l00007">mywhine()</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00152">residue::na</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00193">molecule::r</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00116">atom::t</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00123">atom::x</a>, and <a class="el" href="../../da/dff/molecules_8h-source.html#l00125">atom::xa</a>.</p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../dc/dc8/translate__to__COM_8c_65fd145113be8e25dc5504911f809d29_cgraph.gif" border="0" usemap="#dc/dc8/translate__to__COM_8c_65fd145113be8e25dc5504911f809d29_cgraph_map" alt=""></center>
+<p><center><img src="../../dc/dc8/translate__to__COM_8c_65fd145113be8e25dc5504911f809d29_cgraph.png" border="0" usemap="#dc/dc8/translate__to__COM_8c_65fd145113be8e25dc5504911f809d29_cgraph_map" alt=""></center>
 <map name="dc/dc8/translate__to__COM_8c_65fd145113be8e25dc5504911f809d29_cgraph_map">
 <area shape="rect" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1)." alt="" coords="175,5,244,32"></map>
 </div>
@@ -151,7 +98,7 @@ Here is the call graph for this function:</div>
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:10 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:53 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

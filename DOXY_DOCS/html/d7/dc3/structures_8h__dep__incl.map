@@ -1,6 +1,6 @@
-<area shape="rect" href="$d7/d40/load__pdb_8h.html" title="load_pdb.h" alt="" coords="211,80,291,107">
-<area shape="rect" href="$db/d94/get__type_8c.html" title="get_type.c" alt="" coords="5,155,80,181">
-<area shape="rect" href="$d7/df2/init__struct_8c.html" title="init_struct.c" alt="" coords="104,155,187,181">
-<area shape="rect" href="$d8/df6/load__pdb_8c.html" title="load_pdb.c" alt="" coords="211,155,291,181">
-<area shape="rect" href="$dc/d44/pdb__def_8c.html" title="pdb_def.c" alt="" coords="315,155,389,181">
-<area shape="rect" href="$da/d7a/rwm__line_8c.html" title="rwm_line.c" alt="" coords="413,155,493,181">
+<area shape="rect" href="$d7/d40/load__pdb_8h.html" title="inc/load_pdb.h" alt="" coords="275,81,384,105">
+<area shape="rect" href="$db/d94/get__type_8c.html" title="src/get_type.c" alt="" coords="5,156,112,180">
+<area shape="rect" href="$d7/df2/init__struct_8c.html" title="src/init_struct.c" alt="" coords="136,156,251,180">
+<area shape="rect" href="$d8/df6/load__pdb_8c.html" title="src/load_pdb.c" alt="" coords="275,156,384,180">
+<area shape="rect" href="$dc/d44/pdb__def_8c.html" title="src/pdb_def.c" alt="" coords="408,156,512,180">
+<area shape="rect" href="$da/d7a/rwm__line_8c.html" title="src/rwm_line.c" alt="" coords="536,156,645,180">

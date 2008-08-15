@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: general.h Source File</title>
+<title>GLYLIB: inc/general.h Source File</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="../../main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../classes.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../dirs.html"><span>Directories</span></a></li>
     <li>
@@ -25,22 +25,16 @@
     </li>
     </ul>
   </div>
-  <div class="navpath"><a class="el" href="../../dir_3ae85f7d111b51475b911a2bbef011c2.html">inc</a>
+  <div class="navpath"><a class="el" href="../../dir_435bd18ce7971260fc2adad17c4a20a3.html">inc</a>
   </div>
 </div>
 <div class="contents">
-<h1>general.h</h1><a href="../../d9/d14/general_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/** \file general.h </span>
-<a name="l00002"></a>00002 <span class="comment">\brief  Convenience structures used by various functions</span>
-<a name="l00003"></a>00003 <span class="comment">        within the library.  </span>
-<a name="l00004"></a>00004 <span class="comment">*/</span>
-<a name="l00005"></a>00005 
+<h1>general.h</h1><a href="../../d9/d14/general_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
 <a name="l00006"></a>00006 <span class="comment">// Header file written by Lachele Foley, summer 2007</span>
 <a name="l00007"></a>00007 
 <a name="l00008"></a>00008 <span class="preprocessor">#if !defined(GLYLIB_GENERAL)</span>
 <a name="l00009"></a><a class="code" href="../../d9/d14/general_8h.html#46e703ba0436764e313d1e8710ab5904">00009</a> <span class="preprocessor"></span><span class="preprocessor">#define GLYLIB_GENERAL</span>
-<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="comment">/** Convenient, but dreadfully wasteful, arrays of strings ("Text")</span>
-<a name="l00011"></a>00011 <span class="comment"></span>
-<a name="l00012"></a>00012 <span class="comment">Need get rid of these ASAP...  Can they go now?*/</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span>
 <a name="l00013"></a><a class="code" href="../../d9/db0/structllcharset.html">00013</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{ 
 <a name="l00014"></a><a class="code" href="../../d9/db0/structllcharset.html#1374490dc3f31f20eee9ba9c015a6222">00014</a>         <span class="keywordtype">char</span> *T;
 <a name="l00015"></a>00015 } <a class="code" href="../../d9/db0/structllcharset.html">llcharset</a>;
@@ -56,23 +50,18 @@
 <a name="l00025"></a><a class="code" href="../../df/dd6/structsscharset.html">00025</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
 <a name="l00026"></a><a class="code" href="../../df/dd6/structsscharset.html#aab5fa3648e1660dae53876e923561c1">00026</a>         <span class="keywordtype">char</span> T[11];
 <a name="l00027"></a>00027 } <a class="code" href="../../df/dd6/structsscharset.html">sscharset</a>;
-<a name="l00028"></a>00028 <span class="comment"></span>
-<a name="l00029"></a>00029 <span class="comment">/** \addtogroup FILE_UTILS */</span><span class="comment"></span>
-<a name="l00030"></a>00030 <span class="comment">/*@{*/</span><span class="comment"></span>
-<a name="l00031"></a>00031 <span class="comment">/** A structure for ease in passing sets of file info between functions */</span>
+<a name="l00028"></a>00028 
 <a name="l00032"></a><a class="code" href="../../dc/d59/structfileset.html">00032</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00033"></a><a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">00033</a>         <span class="keywordtype">char</span> *N; <span class="comment">/// the name of the file -- use strdup to allocate/copy</span>
-<a name="l00034"></a><a class="code" href="../../dc/d59/structfileset.html#5b094cf2097c6512b7a3f55c9de9ac25">00034</a> <span class="comment"></span>        FILE *F; <span class="comment">/// the file pointer</span>
-<a name="l00035"></a>00035 <span class="comment"></span>} <a class="code" href="../../dc/d59/structfileset.html">fileset</a>;<span class="comment"></span>
-<a name="l00036"></a>00036 <span class="comment">/// A structure for a function similar to the perl notion of "slurping" a file</span>
-<a name="l00037"></a><a class="code" href="../../d7/d31/structfileslurp.html">00037</a> <span class="comment"></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00038"></a><a class="code" href="../../d7/d31/structfileslurp.html#4a3a992b634db544d7dcda9f5f63693f">00038</a>         <span class="keywordtype">int</span> n; <span class="comment">/// number of lines</span>
-<a name="l00039"></a><a class="code" href="../../d7/d31/structfileslurp.html#0664fd0c16b208f5625374be2f73fbfa">00039</a> <span class="comment"></span>        <span class="keywordtype">char</span> **L; <span class="comment">/// each line</span>
-<a name="l00040"></a>00040 <span class="comment"></span>} <a class="code" href="../../d7/d31/structfileslurp.html" title="A structure for a function similar to the perl notion of &amp;quot;slurping&amp;quot; a file...">fileslurp</a>; <span class="comment"></span>
-<a name="l00041"></a>00041 <span class="comment">/*@}*/</span>
+<a name="l00033"></a><a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">00033</a>         <span class="keywordtype">char</span> *N; 
+<a name="l00034"></a><a class="code" href="../../dc/d59/structfileset.html#5b094cf2097c6512b7a3f55c9de9ac25">00034</a>         FILE *F; 
+<a name="l00035"></a>00035 } <a class="code" href="../../dc/d59/structfileset.html">fileset</a>;
+<a name="l00037"></a><a class="code" href="../../d7/d31/structfileslurp.html">00037</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00038"></a><a class="code" href="../../d7/d31/structfileslurp.html#4a3a992b634db544d7dcda9f5f63693f">00038</a>         <span class="keywordtype">int</span> n; 
+<a name="l00039"></a><a class="code" href="../../d7/d31/structfileslurp.html#0664fd0c16b208f5625374be2f73fbfa">00039</a>         <span class="keywordtype">char</span> **L; 
+<a name="l00040"></a>00040 } <a class="code" href="../../d7/d31/structfileslurp.html" title="A structure for a function similar to the perl notion of &amp;quot;slurping&amp;quot; a file...">fileslurp</a>; 
 <a name="l00042"></a>00042 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:02 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:42 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

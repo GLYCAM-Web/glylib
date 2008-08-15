@@ -9,7 +9,7 @@
     <ul>
       <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
-      <li><a href="classes.html"><span>Classes</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li><a href="dirs.html"><span>Directories</span></a></li>
     <li>
@@ -376,7 +376,7 @@ main();
 
 
 ?>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:13 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:55 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

@@ -1,7 +1,7 @@
-<area shape="rect" href="$d3/dcd/amber_8h.html" title="amber.h" alt="" coords="44,80,108,107">
-<area shape="rect" href="$d0/d92/amber__prmtop__init_8c.html" title="amber_prmtop_init.c" alt="" coords="132,80,265,107">
-<area shape="rect" href="$d2/d2a/find__molecules_8c.html" title="find_molecules.c" alt="" coords="289,80,401,107">
-<area shape="rect" href="$d4/d44/load__amber__prmtop_8c.html" title="load_amber_prmtop.c" alt="" coords="425,80,564,107">
-<area shape="rect" href="$db/d7d/parse__amber__prmtop_8c.html" title="parse_amber_prmtop.c" alt="" coords="588,80,732,107">
-<area shape="rect" href="$da/da5/read__amber__prmtop_8c.html" title="read_amber_prmtop.c" alt="" coords="756,80,895,107">
-<area shape="rect" href="$d9/dbc/write__amber__prmtop_8c.html" title="write_amber_prmtop.c" alt="" coords="5,155,147,181">
+<area shape="rect" href="$d3/dcd/amber_8h.html" title="inc/AMBER/amber.h" alt="" coords="23,81,167,105">
+<area shape="rect" href="$d0/d92/amber__prmtop__init_8c.html" title="src/amber_prmtop_init.c" alt="" coords="191,81,359,105">
+<area shape="rect" href="$d2/d2a/find__molecules_8c.html" title="src/find_molecules.c" alt="" coords="383,81,529,105">
+<area shape="rect" href="$d4/d44/load__amber__prmtop_8c.html" title="src/load_amber_prmtop.c" alt="" coords="553,81,729,105">
+<area shape="rect" href="$db/d7d/parse__amber__prmtop_8c.html" title="src/parse_amber_prmtop.c" alt="" coords="753,81,937,105">
+<area shape="rect" href="$da/da5/read__amber__prmtop_8c.html" title="src/read_amber_prmtop.c" alt="" coords="961,81,1140,105">
+<area shape="rect" href="$d9/dbc/write__amber__prmtop_8c.html" title="src/write_amber_prmtop.c" alt="" coords="5,156,184,180">

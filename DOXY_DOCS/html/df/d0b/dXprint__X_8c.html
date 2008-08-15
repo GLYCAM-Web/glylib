@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: dXprint_X.c File Reference</title>
+<title>GLYLIB: src/dXprint_X.c File Reference</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="../../main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../classes.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../dirs.html"><span>Directories</span></a></li>
     <li>
@@ -25,7 +25,7 @@
     </li>
     </ul>
   </div>
-  <div class="navpath"><a class="el" href="../../dir_fba7d38c13d62fc3c519a83038ccbec0.html">src</a>
+  <div class="navpath"><a class="el" href="../../dir_4c50504df4ef4681d4a5a0710190c908.html">src</a>
   </div>
 </div>
 <div class="contents">
@@ -36,9 +36,9 @@
 <div class="dynheader">
 Include dependency graph for dXprint_X.c:</div>
 <div class="dynsection">
-<p><center><img src="../../d9/db6/dXprint__X_8c__incl.gif" border="0" usemap="#dXprint_X.c_map" alt=""></center>
-<map name="dXprint_X.c_map">
-<area shape="rect" href="../../dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="383,80,444,107"><area shape="rect" href="../../d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="769,80,855,107"><area shape="rect" href="../../d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="675,155,744,181"><area shape="rect" href="../../d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="768,155,856,181"><area shape="rect" href="../../d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="880,155,989,181"></map>
+<p><center><img src="../../d9/db6/dXprint__X_8c__incl.png" border="0" usemap="#src/dXprint_X.c_map" alt=""></center>
+<map name="src/dXprint_X.c_map">
+<area shape="rect" href="../../dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="413,81,477,105"><area shape="rect" href="../../d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="832,81,928,105"><area shape="rect" href="../../d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="725,156,805,180"><area shape="rect" href="../../d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="829,156,931,180"><area shape="rect" href="../../d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="955,156,1083,180"></map>
 </div>
 
 <p>
@@ -94,36 +94,13 @@ Include dependency graph for dXprint_X.c:</div>
 
 <p>Definition at line <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00056">56</a> of file <a class="el" href="../../d0/da7/dXprint__X_8c-source.html">dXprint_X.c</a>.</p>
 
-<p>References <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00051">dXprint_bond()</a>, <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00023">dXprint_coord_3D()</a>, <a class="el" href="../../d3/de6/molecules_8h.html#d8fd53b49cf39f92fc970c6d6c858846">dXprint_vectormag_3D()</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00122">atom::i</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00010">coord_3D::j</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00010">coord_3D::k</a>, and <a class="el" href="../../da/dff/molecules_8h-source.html#l00114">atom::x</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00056"></a>00056                                 {
-<a name="l00057"></a>00057         <span class="keywordtype">int</span> pa=0;
-<a name="l00058"></a>00058         printf(<span class="stringliteral">"atom \tn=%d ; N=&gt;&gt;%s&lt;&lt; ; t=%d ; nb=%d ; nalt=%d ; nvec=%d\n"</span>,a[0].n,a[0].N,\
-<a name="l00059"></a>00059                 a[0].t,a[0].nb,a[0].nalt,a[0].nvec);
-<a name="l00060"></a>00060         printf(<span class="stringliteral">"\tcoords x y z \t%20.12f \t%20.12f \t%20.12f\n"</span>,a[0].x.<a class="code" href="../../da/d81/structatom.html#80f2b974fa3ef1309d6f32ae0231c463">i</a>,a[0].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>,a[0].<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>); 
-<a name="l00061"></a>00061         <span class="keywordflow">if</span>(i&gt;0){
-<a name="l00062"></a>00062                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;a[0].nb));pa++){
-<a name="l00063"></a>00063                         printf(<span class="stringliteral">"\tbond set %d:  "</span>,pa);
-<a name="l00064"></a>00064                         <a class="code" href="../../d3/de6/molecules_8h.html#aef02d83018b8cfe51fbd40a160aaaed">dXprint_bond</a>(&amp;(a[0].b[pa])); 
-<a name="l00065"></a>00065                         }
-<a name="l00066"></a>00066                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;a[0].nalt));pa++){
-<a name="l00067"></a>00067                         printf(<span class="stringliteral">"\talt coord set %d:  "</span>,pa);
-<a name="l00068"></a>00068                         <a class="code" href="../../d3/de6/molecules_8h.html#097361a9f0b0cd99dab2f42a1696e589">dXprint_coord_3D</a>(&amp;(a[0].xa[pa])); 
-<a name="l00069"></a>00069                         }
-<a name="l00070"></a>00070                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;a[0].nvec));pa++){
-<a name="l00071"></a>00071                         printf(<span class="stringliteral">"\tset %d:  "</span>,pa);
-<a name="l00072"></a>00072                         <a class="code" href="../../d3/de6/molecules_8h.html#d8fd53b49cf39f92fc970c6d6c858846">dXprint_vectormag_3D</a>(&amp;(a[0].v[pa])); 
-<a name="l00073"></a>00073                         }
-<a name="l00074"></a>00074                 } 
-<a name="l00075"></a>00075 <span class="keywordflow">return</span>;
-<a name="l00076"></a>00076 }
-</pre></div>
-<p>
+<p>References <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00051">dXprint_bond()</a>, <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00023">dXprint_coord_3D()</a>, <a class="el" href="../../d3/de6/molecules_8h.html#d8fd53b49cf39f92fc970c6d6c858846">dXprint_vectormag_3D()</a>, <a class="el" href="../../da/dff/molecules_8h-source.html#l00131">atom::i</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00015">coord_3D::j</a>, <a class="el" href="../../d2/dc9/geometries_8h-source.html#l00015">coord_3D::k</a>, and <a class="el" href="../../da/dff/molecules_8h-source.html#l00123">atom::x</a>.</p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../df/d0b/dXprint__X_8c_0069f874ad69977a6862b9c41034e31b_cgraph.gif" border="0" usemap="#df/d0b/dXprint__X_8c_0069f874ad69977a6862b9c41034e31b_cgraph_map" alt=""></center>
+<p><center><img src="../../df/d0b/dXprint__X_8c_0069f874ad69977a6862b9c41034e31b_cgraph.png" border="0" usemap="#df/d0b/dXprint__X_8c_0069f874ad69977a6862b9c41034e31b_cgraph_map" alt=""></center>
 <map name="df/d0b/dXprint__X_8c_0069f874ad69977a6862b9c41034e31b_cgraph_map">
 <area shape="rect" href="../../d3/de6/molecules_8h.html#aef02d83018b8cfe51fbd40a160aaaed" title="dXprint_bond" alt="" coords="176,5,272,32"><area shape="rect" href="../../d3/de6/molecules_8h.html#097361a9f0b0cd99dab2f42a1696e589" title="dXprint_coord_3D" alt="" coords="163,56,285,83"><area shape="rect" href="../../d3/de6/molecules_8h.html#d8fd53b49cf39f92fc970c6d6c858846" title="dXprint_vectormag_3D" alt="" coords="149,107,299,133"></map>
 </div>
@@ -158,20 +135,6 @@ Here is the call graph for this function:</div>
 <p>
 
 <p>Definition at line <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00038">38</a> of file <a class="el" href="../../d0/da7/dXprint__X_8c-source.html">dXprint_X.c</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00038"></a>00038                                   {
-<a name="l00039"></a>00039         <span class="keywordtype">int</span> pa=0;
-<a name="l00040"></a>00040         printf(<span class="stringliteral">"atype \tn=%d ; N=&gt;&gt;%s&lt;&lt; ; NT=&gt;&gt;%s&lt;&lt; ; m=%20.12f ; nb=%d\n"</span>,t[0].n,t[0].N,t[0].NT,t[0].m,t[0].nb);
-<a name="l00041"></a>00041         printf(<span class="stringliteral">"\tdesc=&gt;&gt;%s&lt;&lt;\n"</span>,t[0].desc);
-<a name="l00042"></a>00042         <span class="keywordflow">if</span>(i&gt;0){ 
-<a name="l00043"></a>00043                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;t[0].nb));pa++){
-<a name="l00044"></a>00044                         printf(<span class="stringliteral">"\t%20.12f"</span>,t[0].bo[pa]);
-<a name="l00045"></a>00045                         }
-<a name="l00046"></a>00046                 printf(<span class="stringliteral">"\n"</span>);
-<a name="l00047"></a>00047                 }
-<a name="l00048"></a>00048 <span class="keywordflow">return</span>;
-<a name="l00049"></a>00049 }
-</pre></div>
-<p>
 
 </div>
 </div><p>
@@ -196,12 +159,6 @@ Here is the call graph for this function:</div>
 <p>Definition at line <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00051">51</a> of file <a class="el" href="../../d0/da7/dXprint__X_8c-source.html">dXprint_X.c</a>.</p>
 
 <p>Referenced by <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00056">dXprint_atom()</a>, and <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00078">dXprint_bondset()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00051"></a>00051                           {
-<a name="l00052"></a>00052         printf(<span class="stringliteral">"bond s t o \t%d \t%d \t%20.12f\n"</span>,b[0].s,b[0].t,b[0].o);
-<a name="l00053"></a>00053 <span class="keywordflow">return</span>;
-<a name="l00054"></a>00054 }
-</pre></div>
-<p>
 
 </div>
 </div><p>
@@ -235,25 +192,12 @@ Here is the call graph for this function:</div>
 <p>Definition at line <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00078">78</a> of file <a class="el" href="../../d0/da7/dXprint__X_8c-source.html">dXprint_X.c</a>.</p>
 
 <p>References <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00051">dXprint_bond()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00078"></a>00078                                        {
-<a name="l00079"></a>00079         <span class="keywordtype">int</span> pa=0;
-<a name="l00080"></a>00080         printf(<span class="stringliteral">"bondset contains n=%d bonds\n"</span>,bs[0].n);
-<a name="l00081"></a>00081         <span class="keywordflow">if</span>(i&gt;0){
-<a name="l00082"></a>00082                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;bs[0].n));pa++){
-<a name="l00083"></a>00083                         printf(<span class="stringliteral">"\tconsec bonds set %d : \t"</span>,pa);
-<a name="l00084"></a>00084                         <a class="code" href="../../d3/de6/molecules_8h.html#aef02d83018b8cfe51fbd40a160aaaed">dXprint_bond</a>(&amp;(bs[0].b[pa]));
-<a name="l00085"></a>00085                         }
-<a name="l00086"></a>00086                 }
-<a name="l00087"></a>00087 <span class="keywordflow">return</span>;
-<a name="l00088"></a>00088 }
-</pre></div>
-<p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../df/d0b/dXprint__X_8c_48c354a1d36c71363786a10356d11605_cgraph.gif" border="0" usemap="#df/d0b/dXprint__X_8c_48c354a1d36c71363786a10356d11605_cgraph_map" alt=""></center>
+<p><center><img src="../../df/d0b/dXprint__X_8c_48c354a1d36c71363786a10356d11605_cgraph.png" border="0" usemap="#df/d0b/dXprint__X_8c_48c354a1d36c71363786a10356d11605_cgraph_map" alt=""></center>
 <map name="df/d0b/dXprint__X_8c_48c354a1d36c71363786a10356d11605_cgraph_map">
 <area shape="rect" href="../../d3/de6/molecules_8h.html#aef02d83018b8cfe51fbd40a160aaaed" title="dXprint_bond" alt="" coords="165,5,261,32"></map>
 </div>
@@ -280,13 +224,7 @@ Here is the call graph for this function:</div>
 
 <p>Definition at line <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00023">23</a> of file <a class="el" href="../../d0/da7/dXprint__X_8c-source.html">dXprint_X.c</a>.</p>
 
-<p>Referenced by <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00056">dXprint_atom()</a>, <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00090">dXprint_residue()</a>, and <a class="el" href="../../d8/daf/load__dlg__mol_8c-source.html#l00015">load_dlg_mol()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00023"></a>00023                                   {
-<a name="l00024"></a>00024         printf(<span class="stringliteral">"coord i j k \t%20.12f \t%20.12f \t%20.12f\n"</span>,c[0].i,c[0].j,c[0].k);
-<a name="l00025"></a>00025 <span class="keywordflow">return</span>;
-<a name="l00026"></a>00026 }
-</pre></div>
-<p>
+<p>Referenced by <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00056">dXprint_atom()</a>, and <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00090">dXprint_residue()</a>.</p>
 
 </div>
 </div><p>
@@ -320,25 +258,12 @@ Here is the call graph for this function:</div>
 <p>Definition at line <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00119">119</a> of file <a class="el" href="../../d0/da7/dXprint__X_8c-source.html">dXprint_X.c</a>.</p>
 
 <p>References <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00090">dXprint_residue()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00119"></a>00119                                         {
-<a name="l00120"></a>00120         <span class="keywordtype">int</span> pa=0;
-<a name="l00121"></a>00121         printf(<span class="stringliteral">"molecule \ti=%d ; N=&gt;&gt;%s&lt;&lt; ; nr=%d \n"</span>,m[0].i,m[0].N,m[0].nr); 
-<a name="l00122"></a>00122         <span class="keywordflow">if</span>(i&gt;0){
-<a name="l00123"></a>00123                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;m[0].nr));pa++){
-<a name="l00124"></a>00124                         printf(<span class="stringliteral">"\t\tset %d\n"</span>,pa);
-<a name="l00125"></a>00125                         <a class="code" href="../../d3/de6/molecules_8h.html#29bddf3f6ae74ad5c21cc8fb8e9dd82c">dXprint_residue</a>(&amp;(m[0].r[pa]),i); 
-<a name="l00126"></a>00126                         }
-<a name="l00127"></a>00127                 }
-<a name="l00128"></a>00128 <span class="keywordflow">return</span>;
-<a name="l00129"></a>00129 }
-</pre></div>
-<p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../df/d0b/dXprint__X_8c_96286fc423b5d110342df7644ff19f0f_cgraph.gif" border="0" usemap="#df/d0b/dXprint__X_8c_96286fc423b5d110342df7644ff19f0f_cgraph_map" alt=""></center>
+<p><center><img src="../../df/d0b/dXprint__X_8c_96286fc423b5d110342df7644ff19f0f_cgraph.png" border="0" usemap="#df/d0b/dXprint__X_8c_96286fc423b5d110342df7644ff19f0f_cgraph_map" alt=""></center>
 <map name="df/d0b/dXprint__X_8c_96286fc423b5d110342df7644ff19f0f_cgraph_map">
 <area shape="rect" href="../../d3/de6/molecules_8h.html#29bddf3f6ae74ad5c21cc8fb8e9dd82c" title="dXprint_residue" alt="" coords="175,81,281,108"><area shape="rect" href="../../d3/de6/molecules_8h.html#4e9177413f5bc61fbdc7a00d12c483d6" title="dXprint_atom" alt="" coords="344,5,440,32"><area shape="rect" href="../../d3/de6/molecules_8h.html#69adfed7c6b3764c20a290b320bc29af" title="dXprint_bondset" alt="" coords="337,56,447,83"><area shape="rect" href="../../d3/de6/molecules_8h.html#097361a9f0b0cd99dab2f42a1696e589" title="dXprint_coord_3D" alt="" coords="331,107,453,133"><area shape="rect" href="../../d3/de6/molecules_8h.html#6505a6176a03866b13d48ec3e754f9f9" title="dXprint_plane" alt="" coords="343,157,441,184"></map>
 </div>
@@ -366,12 +291,6 @@ Here is the call graph for this function:</div>
 <p>Definition at line <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00033">33</a> of file <a class="el" href="../../d0/da7/dXprint__X_8c-source.html">dXprint_X.c</a>.</p>
 
 <p>Referenced by <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00090">dXprint_residue()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00033"></a>00033                             {
-<a name="l00034"></a>00034         printf(<span class="stringliteral">"plane A B C D \t%20.12f \t%20.12f \t%20.12f \t%20.12f\n"</span>,p[0].A,p[0].B,p[0].C,p[0].D); 
-<a name="l00035"></a>00035 <span class="keywordflow">return</span>;
-<a name="l00036"></a>00036 }
-</pre></div>
-<p>
 
 </div>
 </div><p>
@@ -407,42 +326,12 @@ Here is the call graph for this function:</div>
 <p>References <a class="el" href="../../d3/de6/molecules_8h.html#4e9177413f5bc61fbdc7a00d12c483d6">dXprint_atom()</a>, <a class="el" href="../../d3/de6/molecules_8h.html#69adfed7c6b3764c20a290b320bc29af">dXprint_bondset()</a>, <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00023">dXprint_coord_3D()</a>, and <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00033">dXprint_plane()</a>.</p>
 
 <p>Referenced by <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00119">dXprint_molecule()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00090"></a>00090                                       {
-<a name="l00091"></a>00091         <span class="keywordtype">int</span> pa=0;
-<a name="l00092"></a>00092         printf(<span class="stringliteral">"residue \tn=%d ; N=&gt;&gt;%s&lt;&lt; ; na=%d ; nbs=%d ; nr=%d \n"</span>,r[0].n,r[0].N,\
-<a name="l00093"></a>00093                 r[0].na,r[0].nbs,r[0].nr); 
-<a name="l00094"></a>00094         <span class="keywordflow">if</span>(i&gt;0){
-<a name="l00095"></a>00095                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;r[0].na));pa++){
-<a name="l00096"></a>00096                         printf(<span class="stringliteral">"\tatom set %d\n"</span>,pa);
-<a name="l00097"></a>00097                         <a class="code" href="../../d3/de6/molecules_8h.html#4e9177413f5bc61fbdc7a00d12c483d6">dXprint_atom</a>(&amp;(r[0].a[pa]),i); 
-<a name="l00098"></a>00098                         }
-<a name="l00099"></a>00099                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;r[0].nbs));pa++){
-<a name="l00100"></a>00100                         printf(<span class="stringliteral">"\tconsec. lin, bondset set %d\n"</span>,pa);
-<a name="l00101"></a>00101                         <a class="code" href="../../d3/de6/molecules_8h.html#69adfed7c6b3764c20a290b320bc29af">dXprint_bondset</a>(&amp;(r[0].bs[pa]),i); 
-<a name="l00102"></a>00102                         }
-<a name="l00103"></a>00103                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;r[0].nrbs));pa++){
-<a name="l00104"></a>00104                         printf(<span class="stringliteral">"\tconsec. ring bondset set %d\n"</span>,pa);
-<a name="l00105"></a>00105                         <a class="code" href="../../d3/de6/molecules_8h.html#69adfed7c6b3764c20a290b320bc29af">dXprint_bondset</a>(&amp;(r[0].rbs[pa]),i); 
-<a name="l00106"></a>00106                         }
-<a name="l00107"></a>00107                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;r[0].nrc));pa++){
-<a name="l00108"></a>00108                         printf(<span class="stringliteral">"\tconsec ring coords set %d:  "</span>,pa);
-<a name="l00109"></a>00109                         <a class="code" href="../../d3/de6/molecules_8h.html#097361a9f0b0cd99dab2f42a1696e589">dXprint_coord_3D</a>(&amp;(r[0].rc[pa])); 
-<a name="l00110"></a>00110                         }
-<a name="l00111"></a>00111                 <span class="keywordflow">for</span>(pa=0;((pa&lt;i)&amp;&amp;(pa&lt;r[0].nrp));pa++){
-<a name="l00112"></a>00112                         printf(<span class="stringliteral">"\tring plane set %d:  "</span>,pa);
-<a name="l00113"></a>00113                         <a class="code" href="../../d3/de6/molecules_8h.html#6505a6176a03866b13d48ec3e754f9f9">dXprint_plane</a>(&amp;(r[0].rp[pa])); 
-<a name="l00114"></a>00114                         }
-<a name="l00115"></a>00115                 } 
-<a name="l00116"></a>00116 <span class="keywordflow">return</span>;
-<a name="l00117"></a>00117 }
-</pre></div>
-<p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../df/d0b/dXprint__X_8c_1508d50d3d005860f276bc4d4b39389b_cgraph.gif" border="0" usemap="#df/d0b/dXprint__X_8c_1508d50d3d005860f276bc4d4b39389b_cgraph_map" alt=""></center>
+<p><center><img src="../../df/d0b/dXprint__X_8c_1508d50d3d005860f276bc4d4b39389b_cgraph.png" border="0" usemap="#df/d0b/dXprint__X_8c_1508d50d3d005860f276bc4d4b39389b_cgraph_map" alt=""></center>
 <map name="df/d0b/dXprint__X_8c_1508d50d3d005860f276bc4d4b39389b_cgraph_map">
 <area shape="rect" href="../../d3/de6/molecules_8h.html#4e9177413f5bc61fbdc7a00d12c483d6" title="dXprint_atom" alt="" coords="176,5,272,32"><area shape="rect" href="../../d3/de6/molecules_8h.html#69adfed7c6b3764c20a290b320bc29af" title="dXprint_bondset" alt="" coords="169,56,279,83"><area shape="rect" href="../../d3/de6/molecules_8h.html#097361a9f0b0cd99dab2f42a1696e589" title="dXprint_coord_3D" alt="" coords="163,107,285,133"><area shape="rect" href="../../d3/de6/molecules_8h.html#6505a6176a03866b13d48ec3e754f9f9" title="dXprint_plane" alt="" coords="175,157,273,184"></map>
 </div>
@@ -468,17 +357,11 @@ Here is the call graph for this function:</div>
 <p>
 
 <p>Definition at line <a class="el" href="../../d0/da7/dXprint__X_8c-source.html#l00028">28</a> of file <a class="el" href="../../d0/da7/dXprint__X_8c-source.html">dXprint_X.c</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00028"></a>00028                                           {
-<a name="l00029"></a>00029         printf(<span class="stringliteral">"vectormag i j k d \t%20.12f \t%20.12f \t%20.12f \t%20.12f\n"</span>,v[0].i,v[0].j,v[0].k,v[0].d); 
-<a name="l00030"></a>00030 <span class="keywordflow">return</span>;
-<a name="l00031"></a>00031 }
-</pre></div>
-<p>
 
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:04 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:48 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: run_control.h Source File</title>
+<title>GLYLIB: inc/AMBER/run_control.h Source File</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="../../main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../classes.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../dirs.html"><span>Directories</span></a></li>
     <li>
@@ -25,224 +25,178 @@
     </li>
     </ul>
   </div>
-  <div class="navpath"><a class="el" href="../../dir_3ae85f7d111b51475b911a2bbef011c2.html">inc</a>&nbsp;&raquo&nbsp;<a class="el" href="../../dir_437d79dec11798197a109b896d262a09.html">AMBER</a>
+  <div class="navpath"><a class="el" href="../../dir_435bd18ce7971260fc2adad17c4a20a3.html">inc</a>&nbsp;&raquo&nbsp;<a class="el" href="../../dir_4dd4fc00cd55d9f15ee551dca499a53b.html">AMBER</a>
   </div>
 </div>
 <div class="contents">
-<h1>run_control.h</h1><a href="../../d7/d08/run__control_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/** \file AMBER/run_control.h Contains information pertinent to amber simulations.</span>
-<a name="l00002"></a>00002 <span class="comment"></span>
-<a name="l00003"></a>00003 <span class="comment">        Begun on 20080715 by BLFoley.  </span>
-<a name="l00004"></a>00004 <span class="comment"> */</span>
-<a name="l00005"></a>00005 
+<h1>run_control.h</h1><a href="../../d7/d08/run__control_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
 <a name="l00006"></a>00006 <span class="preprocessor">#if !defined(GLYLIB_AMBER_RUN_CONTROL)</span>
 <a name="l00007"></a><a class="code" href="../../d7/d08/run__control_8h.html#39990b935115da0ee0cf6a0d83060100">00007</a> <span class="preprocessor"></span><span class="preprocessor">#define GLYLIB_AMBER_RUN_CONTROL</span>
-<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="comment"></span>
-<a name="l00009"></a>00009 <span class="comment">/*! The following structure contains </span>
-<a name="l00010"></a>00010 <span class="comment">        lists of information requested by a user to be output from an amber</span>
-<a name="l00011"></a>00011 <span class="comment">        simulation.  At present, however, it will be limited not only to </span>
-<a name="l00012"></a>00012 <span class="comment">        certain types of TI runs, but also to the specific way Lachele happens</span>
-<a name="l00013"></a>00013 <span class="comment">        to want to run them.  If added to amber.h, it should be expanded.</span>
-<a name="l00014"></a>00014 <span class="comment"> */</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
 <a name="l00015"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html">00015</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00016"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#1994b6a6ca6a402f8540e8d702b54780">00016</a>         <span class="keywordtype">int</span> WANT_MDEN; <span class="comment">///&lt; 0=YES ; 1=NO (make mden output file?)</span>
-<a name="l00017"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#f1d5e2eeb21ee4a77f3f58d9670d349c">00017</a> <span class="comment"></span>        <span class="keywordtype">int</span> MDEN_EVERY; <span class="comment">///&lt; Step-frequency with which to write entries to mden file</span>
-<a name="l00018"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#c107985b54df197bce334730285efe07">00018</a> <span class="comment"></span>        <span class="keywordtype">int</span> WANT_AUTOCORR; <span class="comment">///&lt; Should the program call get_autocorr_est_array()?</span>
-<a name="l00019"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#048ba706a56f46620ab5b95886b30ae8">00019</a> <span class="comment"></span>        <span class="keywordtype">char</span> *AUTOCORR_DATA; <span class="comment">///&lt; List of mden entries to get autocorrelations for</span>
-<a name="l00020"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#7bdbda108895b62a652404ec2a54e9c0">00020</a> <span class="comment"></span>        <span class="keywordtype">int</span> WANT_AUTOCORR_GRAPH; <span class="comment">///&lt; 0=YES ; 1=NO (might require another program)</span>
-<a name="l00021"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#2dacdf7430661e873619434b3d36af8b">00021</a> <span class="comment"></span>        <span class="keywordtype">int</span> WANT_GRAPH; <span class="comment">///&lt; 0=YES ; 1=NO (might require another program)</span>
-<a name="l00022"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#b341baf2ba12d4a389eaf79842685be2">00022</a> <span class="comment"></span>        <span class="keywordtype">char</span> *GRAPH_DATA; <span class="comment">///&lt; List of graphs to make -- all versus step number</span>
-<a name="l00023"></a>00023 <span class="comment"></span>} <a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html">AMBER_MD_DATA_REQUEST</a>;
+<a name="l00016"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#1994b6a6ca6a402f8540e8d702b54780">00016</a>         <span class="keywordtype">int</span> WANT_MDEN; 
+<a name="l00017"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#f1d5e2eeb21ee4a77f3f58d9670d349c">00017</a>         <span class="keywordtype">int</span> MDEN_EVERY; 
+<a name="l00018"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#c107985b54df197bce334730285efe07">00018</a>         <span class="keywordtype">int</span> WANT_AUTOCORR; 
+<a name="l00019"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#048ba706a56f46620ab5b95886b30ae8">00019</a>         <span class="keywordtype">char</span> *AUTOCORR_DATA; 
+<a name="l00020"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#7bdbda108895b62a652404ec2a54e9c0">00020</a>         <span class="keywordtype">int</span> WANT_AUTOCORR_GRAPH; 
+<a name="l00021"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#2dacdf7430661e873619434b3d36af8b">00021</a>         <span class="keywordtype">int</span> WANT_GRAPH; 
+<a name="l00022"></a><a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html#b341baf2ba12d4a389eaf79842685be2">00022</a>         <span class="keywordtype">char</span> *GRAPH_DATA; 
+<a name="l00023"></a>00023 } <a class="code" href="../../d6/df5/structAMBER__MD__DATA__REQUEST.html">AMBER_MD_DATA_REQUEST</a>;
 <a name="l00024"></a>00024 
-<a name="l00025"></a>00025 <span class="comment"></span>
-<a name="l00026"></a>00026 <span class="comment">/*! This moves to amber.h eventually.  It will be used generally for TI calcs.</span>
-<a name="l00027"></a>00027 <span class="comment">        Contains information on which charges to change and how to change them.</span>
-<a name="l00028"></a>00028 <span class="comment"> */</span>
+<a name="l00025"></a>00025 
 <a name="l00029"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html">00029</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00030"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#89508436b7160d3a1d53e34d84c7c2ea">00030</a>         <span class="keywordtype">int</span> NUMBER; <span class="comment">///&lt; A user-defined number; not the order found in the file</span>
-<a name="l00031"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#55688f11ee1bc8f43e531cfd68f869f1">00031</a> <span class="comment"></span>        <span class="keywordtype">char</span> *COMMENT; <span class="comment">///&lt; Free-form user comment about this change</span>
-<a name="l00032"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#fb7098d1219822fde3267a8ed6dea51b">00032</a> <span class="comment"></span>        <span class="keywordtype">char</span> *CHANGE_BY_WHICH;<span class="comment">///&lt; How to make the change, e.g.,RESIDUE_TYPE NOT-SOLVENT</span>
-<a name="l00033"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#7d9a8d62fbefa7634adca16d387092eb">00033</a> <span class="comment"></span>        <span class="keywordtype">char</span> *SOLVENT_ID;<span class="comment">///&lt; List of residues to consider as solvent</span>
-<a name="l00034"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#a3adfa0c66ddfcb5a022c5e50a9322b7">00034</a> <span class="comment"></span>        <span class="keywordtype">char</span> *RESIDUE_LIST; <span class="comment">///&lt; List of residues to consider</span>
-<a name="l00035"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#21f53a556ddae5710245f9673915c934">00035</a> <span class="comment"></span>        <span class="keywordtype">char</span> *ATOM_LIST; <span class="comment">///&lt; List of atoms to consider</span>
-<a name="l00036"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#b78820d23090d78e36ec8b82b6d30df8">00036</a> <span class="comment"></span>        <span class="keywordtype">char</span> *CHANGE_TYPE;<span class="comment">///&lt; how to change the numbers (ABSOLUTE, FRACTION, etc.)</span>
-<a name="l00037"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#11637f772665830b4479e4979b1aa7cd">00037</a> <span class="comment"></span>        <span class="keywordtype">double</span> CHANGE_QUANT;<span class="comment">///&lt; Meaning will depend on the value in CHANGE_TYPE</span>
-<a name="l00038"></a>00038 <span class="comment"></span>} <a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html">EE_TI_CHANGE_INFO</a>;
-<a name="l00039"></a>00039 <span class="comment"></span>
-<a name="l00040"></a>00040 <span class="comment">/*! This will be used generally for TI calcs.</span>
-<a name="l00041"></a>00041 <span class="comment">        Contains information about how the TI integration is to be carried out.</span>
-<a name="l00042"></a>00042 <span class="comment">        Information includes beginning and end of run information.  For example,</span>
-<a name="l00043"></a>00043 <span class="comment">        it contains the lambda values to use as well as the manner in which they</span>
-<a name="l00044"></a>00044 <span class="comment">        should be integrated once the data are collected.</span>
-<a name="l00045"></a>00045 <span class="comment"> */</span>
+<a name="l00030"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#89508436b7160d3a1d53e34d84c7c2ea">00030</a>         <span class="keywordtype">int</span> NUMBER; 
+<a name="l00031"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#55688f11ee1bc8f43e531cfd68f869f1">00031</a>         <span class="keywordtype">char</span> *COMMENT; 
+<a name="l00032"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#fb7098d1219822fde3267a8ed6dea51b">00032</a>         <span class="keywordtype">char</span> *CHANGE_BY_WHICH;
+<a name="l00033"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#7d9a8d62fbefa7634adca16d387092eb">00033</a>         <span class="keywordtype">char</span> *SOLVENT_ID;
+<a name="l00034"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#a3adfa0c66ddfcb5a022c5e50a9322b7">00034</a>         <span class="keywordtype">char</span> *RESIDUE_LIST; 
+<a name="l00035"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#21f53a556ddae5710245f9673915c934">00035</a>         <span class="keywordtype">char</span> *ATOM_LIST; 
+<a name="l00036"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#b78820d23090d78e36ec8b82b6d30df8">00036</a>         <span class="keywordtype">char</span> *CHANGE_TYPE;
+<a name="l00037"></a><a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html#11637f772665830b4479e4979b1aa7cd">00037</a>         <span class="keywordtype">double</span> CHANGE_QUANT;
+<a name="l00038"></a>00038 } <a class="code" href="../../d0/d69/structEE__TI__CHANGE__INFO.html">EE_TI_CHANGE_INFO</a>;
+<a name="l00039"></a>00039 
 <a name="l00046"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html">00046</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00047"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#f84b1030184f1ff896250e8ed979cb93">00047</a>         <span class="keywordtype">double</span> KLAMBDA; <span class="comment">///&lt; The value of klambda.  Typically integral, but might float...  </span>
-<a name="l00048"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#94c8214031df7512e8e5de49d4387526">00048</a> <span class="comment"></span>        <span class="keywordtype">char</span> *CLAMBDA_HOW; <span class="comment">///&lt; Method for assigning CLAMBDA's.  Not necessarily the same as the integration technique (see ANALYZE_HOW)</span>
-<a name="l00049"></a>00049 <span class="comment"></span>        <span class="comment">//## CLAMBDA_HOW = GAUSSIAN 12</span>
+<a name="l00047"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#f84b1030184f1ff896250e8ed979cb93">00047</a>         <span class="keywordtype">double</span> KLAMBDA; 
+<a name="l00048"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#94c8214031df7512e8e5de49d4387526">00048</a>         <span class="keywordtype">char</span> *CLAMBDA_HOW; 
+<a name="l00049"></a>00049         <span class="comment">//## CLAMBDA_HOW = GAUSSIAN 12</span>
 <a name="l00050"></a>00050         <span class="comment">//## CLAMBDA_HOW = SECTIONS 20 </span>
-<a name="l00051"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#cadb31c88b840d37d5b06212fc0a1db1">00051</a>         <span class="keywordtype">char</span> *POINTSFILE; <span class="comment">///&lt; If CLAMBDA_HOW involves reading a file, this is the file to read.</span>
-<a name="l00052"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#c1672b32248e2bce5c72524f5d1e08ab">00052</a> <span class="comment"></span>        <span class="keywordtype">int</span> nCLAMBDA; <span class="comment">///&lt; The number of CLAMBDA values.</span>
-<a name="l00053"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#981e39cc16369160e89a27b899b3b93a">00053</a> <span class="comment"></span>        <span class="keywordtype">double</span> *CLAMBDA;<span class="comment">///&lt; The CLAMBDA values.</span>
-<a name="l00054"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#567bb2fb3a01fee55d608c5262601819">00054</a> <span class="comment"></span>        <span class="keywordtype">int</span> nWIDTHS; <span class="comment">///&lt; Should equal nCLAMBDA or zero -- here to facilitate checks to see if widths are defined.</span>
-<a name="l00055"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#2f364d81a55c45e332f4a8d5f052bf50">00055</a> <span class="comment"></span>        <span class="keywordtype">double</span> *WIDTHS; <span class="comment">///&lt; Widths to assign to each CLAMBDA value (e.g., for GAUSSIAN quadrature)</span>
-<a name="l00056"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#25dcb749b82b669eb80021ac1551c4e8">00056</a> <span class="comment"></span>        <span class="keywordtype">char</span> *ANALYZE_HOW; <span class="comment">///&lt; The numerical integration method to use.</span>
-<a name="l00057"></a>00057 <span class="comment"></span>        <span class="comment">//## ANALYZE_HOW = GAUSSIAN</span>
+<a name="l00051"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#cadb31c88b840d37d5b06212fc0a1db1">00051</a>         <span class="keywordtype">char</span> *POINTSFILE; 
+<a name="l00052"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#c1672b32248e2bce5c72524f5d1e08ab">00052</a>         <span class="keywordtype">int</span> nCLAMBDA; 
+<a name="l00053"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#981e39cc16369160e89a27b899b3b93a">00053</a>         <span class="keywordtype">double</span> *CLAMBDA;
+<a name="l00054"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#567bb2fb3a01fee55d608c5262601819">00054</a>         <span class="keywordtype">int</span> nWIDTHS; 
+<a name="l00055"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#2f364d81a55c45e332f4a8d5f052bf50">00055</a>         <span class="keywordtype">double</span> *WIDTHS; 
+<a name="l00056"></a><a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html#25dcb749b82b669eb80021ac1551c4e8">00056</a>         <span class="keywordtype">char</span> *ANALYZE_HOW; 
+<a name="l00057"></a>00057         <span class="comment">//## ANALYZE_HOW = GAUSSIAN</span>
 <a name="l00058"></a>00058         <span class="comment">//## ANALYZE_HOW = TRAPEZOID</span>
 <a name="l00059"></a>00059         <span class="comment">//## ANALYZE_HOW = SIMPSONS_RULE</span>
 <a name="l00060"></a>00060 } <a class="code" href="../../db/d72/structTI__INTEGRATION__INFO.html">TI_INTEGRATION_INFO</a>;
-<a name="l00061"></a>00061 <span class="comment"></span>
-<a name="l00062"></a>00062 <span class="comment">/*! Contains the command-line requirements for a sander/pmemd run. </span>
-<a name="l00063"></a>00063 <span class="comment"></span>
-<a name="l00064"></a>00064 <span class="comment">sander [-help] [-O] [-A] -i mdin -o mdout -p prmtop -c inpcrd -r restrt</span>
-<a name="l00065"></a>00065 <span class="comment">-ref refc -x mdcrd -y inptraj -v mdvel -e mden -inf mdinfo -radii radii</span>
-<a name="l00066"></a>00066 <span class="comment">-cpin cpin -cpout cpout -cprestrt cprestrt -evbin evbin</span>
-<a name="l00067"></a>00067 <span class="comment"></span>
-<a name="l00068"></a>00068 <span class="comment">-O Overwrite output files if they exist.</span>
-<a name="l00069"></a>00069 <span class="comment">-A Append output files if they exist, (used mainly for replica exchange).</span>
-<a name="l00070"></a>00070 <span class="comment">*/</span>
+<a name="l00061"></a>00061 
 <a name="l00071"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html">00071</a> <span class="keyword">typedef</span> <span class="keyword">struct</span>{ 
-<a name="l00072"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#533581effa26bd41db42039c0ddf25ad">00072</a>         <span class="keywordtype">char</span> AO; <span class="comment">///&lt; Append/Overwrite files ('A', 'O' or '\0')</span>
-<a name="l00073"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#800fc6497fd4745dd262220aa3a9d649">00073</a> <span class="comment"></span>        <span class="keywordtype">char</span> *mdin; <span class="comment">///&lt; input control data for the min/md run</span>
-<a name="l00074"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#a946e1717840b9fc3058a8852e0ceed0">00074</a> <span class="comment"></span>        <span class="keywordtype">char</span> *mdout; <span class="comment">///&lt; output user readable state info and diagnostics </span>
-<a name="l00075"></a>00075 <span class="comment"></span><span class="comment">                ///&lt; -o stdout will send output to stdout (to the terminal) instead of to a ﬁle.</span>
-<a name="l00076"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#944296391fc3d11208c2aa7d3db28402">00076</a> <span class="comment"></span>        <span class="keywordtype">char</span> *prmtop; <span class="comment">///&lt; input molecular topology, force ﬁeld, periodic box type, atom and residue names</span>
-<a name="l00077"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#19345eecb071e8a16985348ebcdace0d">00077</a> <span class="comment"></span>        <span class="keywordtype">char</span> *inpcrd; <span class="comment">///&lt; input initial coordinates and (optionally) velocities and periodic box size</span>
-<a name="l00078"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#21a1d27a7f920b6f598f398cdc400181">00078</a> <span class="comment"></span>        <span class="keywordtype">char</span> *restrt; <span class="comment">///&lt; output ﬁnal coordinates, velocity, and box dimensions if any - for restarting run</span>
-<a name="l00079"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#87617def83813fd6661e434e65bfd547">00079</a> <span class="comment"></span>        <span class="keywordtype">char</span> *refc; <span class="comment">///&lt; input (optional) reference coords for position restraints; also used for targeted MD</span>
-<a name="l00080"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#ec2f868a04b07d521cf4683fb0cebe96">00080</a> <span class="comment"></span>        <span class="keywordtype">char</span> *mdcrd; <span class="comment">///&lt; output coordinate sets saved over trajectory</span>
-<a name="l00081"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#220f0f8ce57f344a033102ddc4a463b8">00081</a> <span class="comment"></span>        <span class="keywordtype">char</span> *inptraj; <span class="comment">///&lt; input input coordinate sets in trajectory format, when imin=5</span>
-<a name="l00082"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#3a82a91dfcce15d96485f7adbff7513e">00082</a> <span class="comment"></span>        <span class="keywordtype">char</span> *mdvel; <span class="comment">///&lt; output velocity sets saved over trajectory</span>
-<a name="l00083"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#d23fce9c2fb0954582071c736f160f30">00083</a> <span class="comment"></span>        <span class="keywordtype">char</span> *mden; <span class="comment">///&lt; output extensive energy data over trajectory</span>
-<a name="l00084"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#9d4fc4b341ef56500ad09ab835362e89">00084</a> <span class="comment"></span>        <span class="keywordtype">char</span> *mdinfo; <span class="comment">///&lt; output latest mdout-format energy info</span>
-<a name="l00085"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#40983672d63d9f49355ac0c13a69084e">00085</a> <span class="comment"></span>        <span class="keywordtype">char</span> *radii; <span class="comment">///&lt; Obviously, some sort of radii, but not documented at this point in the manual... (BLF)</span>
-<a name="l00086"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#5d8fc21d0dd8235cbb6c062362d21bd3">00086</a> <span class="comment"></span>        <span class="keywordtype">char</span> *inpdip; <span class="comment">///&lt; input polarizable dipole ﬁle, when indmeth=3</span>
-<a name="l00087"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#451352490e706ace0b9562d47f2a66e7">00087</a> <span class="comment"></span>        <span class="keywordtype">char</span> *rstdip; <span class="comment">///&lt; output polarizable dipole ﬁle, when indmeth=3</span>
-<a name="l00088"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#33441985e0cbdf52c1a40de7a2dd28f6">00088</a> <span class="comment"></span>        <span class="keywordtype">char</span> *cpin; <span class="comment">///&lt; input protonation state deﬁnitions</span>
-<a name="l00089"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#f10fbccd60f9f2024e848eef9da18a30">00089</a> <span class="comment"></span>        <span class="keywordtype">char</span> *cprestrt; <span class="comment">///&lt; protonation state deﬁnitions, ﬁnal protonation states for restart (same format as cpin)</span>
-<a name="l00090"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#f992f447774c5b5f1dbe9a4d5bbc5c7a">00090</a> <span class="comment"></span>        <span class="keywordtype">char</span> *cpout; <span class="comment">///&lt; output protonation state data saved over trajectory</span>
-<a name="l00091"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#92270facb1d2d8822f9b32b21cbc3fc0">00091</a> <span class="comment"></span>        <span class="keywordtype">char</span> *evbin; <span class="comment">///&lt; input input for EVB potentials </span>
-<a name="l00092"></a>00092 <span class="comment"></span>} <a class="code" href="../../d3/d09/structsander__pmemd__command__line.html">sander_pmemd_command_line</a>;
-<a name="l00093"></a>00093 <span class="comment"></span>
-<a name="l00094"></a>00094 <span class="comment">/*! Contains "cntrl" information pertinent to a sander/pmemd run.  Currently,</span>
-<a name="l00095"></a>00095 <span class="comment">        in the interest of time, I'm only writing it to contain the pieces I </span>
-<a name="l00096"></a>00096 <span class="comment">        typically use in a run.  The rest can be added later as these</span>
-<a name="l00097"></a>00097 <span class="comment">        structs are easily extensible.</span>
-<a name="l00098"></a>00098 <span class="comment"> */</span>
+<a name="l00072"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#533581effa26bd41db42039c0ddf25ad">00072</a>         <span class="keywordtype">char</span> AO; 
+<a name="l00073"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#800fc6497fd4745dd262220aa3a9d649">00073</a>         <span class="keywordtype">char</span> *mdin; 
+<a name="l00074"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#a946e1717840b9fc3058a8852e0ceed0">00074</a>         <span class="keywordtype">char</span> *mdout; 
+<a name="l00075"></a>00075 
+<a name="l00076"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#944296391fc3d11208c2aa7d3db28402">00076</a>         <span class="keywordtype">char</span> *prmtop; 
+<a name="l00077"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#19345eecb071e8a16985348ebcdace0d">00077</a>         <span class="keywordtype">char</span> *inpcrd; 
+<a name="l00078"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#21a1d27a7f920b6f598f398cdc400181">00078</a>         <span class="keywordtype">char</span> *restrt; 
+<a name="l00079"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#87617def83813fd6661e434e65bfd547">00079</a>         <span class="keywordtype">char</span> *refc; 
+<a name="l00080"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#ec2f868a04b07d521cf4683fb0cebe96">00080</a>         <span class="keywordtype">char</span> *mdcrd; 
+<a name="l00081"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#220f0f8ce57f344a033102ddc4a463b8">00081</a>         <span class="keywordtype">char</span> *inptraj; 
+<a name="l00082"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#3a82a91dfcce15d96485f7adbff7513e">00082</a>         <span class="keywordtype">char</span> *mdvel; 
+<a name="l00083"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#d23fce9c2fb0954582071c736f160f30">00083</a>         <span class="keywordtype">char</span> *mden; 
+<a name="l00084"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#9d4fc4b341ef56500ad09ab835362e89">00084</a>         <span class="keywordtype">char</span> *mdinfo; 
+<a name="l00085"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#40983672d63d9f49355ac0c13a69084e">00085</a>         <span class="keywordtype">char</span> *radii; 
+<a name="l00086"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#5d8fc21d0dd8235cbb6c062362d21bd3">00086</a>         <span class="keywordtype">char</span> *inpdip; 
+<a name="l00087"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#451352490e706ace0b9562d47f2a66e7">00087</a>         <span class="keywordtype">char</span> *rstdip; 
+<a name="l00088"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#33441985e0cbdf52c1a40de7a2dd28f6">00088</a>         <span class="keywordtype">char</span> *cpin; 
+<a name="l00089"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#f10fbccd60f9f2024e848eef9da18a30">00089</a>         <span class="keywordtype">char</span> *cprestrt; 
+<a name="l00090"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#f992f447774c5b5f1dbe9a4d5bbc5c7a">00090</a>         <span class="keywordtype">char</span> *cpout; 
+<a name="l00091"></a><a class="code" href="../../d3/d09/structsander__pmemd__command__line.html#92270facb1d2d8822f9b32b21cbc3fc0">00091</a>         <span class="keywordtype">char</span> *evbin; 
+<a name="l00092"></a>00092 } <a class="code" href="../../d3/d09/structsander__pmemd__command__line.html">sander_pmemd_command_line</a>;
+<a name="l00093"></a>00093 
 <a name="l00099"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html">00099</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
 <a name="l00100"></a>00100 <span class="comment">//</span>
-<a name="l00101"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#c2946f9c1e724f5d559340579267bee5">00101</a>         <span class="keywordtype">int</span> nclambda; <span class="comment">///&lt; The number of clambda values held in this struct</span>
-<a name="l00102"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#8748ddcef0037d263e041151d7a888d9">00102</a> <span class="comment"></span>        <span class="keywordtype">double</span> *clambda; <span class="comment">///&lt; clambda values (see icfe and klambda) -- an array here b/c they are usually in groups</span>
-<a name="l00103"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#5a604f4d1ca2960fad0425d30022ed0d">00103</a> <span class="comment"></span>        <span class="keywordtype">double</span> comp; <span class="comment">///&lt; The compressibility of a system (default = 44.6);</span>
-<a name="l00104"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#ff7fe75c7c14a534289463228a974e5a">00104</a> <span class="comment"></span>        <span class="keywordtype">double</span> cut; <span class="comment">///&lt; Nonbonded cutoff (default = 8.0);</span>
-<a name="l00105"></a>00105 <span class="comment"></span><span class="comment">//      </span>
-<a name="l00106"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#6167044c78c75411fd6e6ec77cd3daf6">00106</a>         <span class="keywordtype">double</span> dielc; <span class="comment">///&lt; Dielectric for electrostatics (not same as GB simulations) </span>
-<a name="l00107"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#766697f285865890d6df6c7f30088ce9">00107</a> <span class="comment"></span>        <span class="keywordtype">double</span> drms; <span class="comment">///&lt; convergence criterion for minimization (see manual)</span>
-<a name="l00108"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#4847908110ed53f5ff4aeda0155ff858">00108</a> <span class="comment"></span>        <span class="keywordtype">double</span> dt; <span class="comment">///&lt; Time step (psec) for MD runs (recommended max is 0.0020);</span>
-<a name="l00109"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#d29b2d0f09db7b81b6fcd4faa2db293f">00109</a> <span class="comment"></span>        <span class="keywordtype">double</span> dx0; <span class="comment">///&lt; Initial min step length to use (program will self-adjust)</span>
-<a name="l00110"></a>00110 <span class="comment"></span><span class="comment">//</span>
-<a name="l00111"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#955b1f59b95e527aa2348a61a7c48c54">00111</a>         <span class="keywordtype">int</span> ibelly; <span class="comment">///&lt; Belly type dynamics.  Default is 0 (don't use).  See manual.</span>
-<a name="l00112"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#bd0f21de2417350d9352f5c84b7f356f">00112</a> <span class="comment"></span>        <span class="keywordtype">int</span> icfe; <span class="comment">///&lt; Flag for thermodynamic integration; no=0; yes=1; (see clambda and klambda)</span>
-<a name="l00113"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#1c06eb1efc7fba229198d070720c02a0">00113</a> <span class="comment"></span>        <span class="keywordtype">int</span> igb; <span class="comment">///&lt; Flag for using GB or PB IS models; See Manual.</span>
-<a name="l00114"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#bf698306d2d27d8d1db8d2333e260aea">00114</a> <span class="comment"></span>        <span class="keywordtype">int</span> imin; <span class="comment">///&lt; no_min=0; min=1; read_traj_and_analyze=5</span>
-<a name="l00115"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#fb156bdf079263393837fa7acd27559e">00115</a> <span class="comment"></span>        <span class="keywordtype">int</span> ioutfm; <span class="comment">///&lt; crd &amp; vel output formats; normal=0; NetCDF=1</span>
-<a name="l00116"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#296e7ad36606f0ad25574f343614d3d5">00116</a> <span class="comment"></span>        <span class="keywordtype">int</span> irest; <span class="comment">///&lt; don't_restart=0; restart=1</span>
-<a name="l00117"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#3279c7412563a5c78311a124a1c92ed1">00117</a> <span class="comment"></span>        <span class="keywordtype">int</span> iwrap; <span class="comment">///&lt; don't_wrap=0; wrap=1</span>
-<a name="l00118"></a>00118 <span class="comment"></span><span class="comment">//</span>
-<a name="l00119"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#dc134c9ed5f2565e6b598b921cfe2c10">00119</a>         <span class="keywordtype">double</span> klambda; <span class="comment">///&lt; klambda value (see icfe and clambda)</span>
-<a name="l00120"></a>00120 <span class="comment"></span><span class="comment">//</span>
-<a name="l00121"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#e042874a8d23266379831f739c8fef95">00121</a>         <span class="keywordtype">int</span> maxcyc; <span class="comment">///&lt; Maximum number of minimization cycles</span>
-<a name="l00122"></a>00122 <span class="comment"></span><span class="comment">//      </span>
-<a name="l00123"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#b8fc19ec499e350c0d5948ed564812d8">00123</a>         <span class="keywordtype">int</span> ncyc; <span class="comment">///&lt; at ncyc, switch from steepest descent to conjugate graduent.</span>
-<a name="l00124"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#bd66b262970f544d0d9067d8afd86f55">00124</a> <span class="comment"></span>        <span class="keywordtype">int</span> nmropt; <span class="comment">///&lt; none=0; some&gt;0; NOESY=2</span>
-<a name="l00125"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#b1e2fa050cfbe3750f14643f97e514fc">00125</a> <span class="comment"></span>        <span class="keywordtype">int</span> nsnb; <span class="comment">///&lt; Frequencey of nonbonded list updates (default = 25);</span>
-<a name="l00126"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#7b507f0e41a8df60b843583118dcf5f3">00126</a> <span class="comment"></span>        <span class="keywordtype">int</span> nstlim; <span class="comment">///&lt; Number of MD simulation steps</span>
-<a name="l00127"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#1b55378cce40021e41144818c918e293">00127</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntave; <span class="comment">///&lt; Every ntave steps print averages over last ntave steps;  =0 to disable averaging</span>
-<a name="l00128"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#dc218cbc8b7920e9742948ad4557b95d">00128</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntb; <span class="comment">///&lt; =1 for const. volume ; =2 for constant pressure ; =0 for no periodicity </span>
-<a name="l00129"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#b1d53d959aa26feeaf698093d28ae785">00129</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntc; <span class="comment">///&lt; No Shake = 1; SHAKE=2; constrain all bonds = 3</span>
-<a name="l00130"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#1c5b816c79dc7b747e0e230aeb0594da">00130</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntf; <span class="comment">///&lt; Set equal to ntc or see manual for more information</span>
-<a name="l00131"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#46a56672480ae544b95002ef9db9c2d3">00131</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntmin; <span class="comment">///&lt; Min Method. See manual.  If =1, need to set ncyc for switch</span>
-<a name="l00132"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#35cec4d4e4168452779667e63e497691">00132</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntp; <span class="comment">///&lt; Sets pressure control</span>
-<a name="l00133"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#af3c12ee66c2ac6888bc10d55037b0a0">00133</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntpr; <span class="comment">///&lt; Every ntpr steps, print info to mdinfo and mdout</span>
-<a name="l00134"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#3682ed427c10966676bd368d3de80fbf">00134</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntr; <span class="comment">///&lt; Sets restraints information; =0 for none; &gt;0 for some (see restraint* &amp; refc)</span>
-<a name="l00135"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#ecd9f856c1c407ebb8419ea0c6ba9fed">00135</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntrx; <span class="comment">///&lt; refc format text=1; binary=0</span>
-<a name="l00136"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#e6bdf4f32666df87104e1deb20132d98">00136</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntt; <span class="comment">///&lt; Sets temperature control Const.Energy=0; &gt;0 is some other control (=1 usually, see manual)</span>
-<a name="l00137"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#d110881e91d72bd61e3c6f701848bfaa">00137</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntwe; <span class="comment">///&lt; Eery ntwe steps write compact energy to mden file; =0 to inhibit</span>
-<a name="l00138"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#e979f47b7e4a85cce32d6cc7faa25879">00138</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntwprt; <span class="comment">///&lt; Only print atoms 1 through ntwprt in crd files; =0 to print all</span>
-<a name="l00139"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#ac9d428fe1869ec2b9934349177a4e32">00139</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntwr; <span class="comment">///&lt; Every ntwr steps write a restart file</span>
-<a name="l00140"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#1cb0e1274b56329585fe26aabd6cb53c">00140</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntwv; <span class="comment">///&lt; Every ntwx velocities are written to mdvel; =0 to inhibit; =-1 to combine with crd file</span>
-<a name="l00141"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#0df59676c3a4dcc3450daa4436ed5300">00141</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntwx; <span class="comment">///&lt; Every ntwx coordinates are written to mdcrd; =0 to inhibit</span>
-<a name="l00142"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#fcdf02c91ba375350a8030b3b3188238">00142</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntx; <span class="comment">///&lt; only_crd=1; crd+vel=5</span>
-<a name="l00143"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#c5ea0afd8da82371d5e1653cfdcc6e67">00143</a> <span class="comment"></span>        <span class="keywordtype">int</span> ntxo; <span class="comment">///&lt; format of restrt file (output); =1 only (=0 is deprecated)</span>
-<a name="l00144"></a>00144 <span class="comment"></span><span class="comment">//</span>
-<a name="l00145"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#a18b6cf5825ed8a82af844ebfb3298aa">00145</a>         <span class="keywordtype">double</span> pres0; <span class="comment">///&lt; Desired constant pressure (bars);  default = 1.0; </span>
-<a name="l00146"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#da7adea5b4b040b98f697f8c8665f93c">00146</a> <span class="comment"></span>        <span class="keywordtype">double</span> presi; <span class="comment">///&lt; Initial pressure </span>
-<a name="l00147"></a>00147 <span class="comment"></span><span class="comment">//</span>
-<a name="l00148"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#903c4681acf56871d2f705fd9989e08f">00148</a>         <span class="keywordtype">double</span> restraint_wt; <span class="comment">///&lt; Sixe of k, the restraining spring constant.</span>
-<a name="l00149"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#3ae8efde14e1c7d4975eaa7835960b7e">00149</a> <span class="comment"></span>        <span class="keywordtype">char</span> *restraintmask; <span class="comment">///&lt; List of atoms to be restrained if ntr=1</span>
-<a name="l00150"></a>00150 <span class="comment"></span><span class="comment">//      </span>
-<a name="l00151"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#7a71770390a8ee4d444c5c589dc10534">00151</a>         <span class="keywordtype">double</span> scee; <span class="comment">///&lt; Divide 1-4 electrostatic interactions by scee ; GLYCAM needs = 1.0;</span>
-<a name="l00152"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#61ed3576c0656b3f8be65b1f114caa6d">00152</a> <span class="comment"></span>        <span class="keywordtype">double</span> scnb; <span class="comment">///&lt; Divide 1-4 vdW interactions by scnb; GLYCAm needs = 1.0;</span>
-<a name="l00153"></a>00153 <span class="comment"></span><span class="comment">//      </span>
-<a name="l00154"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#b6e01259a6807a48ecb9f5bb08aff5ea">00154</a>         <span class="keywordtype">double</span> taup; <span class="comment">///&lt; Pressure relaxation time = 0.1;</span>
-<a name="l00155"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#0bd796aea154744d91d2c661415a894d">00155</a> <span class="comment"></span>        <span class="keywordtype">double</span> tautp; <span class="comment">///&lt; Time constant for heat-bath coupling; default = 1.0; </span>
-<a name="l00156"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#3d122de81c6c4ca8ee338ae5baf50623">00156</a> <span class="comment"></span>        <span class="keywordtype">double</span> temp0; <span class="comment">///&lt; Desired constant temperature (kelvin) </span>
-<a name="l00157"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#027ab8bf0f10aa750f94006641cb029f">00157</a> <span class="comment"></span>        <span class="keywordtype">double</span> tempi; <span class="comment">///&lt; Initial temperature</span>
-<a name="l00158"></a>00158 <span class="comment"></span><span class="comment">//      </span>
+<a name="l00101"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#c2946f9c1e724f5d559340579267bee5">00101</a>         <span class="keywordtype">int</span> nclambda; 
+<a name="l00102"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#8748ddcef0037d263e041151d7a888d9">00102</a>         <span class="keywordtype">double</span> *clambda; 
+<a name="l00103"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#5a604f4d1ca2960fad0425d30022ed0d">00103</a>         <span class="keywordtype">double</span> comp; 
+<a name="l00104"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#ff7fe75c7c14a534289463228a974e5a">00104</a>         <span class="keywordtype">double</span> cut; 
+<a name="l00105"></a>00105 <span class="comment">//      </span>
+<a name="l00106"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#6167044c78c75411fd6e6ec77cd3daf6">00106</a>         <span class="keywordtype">double</span> dielc; 
+<a name="l00107"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#766697f285865890d6df6c7f30088ce9">00107</a>         <span class="keywordtype">double</span> drms; 
+<a name="l00108"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#4847908110ed53f5ff4aeda0155ff858">00108</a>         <span class="keywordtype">double</span> dt; 
+<a name="l00109"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#d29b2d0f09db7b81b6fcd4faa2db293f">00109</a>         <span class="keywordtype">double</span> dx0; 
+<a name="l00110"></a>00110 <span class="comment">//</span>
+<a name="l00111"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#955b1f59b95e527aa2348a61a7c48c54">00111</a>         <span class="keywordtype">int</span> ibelly; 
+<a name="l00112"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#bd0f21de2417350d9352f5c84b7f356f">00112</a>         <span class="keywordtype">int</span> icfe; 
+<a name="l00113"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#1c06eb1efc7fba229198d070720c02a0">00113</a>         <span class="keywordtype">int</span> igb; 
+<a name="l00114"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#bf698306d2d27d8d1db8d2333e260aea">00114</a>         <span class="keywordtype">int</span> imin; 
+<a name="l00115"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#fb156bdf079263393837fa7acd27559e">00115</a>         <span class="keywordtype">int</span> ioutfm; 
+<a name="l00116"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#296e7ad36606f0ad25574f343614d3d5">00116</a>         <span class="keywordtype">int</span> irest; 
+<a name="l00117"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#3279c7412563a5c78311a124a1c92ed1">00117</a>         <span class="keywordtype">int</span> iwrap; 
+<a name="l00118"></a>00118 <span class="comment">//</span>
+<a name="l00119"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#dc134c9ed5f2565e6b598b921cfe2c10">00119</a>         <span class="keywordtype">double</span> klambda; 
+<a name="l00120"></a>00120 <span class="comment">//</span>
+<a name="l00121"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#e042874a8d23266379831f739c8fef95">00121</a>         <span class="keywordtype">int</span> maxcyc; 
+<a name="l00122"></a>00122 <span class="comment">//      </span>
+<a name="l00123"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#b8fc19ec499e350c0d5948ed564812d8">00123</a>         <span class="keywordtype">int</span> ncyc; 
+<a name="l00124"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#bd66b262970f544d0d9067d8afd86f55">00124</a>         <span class="keywordtype">int</span> nmropt; 
+<a name="l00125"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#b1e2fa050cfbe3750f14643f97e514fc">00125</a>         <span class="keywordtype">int</span> nsnb; 
+<a name="l00126"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#7b507f0e41a8df60b843583118dcf5f3">00126</a>         <span class="keywordtype">int</span> nstlim; 
+<a name="l00127"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#1b55378cce40021e41144818c918e293">00127</a>         <span class="keywordtype">int</span> ntave; 
+<a name="l00128"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#dc218cbc8b7920e9742948ad4557b95d">00128</a>         <span class="keywordtype">int</span> ntb; 
+<a name="l00129"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#b1d53d959aa26feeaf698093d28ae785">00129</a>         <span class="keywordtype">int</span> ntc; 
+<a name="l00130"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#1c5b816c79dc7b747e0e230aeb0594da">00130</a>         <span class="keywordtype">int</span> ntf; 
+<a name="l00131"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#46a56672480ae544b95002ef9db9c2d3">00131</a>         <span class="keywordtype">int</span> ntmin; 
+<a name="l00132"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#35cec4d4e4168452779667e63e497691">00132</a>         <span class="keywordtype">int</span> ntp; 
+<a name="l00133"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#af3c12ee66c2ac6888bc10d55037b0a0">00133</a>         <span class="keywordtype">int</span> ntpr; 
+<a name="l00134"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#3682ed427c10966676bd368d3de80fbf">00134</a>         <span class="keywordtype">int</span> ntr; 
+<a name="l00135"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#ecd9f856c1c407ebb8419ea0c6ba9fed">00135</a>         <span class="keywordtype">int</span> ntrx; 
+<a name="l00136"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#e6bdf4f32666df87104e1deb20132d98">00136</a>         <span class="keywordtype">int</span> ntt; 
+<a name="l00137"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#d110881e91d72bd61e3c6f701848bfaa">00137</a>         <span class="keywordtype">int</span> ntwe; 
+<a name="l00138"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#e979f47b7e4a85cce32d6cc7faa25879">00138</a>         <span class="keywordtype">int</span> ntwprt; 
+<a name="l00139"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#ac9d428fe1869ec2b9934349177a4e32">00139</a>         <span class="keywordtype">int</span> ntwr; 
+<a name="l00140"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#1cb0e1274b56329585fe26aabd6cb53c">00140</a>         <span class="keywordtype">int</span> ntwv; 
+<a name="l00141"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#0df59676c3a4dcc3450daa4436ed5300">00141</a>         <span class="keywordtype">int</span> ntwx; 
+<a name="l00142"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#fcdf02c91ba375350a8030b3b3188238">00142</a>         <span class="keywordtype">int</span> ntx; 
+<a name="l00143"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#c5ea0afd8da82371d5e1653cfdcc6e67">00143</a>         <span class="keywordtype">int</span> ntxo; 
+<a name="l00144"></a>00144 <span class="comment">//</span>
+<a name="l00145"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#a18b6cf5825ed8a82af844ebfb3298aa">00145</a>         <span class="keywordtype">double</span> pres0; 
+<a name="l00146"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#da7adea5b4b040b98f697f8c8665f93c">00146</a>         <span class="keywordtype">double</span> presi; 
+<a name="l00147"></a>00147 <span class="comment">//</span>
+<a name="l00148"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#903c4681acf56871d2f705fd9989e08f">00148</a>         <span class="keywordtype">double</span> restraint_wt; 
+<a name="l00149"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#3ae8efde14e1c7d4975eaa7835960b7e">00149</a>         <span class="keywordtype">char</span> *restraintmask; 
+<a name="l00150"></a>00150 <span class="comment">//      </span>
+<a name="l00151"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#7a71770390a8ee4d444c5c589dc10534">00151</a>         <span class="keywordtype">double</span> scee; 
+<a name="l00152"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#61ed3576c0656b3f8be65b1f114caa6d">00152</a>         <span class="keywordtype">double</span> scnb; 
+<a name="l00153"></a>00153 <span class="comment">//      </span>
+<a name="l00154"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#b6e01259a6807a48ecb9f5bb08aff5ea">00154</a>         <span class="keywordtype">double</span> taup; 
+<a name="l00155"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#0bd796aea154744d91d2c661415a894d">00155</a>         <span class="keywordtype">double</span> tautp; 
+<a name="l00156"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#3d122de81c6c4ca8ee338ae5baf50623">00156</a>         <span class="keywordtype">double</span> temp0; 
+<a name="l00157"></a><a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html#027ab8bf0f10aa750f94006641cb029f">00157</a>         <span class="keywordtype">double</span> tempi; 
+<a name="l00158"></a>00158 <span class="comment">//      </span>
 <a name="l00159"></a>00159 } <a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html">sander_pmemd_cntrl</a>;
-<a name="l00160"></a>00160 <span class="comment"></span>
-<a name="l00161"></a>00161 <span class="comment">/*! Contains control-ewald informatin pertinent to a sander/pmemd run.</span>
-<a name="l00162"></a>00162 <span class="comment">        Currently, in the interest of time, I'm only writing it to contain </span>
-<a name="l00163"></a>00163 <span class="comment">        the pieces I typically use in a run.  The rest can be added later </span>
-<a name="l00164"></a>00164 <span class="comment">        as these structs are easily extensible. */</span>
+<a name="l00160"></a>00160 
 <a name="l00165"></a><a class="code" href="../../d6/def/structsander__pmemd__ewald.html">00165</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00166"></a><a class="code" href="../../d6/def/structsander__pmemd__ewald.html#a147cf5a4c0f0c838eb719eddcb33aad">00166</a>         <span class="keywordtype">int</span> nbflag; <span class="comment">///&lt; Tells how to determine when to update the nonbonded list.  See manual.</span>
-<a name="l00167"></a><a class="code" href="../../d6/def/structsander__pmemd__ewald.html#993e89b25230d473a637c81009bd8b1b">00167</a> <span class="comment"></span>        <span class="keywordtype">double</span> skinnb; <span class="comment">///&lt; Used when nbflag=1.  See manual.</span>
-<a name="l00168"></a>00168 <span class="comment"></span>} <a class="code" href="../../d6/def/structsander__pmemd__ewald.html">sander_pmemd_ewald</a>;
-<a name="l00169"></a>00169 <span class="comment"></span>
-<a name="l00170"></a>00170 <span class="comment">/*! Contains control-change informatin pertinent to a sander/pmemd run.</span>
-<a name="l00171"></a>00171 <span class="comment">        Currently, in the interest of time, I'm only writing it to contain </span>
-<a name="l00172"></a>00172 <span class="comment">        the pieces I typically use in a run.  The rest can be added later </span>
-<a name="l00173"></a>00173 <span class="comment">        as these structs are easily extensible. */</span>
+<a name="l00166"></a><a class="code" href="../../d6/def/structsander__pmemd__ewald.html#a147cf5a4c0f0c838eb719eddcb33aad">00166</a>         <span class="keywordtype">int</span> nbflag; 
+<a name="l00167"></a><a class="code" href="../../d6/def/structsander__pmemd__ewald.html#993e89b25230d473a637c81009bd8b1b">00167</a>         <span class="keywordtype">double</span> skinnb; 
+<a name="l00168"></a>00168 } <a class="code" href="../../d6/def/structsander__pmemd__ewald.html">sander_pmemd_ewald</a>;
+<a name="l00169"></a>00169 
 <a name="l00174"></a><a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html">00174</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00175"></a><a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html#c55bc3df227789d695419535b313572e">00175</a>         <span class="keywordtype">char</span> *type; <span class="comment">///&lt; the type of change, e.g., TEMP0, TAUTP, etc.</span>
-<a name="l00176"></a><a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html#0c02490ad08827f84d744d42f44b6492">00176</a> <span class="comment"></span>        <span class="keywordtype">int</span> istep1,istep2; <span class="comment">///&lt; beginning and ending steps for the change</span>
-<a name="l00177"></a><a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html#fa85aad9a9c0650049a8d2faf53138b4">00177</a> <span class="comment"></span>        <span class="keywordtype">int</span> value1,value2; <span class="comment">///&lt; change from value1 at istep1 to value2 at istep2</span>
-<a name="l00178"></a>00178 <span class="comment"></span>} <a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html">sander_pmemd_nmropt_wt_change</a>;
-<a name="l00179"></a>00179 <span class="comment"></span>
-<a name="l00180"></a>00180 <span class="comment">/*! Contains information pertinent to a sander/pmemd run.  Currently, in the </span>
-<a name="l00181"></a>00181 <span class="comment">        interest of time, I'm only writing it to contain the pieces I </span>
-<a name="l00182"></a>00182 <span class="comment">        typically use in a run.  The rest can be added later as these</span>
-<a name="l00183"></a>00183 <span class="comment">        structs are easily extensible.</span>
-<a name="l00184"></a>00184 <span class="comment"> */</span>
+<a name="l00175"></a><a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html#c55bc3df227789d695419535b313572e">00175</a>         <span class="keywordtype">char</span> *type; 
+<a name="l00176"></a><a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html#0c02490ad08827f84d744d42f44b6492">00176</a>         <span class="keywordtype">int</span> istep1,istep2; 
+<a name="l00177"></a><a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html#fa85aad9a9c0650049a8d2faf53138b4">00177</a>         <span class="keywordtype">int</span> value1,value2; 
+<a name="l00178"></a>00178 } <a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html">sander_pmemd_nmropt_wt_change</a>;
+<a name="l00179"></a>00179 
 <a name="l00185"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html">00185</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00186"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#3f5e44329ce7a9909ef15172bf86d3a1">00186</a>         <span class="keywordtype">char</span> *Title; <span class="comment">///&lt; The title of the run</span>
-<a name="l00187"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#170a5a29a5cd57047844e0248e8a0f5b">00187</a> <span class="comment"></span>        <a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html">sander_pmemd_cntrl</a> SPC; <span class="comment">///&lt; Control list for the run</span>
-<a name="l00188"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#75fc10a7c57a68350b083a122038ecfd">00188</a> <span class="comment"></span>        <span class="keywordtype">int</span> use_SPE; <span class="comment">///&lt; include ewald info if 0; don't if 1</span>
-<a name="l00189"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#7a5b1d4b673c9f909a0c70cd365082fb">00189</a> <span class="comment"></span>        <a class="code" href="../../d6/def/structsander__pmemd__ewald.html">sander_pmemd_ewald</a> SPE; <span class="comment">///&lt; </span>
-<a name="l00190"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#bd4d6262372c3c7b85eeee7513fc016d">00190</a> <span class="comment"></span>        <span class="keywordtype">int</span> nSPNWT; <span class="comment">///&lt; number of wt change info sets to include (none if 0)</span>
-<a name="l00191"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#feac36c3aa1a1b6382d312ba19bc691e">00191</a> <span class="comment"></span>        <a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html">sander_pmemd_nmropt_wt_change</a> SPNWT; <span class="comment">///&lt; entries in the "&amp;wt" section for nmropt</span>
-<a name="l00192"></a>00192 <span class="comment"></span>} <a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html">sander_pmemd_MD_control_info</a>;
+<a name="l00186"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#3f5e44329ce7a9909ef15172bf86d3a1">00186</a>         <span class="keywordtype">char</span> *Title; 
+<a name="l00187"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#170a5a29a5cd57047844e0248e8a0f5b">00187</a>         <a class="code" href="../../dd/d29/structsander__pmemd__cntrl.html">sander_pmemd_cntrl</a> SPC; 
+<a name="l00188"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#75fc10a7c57a68350b083a122038ecfd">00188</a>         <span class="keywordtype">int</span> use_SPE; 
+<a name="l00189"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#7a5b1d4b673c9f909a0c70cd365082fb">00189</a>         <a class="code" href="../../d6/def/structsander__pmemd__ewald.html">sander_pmemd_ewald</a> SPE; 
+<a name="l00190"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#bd4d6262372c3c7b85eeee7513fc016d">00190</a>         <span class="keywordtype">int</span> nSPNWT; 
+<a name="l00191"></a><a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html#feac36c3aa1a1b6382d312ba19bc691e">00191</a>         <a class="code" href="../../d3/dc3/structsander__pmemd__nmropt__wt__change.html">sander_pmemd_nmropt_wt_change</a> SPNWT; 
+<a name="l00192"></a>00192 } <a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html">sander_pmemd_MD_control_info</a>;
 <a name="l00193"></a>00193 
 <a name="l00194"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html">00194</a> <span class="keyword">typedef</span> <span class="keyword">struct</span>{
-<a name="l00195"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#55377026f223016bb12cd6c1dd640d60">00195</a>         <span class="keywordtype">char</span> *Title; <span class="comment">///&lt; free-form descriptor</span>
-<a name="l00196"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#b1886423da82fd06b04fa3eb86fe6029">00196</a> <span class="comment"></span>        <span class="keywordtype">char</span> *exe; <span class="comment">///&lt; executable name (with path, etc.)</span>
-<a name="l00197"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#a0aaac9ada071af43b42fdc5d23a8647">00197</a> <span class="comment"></span>        <a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html">sander_pmemd_MD_control_info</a> MDCI; <span class="comment">///&lt; Control info for this run</span>
-<a name="l00198"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#be1000b7587f7a89eea2435d656533fc">00198</a> <span class="comment"></span>        <span class="keywordtype">int</span> nopt; <span class="comment">///&lt; Number of command-line options</span>
-<a name="l00199"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#599e6f5248012092915a4cd99afdbdb5">00199</a> <span class="comment"></span>        <span class="keywordtype">char</span> **optd; <span class="comment">///&lt; The nopt dash options ('\0' if there is an argument in the next list without one of these)</span>
-<a name="l00200"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#f516ba49b1cd043c6f6042cc8950c6f0">00200</a> <span class="comment"></span>        <span class="keywordtype">char</span> **optt; <span class="comment">///&lt; The nopt option strings ('\0' if there is an argument in the previous list without one of these)</span>
-<a name="l00201"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#1d0c536a43368ca672dc2dc8541cb9b2">00201</a> <span class="comment"></span>        <span class="keywordtype">int</span> nouttst; <span class="comment">///&lt; Number of output tests to perform</span>
-<a name="l00202"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#0742ce4ab1384e862396132c50bb7353">00202</a> <span class="comment"></span>        <span class="keywordtype">char</span> **outdone; <span class="comment">///&lt; String to check if job is complete</span>
-<a name="l00203"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#31c19c438a6f3eb280b7c471f910c39e">00203</a> <span class="comment"></span>        <span class="keywordtype">char</span> **outfail; <span class="comment">///&lt; String to check if job has failed</span>
-<a name="l00204"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#c803ee39162cacb5c9b4bccf9d371783">00204</a> <span class="comment"></span>        <span class="keywordtype">char</span> **outdoing; <span class="comment">///&lt; String to check if job might be still running and ok</span>
-<a name="l00205"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#71ebc44168855a59747401eaa42b5dbe">00205</a> <span class="comment"></span>        <span class="keywordtype">char</span> **outpass; <span class="comment">///&lt; String to check if job is finished and is probably "successful"</span>
-<a name="l00206"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#69eec32161a371ac261b9908adbb7c12">00206</a> <span class="comment"></span>        <span class="keywordtype">char</span> **outdesc; <span class="comment">///&lt; Description of overall result from tests</span>
-<a name="l00207"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#f8f2d6ba07c75984d10aa06dfa9fa8ff">00207</a> <span class="comment"></span>        <span class="keywordtype">int</span> **state; <span class="comment">///&lt; Integer description of result: failed=-1; success=0; unknown or in progress=+1;</span>
-<a name="l00208"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#4ae97d5f891f637b5e5abe95c313ffe4">00208</a> <span class="comment"></span>        <span class="keywordtype">int</span> SUMMARY; <span class="comment">///&lt; Integer summary: one or more failed=-1; all success=0; unknown or in progress=+1;</span>
-<a name="l00209"></a>00209 <span class="comment"></span>} <a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html">sander_pmemd_MD_run_info</a>;
+<a name="l00195"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#55377026f223016bb12cd6c1dd640d60">00195</a>         <span class="keywordtype">char</span> *Title; 
+<a name="l00196"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#b1886423da82fd06b04fa3eb86fe6029">00196</a>         <span class="keywordtype">char</span> *exe; 
+<a name="l00197"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#a0aaac9ada071af43b42fdc5d23a8647">00197</a>         <a class="code" href="../../dc/d0a/structsander__pmemd__MD__control__info.html">sander_pmemd_MD_control_info</a> MDCI; 
+<a name="l00198"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#be1000b7587f7a89eea2435d656533fc">00198</a>         <span class="keywordtype">int</span> nopt; 
+<a name="l00199"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#599e6f5248012092915a4cd99afdbdb5">00199</a>         <span class="keywordtype">char</span> **optd; 
+<a name="l00200"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#f516ba49b1cd043c6f6042cc8950c6f0">00200</a>         <span class="keywordtype">char</span> **optt; 
+<a name="l00201"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#1d0c536a43368ca672dc2dc8541cb9b2">00201</a>         <span class="keywordtype">int</span> nouttst; 
+<a name="l00202"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#0742ce4ab1384e862396132c50bb7353">00202</a>         <span class="keywordtype">char</span> **outdone; 
+<a name="l00203"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#31c19c438a6f3eb280b7c471f910c39e">00203</a>         <span class="keywordtype">char</span> **outfail; 
+<a name="l00204"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#c803ee39162cacb5c9b4bccf9d371783">00204</a>         <span class="keywordtype">char</span> **outdoing; 
+<a name="l00205"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#71ebc44168855a59747401eaa42b5dbe">00205</a>         <span class="keywordtype">char</span> **outpass; 
+<a name="l00206"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#69eec32161a371ac261b9908adbb7c12">00206</a>         <span class="keywordtype">char</span> **outdesc; 
+<a name="l00207"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#f8f2d6ba07c75984d10aa06dfa9fa8ff">00207</a>         <span class="keywordtype">int</span> **state; 
+<a name="l00208"></a><a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html#4ae97d5f891f637b5e5abe95c313ffe4">00208</a>         <span class="keywordtype">int</span> SUMMARY; 
+<a name="l00209"></a>00209 } <a class="code" href="../../d7/d79/structsander__pmemd__MD__run__info.html">sander_pmemd_MD_run_info</a>;
 <a name="l00210"></a>00210 
 <a name="l00211"></a>00211 
 <a name="l00212"></a>00212 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:03 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:42 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

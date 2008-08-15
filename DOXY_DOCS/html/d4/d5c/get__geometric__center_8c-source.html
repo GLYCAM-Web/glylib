@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: get_geometric_center.c Source File</title>
+<title>GLYLIB: src/get_geometric_center.c Source File</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="../../main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../classes.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../dirs.html"><span>Directories</span></a></li>
     <li>
@@ -25,7 +25,7 @@
     </li>
     </ul>
   </div>
-  <div class="navpath"><a class="el" href="../../dir_fba7d38c13d62fc3c519a83038ccbec0.html">src</a>
+  <div class="navpath"><a class="el" href="../../dir_4c50504df4ef4681d4a5a0710190c908.html">src</a>
   </div>
 </div>
 <div class="contents">
@@ -42,7 +42,7 @@
 <a name="l00011"></a>00011 <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> C;
 <a name="l00012"></a>00012 
 <a name="l00013"></a>00013 <span class="keywordflow">if</span>(nc==0){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"cannot get center for zero points (get_geometric_center)"</span>);}
-<a name="l00014"></a>00014 C.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>=C.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>=C.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>=0;
+<a name="l00014"></a>00014 C.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>=C.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>=C.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>=0;
 <a name="l00015"></a>00015 <span class="comment">//printf("initialized:\n");</span>
 <a name="l00016"></a>00016 <span class="comment">//dprint_coord_3D(&amp;C);</span>
 <a name="l00017"></a>00017 <span class="comment">//printf("in loop:\n");</span>
@@ -50,19 +50,19 @@
 <a name="l00019"></a>00019 <span class="comment">//      X.i (center) = avg (atomscoords.x.i) ; and so forth</span>
 <a name="l00020"></a>00020         C.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>+=c[gca].<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>; 
 <a name="l00021"></a>00021         C.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>+=c[gca].<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>; 
-<a name="l00022"></a>00022         C.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>+=c[gca].<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>; 
+<a name="l00022"></a>00022         C.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>+=c[gca].<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>; 
 <a name="l00023"></a>00023         <span class="comment">//dprint_coord_3D(&amp;C);</span>
 <a name="l00024"></a>00024         }
 <a name="l00025"></a>00025 C.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>/=nc;
 <a name="l00026"></a>00026 C.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>/=nc;
-<a name="l00027"></a>00027 C.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>/=nc;
+<a name="l00027"></a>00027 C.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>/=nc;
 <a name="l00028"></a>00028 <span class="comment">//printf("done:\n");</span>
 <a name="l00029"></a>00029 <span class="comment">//dprint_coord_3D(&amp;C);</span>
 <a name="l00030"></a>00030 <span class="keywordflow">return</span> C;
 <a name="l00031"></a>00031 }
 <a name="l00032"></a>00032 
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:02 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:43 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

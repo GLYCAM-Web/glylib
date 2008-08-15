@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: get_plane.c Source File</title>
+<title>GLYLIB: src/get_plane.c Source File</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="../../main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../classes.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../dirs.html"><span>Directories</span></a></li>
     <li>
@@ -25,7 +25,7 @@
     </li>
     </ul>
   </div>
-  <div class="navpath"><a class="el" href="../../dir_fba7d38c13d62fc3c519a83038ccbec0.html">src</a>
+  <div class="navpath"><a class="el" href="../../dir_4c50504df4ef4681d4a5a0710190c908.html">src</a>
   </div>
 </div>
 <div class="contents">
@@ -38,10 +38,10 @@
 <a name="l00007"></a>00007 <span class="comment">/* this finds the plane defined by 3 coord_3D structs */</span>
 <a name="l00008"></a><a class="code" href="../../d1/db9/get__plane_8c.html#bd5bf9b1b38b714fed00726b9161d364">00008</a> <a class="code" href="../../d7/d04/structplane.html">plane</a> <a class="code" href="../../d3/de6/molecules_8h.html#01ea99d86e5a9189a864f5f43487dd70">get_plane</a>(<a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> one, <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> two, <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> three){
 <a name="l00009"></a>00009 <a class="code" href="../../d7/d04/structplane.html">plane</a> p;
-<a name="l00010"></a>00010 p.<a class="code" href="../../d7/d04/structplane.html#0925dd0bedb55430e44070faa595e185">A</a>=(two.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>)*(three.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>)-(three.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>)*(two.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>); 
-<a name="l00011"></a>00011 p.<a class="code" href="../../d7/d04/structplane.html#9ab388ea46b6129417370a7cb2302c79">B</a>=(two.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>)*(three.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>)-(three.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>)*(two.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>); 
+<a name="l00010"></a>00010 p.<a class="code" href="../../d7/d04/structplane.html#0925dd0bedb55430e44070faa595e185">A</a>=(two.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>)*(three.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>)-(three.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>)*(two.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>); 
+<a name="l00011"></a>00011 p.<a class="code" href="../../d7/d04/structplane.html#9ab388ea46b6129417370a7cb2302c79">B</a>=(two.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>)*(three.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>)-(three.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>)*(two.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>); 
 <a name="l00012"></a>00012 p.<a class="code" href="../../d7/d04/structplane.html#9052b3d242c5eef92b7e981342ffcec1">C</a>=(two.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>)*(three.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>)-(three.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>)*(two.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>-one.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>); 
-<a name="l00013"></a>00013 p.<a class="code" href="../../d7/d04/structplane.html#cecfd36bd10f8722683c48d988ddea3d">D</a>=-(p.<a class="code" href="../../d7/d04/structplane.html#0925dd0bedb55430e44070faa595e185">A</a>*one.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>) - (p.<a class="code" href="../../d7/d04/structplane.html#9ab388ea46b6129417370a7cb2302c79">B</a>*one.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>) - (p.<a class="code" href="../../d7/d04/structplane.html#9052b3d242c5eef92b7e981342ffcec1">C</a>*one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>);
+<a name="l00013"></a>00013 p.<a class="code" href="../../d7/d04/structplane.html#cecfd36bd10f8722683c48d988ddea3d">D</a>=-(p.<a class="code" href="../../d7/d04/structplane.html#0925dd0bedb55430e44070faa595e185">A</a>*one.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>) - (p.<a class="code" href="../../d7/d04/structplane.html#9ab388ea46b6129417370a7cb2302c79">B</a>*one.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>) - (p.<a class="code" href="../../d7/d04/structplane.html#9052b3d242c5eef92b7e981342ffcec1">C</a>*one.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>);
 <a name="l00014"></a>00014 <span class="comment">//dprint_coord_3D(one);</span>
 <a name="l00015"></a>00015 <span class="comment">//dprint_coord_3D(two);</span>
 <a name="l00016"></a>00016 <span class="comment">//dprint_coord_3D(three);</span>
@@ -49,7 +49,7 @@
 <a name="l00018"></a>00018 <span class="keywordflow">return</span> p;
 <a name="l00019"></a>00019 }
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:02 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:43 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

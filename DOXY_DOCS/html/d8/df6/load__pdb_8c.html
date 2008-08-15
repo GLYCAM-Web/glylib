@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: load_pdb.c File Reference</title>
+<title>GLYLIB: src/load_pdb.c File Reference</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="../../main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../classes.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../dirs.html"><span>Directories</span></a></li>
     <li>
@@ -25,7 +25,7 @@
     </li>
     </ul>
   </div>
-  <div class="navpath"><a class="el" href="../../dir_fba7d38c13d62fc3c519a83038ccbec0.html">src</a>
+  <div class="navpath"><a class="el" href="../../dir_4c50504df4ef4681d4a5a0710190c908.html">src</a>
   </div>
 </div>
 <div class="contents">
@@ -35,9 +35,9 @@
 <div class="dynheader">
 Include dependency graph for load_pdb.c:</div>
 <div class="dynsection">
-<p><center><img src="../../d9/de6/load__pdb_8c__incl.gif" border="0" usemap="#load_pdb.c_map" alt=""></center>
-<map name="load_pdb.c_map">
-<area shape="rect" href="../../d7/d40/load__pdb_8h.html" title="load_pdb.h" alt="" coords="319,80,399,107"><area shape="rect" href="../../d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="129,155,215,181"><area shape="rect" href="../../dd/da3/structures_8h.html" title="structures.h" alt="" coords="317,155,400,181"><area shape="rect" href="../../dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="545,155,607,181"><area shape="rect" href="../../d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="5,229,93,256"><area shape="rect" href="../../d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="117,229,227,256"><area shape="rect" href="../../d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="920,229,989,256"></map>
+<p><center><img src="../../d9/de6/load__pdb_8c__incl.png" border="0" usemap="#src/load_pdb.c_map" alt=""></center>
+<map name="src/load_pdb.c_map">
+<area shape="rect" href="../../d7/d40/load__pdb_8h.html" title="load_pdb.h" alt="" coords="355,81,443,105"><area shape="rect" href="../../d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="147,156,243,180"><area shape="rect" href="../../dd/da3/structures_8h.html" title="structures.h" alt="" coords="352,156,445,180"><area shape="rect" href="../../dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="601,156,665,180"><area shape="rect" href="../../d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="5,231,107,255"><area shape="rect" href="../../d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="131,231,259,255"><area shape="rect" href="../../d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="1003,231,1083,255"></map>
 </div>
 
 <p>
@@ -81,15 +81,6 @@ Include dependency graph for load_pdb.c:</div>
 <p>Definition at line <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00140">140</a> of file <a class="el" href="../../dc/d5f/load__pdb_8c-source.html">load_pdb.c</a>.</p>
 
 <p>Referenced by <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00119">findTotalResidue()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00048">getAssembly()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00156">getResInfo()</a>, and <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00036">howManyMolecules()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00141"></a>00141 {
-<a name="l00142"></a>00142   <span class="keywordflow">if</span>(((*line).a == 4 &amp;&amp; (*line).b == 2)||
-<a name="l00143"></a>00143      ((*line).a == 2 &amp;&amp; ((*line).b == 9||(*line).b == 3)))
-<a name="l00144"></a>00144     <span class="keywordflow">return</span> 1;
-<a name="l00145"></a>00145   <span class="keywordflow">else</span>
-<a name="l00146"></a>00146     <span class="keywordflow">return</span> 0;
-<a name="l00147"></a>00147 }
-</pre></div>
-<p>
 
 </div>
 </div><p>
@@ -116,33 +107,12 @@ Include dependency graph for load_pdb.c:</div>
 <p>References <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00140">endOfMol()</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00032">INWC</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00149">isAtom()</a>, and <a class="el" href="../../d6/ddc/structures_8h-source.html#l00072">ln</a>.</p>
 
 <p>Referenced by <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00048">getAssembly()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00120"></a>00120 {
-<a name="l00121"></a>00121   <span class="keywordtype">int</span> ret = 0;<span class="keywordtype">int</span> i = start;<span class="keywordtype">int</span> curRes = 0;<span class="keywordtype">int</span> thisRes;
-<a name="l00122"></a>00122   <span class="keywordtype">char</span>* temp;
-<a name="l00123"></a>00123   <span class="keywordflow">while</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)) == 0 &amp;&amp; i != <a class="code" href="../../d7/d40/load__pdb_8h.html#e2d7e48709961b1058dc6fa90e427098">INWC</a>)
-<a name="l00124"></a>00124   {
-<a name="l00125"></a>00125     <span class="keywordflow">if</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)) == 1)
-<a name="l00126"></a>00126     {
-<a name="l00127"></a>00127       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[8].c;
-<a name="l00128"></a>00128       sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;thisRes);
-<a name="l00129"></a>00129       <span class="keywordflow">if</span>(thisRes != curRes)
-<a name="l00130"></a>00130       { 
-<a name="l00131"></a>00131         ret ++;
-<a name="l00132"></a>00132         curRes = thisRes;
-<a name="l00133"></a>00133       }
-<a name="l00134"></a>00134     }
-<a name="l00135"></a>00135    i++;
-<a name="l00136"></a>00136   }
-<a name="l00137"></a>00137   <span class="keywordflow">return</span> ret;
-<a name="l00138"></a>00138 }
-</pre></div>
-<p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../d8/df6/load__pdb_8c_990443ff50d20f97b4c3d5dba7141c87_cgraph.gif" border="0" usemap="#d8/df6/load__pdb_8c_990443ff50d20f97b4c3d5dba7141c87_cgraph_map" alt=""></center>
+<p><center><img src="../../d8/df6/load__pdb_8c_990443ff50d20f97b4c3d5dba7141c87_cgraph.png" border="0" usemap="#d8/df6/load__pdb_8c_990443ff50d20f97b4c3d5dba7141c87_cgraph_map" alt=""></center>
 <map name="d8/df6/load__pdb_8c_990443ff50d20f97b4c3d5dba7141c87_cgraph_map">
 <area shape="rect" href="../../d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165" title="endOfMol" alt="" coords="168,5,245,32"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8" title="isAtom" alt="" coords="177,56,236,83"></map>
 </div>
@@ -168,86 +138,15 @@ Here is the call graph for this function:</div>
 
 <p>Definition at line <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00048">48</a> of file <a class="el" href="../../dc/d5f/load__pdb_8c-source.html">load_pdb.c</a>.</p>
 
-<p>References <a class="el" href="../../da/dff/molecules_8h-source.html#l00145">residue::a</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00140">endOfMol()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00119">findTotalResidue()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00156">getResInfo()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00036">howManyMolecules()</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00032">INWC</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00149">isAtom()</a>, <a class="el" href="../../d6/ddc/structures_8h-source.html#l00072">ln</a>, and <a class="el" href="../../da/dff/molecules_8h-source.html#l00182">molecule::nr</a>.</p>
+<p>References <a class="el" href="../../da/dff/molecules_8h-source.html#l00155">residue::a</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00140">endOfMol()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00119">findTotalResidue()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00156">getResInfo()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00036">howManyMolecules()</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00032">INWC</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00149">isAtom()</a>, <a class="el" href="../../d6/ddc/structures_8h-source.html#l00072">ln</a>, and <a class="el" href="../../da/dff/molecules_8h-source.html#l00192">molecule::nr</a>.</p>
 
 <p>Referenced by <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00004">load_pdb()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00049"></a>00049 {
-<a name="l00050"></a>00050   <span class="keywordtype">int</span> molNum = <a class="code" href="../../d7/d40/load__pdb_8h.html#91f8583751f36a42411e6f85308b2646">howManyMolecules</a>();
-<a name="l00051"></a>00051   <span class="keywordtype">int</span> i = 0;<span class="keywordtype">int</span> j = 0;<span class="keywordtype">int</span> k = 0;<span class="keywordtype">int</span> l = 0;<span class="keywordtype">int</span> atom_num;<span class="keywordtype">double</span> x,y,z;
-<a name="l00052"></a>00052   <span class="keywordtype">char</span>* temp;<span class="keywordtype">char</span> name[6] = <span class="stringliteral">""</span>; <span class="keywordtype">char</span>* atmName = name;
-<a name="l00053"></a>00053   <a class="code" href="../../db/dac/structassembly.html">assembly</a>* asmbl = (<a class="code" href="../../db/dac/structassembly.html">assembly</a>*) malloc (1 * <span class="keyword">sizeof</span>(<a class="code" href="../../db/dac/structassembly.html">assembly</a>));
-<a name="l00054"></a>00054   (*asmbl).nm = molNum;
-<a name="l00055"></a>00055   <a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>* mol = (<a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>*) malloc (molNum * <span class="keyword">sizeof</span>(<a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>));
-<a name="l00056"></a>00056   (*asmbl).m = (<a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>**)calloc(1,<span class="keyword">sizeof</span>(<a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>*));<span class="comment">//added by MNT on 20080806</span>
-<a name="l00057"></a>00057   (*asmbl).m[0] = mol; <span class="comment">// changed by BLF on 20080622 -- might need revisiting</span>
-<a name="l00058"></a>00058   <a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>* curMol; <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes;<span class="comment">// residue* res;</span>
-<a name="l00059"></a>00059   <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;<span class="comment">// atom* atm;</span>
-<a name="l00060"></a>00060   <span class="comment">//Get all the information for the first molecule</span>
-<a name="l00061"></a>00061   curMol = (mol+j);
-<a name="l00062"></a>00062   (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b">nr</a> = <a class="code" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87">findTotalResidue</a>(i);
-<a name="l00063"></a>00063   (*curMol).r = (<a class="code" href="../../d0/d7e/structresidue.html">residue</a>*) malloc ((*curMol).nr*<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>));
-<a name="l00064"></a>00064   <a class="code" href="../../d7/d40/load__pdb_8h.html#32f0c7fce194f4464ebc00164b5bb53d">getResInfo</a>((*curMol).r,i);
-<a name="l00065"></a>00065   curRes = ((*curMol).r+k);
-<a name="l00066"></a>00066   (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
-<a name="l00067"></a>00067   curAtm = ((*curRes).a+l);
-<a name="l00068"></a>00068   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="../../d7/d40/load__pdb_8h.html#e2d7e48709961b1058dc6fa90e427098">INWC</a>; i++)
-<a name="l00069"></a>00069   {
-<a name="l00070"></a>00070     <span class="comment">//If it is a TER, LINK, or CONECT card</span>
-<a name="l00071"></a>00071     <span class="keywordflow">if</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)) == 1)
-<a name="l00072"></a>00072     {
-<a name="l00073"></a>00073       j++;
-<a name="l00074"></a>00074       curMol = (mol+j);
-<a name="l00075"></a>00075       (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b">nr</a> = <a class="code" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87">findTotalResidue</a>(i+1);
-<a name="l00076"></a>00076       (*curMol).r = (<a class="code" href="../../d0/d7e/structresidue.html">residue</a>*) malloc ((*curMol).nr*<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>));
-<a name="l00077"></a>00077       <a class="code" href="../../d7/d40/load__pdb_8h.html#32f0c7fce194f4464ebc00164b5bb53d">getResInfo</a>((*curMol).r,i+1);
-<a name="l00078"></a>00078       curRes = ((*curMol).r+k);
-<a name="l00079"></a>00079       k = 0;l = 0;
-<a name="l00080"></a>00080       (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
-<a name="l00081"></a>00081       curAtm = ((*curRes).a+l);
-<a name="l00082"></a>00082     }
-<a name="l00083"></a>00083     <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)) == 1)
-<a name="l00084"></a>00084     {
-<a name="l00085"></a>00085       <span class="keywordflow">if</span>(l == (*curRes).na)
-<a name="l00086"></a>00086       {
-<a name="l00087"></a>00087        k++;l = 0;
-<a name="l00088"></a>00088        curRes = ((*curMol).r+k);
-<a name="l00089"></a>00089        (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>)); 
-<a name="l00090"></a>00090        <span class="comment">//curAtm = ((*curRes).a+l);</span>
-<a name="l00091"></a>00091       }
-<a name="l00092"></a>00092       curAtm = ((*curRes).a+l);
-<a name="l00093"></a>00093       <span class="comment">//Getting the atom #</span>
-<a name="l00094"></a>00094       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[1].c;
-<a name="l00095"></a>00095       sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;atom_num);
-<a name="l00096"></a>00096       <span class="comment">//Getting the atom name</span>
-<a name="l00097"></a>00097       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[3].c;
-<a name="l00098"></a>00098       sscanf(temp,<span class="stringliteral">"%s"</span>,atmName);
-<a name="l00099"></a>00099       <span class="comment">//Getting the X coordinate</span>
-<a name="l00100"></a>00100       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[11].c;
-<a name="l00101"></a>00101       sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;x);
-<a name="l00102"></a>00102       <span class="comment">//Getting the Y coordinate</span>
-<a name="l00103"></a>00103       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[12].c;
-<a name="l00104"></a>00104       sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;y);
-<a name="l00105"></a>00105       <span class="comment">//Getting the Z coordinate</span>
-<a name="l00106"></a>00106       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[13].c;
-<a name="l00107"></a>00107       sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;z);   
-<a name="l00108"></a>00108 
-<a name="l00109"></a>00109       (*curAtm).n = atom_num;<span class="comment">//set the atom #</span>
-<a name="l00110"></a>00110       (*curAtm).N = strdup(atmName);<span class="comment">//set the atom name</span>
-<a name="l00111"></a>00111       <span class="comment">//set the atom's coordinates</span>
-<a name="l00112"></a>00112       (*curAtm).x.i = x; (*curAtm).x.j = y; (*curAtm).x.k = z;
-<a name="l00113"></a>00113       l++;
-<a name="l00114"></a>00114     }
-<a name="l00115"></a>00115   }
-<a name="l00116"></a>00116  <span class="keywordflow">return</span> asmbl;
-<a name="l00117"></a>00117 }
-</pre></div>
-<p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../d8/df6/load__pdb_8c_16fb5e06b69be07382e616632a03561e_cgraph.gif" border="0" usemap="#d8/df6/load__pdb_8c_16fb5e06b69be07382e616632a03561e_cgraph_map" alt=""></center>
+<p><center><img src="../../d8/df6/load__pdb_8c_16fb5e06b69be07382e616632a03561e_cgraph.png" border="0" usemap="#d8/df6/load__pdb_8c_16fb5e06b69be07382e616632a03561e_cgraph_map" alt=""></center>
 <map name="d8/df6/load__pdb_8c_16fb5e06b69be07382e616632a03561e_cgraph_map">
 <area shape="rect" href="../../d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165" title="endOfMol" alt="" coords="323,59,400,85"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87" title="findTotalResidue" alt="" coords="153,33,265,60"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8" title="isAtom" alt="" coords="332,109,391,136"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#32f0c7fce194f4464ebc00164b5bb53d" title="getResInfo" alt="" coords="169,84,249,111"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#91f8583751f36a42411e6f85308b2646" title="howManyMolecules" alt="" coords="144,135,275,161"></map>
 </div>
@@ -286,55 +185,12 @@ Here is the call graph for this function:</div>
 <p>References <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00140">endOfMol()</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00032">INWC</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00149">isAtom()</a>, and <a class="el" href="../../d6/ddc/structures_8h-source.html#l00072">ln</a>.</p>
 
 <p>Referenced by <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00048">getAssembly()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00157"></a>00157 {
-<a name="l00158"></a>00158   <span class="keywordtype">int</span> atmTot = 0;<span class="keywordtype">int</span> resNum,thisRes;<span class="keywordtype">int</span> i = start;<span class="keywordtype">int</span> j = 0;
-<a name="l00159"></a>00159   <span class="keywordtype">char</span> name [10];<span class="keywordtype">char</span>* temp;<span class="keywordtype">char</span>* resName = name;
-<a name="l00160"></a>00160   <span class="keywordflow">while</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8">isAtom</a>(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i) == 0 &amp;&amp; i &lt; <a class="code" href="../../d7/d40/load__pdb_8h.html#e2d7e48709961b1058dc6fa90e427098">INWC</a>)
-<a name="l00161"></a>00161    i++;
-<a name="l00162"></a>00162   <span class="comment">//Getting the residue name</span>
-<a name="l00163"></a>00163   temp = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[5].c;
-<a name="l00164"></a>00164   sscanf(temp,<span class="stringliteral">"%s"</span>,resName);
-<a name="l00165"></a>00165   (*(res+j)).N = strdup(resName);
-<a name="l00166"></a>00166   <span class="comment">//Getting the residue #</span>
-<a name="l00167"></a>00167   temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[8].c;
-<a name="l00168"></a>00168   sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;thisRes);
-<a name="l00169"></a>00169   resNum = thisRes;
-<a name="l00170"></a>00170   (*(res+j)).n = resNum;
-<a name="l00171"></a>00171   i = start;
-<a name="l00172"></a>00172   <span class="keywordflow">while</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)) == 0 &amp;&amp; i != <a class="code" href="../../d7/d40/load__pdb_8h.html#e2d7e48709961b1058dc6fa90e427098">INWC</a>)
-<a name="l00173"></a>00173   {
-<a name="l00174"></a>00174     <span class="keywordflow">if</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)) == 1)
-<a name="l00175"></a>00175     {
-<a name="l00176"></a>00176       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[8].c;
-<a name="l00177"></a>00177       sscanf(temp,<span class="stringliteral">"%d"</span>,&amp;thisRes);
-<a name="l00178"></a>00178       <span class="keywordflow">if</span>(thisRes != resNum)
-<a name="l00179"></a>00179       { 
-<a name="l00180"></a>00180         <span class="comment">//Setting the total # of atoms on the old res</span>
-<a name="l00181"></a>00181         resNum = thisRes;
-<a name="l00182"></a>00182         (*(res+j)).na = atmTot;
-<a name="l00183"></a>00183         atmTot = 0; j++;
-<a name="l00184"></a>00184         <span class="comment">//Getting the residue name for the new res</span>
-<a name="l00185"></a>00185         temp = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[5].c;
-<a name="l00186"></a>00186         sscanf(temp,<span class="stringliteral">"%s"</span>,resName);
-<a name="l00187"></a>00187         (*(res+j)).N = strdup(resName);
-<a name="l00188"></a>00188         <span class="comment">//Setting the residue # on the new res</span>
-<a name="l00189"></a>00189         (*(res+j)).n = resNum;
-<a name="l00190"></a>00190       }
-<a name="l00191"></a>00191       <span class="keywordflow">else</span>
-<a name="l00192"></a>00192         atmTot++;
-<a name="l00193"></a>00193     }
-<a name="l00194"></a>00194    i++;
-<a name="l00195"></a>00195   }
-<a name="l00196"></a>00196  (*(res+j)).na = atmTot;
-<a name="l00197"></a>00197 }
-</pre></div>
-<p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../d8/df6/load__pdb_8c_32f0c7fce194f4464ebc00164b5bb53d_cgraph.gif" border="0" usemap="#d8/df6/load__pdb_8c_32f0c7fce194f4464ebc00164b5bb53d_cgraph_map" alt=""></center>
+<p><center><img src="../../d8/df6/load__pdb_8c_32f0c7fce194f4464ebc00164b5bb53d_cgraph.png" border="0" usemap="#d8/df6/load__pdb_8c_32f0c7fce194f4464ebc00164b5bb53d_cgraph_map" alt=""></center>
 <map name="d8/df6/load__pdb_8c_32f0c7fce194f4464ebc00164b5bb53d_cgraph_map">
 <area shape="rect" href="../../d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165" title="endOfMol" alt="" coords="133,5,211,32"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8" title="isAtom" alt="" coords="143,56,201,83"></map>
 </div>
@@ -363,24 +219,12 @@ Here is the call graph for this function:</div>
 <p>References <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00140">endOfMol()</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00032">INWC</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00149">isAtom()</a>, and <a class="el" href="../../d6/ddc/structures_8h-source.html#l00072">ln</a>.</p>
 
 <p>Referenced by <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00048">getAssembly()</a>, and <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00004">load_pdb()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00037"></a>00037 {
-<a name="l00038"></a>00038  <span class="keywordtype">int</span> i; <span class="keywordtype">int</span> counter = 0;
-<a name="l00039"></a>00039 
-<a name="l00040"></a>00040  <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="../../d7/d40/load__pdb_8h.html#e2d7e48709961b1058dc6fa90e427098">INWC</a>; i++)
-<a name="l00041"></a>00041   <span class="keywordflow">if</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165">endOfMol</a>((<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)) == 1)<span class="comment">//If it is a TER, LINK, or CONECT card</span>
-<a name="l00042"></a>00042    counter++;
-<a name="l00043"></a>00043  <span class="keywordflow">if</span>(counter == 0 || <a class="code" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8">isAtom</a>(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+(INWC-1)) == 1)
-<a name="l00044"></a>00044   counter ++;
-<a name="l00045"></a>00045  <span class="keywordflow">return</span> counter;
-<a name="l00046"></a>00046 }
-</pre></div>
-<p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../d8/df6/load__pdb_8c_91f8583751f36a42411e6f85308b2646_cgraph.gif" border="0" usemap="#d8/df6/load__pdb_8c_91f8583751f36a42411e6f85308b2646_cgraph_map" alt=""></center>
+<p><center><img src="../../d8/df6/load__pdb_8c_91f8583751f36a42411e6f85308b2646_cgraph.png" border="0" usemap="#d8/df6/load__pdb_8c_91f8583751f36a42411e6f85308b2646_cgraph_map" alt=""></center>
 <map name="d8/df6/load__pdb_8c_91f8583751f36a42411e6f85308b2646_cgraph_map">
 <area shape="rect" href="../../d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165" title="endOfMol" alt="" coords="184,5,261,32"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8" title="isAtom" alt="" coords="193,56,252,83"></map>
 </div>
@@ -408,14 +252,6 @@ Here is the call graph for this function:</div>
 <p>Definition at line <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00149">149</a> of file <a class="el" href="../../dc/d5f/load__pdb_8c-source.html">load_pdb.c</a>.</p>
 
 <p>Referenced by <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00119">findTotalResidue()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00048">getAssembly()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00156">getResInfo()</a>, and <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00036">howManyMolecules()</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00150"></a>00150 {
-<a name="l00151"></a>00151   <span class="keywordflow">if</span>(((*line).a == 2 || (*line).a == 3) &amp;&amp; (*line).b == 1)
-<a name="l00152"></a>00152     <span class="keywordflow">return</span> 1;
-<a name="l00153"></a>00153   <span class="keywordflow">else</span>
-<a name="l00154"></a>00154     <span class="keywordflow">return</span> 0;
-<a name="l00155"></a>00155 }
-</pre></div>
-<p>
 
 </div>
 </div><p>
@@ -440,44 +276,12 @@ Here is the call graph for this function:</div>
 <p>Definition at line <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00004">4</a> of file <a class="el" href="../../dc/d5f/load__pdb_8c-source.html">load_pdb.c</a>.</p>
 
 <p>References <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00031">ACT</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00035">CRYX</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00035">CRYY</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00035">CRYZ</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00032">DATE</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00036">DEBUG</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00048">getAssembly()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00036">howManyMolecules()</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00027">IN</a>, <a class="el" href="../../df/dd5/init__struct_8c-source.html#l00011">init_struct()</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00032">INWC</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00034">LASTOKX</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00034">LASTOKY</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00034">LASTOKZ</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00034">LASTRES</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00035">LASTX</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00035">LASTY</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00035">LASTZ</a>, <a class="el" href="../../d6/ddc/structures_8h-source.html#l00072">ln</a>, <a class="el" href="../../d9/dc2/myfopen_8c-source.html#l00006">myfopen()</a>, <a class="el" href="../../d4/d33/rwm__line_8c-source.html#l00008">rwm_line()</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00029">SILENT</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00030">suf</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00030">sufc</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00035">UNCTOL</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00033">UNCUT</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00033">UNx</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00033">UNy</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00033">UNz</a>, and <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00029">WARN</a>.</p>
-<div class="fragment"><pre class="fragment"><a name="l00005"></a>00005 {
-<a name="l00006"></a>00006   <span class="keywordtype">char</span>* temp;
-<a name="l00007"></a>00007   <a class="code" href="../../d7/d40/load__pdb_8h.html#e642a14fcfcd8e507e7862a4baa8e096">WARN</a>=1;<a class="code" href="../../d7/d40/load__pdb_8h.html#11746df14be0e89fd53b8e7c114d3e8e">SILENT</a>=1;<a class="code" href="../../d7/d40/load__pdb_8h.html#e2d7e48709961b1058dc6fa90e427098">INWC</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#373c7caf05d35feed0d0cf82f9167b62">DATE</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#4b3e717907fd33bd299331e5f1299527">UNCUT</a>=1;<a class="code" href="../../d7/d40/load__pdb_8h.html#4f32816a6dc12bd38ea23cb826607557">UNx</a>=1;<a class="code" href="../../d7/d40/load__pdb_8h.html#a37d37c620ba7bf4091a76d0851eaf97">UNy</a>=1;<a class="code" href="../../d7/d40/load__pdb_8h.html#5b306ad80af99d81031c21d470aa68cd">UNz</a>=1;
-<a name="l00008"></a>00008   temp = <a class="code" href="../../d7/d40/load__pdb_8h.html#bb739140ffdd81f3e152592210dd5cfa">suf</a>; strcpy(temp,<span class="stringliteral">".pdb"</span>);
-<a name="l00009"></a>00009   temp = <a class="code" href="../../d7/d40/load__pdb_8h.html#d831478656552c363afe58928a03f58d">sufc</a>; strcpy(temp,<span class="stringliteral">"_change.txt"</span>); <a class="code" href="../../d7/d40/load__pdb_8h.html#07d0ea652c4669e01b21581a6a499ef5">ACT</a>=<span class="charliteral">'0'</span>;
-<a name="l00010"></a>00010   <a class="code" href="../../d7/d40/load__pdb_8h.html#48f76a8c0dc23567f303ed6aa221e078">DEBUG</a>=-1;<a class="code" href="../../d7/d40/load__pdb_8h.html#57d23a67763e34993a1d972be2512b2a">LASTRES</a>=-1;<a class="code" href="../../d7/d40/load__pdb_8h.html#ce941db7b218d0c1912dadd7004a89bc">LASTOKX</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#c5d5ffc9a84e1cc2ed2100977c9a8f98">LASTOKY</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#a26fee00e3a4625b9ea065a1366576ad">LASTOKZ</a>=0;
-<a name="l00011"></a>00011   <a class="code" href="../../d7/d40/load__pdb_8h.html#24fa0c026c09eefa6e57daefacd665e5">UNCTOL</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#2e2ba1e2983b9a138f40ea3eea778e72">CRYX</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#0929b6592b41da8dd0e43af4fc639ed3">CRYY</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#eb984f1ce298392fdc42c3f42726267c">CRYZ</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#5430408d1540618964b60324fd643456">LASTX</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#e11975a54b97ff7b7befe9bcd351dd03">LASTY</a>=0;<a class="code" href="../../d7/d40/load__pdb_8h.html#602d03c8f8c20fbbe2f19906660106a7">LASTZ</a>=0;
-<a name="l00012"></a>00012   <span class="comment">//int resNum;</span>
-<a name="l00013"></a>00013   <span class="keywordtype">int</span> ma;
-<a name="l00014"></a>00014   <span class="comment">//molecule* mol;</span>
-<a name="l00015"></a>00015   <a class="code" href="../../db/dac/structassembly.html">assembly</a>* asmbl;
-<a name="l00016"></a>00016   <a class="code" href="../../d7/d40/load__pdb_8h.html#afd130377e9ff98517f61af1626ee674">IN</a> = <a class="code" href="../../df/da0/group__FILE__UTILS.html#ga350ff339d771f0880203e6eb7abb58e" title="Opens a file with error checking.">myfopen</a>(file_name, <span class="stringliteral">"r"</span>);
-<a name="l00017"></a>00017  <span class="comment">/*scans pdb file for number of lines</span>
-<a name="l00018"></a>00018 <span class="comment">  allocates memory for line structures</span>
-<a name="l00019"></a>00019 <span class="comment">  initializes structures that contain line formats*/</span>
-<a name="l00020"></a>00020   <a class="code" href="../../d7/d40/load__pdb_8h.html#4249e5129b7a48dd1385504c425db041">init_struct</a>();
-<a name="l00021"></a>00021   rewind(<a class="code" href="../../d7/d40/load__pdb_8h.html#afd130377e9ff98517f61af1626ee674">IN</a>);
-<a name="l00022"></a>00022   <span class="comment">//Read in lines to ln structure</span>
-<a name="l00023"></a>00023   printf(<span class="stringliteral">"Reading in %s...\n"</span>,file_name);
-<a name="l00024"></a>00024   <span class="keywordflow">for</span>(ma=0;ma&lt;<a class="code" href="../../d7/d40/load__pdb_8h.html#e2d7e48709961b1058dc6fa90e427098">INWC</a>;ma++){
-<a name="l00025"></a>00025   <span class="keywordflow">if</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#48f76a8c0dc23567f303ed6aa221e078">DEBUG</a>&gt;=1){printf(<span class="stringliteral">"made it to here main line loop %d ...\n"</span>, ma);} 
-<a name="l00026"></a>00026         <a class="code" href="../../d7/d40/load__pdb_8h.html#75d5fef2f79f0bdf687a02340de6cdb1">rwm_line</a>(ma+1);
-<a name="l00027"></a>00027         }
-<a name="l00028"></a>00028   <span class="comment">//Determine the number of molecules in the pdb</span>
-<a name="l00029"></a>00029   printf(<span class="stringliteral">"There are %d molecule(s)\n"</span>,<a class="code" href="../../d7/d40/load__pdb_8h.html#91f8583751f36a42411e6f85308b2646">howManyMolecules</a>());
-<a name="l00030"></a>00030   asmbl = <a class="code" href="../../d7/d40/load__pdb_8h.html#16fb5e06b69be07382e616632a03561e">getAssembly</a>();
-<a name="l00031"></a>00031   printf(<span class="stringliteral">"PDB Information Successfully Read.\n"</span>);
-<a name="l00032"></a>00032   free(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>);
-<a name="l00033"></a>00033   <span class="keywordflow">return</span> asmbl;
-<a name="l00034"></a>00034 }
-</pre></div>
-<p>
 
 <p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dynsection">
-<p><center><img src="../../d8/df6/load__pdb_8c_08a055e60a0cafa3f1b495ad4b0d8101_cgraph.gif" border="0" usemap="#d8/df6/load__pdb_8c_08a055e60a0cafa3f1b495ad4b0d8101_cgraph_map" alt=""></center>
+<p><center><img src="../../d8/df6/load__pdb_8c_08a055e60a0cafa3f1b495ad4b0d8101_cgraph.png" border="0" usemap="#d8/df6/load__pdb_8c_08a055e60a0cafa3f1b495ad4b0d8101_cgraph_map" alt=""></center>
 <map name="d8/df6/load__pdb_8c_08a055e60a0cafa3f1b495ad4b0d8101_cgraph_map">
 <area shape="rect" href="../../d7/d40/load__pdb_8h.html#16fb5e06b69be07382e616632a03561e" title="getAssembly" alt="" coords="125,120,216,147"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#91f8583751f36a42411e6f85308b2646" title="howManyMolecules" alt="" coords="264,5,395,32"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#4249e5129b7a48dd1385504c425db041" title="init_struct" alt="" coords="133,183,208,209"><area shape="rect" href="../../df/da0/group__FILE__UTILS.html#ga350ff339d771f0880203e6eb7abb58e" title="Opens a file with error checking." alt="" coords="136,233,205,260"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#75d5fef2f79f0bdf687a02340de6cdb1" title="rwm_line" alt="" coords="135,309,207,336"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165" title="endOfMol" alt="" coords="443,69,520,96"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87" title="findTotalResidue" alt="" coords="273,107,385,133"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8" title="isAtom" alt="" coords="452,145,511,172"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#32f0c7fce194f4464ebc00164b5bb53d" title="getResInfo" alt="" coords="289,157,369,184"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#8db95c4b03c738d00106d04f78082f17" title="pdb_def" alt="" coords="297,259,361,285"><area shape="rect" href="../../d7/d40/load__pdb_8h.html#7e12779005bda886569bfa460e18782d" title="get_type" alt="" coords="296,309,363,336"><area shape="rect" href="../../df/da0/group__FILE__UTILS.html#gbe1ecfe61377f58ccb2e93f9d333cdee" title="Complains (EEK!!!) if a file read fails." alt="" coords="292,360,367,387"></map>
 </div>
@@ -485,7 +289,7 @@ Here is the call graph for this function:</div>
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:06 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:50 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: mylib.h Source File</title>
+<title>GLYLIB: inc/mylib.h Source File</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="../../main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../classes.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../dirs.html"><span>Directories</span></a></li>
     <li>
@@ -25,26 +25,14 @@
     </li>
     </ul>
   </div>
-  <div class="navpath"><a class="el" href="../../dir_3ae85f7d111b51475b911a2bbef011c2.html">inc</a>
+  <div class="navpath"><a class="el" href="../../dir_435bd18ce7971260fc2adad17c4a20a3.html">inc</a>
   </div>
 </div>
 <div class="contents">
-<h1>mylib.h</h1><a href="../../dd/dea/mylib_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/** \file  mylib.h</span>
-<a name="l00002"></a>00002 <span class="comment">        \brief generic header file that loads utilities </span>
-<a name="l00003"></a>00003 <span class="comment">                often needed by programmers</span>
-<a name="l00004"></a>00004 <span class="comment"></span>
-<a name="l00005"></a>00005 <span class="comment">The header files included here are basic C library headers</span>
-<a name="l00006"></a>00006 <span class="comment">(such as string.h). </span>
-<a name="l00007"></a>00007 <span class="comment">The other entries are declarations of functions that are expected</span>
-<a name="l00008"></a>00008 <span class="comment">to be commonly used by programmers using the library.  For example,</span>
-<a name="l00009"></a>00009 <span class="comment">functions for opening files and writing error messages are declared</span>
-<a name="l00010"></a>00010 <span class="comment">in this file.  </span>
-<a name="l00011"></a>00011 <span class="comment">*/</span>
+<h1>mylib.h</h1><a href="../../dd/dea/mylib_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
 <a name="l00012"></a>00012 <span class="preprocessor">#if !defined(GLYLIB_HEAD)</span>
 <a name="l00013"></a><a class="code" href="../../dd/dea/mylib_8h.html#6e0d1bcb62846990630fd993617a671d">00013</a> <span class="preprocessor"></span><span class="preprocessor">#define GLYLIB_HEAD</span>
-<a name="l00014"></a>00014 <span class="preprocessor"></span><span class="comment">/** </span>
-<a name="l00015"></a>00015 <span class="comment">Some libraries that are often needed </span>
-<a name="l00016"></a>00016 <span class="comment">*/</span>
+<a name="l00014"></a>00014 <span class="preprocessor"></span>
 <a name="l00017"></a>00017 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
 <a name="l00018"></a>00018 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
 <a name="l00019"></a>00019 <span class="preprocessor">#include &lt;stddef.h&gt;</span>
@@ -54,89 +42,37 @@
 <a name="l00023"></a>00023 <span class="preprocessor">#include &lt;time.h&gt;</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include &lt;malloc.h&gt;</span>
 <a name="l00025"></a>00025 <span class="preprocessor">#include &lt;<a class="code" href="../../d9/d14/general_8h.html" title="Convenience structures used by various functions within the library.">general.h</a>&gt;</span>
-<a name="l00026"></a>00026 <span class="comment"></span>
-<a name="l00027"></a>00027 <span class="comment">/**</span>
-<a name="l00028"></a>00028 <span class="comment">Defines that are often needed</span>
-<a name="l00029"></a>00029 <span class="comment">*/</span>
+<a name="l00026"></a>00026 
 <a name="l00030"></a><a class="code" href="../../dd/dea/mylib_8h.html#369266c24eacffb87046522897a570d5">00030</a> <span class="preprocessor">#define _GNU_SOURCE</span>
-<a name="l00031"></a>00031 <span class="preprocessor"></span><span class="comment"></span>
-<a name="l00032"></a>00032 <span class="comment">/** </span>
-<a name="l00033"></a>00033 <span class="comment">Some general-use functions </span>
-<a name="l00034"></a>00034 <span class="comment">*/</span><span class="comment"></span>
-<a name="l00035"></a>00035 <span class="comment">/** Prints usage.*/</span>
-<a name="l00036"></a>00036 <span class="keywordtype">void</span>  <a class="code" href="../../dd/dea/mylib_8h.html#a79764a45c59a10ebc7be17cbeda36ed" title="Prints usage message and exits(1).">myusage</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *USAGE); <span class="comment">///&lt; Prints usage message and exits(1).</span>
-<a name="l00037"></a>00037 <span class="comment"></span><span class="comment">/** Prints error message and exits(1). </span>
-<a name="l00038"></a>00038 <span class="comment">Prints the following: </span>
-<a name="l00039"></a>00039 <span class="comment"></span>
-<a name="l00040"></a>00040 <span class="comment">"This program encountered the following error and will exit:</span>
-<a name="l00041"></a>00041 <span class="comment"></span>
-<a name="l00042"></a>00042 <span class="comment">        whinetext " </span>
-<a name="l00043"></a>00043 <span class="comment">*/</span>
-<a name="l00044"></a>00044 <span class="keywordtype">void</span>  <a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *whinetext); <span class="comment">///&lt; Prints error message and exits(1).</span>
-<a name="l00045"></a>00045 <span class="comment"></span><span class="comment">/** Prints usage and an error message and exits(1). See mywhine for more information.</span>
-<a name="l00046"></a>00046 <span class="comment"> Prints a usage statement after the whinetext*/</span>
-<a name="l00047"></a>00047 <span class="keywordtype">void</span>  <a class="code" href="../../dd/dea/mylib_8h.html#7a5b127eb728aaec8cf9895ca3c57bf1" title="Prints error message and usage and exits(1).">mywhineusage</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *whinetext,<span class="keyword">const</span> <span class="keywordtype">char</span> *USAGE);<span class="comment">///&lt; Prints error message and usage and exits(1).</span>
-<a name="l00048"></a>00048 <span class="comment"></span><span class="comment">/** \defgroup FILE_UTILS "File Utilities" */</span><span class="comment"></span>
-<a name="l00049"></a>00049 <span class="comment">/** \addtogroup FILE_UTILS */</span><span class="comment"></span>
-<a name="l00050"></a>00050 <span class="comment">/*@{*/</span><span class="comment"></span>
-<a name="l00051"></a>00051 <span class="comment">/** Opens a file with error checking. </span>
-<a name="l00052"></a>00052 <span class="comment">This function will open a file and then check to see if the file actually opened.  </span>
-<a name="l00053"></a>00053 <span class="comment">If not, it will write a descriptive error message and exit(1) the program. </span>
-<a name="l00054"></a>00054 <span class="comment">Doing this saves many, many core dumps. */</span>
-<a name="l00055"></a>00055 FILE *<a class="code" href="../../df/da0/group__FILE__UTILS.html#ga350ff339d771f0880203e6eb7abb58e" title="Opens a file with error checking.">myfopen</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* Name,<span class="keyword">const</span> <span class="keywordtype">char</span>* option);<span class="comment">///&lt; Opens a file with error checking.</span>
-<a name="l00056"></a>00056 <span class="comment"></span><span class="comment">/** Like myfopen, but the freopen version. */</span>
-<a name="l00057"></a>00057 FILE *<a class="code" href="../../df/da0/group__FILE__UTILS.html#gb1eb9a7cbe4d705465f2270550ace4c4" title="Like myfopen, but the freopen version.">myfreopen</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* Name,<span class="keyword">const</span> <span class="keywordtype">char</span>*,FILE* option); <span class="comment">///&lt; Like myfopen, but the freopen version.</span>
-<a name="l00058"></a>00058 <span class="comment"></span><span class="comment">/** Complains (EEK!!!) if a file read fails.  Prints the following: "</span>
-<a name="l00059"></a>00059 <span class="comment"></span>
-<a name="l00060"></a>00060 <span class="comment">Unexpected surprise during read of file FileDesc.</span>
-<a name="l00061"></a>00061 <span class="comment"></span>
-<a name="l00062"></a>00062 <span class="comment">Exiting.</span>
-<a name="l00063"></a>00063 <span class="comment"></span>
-<a name="l00064"></a>00064 <span class="comment">"*/</span>
-<a name="l00065"></a>00065 <span class="keywordtype">void</span>  <a class="code" href="../../df/da0/group__FILE__UTILS.html#g77e969d3a949fa8aa7195481797b2f19" title="Complains (EEK!!!) if a file read fails.">read_eek</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *surprise, <span class="keyword">const</span> <span class="keywordtype">char</span> *FileDesc); <span class="comment">///&lt; Complains (EEK!!!) if a file read fails.</span>
-<a name="l00066"></a>00066 <span class="comment"></span><span class="comment"> /** Complains (EEK!!!) if a file read fails. Prints the following: "</span>
-<a name="l00067"></a>00067 <span class="comment"></span>
-<a name="l00068"></a>00068 <span class="comment">" */</span>
-<a name="l00069"></a>00069 <span class="keywordtype">void</span> <a class="code" href="../../df/da0/group__FILE__UTILS.html#gbe1ecfe61377f58ccb2e93f9d333cdee" title="Complains (EEK!!!) if a file read fails.">read_neek</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *surprise,<span class="keywordtype">int</span> <a class="code" href="../../d7/d40/load__pdb_8h.html#c0943872323c1ec7d8f0db57e0bdbbb6">line</a>,<span class="keywordtype">int</span> field); <span class="comment">///&lt; Complains (EEK!!!) if a file read fails.</span>
-<a name="l00070"></a>00070 <span class="comment"></span><span class="comment">/** Complains (EEK!!!) if a file read fails. */</span>
-<a name="l00071"></a>00071 <span class="keywordtype">void</span> <a class="code" href="../../df/da0/group__FILE__UTILS.html#ge2504ac9b9bee48a3757f9695ca8202a" title="Complains (EEK!!!) if a file read fails.">read_fneek</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *surprise, <span class="keywordtype">int</span> <a class="code" href="../../d7/d40/load__pdb_8h.html#c0943872323c1ec7d8f0db57e0bdbbb6">line</a>, <span class="keywordtype">int</span> field, <span class="keyword">const</span> <span class="keywordtype">char</span> *FILENAME); <span class="comment">///&lt; Complains (EEK!!!) if a file read fails.</span>
-<a name="l00072"></a>00072 <span class="comment"></span><span class="comment">/*! Makes certain that the number of snapshots read from a crd file makes</span>
-<a name="l00073"></a>00073 <span class="comment">sense in terms of the given topology file.  This declaration should be moved to</span>
-<a name="l00074"></a>00074 <span class="comment">some other location eventually (not so general -- really just amber). */</span>
-<a name="l00075"></a>00075 <span class="keywordtype">int</span>   <a class="code" href="../../df/da0/group__FILE__UTILS.html#g18a2e3b8f87ae3bc6e08457a73a318e1" title="counts snapshots in a crd file">crdsnaps</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);<span class="comment">///&lt; counts snapshots in a crd file</span>
-<a name="l00076"></a>00076 <span class="comment"></span><span class="comment">/** </span>
-<a name="l00077"></a>00077 <span class="comment">* Usage:</span>
-<a name="l00078"></a>00078 <span class="comment"></span>
-<a name="l00079"></a>00079 <span class="comment">*      const char * mylocaltimestring,mytime(format)</span>
-<a name="l00080"></a>00080 <span class="comment"></span>
-<a name="l00081"></a>00081 <span class="comment">*              -for example:</span>
-<a name="l00082"></a>00082 <span class="comment"></span>
-<a name="l00083"></a>00083 <span class="comment">*      strcpy(mylocaltimestring,mytime("format"));</span>
-<a name="l00084"></a>00084 <span class="comment"></span>
-<a name="l00085"></a>00085 <span class="comment">* where:</span>
-<a name="l00086"></a>00086 <span class="comment"></span>
-<a name="l00087"></a>00087 <span class="comment">*      format is one of:</span>
-<a name="l00088"></a>00088 <span class="comment"></span>
-<a name="l00089"></a>00089 <span class="comment">*              [keyword]       [example]</span>
-<a name="l00090"></a>00090 <span class="comment"></span>
-<a name="l00091"></a>00091 <span class="comment">*              YYYYMMDD        20070321</span>
-<a name="l00092"></a>00092 <span class="comment"></span>
-<a name="l00093"></a>00093 <span class="comment">*              YYYYMMDDhhmmss  20070321152110</span>
-<a name="l00094"></a>00094 <span class="comment"></span>
-<a name="l00095"></a>00095 <span class="comment">*              pretty          Wed, 21 March, 2007</span>
-<a name="l00096"></a>00096 <span class="comment"></span>
-<a name="l00097"></a>00097 <span class="comment">*              longpretty      15:12:10, Wed, 21 March, 2007</span>
-<a name="l00098"></a>00098 <span class="comment">*/</span>
-<a name="l00099"></a>00099 <span class="keyword">const</span> <span class="keywordtype">char</span> * <a class="code" href="../../df/da0/group__FILE__UTILS.html#g0aa978abdf0e063978189238820eb7f7" title="Gets the time in a nice format.">mytime</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>*); <span class="comment">///&lt; Gets the time in a nice format</span>
-<a name="l00100"></a>00100 <span class="comment"></span><span class="comment">/*! Returns the number of times the string str is found in file F */</span>
-<a name="l00101"></a>00101 <span class="keywordtype">int</span> <a class="code" href="../../df/da0/group__FILE__UTILS.html#g85ba1704a246a08be59af6a375127fb7" title="Scans a file for instances of a string.">sscan_file</a>(FILE* F,<span class="keyword">const</span> <span class="keywordtype">char</span>* str); <span class="comment">///&lt; Scans a file for instances of a string.</span>
-<a name="l00102"></a>00102 <span class="comment"></span><span class="comment">/*! Returns the number of times the character c is found in file F */</span>
-<a name="l00103"></a>00103 <span class="keywordtype">int</span> <a class="code" href="../../df/da0/group__FILE__UTILS.html#g3fd835a9b6e92d5e410262d065b16bf4" title="Scans a file for instances of a character.">cscan_file</a>(FILE* F,<span class="keywordtype">char</span> c); <span class="comment">///&lt; Scans a file for instances of a character.</span>
-<a name="l00104"></a>00104 <span class="comment"></span><a class="code" href="../../d7/d31/structfileslurp.html" title="A structure for a function similar to the perl notion of &amp;quot;slurping&amp;quot; a file...">fileslurp</a> <a class="code" href="../../df/da0/group__FILE__UTILS.html#g32beab6660a30c42c4a1c744f109f8f1" title="Slurps in the contents of an entire file.">slurp_file</a>(<a class="code" href="../../dc/d59/structfileset.html">fileset</a> F); <span class="comment">///&lt; Slurps in the contents of an entire file</span>
-<a name="l00105"></a>00105 <span class="comment"></span><span class="comment">/*@{*/</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span>
+<a name="l00036"></a>00036 <span class="keywordtype">void</span>  <a class="code" href="../../dd/dea/mylib_8h.html#a79764a45c59a10ebc7be17cbeda36ed" title="Prints usage message and exits(1).">myusage</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *USAGE); 
+<a name="l00037"></a>00037 
+<a name="l00044"></a>00044 <span class="keywordtype">void</span>  <a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *whinetext); 
+<a name="l00045"></a>00045 
+<a name="l00047"></a>00047 <span class="keywordtype">void</span>  <a class="code" href="../../dd/dea/mylib_8h.html#7a5b127eb728aaec8cf9895ca3c57bf1" title="Prints error message and usage and exits(1).">mywhineusage</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *whinetext,<span class="keyword">const</span> <span class="keywordtype">char</span> *USAGE);
+<a name="l00048"></a>00048 
+<a name="l00055"></a>00055 FILE *<a class="code" href="../../df/da0/group__FILE__UTILS.html#ga350ff339d771f0880203e6eb7abb58e" title="Opens a file with error checking.">myfopen</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* Name,<span class="keyword">const</span> <span class="keywordtype">char</span>* option);
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 FILE *<a class="code" href="../../df/da0/group__FILE__UTILS.html#gb1eb9a7cbe4d705465f2270550ace4c4" title="Like myfopen, but the freopen version.">myfreopen</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* Name,<span class="keyword">const</span> <span class="keywordtype">char</span>*,FILE* option); 
+<a name="l00058"></a>00058 
+<a name="l00065"></a>00065 <span class="keywordtype">void</span>  <a class="code" href="../../df/da0/group__FILE__UTILS.html#g77e969d3a949fa8aa7195481797b2f19" title="Complains (EEK!!!) if a file read fails.">read_eek</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *surprise, <span class="keyword">const</span> <span class="keywordtype">char</span> *FileDesc); 
+<a name="l00066"></a>00066 
+<a name="l00069"></a>00069 <span class="keywordtype">void</span> <a class="code" href="../../df/da0/group__FILE__UTILS.html#gbe1ecfe61377f58ccb2e93f9d333cdee" title="Complains (EEK!!!) if a file read fails.">read_neek</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *surprise,<span class="keywordtype">int</span> <a class="code" href="../../d7/d40/load__pdb_8h.html#c0943872323c1ec7d8f0db57e0bdbbb6">line</a>,<span class="keywordtype">int</span> field); 
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 <span class="keywordtype">void</span> <a class="code" href="../../df/da0/group__FILE__UTILS.html#ge2504ac9b9bee48a3757f9695ca8202a" title="Complains (EEK!!!) if a file read fails.">read_fneek</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *surprise, <span class="keywordtype">int</span> <a class="code" href="../../d7/d40/load__pdb_8h.html#c0943872323c1ec7d8f0db57e0bdbbb6">line</a>, <span class="keywordtype">int</span> field, <span class="keyword">const</span> <span class="keywordtype">char</span> *FILENAME); 
+<a name="l00072"></a>00072 
+<a name="l00075"></a>00075 <span class="keywordtype">int</span>   <a class="code" href="../../df/da0/group__FILE__UTILS.html#g18a2e3b8f87ae3bc6e08457a73a318e1" title="counts snapshots in a crd file">crdsnaps</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);
+<a name="l00076"></a>00076 
+<a name="l00099"></a>00099 <span class="keyword">const</span> <span class="keywordtype">char</span> * <a class="code" href="../../df/da0/group__FILE__UTILS.html#g0aa978abdf0e063978189238820eb7f7" title="Gets the time in a nice format.">mytime</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>*); 
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 <span class="keywordtype">int</span> <a class="code" href="../../df/da0/group__FILE__UTILS.html#g85ba1704a246a08be59af6a375127fb7" title="Scans a file for instances of a string.">sscan_file</a>(FILE* F,<span class="keyword">const</span> <span class="keywordtype">char</span>* str); 
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 <span class="keywordtype">int</span> <a class="code" href="../../df/da0/group__FILE__UTILS.html#g3fd835a9b6e92d5e410262d065b16bf4" title="Scans a file for instances of a character.">cscan_file</a>(FILE* F,<span class="keywordtype">char</span> c); 
+<a name="l00104"></a>00104 <a class="code" href="../../d7/d31/structfileslurp.html" title="A structure for a function similar to the perl notion of &amp;quot;slurping&amp;quot; a file...">fileslurp</a> <a class="code" href="../../df/da0/group__FILE__UTILS.html#g32beab6660a30c42c4a1c744f109f8f1" title="Slurps in the contents of an entire file.">slurp_file</a>(<a class="code" href="../../dc/d59/structfileset.html">fileset</a> F); 
+<a name="l00105"></a>00105 
 <a name="l00106"></a>00106 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:02 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:42 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

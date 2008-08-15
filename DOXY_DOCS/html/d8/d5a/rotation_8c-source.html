@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: rotation.c Source File</title>
+<title>GLYLIB: src/rotation.c Source File</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="../../main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../classes.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li><a href="../../dirs.html"><span>Directories</span></a></li>
     <li>
@@ -25,7 +25,7 @@
     </li>
     </ul>
   </div>
-  <div class="navpath"><a class="el" href="../../dir_fba7d38c13d62fc3c519a83038ccbec0.html">src</a>
+  <div class="navpath"><a class="el" href="../../dir_4c50504df4ef4681d4a5a0710190c908.html">src</a>
   </div>
 </div>
 <div class="contents">
@@ -41,7 +41,7 @@
 <a name="l00010"></a>00010   printf(<span class="stringliteral">"Rolling molecule approx. %.0lf degrees...\n"</span>,(rad*57.2957795));
 <a name="l00011"></a>00011   <span class="keywordtype">int</span> i,j;
 <a name="l00012"></a>00012   <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes; <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;
-<a name="l00013"></a>00013   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a> = 0;
+<a name="l00013"></a>00013   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a> = 0;
 <a name="l00014"></a>00014   <span class="keywordflow">for</span>(i = 0; i &lt; (*mol).nr; i++)
 <a name="l00015"></a>00015   {
 <a name="l00016"></a>00016    curRes = ((*mol).r+i);
@@ -52,8 +52,8 @@
 <a name="l00021"></a>00021     <span class="comment">//Rotating about the X-axis</span>
 <a name="l00022"></a>00022     (*curAtm).<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = (*curAtm).x.i;
 <a name="l00023"></a>00023     temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>=((*curAtm).x.j*cos(rad))+((*curAtm).x.k*sin(rad));
-<a name="l00024"></a>00024     temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>=((*curAtm).x.j*-sin(rad))+((*curAtm).x.k*cos(rad));
-<a name="l00025"></a>00025     (*curAtm).x.j = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>; (*curAtm).x.k = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>;
+<a name="l00024"></a>00024     temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>=((*curAtm).x.j*-sin(rad))+((*curAtm).x.k*cos(rad));
+<a name="l00025"></a>00025     (*curAtm).x.j = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>; (*curAtm).x.k = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>;
 <a name="l00026"></a>00026    }
 <a name="l00027"></a>00027   }
 <a name="l00028"></a>00028 }
@@ -64,7 +64,7 @@
 <a name="l00033"></a>00033   printf(<span class="stringliteral">"Pitching molecule approx. %.0lf degrees...\n"</span>,(rad*57.2957795));
 <a name="l00034"></a>00034   <span class="keywordtype">int</span> i,j;
 <a name="l00035"></a>00035   <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes; <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;
-<a name="l00036"></a>00036   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a> = 0;
+<a name="l00036"></a>00036   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a> = 0;
 <a name="l00037"></a>00037   <span class="keywordflow">for</span>(i = 0; i &lt; (*mol).nr; i++)
 <a name="l00038"></a>00038   {
 <a name="l00039"></a>00039    curRes = ((*mol).r+i);
@@ -75,8 +75,8 @@
 <a name="l00044"></a>00044     <span class="comment">//Rotating about the Y-axis</span>
 <a name="l00045"></a>00045     temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>=((*curAtm).x.i*cos(rad))+((*curAtm).x.k*-sin(rad));
 <a name="l00046"></a>00046     (*curAtm).x.j = (*curAtm).x.j;
-<a name="l00047"></a>00047     temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>=((*curAtm).x.i*sin(rad))+((*curAtm).x.k*cos(rad));
-<a name="l00048"></a>00048     (*curAtm).x.i = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>; (*curAtm).x.k = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>;
+<a name="l00047"></a>00047     temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>=((*curAtm).x.i*sin(rad))+((*curAtm).x.k*cos(rad));
+<a name="l00048"></a>00048     (*curAtm).x.i = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>; (*curAtm).x.k = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>;
 <a name="l00049"></a>00049    }
 <a name="l00050"></a>00050   }
 <a name="l00051"></a>00051 }
@@ -87,7 +87,7 @@
 <a name="l00056"></a>00056   printf(<span class="stringliteral">"Yawing molecule approx. %.0lf degrees...\n"</span>,(rad*57.2957795));
 <a name="l00057"></a>00057   <span class="keywordtype">int</span> i,j;
 <a name="l00058"></a>00058   <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes; <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;
-<a name="l00059"></a>00059   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a> = 0;
+<a name="l00059"></a>00059   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a> = 0;
 <a name="l00060"></a>00060   <span class="keywordflow">for</span>(i = 0; i &lt; (*mol).nr; i++)
 <a name="l00061"></a>00061   {
 <a name="l00062"></a>00062    curRes = ((*mol).r+i);
@@ -110,7 +110,7 @@
 <a name="l00079"></a>00079   printf(<span class="stringliteral">"Rolling assembly approx. %.0lf degrees...\n"</span>,(rad*57.2957795));
 <a name="l00080"></a>00080   <span class="keywordtype">int</span> i,j,k;
 <a name="l00081"></a>00081   <a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>* mol; <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes; <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;
-<a name="l00082"></a>00082   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a> = 0;
+<a name="l00082"></a>00082   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a> = 0;
 <a name="l00083"></a>00083   <span class="keywordflow">for</span>(k = 0; k &lt; (*asmbl).nm; k++)
 <a name="l00084"></a>00084   {
 <a name="l00085"></a>00085    mol = ((*asmbl).m+k)[0]; <span class="comment">// changed by BLF on 20080622 -- might need revisiting</span>
@@ -124,8 +124,8 @@
 <a name="l00093"></a>00093      <span class="comment">//Rotating about the X-axis</span>
 <a name="l00094"></a>00094      (*curAtm).<a class="code" href="../../da/d81/structatom.html#e92964744894a41ca0f033043abbeb80">x</a>.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = (*curAtm).x.i;
 <a name="l00095"></a>00095      temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>=((*curAtm).x.j*cos(rad))+((*curAtm).x.k*sin(rad));
-<a name="l00096"></a>00096      temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>=((*curAtm).x.j*-sin(rad))+((*curAtm).x.k*cos(rad));
-<a name="l00097"></a>00097      (*curAtm).x.j = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>; (*curAtm).x.k = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>;
+<a name="l00096"></a>00096      temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>=((*curAtm).x.j*-sin(rad))+((*curAtm).x.k*cos(rad));
+<a name="l00097"></a>00097      (*curAtm).x.j = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>; (*curAtm).x.k = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>;
 <a name="l00098"></a>00098     }
 <a name="l00099"></a>00099    }
 <a name="l00100"></a>00100   }
@@ -137,7 +137,7 @@
 <a name="l00106"></a>00106   printf(<span class="stringliteral">"Pitching assembly approx. %.0lf degrees...\n"</span>,(rad*57.2957795));
 <a name="l00107"></a>00107   <span class="keywordtype">int</span> i,j,k;
 <a name="l00108"></a>00108   <a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>* mol; <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes; <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;
-<a name="l00109"></a>00109   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a> = 0;
+<a name="l00109"></a>00109   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a> = 0;
 <a name="l00110"></a>00110   <span class="keywordflow">for</span>(k = 0; k &lt; (*asmbl).nm; k++)
 <a name="l00111"></a>00111   {
 <a name="l00112"></a>00112    mol = ((*asmbl).m+k)[0]; <span class="comment">// changed by BLF on 20080622 -- might need revisiting</span>
@@ -151,8 +151,8 @@
 <a name="l00120"></a>00120      <span class="comment">//Rotating about the Y-axis</span>
 <a name="l00121"></a>00121      temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>=((*curAtm).x.i*cos(rad))+((*curAtm).x.k*-sin(rad));
 <a name="l00122"></a>00122      (*curAtm).x.j = (*curAtm).x.j;
-<a name="l00123"></a>00123      temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>=((*curAtm).x.i*sin(rad))+((*curAtm).x.k*cos(rad));
-<a name="l00124"></a>00124      (*curAtm).x.i = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>; (*curAtm).x.k = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a>;
+<a name="l00123"></a>00123      temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>=((*curAtm).x.i*sin(rad))+((*curAtm).x.k*cos(rad));
+<a name="l00124"></a>00124      (*curAtm).x.i = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>; (*curAtm).x.k = temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>;
 <a name="l00125"></a>00125     }
 <a name="l00126"></a>00126    }
 <a name="l00127"></a>00127   }
@@ -164,7 +164,7 @@
 <a name="l00133"></a>00133   printf(<span class="stringliteral">"Yawing assembly approx. %.0lf degrees...\n"</span>,(rad*57.2957795));
 <a name="l00134"></a>00134   <span class="keywordtype">int</span> i,j,k;
 <a name="l00135"></a>00135   <a class="code" href="../../dc/d7f/structmolecule.html">molecule</a>* mol; <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes; <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;
-<a name="l00136"></a>00136   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c">k</a> = 0;
+<a name="l00136"></a>00136   <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> temp; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a> = 0; temp.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a> = 0;
 <a name="l00137"></a>00137   <span class="keywordflow">for</span>(k = 0; k &lt; (*asmbl).nm; k++)
 <a name="l00138"></a>00138   {
 <a name="l00139"></a>00139    mol = ((*asmbl).m+k)[0]; <span class="comment">// changed by BLF on 20080622 -- might need revisiting</span>
@@ -186,7 +186,7 @@
 <a name="l00155"></a>00155   }
 <a name="l00156"></a>00156 }
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Aug 11 16:49:03 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Aug 15 15:53:43 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
