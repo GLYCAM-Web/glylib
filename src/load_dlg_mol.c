@@ -40,8 +40,7 @@ rewind(F.F);
 // find the start of the input PDBQ file
 while(fgets(line,500,F.F)!=NULL){
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
-	if(strstr(line,"INPUT PDBQ FILE")!=NULL || 
-	   strstr(line,"INPUT LIGAND PDBQT FILE")!=NULL){
+	if(strstr(line,"INPUT PDBQ FILE")!=NULL){
 		fgets(line,500,F.F);
 		fgets(line,500,F.F);
 		break;
@@ -51,9 +50,7 @@ if(localdebug>0){printf("load_dlg_mol: After found PDBQ.\n");}
 fgetpos(F.F,start);
 while(strstr(line,"__________________________________") == NULL){
 	if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL ||
-           strstr(line,"INPUT-PDBQ: HETATM")!=NULL ||//***START EDIT MNT Aug,22 2008 
-	   strstr(line,"INPUT-LIGAND-PDBQT: ATOM")!=NULL || 
-	   strstr(line,"INPUT-LIGAND-PDBQT: HETATM")!=NULL){//***END EDIT
+           strstr(line,"INPUT-PDBQ: HETATM")!=NULL){
 		scntst=sscanf(line,"%s %s %d %s %s %d",dum1,dum2,&anum,at,res,&rnum);
 		if(rnum < fRes || fRes < 0)
 			fRes = rnum;
@@ -67,13 +64,10 @@ free(start);
 while(fgets(line,500,F.F)!=NULL){
 if(localdebug>3){printf("load_dlg_mol: Reading file.\n");}
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
-	if(strstr(line,"INPUT-PDBQ")!=NULL ||
-	   strstr(line,"INPUT-LIGAND-PDBQT")!=NULL){
+	if(strstr(line,"INPUT-PDBQ")!=NULL){
 if(localdebug>3){printf("load_dlg_mol: Reading PDBQ.\n");}
 		if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL ||
-		   strstr(line,"INPUT-PDBQ: HETATM")!=NULL ||//*START EDIT MNT Aug,22 2008
-		   strstr(line,"INPUT-LIGAND-PDBQT: ATOM")!=NULL || 
-		   strstr(line,"INPUT-LIGAND-PDBQT: HETATM")!=NULL){//*END EDIT
+		   strstr(line,"INPUT-PDBQ: HETATM")!=NULL){
 			scntst=sscanf(line,"%s %s %d %s %s %d %lf %lf %lf",\
 				dum1,dum2,&anum,at,res,&rnum,&x,&y,&z);
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
@@ -188,9 +182,7 @@ if(localdebug>1){printf("\tload_dlg_mol: running COM is %20.15e  %20.15e  %20.15
 			}
 //if(localdebug>1){dprint_molecule(&D[0].M,10);}
 		}
-	if(strstr(line,"Number of atoms found in molecule")!=NULL ||
-          strstr(line,"Determining Atom Types and Parameters for the Moving Atoms")!=NULL)
-          {break;} 
+	if(strstr(line,"Number of atoms found in molecule")!=NULL){break;} 
 	}
 // ONE DAY:  add in any missing atoms
 // -- open the prep database
