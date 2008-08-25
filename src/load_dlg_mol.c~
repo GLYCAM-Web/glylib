@@ -316,9 +316,14 @@ if(localdebug>3){printf("\tload_dlg_mol: found a set; in atom scan.\n");}
 				dum1,dum2,&anum,at,res,&rnum,&x,&y,&z);
 			//if(rnum>3020){rnum%=3020;}//Added to handle LSTC_1918 (Temporary)
 			rnum-=fRes;
+			//***START EDIT MNT Aug,14 2008
 			if(scntst!=9){
-				sprintf(whinetext,"end of line while reading DOCKED: ATOM (run %d)",(di+1));
-				read_eek(whinetext,F.N);}
+				scntst=sscanf(line,"%s %s %d %s %s %c %d %lf %lf %lf",\
+					dum1,dum2,&anum,at,res,cid,&rnum,&x,&y,&z);
+				if(scntst!=10){
+					sprintf(whinetext,"end of line while reading DOCKED: ATOM (run %d)",(di+1));
+					read_eek(whinetext,F.N);}
+			}//***END EDIT
 			if(x<xl){xl=x;}
 			if(x>xh){xh=x;}
 			if(y<yl){yl=y;}
