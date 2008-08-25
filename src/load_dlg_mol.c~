@@ -40,7 +40,8 @@ rewind(F.F);
 // find the start of the input PDBQ file
 while(fgets(line,500,F.F)!=NULL){
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
-	if(strstr(line,"INPUT PDBQ FILE")!=NULL){
+	if(strstr(line,"INPUT PDBQ FILE")!=NULL || 
+	   strstr(line,"INPUT LIGAND PDBQT FILE")!=NULL){
 		fgets(line,500,F.F);
 		fgets(line,500,F.F);
 		break;
@@ -50,7 +51,9 @@ if(localdebug>0){printf("load_dlg_mol: After found PDBQ.\n");}
 fgetpos(F.F,start);
 while(strstr(line,"__________________________________") == NULL){
 	if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL ||
-           strstr(line,"INPUT-PDBQ: HETATM")!=NULL){
+           strstr(line,"INPUT-PDBQ: HETATM")!=NULL ||//***START EDIT MNT Aug,22 2008 
+	   strstr(line,"INPUT-LIGAND-PDBQT: ATOM")!=NULL || 
+	   strstr(line,"INPUT-LIGAND-PDBQT: HETATM")!=NULL){//***END EDIT
 		scntst=sscanf(line,"%s %s %d %s %s %d",dum1,dum2,&anum,at,res,&rnum);
 		if(rnum < fRes || fRes < 0)
 			fRes = rnum;
@@ -64,10 +67,13 @@ free(start);
 while(fgets(line,500,F.F)!=NULL){
 if(localdebug>3){printf("load_dlg_mol: Reading file.\n");}
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
-	if(strstr(line,"INPUT-PDBQ")!=NULL){
+	if(strstr(line,"INPUT-PDBQ")!=NULL ||
+	   strstr(line,"INPUT-LIGAND-PDBQT")!=NULL){
 if(localdebug>3){printf("load_dlg_mol: Reading PDBQ.\n");}
 		if(strstr(line,"INPUT-PDBQ: ATOM")!=NULL ||
-		   strstr(line,"INPUT-PDBQ: HETATM")!=NULL){
+		   strstr(line,"INPUT-PDBQ: HETATM")!=NULL ||//*START EDIT MNT Aug,22 2008
+		   strstr(line,"INPUT-LIGAND-PDBQT: ATOM")!=NULL || 
+		   strstr(line,"INPUT-LIGAND-PDBQT: HETATM")!=NULL){//*END EDIT
 			scntst=sscanf(line,"%s %s %d %s %s %d %lf %lf %lf",\
 				dum1,dum2,&anum,at,res,&rnum,&x,&y,&z);
 if(localdebug>3){printf("line is >>>%s<<<\n",line);}
@@ -316,9 +322,14 @@ if(localdebug>3){printf("\tload_dlg_mol: found a set; in atom scan.\n");}
 				dum1,dum2,&anum,at,res,&rnum,&x,&y,&z);
 			//if(rnum>3020){rnum%=3020;}//Added to handle LSTC_1918 (Temporary)
 			rnum-=fRes;
+			//***START EDIT MNT Aug,14 2008
 			if(scntst!=9){
-				sprintf(whinetext,"end of line while reading DOCKED: ATOM (run %d)",(di+1));
-				read_eek(whinetext,F.N);}
+				scntst=sscanf(line,"%s %s %d %s %s %c %d %lf %lf %lf",\
+					dum1,dum2,&anum,at,res,cid,&rnum,&x,&y,&z);
+				if(scntst!=10){
+					sprintf(whinetext,"end of line while reading DOCKED: ATOM (run %d)",(di+1));
+					read_eek(whinetext,F.N);}
+			}//***END EDIT
 			if(x<xl){xl=x;}
 			if(x>xh){xh=x;}
 			if(y<yl){yl=y;}
