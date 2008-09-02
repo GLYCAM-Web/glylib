@@ -33,6 +33,47 @@ assembly* load_pdb(char* file_name)
   return asmbl;
 }
 
+molecule load_pdb_from_slurp(fileslurp in){
+ int i,hldr;
+ int minRes = -1;
+ char* temp;
+ //This should be done outside of this function
+ fileslurp pdb = isolateInputPDB(in);
+ init_struct_slurp(in);
+ for(i = 0; i < pdb.n; i++){
+  rwm_line_char(pdb.L[i],i+1);
+  if(isAtom((ln+i))){
+   temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&hldr);
+   if(minRes > hldr || minRes < 0){minRes = hldr;}
+  }
+ }
+ INWC = pdb.n;
+ return (*getMolecule(minRes));
+}
+
+fileslurp isolateInputPDB(fileslurp S){
+ int i,itr;
+ char* plc;
+ fileslurp O; O.n = 0; itr = 0;
+ for(i = 0; i < S.n; i++){
+  if(strstr(S.L[i],"INPUT-PDBQ: ")!=NULL ||
+     strstr(S.L[i],"INPUT-LIGAND-PDBQT: ")!=NULL)
+   O.n++;
+ }
+ O.L = (char**)calloc(O.n,sizeof(char*));
+ for(i = 0; i < S.n; i++){
+  if(strstr(S.L[i],"INPUT-PDBQ: ")!=NULL ||
+     strstr(S.L[i],"INPUT-LIGAND-PDBQT: ")!=NULL){
+   if(strstr(S.L[i],"INPUT-PDBQ: ")!=NULL)
+    plc = S.L[i]+12;
+   else
+    plc = S.L[i]+20;
+   O.L[itr] = strdup(plc); itr++;
+  }
+ }
+ return O;
+}
+
 int howManyMolecules()
 {
  int i; int counter = 0;
@@ -59,9 +100,9 @@ assembly* getAssembly()
   atom* curAtm;// atom* atm;
   //Get all the information for the first molecule
   curMol = (mol+j);
-  (*curMol).nr = findTotalResidue(i);
+  (*curMol).nr = findTotalResidue(i,0);
   (*curMol).r = (residue*) malloc ((*curMol).nr*sizeof(residue));
-  getResInfo((*curMol).r,i);
+  getResInfo((*curMol).r,i,1);
   curRes = ((*curMol).r+k);
   (*curRes).a = (atom*) malloc ((*curRes).na*sizeof(atom));
   curAtm = ((*curRes).a+l);
@@ -72,9 +113,9 @@ assembly* getAssembly()
     {
       j++;
       curMol = (mol+j);
-      (*curMol).nr = findTotalResidue(i+1);
+      (*curMol).nr = findTotalResidue(i+1,0);
       (*curMol).r = (residue*) malloc ((*curMol).nr*sizeof(residue));
-      getResInfo((*curMol).r,i+1);
+      getResInfo((*curMol).r,i+1,1);
       curRes = ((*curMol).r+k);
       k = 0;l = 0;
       (*curRes).a = (atom*) malloc ((*curRes).na*sizeof(atom));
@@ -116,9 +157,9 @@ assembly* getAssembly()
  return asmbl;
 }
 
-int findTotalResidue(int start)
+int findTotalResidue(int start,int minRes)
 {
-  int ret = 0;int i = start;int curRes = 0;int thisRes;
+  int ret=0,hRes=0;int i = start;int thisRes;//int curRes = 0;
   char* temp;
   while(endOfMol((ln+i)) == 0 && i != INWC)
   {
@@ -126,14 +167,21 @@ int findTotalResidue(int start)
     {
       temp  = (*(ln+i)).f[8].c;
       sscanf(temp,"%d",&thisRes);
-      if(thisRes != curRes)
+      //The New Way
+      if(hRes < thisRes)
+       hRes = thisRes;       
+      //THE OLD WAY
+/*      if(thisRes != curRes)
       { 
         ret ++;
         curRes = thisRes;
-      }
+      }*/
     }
    i++;
   }
+  //More of the New Way
+  if(minRes < 1){ret = hRes;}
+  else{ret = hRes - (minRes-1);}
   return ret;
 }
 
@@ -153,13 +201,34 @@ int isAtom(linedef* line)
   else
     return 0;
 }
-void getResInfo(residue* res, int start)
+void getResInfo(residue* res, int start, int minRes)
 {
-  int atmTot = 0;int resNum,thisRes;int i = start;int j = 0;
+  int atmTot = 0;int thisRes,hldr;int i = start;int j = 0;
+  int resNum=-1;
+  residue* curRes;
   char name [10];char* temp;char* resName = name;
   while(isAtom(ln+i) == 0 && i < INWC)
    i++;
-  //Getting the residue name
+  while(endOfMol((ln+i)) == 0 && i != INWC){
+   temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&hldr);
+   if(resNum != hldr){	//If this is a different residue than the one in the previous line
+    resNum = hldr;	//Set resNum as the actual residue number
+    thisRes=hldr-minRes;//Set thisRes as the index of the residue
+    curRes = (res+thisRes);
+    temp = (*(ln+i)).f[5].c; sscanf(temp,"%s",resName);
+   }
+   //If this residue has not been found yet
+   if((*curRes).N == 0X0 || strcmp(resName,(*curRes).N) != 0){
+    (*curRes).N = strdup(resName);	//Set the residue name
+    (*curRes).n = resNum;		//Set the actual residue number
+    (*curRes).na = 0;			//...and make sure the total # of atoms is 0
+   }//Otherwise we can assume all of these have already been set
+   (*curRes).na++;
+   //..and then incriment to the next line
+   i++;
+  }
+
+/*  //Getting the residue name
   temp = (*(ln+i)).f[5].c;
   sscanf(temp,"%s",resName);
   (*(res+j)).N = strdup(resName);
@@ -175,6 +244,8 @@ void getResInfo(residue* res, int start)
     {
       temp  = (*(ln+i)).f[8].c;
       sscanf(temp,"%d",&thisRes);
+      
+      //THE OLD WAY
       if(thisRes != resNum)
       { 
         //Setting the total # of atoms on the old res
@@ -193,5 +264,62 @@ void getResInfo(residue* res, int start)
     }
    i++;
   }
- (*(res+j)).na = atmTot;
+ (*(res+j)).na = atmTot;*/
 }
+
+molecule* getMolecule(int minRes){
+  int molNum = 1;
+  int i = 0,rI = -1;//int j = 0;int k = 0;
+  int ntX;
+  //double x,y,z;
+  double dblY;
+  char* temp;char name[6] = ""; //char* atmName = name;
+  molecule* mol = (molecule*)calloc(molNum,sizeof(molecule));
+  residue* curRes;// residue* res;
+  atom* curAtm;// atom* atm;
+  //Get all the information for the first molecule
+  (*mol).nr = findTotalResidue(i,minRes);
+  (*mol).r = (residue*)calloc((*mol).nr,sizeof(residue));
+  getResInfo((*mol).r,i,minRes);
+  int l[(*mol).nr];
+  for(i = 0; i < (*mol).nr; i++){
+   (*mol).r[i].a = (atom*)calloc((*mol).r[i].na,sizeof(atom));
+   l[i] = 0;
+  }
+  //resIdx = -1;
+  for(i = 0; i < INWC; i++)
+  {
+    if(isAtom((ln+i)) == 1)
+    {
+      temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&ntX);
+      if(rI != ntX - minRes)
+      {
+       rI = ntX -minRes;
+       curRes = ((*mol).r+rI);
+      }
+      curAtm = ((*curRes).a+l[rI]);
+      //Getting the record name
+      temp = (*(ln+i)).f[0].c; sscanf(temp,"%s",name);
+      (*curAtm).D = strdup(name);
+      //Getting the atom #
+      temp  = (*(ln+i)).f[1].c; sscanf(temp,"%d",&ntX);
+      (*curAtm).n = ntX;
+      //Getting the atom name
+      temp  = (*(ln+i)).f[3].c; sscanf(temp,"%s",name);
+      (*curAtm).N = strdup(name);
+      //Getting the chain identifier
+      (*curAtm).cID = (*(ln+i)).f[7].c[0];
+
+      //Getting the X coordinate
+      temp  = (*(ln+i)).f[11].c; sscanf(temp,"%lf",&dblY); (*curAtm).x.i = dblY;
+      //Getting the Y coordinate
+      temp  = (*(ln+i)).f[12].c; sscanf(temp,"%lf",&dblY); (*curAtm).x.j = dblY;
+      //Getting the Z coordinate
+      temp  = (*(ln+i)).f[13].c; sscanf(temp,"%lf",&dblY); (*curAtm).x.k = dblY;   
+
+      l[rI]++;
+    }
+  }
+ return mol;
+}
+

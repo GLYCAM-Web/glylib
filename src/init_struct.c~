@@ -43,7 +43,7 @@ return;
 /*This function created by Michael Tessier 20080828*/
 void init_struct_slurp(fileslurp S){
 int i,j,k;
-INWC=S.n;		//Set the number of lines
+INWC=S.n		//Set the number of lines
 ln=(linedef*)calloc(S.n,sizeof(linedef));
 for(i=0;i<S.n;i++){
 	ln[i].m='\0';
