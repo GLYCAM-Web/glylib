@@ -53,10 +53,10 @@ ln[rwmln-1].b=rwmlt.b; // number for the sub-class
 
 
 
-if(DEBUG>=1){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a, rwmlt.b);}
+//if(DEBUG>=1){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a, rwmlt.b);}
 /* Assign action switch from internal defaults */
-if(DEBUG>=1){printf("rwm_line 4\n");}
-if(DEBUG>=0){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a,rwmlt.b);} 
+//if(DEBUG>=1){printf("rwm_line 4\n");}
+//if(DEBUG>=0){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a,rwmlt.b);} 
 /* If get_type returned a valid class: */
 
 
@@ -68,7 +68,7 @@ if(rwmlt.a==-1){ // If this line type is unknown
 //If there line was less than 6 characters
 if(rwmstop == 0)
  return;
-itr = 6;
+
 // If the rule is to modify, read in the rest of the line, first...  
 for(rwma=1;rwma<pdb_a[rwmlt.a].b[rwmlt.b].f;rwma++){
         for(rwmb=0;rwmb<pdb_a[rwmlt.a].b[rwmlt.b].c[rwma];rwmb++){

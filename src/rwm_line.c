@@ -136,7 +136,7 @@ ln[rwmln-1].b=rwmlt.b; // number for the sub-class
 if(DEBUG>=1){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a, rwmlt.b);}
 /* Assign action switch from internal defaults */
 if(DEBUG>=1){printf("rwm_line 4\n");}
-if(DEBUG>=0){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a,rwmlt.b);} 
+//if(DEBUG>=0){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a,rwmlt.b);} 
 /* If get_type returned a valid class: */
 
 
@@ -165,7 +165,7 @@ for(rwma=1;rwma<pdb_a[rwmlt.a].b[rwmlt.b].f;rwma++){
                 }
         ln[rwmln-1].f[rwma].c[rwmb]='\0';
         } 
-if(DEBUG>=0){printf("rwm_line 13\n");}
+//if(DEBUG>=0){printf("rwm_line 13\n");}
 if((WARN==0)&&(SILENT!=0)){fflush(OUTC);}
 return;
 }

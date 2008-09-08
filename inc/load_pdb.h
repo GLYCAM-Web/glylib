@@ -26,6 +26,7 @@ void pdb_def(); /* contains definitions of lines and fields */
 void rwm_line(int); /* read in pdb, call to modify, write out pdb */
 molecule load_pdb_from_slurp(fileslurp in);
 fileslurp isolateInputPDB(fileslurp S);
+fileslurp isolateDockedPDB(fileslurp S);
 void init_struct_slurp(fileslurp S);
 void rwm_line_char(char* curLine, int rwmln);
 molecule* getMolecule(int minRes);

@@ -224,10 +224,11 @@ typedef struct{
 	double *Tors; // nTors torsions
 	double *eFEB; // Estimated Free Energy of Binding, kcal/mol [=(1)+(3)]
 	double *eKi, *Tmp; // Estimated Inhibition Constant, Ki & temperature, Kelvin
-	double *fDE; // Final Docked Energy, kcal/mol [=(1)+(2)]
+	double *fDE; // Final Docked Energy, kcal/mol [=(1)+(2)] or [=(1)+(2)+(3)-(4)]
 	double *fIE; // (1) Final Intermolecular Energy   
 	double *fIEL; // (2) Final Internal Energy of Ligand 
 	double *TFE; // (3) Torsional Free Energy          
+	double *USE; // (4) Unbound System's Energy <Autodock 4.0 only>
 	int nDIH; // number of dihedrals
 	double *DIH; // the dihedrals
 	molecule M; // to hold molecule info about the initial/docked structures
@@ -447,5 +448,15 @@ void initialize_molecule(molecule *m);
 void initialize_dockinfo(dockinfo *di);
 void initialize_assembly(assembly *A);
 void initialize_ensemble(ensemble *E);
+
+//Functions that recursively free memory in themselves, with the exception of parameters
+void deallocateBondType(bond_type btp);
+void deallocateMolbond(molbond mlb);
+void deallocateConnectionTree(connection_tree con)
+void deallocateBond(bond bnd);
+void deallocateBondset(bondset bst);
+void deallocateAtom(atom atm);
+void deallocateResidue(residue res);
+void deallocateMolecule(molecule mol);
 
 #endif

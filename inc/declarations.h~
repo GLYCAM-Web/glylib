@@ -5,6 +5,4 @@
 #define GLYLIB_DECLARES
 dockinfo *load_dlg_mol(fileset F,types *T);
 void load_atypes(fileset FT, types *T);
-void findAD3Energies(fileset F,dockinfo* D,int di);
-void findAD4Energies(fileset F,dockinfo* D,int di);
 #endif
