@@ -1,42 +1,28 @@
 /** \file general.h 
-\brief	Convenience structures used by various functions
+\brief	Deprecated header file containing structures used by various functions
 	within the library.  
+
+This file now only calls the other headers to which its contents were moved.
 */
 
 // Header file written by Lachele Foley, summer 2007
 
 #if !defined(GLYLIB_GENERAL)
 #define GLYLIB_GENERAL
-/** Convenient, but dreadfully wasteful, arrays of strings ("Text")
 
-Need get rid of these ASAP...  Can they go now?*/
-typedef struct { 
-	char *T;
-} llcharset;
-typedef struct {
-	char T[501];
-} lcharset;
-typedef struct {
-	char T[251];
-} mcharset;
-typedef struct {
-	char T[51];
-} scharset;
-typedef struct {
-	char T[11];
-} sscharset;
+#include <gly_codeutils.h>
+#include <gly_fileutils.h>
 
-/** \addtogroup FILE_UTILS */
-/*@{*/
-/** A structure for ease in passing sets of file info between functions */
-typedef struct {
-	char *N; /// the name of the file -- use strdup to allocate/copy
-	FILE *F; /// the file pointer
-} fileset;
-/// A structure for a function similar to the perl notion of "slurping" a file
-typedef struct {
-	int n; /// number of lines
-	char **L; /// each line
-} fileslurp; 
-/*@}*/
+/* An array of characters for times when a 2D char array might be confusing */
+//typedef struct { char *T; } llcharset; //<<<< Moved to gly_codeutils.h
+
+/* >>Convenient, but dreadfully wasteful, arrays of strings ("Text")
+	>>Need get rid of these ASAP...  Can they go now?
+Going now...  20080908 BLFoley  
+DELETE THESE after, say, 20081201*/
+//typedef struct { char T[501]; } lcharset;
+//typedef struct { char T[251]; } mcharset;
+//typedef struct { char T[51]; } scharset;
+//typedef struct { char T[11]; } sscharset;
+
 #endif

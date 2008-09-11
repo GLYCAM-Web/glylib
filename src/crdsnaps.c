@@ -1,6 +1,6 @@
 // Function written by B. Lachele Foley, 2007
 #include <mylib.h>
-//#include "../inc/mylib.h"
+#include <AMBER/amber_coords.h>
 /*********************** crdsnaps(const char cstop, const char cscrd) *******************/
 int crdsnaps(const char *cstop,const char *cscrd,int csdot){
 int csa=0,csnat=0,csnsnp=0,csstat=0,cssig=0;

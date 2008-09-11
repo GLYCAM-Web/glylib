@@ -19,7 +19,7 @@ molindex *MOLI,*MOLBNDI; // MOLI for here, MOLBNDI for assigning molecules
 char **ATNAME,**TREECLASS,*RADTYPE,tmp[80];
 double *R,*SC,*MASS; // radii and screening constants for IS, atom masses
 fileset F;
-amber_prmtop *aprm;
+//amber_prmtop *aprm;
 
 /// Drop the contents of the original file in the void pointer space
 A.nVP=1; 

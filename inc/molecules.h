@@ -37,12 +37,26 @@ typedef struct {
 	int r; ///< residue index
 	int a; ///< atom index
 } ensindex;
+
+typedef struct { 
+	int na, *ai; // na atom indices and the na indices 
+} residue_tree_index;
+typedef struct { 
+	int nr, *ri; // nr residue indices and the nr indices
+	residue_tree_index *r; /// nr residue_tree_index structures
+} molecule_tree_index;
+typedef struct { 
+	int nm, *mi; // nm molecule indices and the nm indices
+	molecule_tree_index *m; // nm molecule_tree_index structures
+} ensemble_tree_index;
+
 typedef struct {
-	int nmN,nmi,*mi; //</ # of molecule names & indicies, nmi indices
+	int posneg; ///< Is this a positive (1), negative (-1) or brand new (0) selection set?
+	int nmN,nmi,nmn,*mn,*mi; //</ # of molecule names, numbers & indicies, nmn numbers and nmi indices
 	char **mN; ///< nmN names
-	int nrN,nri,*ri; ///< # of residue names & indicies, nri indices
+	int nrN,nri,nrn,*rn,*ri; ///< # of residue names, numbers & indicies, nrn numbers and nri indices
 	char **rN; ///< nrN names
-	int naN,nai,*ai; ///< # of atom names & indicies, nai indices
+	int naN,nai,nan,*an,*ai; ///< # of atom names, numbers & indicies, nan numbers and nai indices
 	char **aN; ///< naN names
 } moiety_selection; 
 
@@ -147,7 +161,7 @@ typedef struct {
 	char *N; // residue name 
 	char *D; // free-form description for residue
 	int t; // type number
-	rtype *typ; // pointer to atype structure
+	rtype *typ; // pointer to rtype structure
 	molindex moli; // the molecule index for this residue (address -- set .a to -1 or 0) 
 	int na; // number of atoms in residue
 	double m; // molecular weight
@@ -182,6 +196,7 @@ typedef struct {
 	char *N; // free-form name for molecule
 	char *D; // free-form description for residue
 	double m; // molecular weight
+	int mi; // number corresponding to the index in the parent ensemble
 	int Ei; // number corresponding to parent ensemble
 	int t; // type number
 	mtype *typ; // pointer to atype structure

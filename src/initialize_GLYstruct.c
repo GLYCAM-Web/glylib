@@ -4,6 +4,7 @@
  * Probably needs some serious updating (20080813, BLF).
  *
  * NOTES:	char* variables are not initialized
+ *		char** are treated like "all other pointers" (below)
  *		void pointers are not initialized
  *		all other pointers:
  *			-- the number of pointers integer is set to zero
@@ -15,6 +16,8 @@
 #include <molecules.h>
 //#include "../inc/mylib.h"
 //#include "../inc/molecules.h"
+
+#define INDEX_INIT -100000000 ///< To catch use of un-set indices early on.
 
 void initialize_coord_3D(coord_3D *c) {
 c[0].i=c[0].j=c[0].k=0; 
@@ -65,26 +68,26 @@ return;
 }
 
 void initialize_molindex(molindex *mi) {
-mi[0].i=0; // general index
-mi[0].m=0; // molecule index
-mi[0].r=0; // residue index
-mi[0].a=0; // atom index
+mi[0].i=INDEX_INIT; // general index
+mi[0].m=INDEX_INIT; // molecule index
+mi[0].r=INDEX_INIT; // residue index
+mi[0].a=INDEX_INIT; // atom index
 return;
 }
 
 void initialize_ensindex(ensindex *ei) {
-ei[0].i=0; // general index
-ei[0].E=0; // ensemble
-ei[0].A=0; // assembly
-ei[0].m=0; // molecule index
-ei[0].r=0; // residue index
-ei[0].a=0; // atom index
+ei[0].i=INDEX_INIT; // general index
+ei[0].E=INDEX_INIT; // ensemble
+ei[0].A=INDEX_INIT; // assembly
+ei[0].m=INDEX_INIT; // molecule index
+ei[0].r=INDEX_INIT; // residue index
+ei[0].a=INDEX_INIT; // atom index
 return;
 }
 
 void initialize_bond(bond *b) {
-b[0].s=0; // "source" -- index to first atom in bond
-b[0].t=0; // "target" -- index to the other atom in the bond
+b[0].s=INDEX_INIT; // "source" -- index to first atom in bond
+b[0].t=INDEX_INIT; // "target" -- index to the other atom in the bond
 b[0].o=0; // order of bond
 return;
 }
@@ -96,8 +99,8 @@ return;
 }
 
 void initialize_molbond(molbond *mb) {
-mb[0].s.i=mb[0].s.m=mb[0].s.r=mb[0].s.a=0;
-mb[0].t.i=mb[0].t.m=mb[0].t.r=mb[0].t.a=0;
+mb[0].s.i=mb[0].s.m=mb[0].s.r=mb[0].s.a=INDEX_INIT;
+mb[0].t.i=mb[0].t.m=mb[0].t.r=mb[0].t.a=INDEX_INIT;
 mb[0].o=0; // order
 return;
 }
@@ -111,6 +114,7 @@ return;
 void initialize_atom(atom *a) {
 a[0].n=0; // atom number or other identifying index
 a[0].t=0; // type number -- must correspond to assignments of "atype" (see)
+initialize_molindex(&a[0].moli);
 a[0].nb=0; // number of actual bonds (not expected bonds)
 a[0].b=(bond*)calloc(1,sizeof(bond)); // bond structures (nb of these)
 a[0].nmb=0; // number of bonds to other residues or molecules
@@ -123,13 +127,19 @@ a[0].v=(vectormag_3D*)calloc(1,sizeof(vectormag_3D)); // vector sets
 a[0].ni=0; // number of other indices
 a[0].i=(int*)calloc(1,sizeof(int)); // other indices, as needed (ni of these)
 a[0].nd=0; // number of double-precision parameters
-a[0].d=(double*)calloc(1,sizeof(double)); // other parameters, as needed (nd of these)
+a[0].d=(double*)calloc(1,sizeof(double)); // other parameters, as needed (nd of these) 
+a[0].nensi=0; // number of double-precision parameters
+a[0].ensi=(ensindex*)calloc(1,sizeof(ensindex)); // other parameters, as needed (nd of these)
+a[0].nOD=0; // number of double-precision parameters
+a[0].OD=(char**)calloc(1,sizeof(char*)); // other parameters, as needed (nd of these) 
 a[0].nVP=0; // number of void structures
 return;
 }
 
+// START HERE -- UPDATE all of the residue, molecule and higher structures.
 void initialize_residue(residue *r) {
 r[0].n=0; // residue number given in input file
+r[0].t=0; // index for rtype
 r[0].na=0; // number of atoms in residue
 r[0].m=0; // molecular weight
 r[0].COM.i=r[0].COM.j=r[0].COM.k=0; // center of mass for molecule
@@ -153,6 +163,7 @@ return;
 
 void initialize_molecule(molecule *m) {
 m[0].i=0; // index
+m[0].t=0; // index
 m[0].m=0; // molecular weight
 m[0].COM.i=m[0].COM.j=m[0].COM.k=0; // center of mass for molecule
 m[0].na=0; // total number of atoms in molecule
@@ -165,8 +176,6 @@ m[0].rbs=(molbondset*)calloc(1,sizeof(molbondset)); // nrbs of these sets
 m[0].nrc=0; // number of additional reference coordinates (rings, for example)
 m[0].rc=(coord_3D*)calloc(1,sizeof(coord_3D)); // nrc of these
 m[0].nBOX=0; // changed to new BOX member on 20080813 BLF
-//m[0].boxl.i=m[0].boxl.j=m[0].boxl.k=0;
-//m[0].boxh.i=m[0].boxh.j=m[0].boxh.k=0;
 m[0].noi=0; // number of other indices
 m[0].oi=(int*)calloc(1,sizeof(int)); // other indices, as needed (ni of these)
 m[0].nd=0; // number of double-precision parameters
