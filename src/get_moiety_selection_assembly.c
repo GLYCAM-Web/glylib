@@ -42,9 +42,12 @@
 		members.  
 */
 
+#include "mylib.h"
+#include "molecules.h"
+
 assembly get_moiety_selection_assembly(ensemble *E, int nMS, moiety_selection *MS){
 int 	am=0,ar=0,aa=0,ai=0,ams=0, ///< counters
-	aflag=0 ///< Flag used for setting negative selections
+	aflag=0, ///< Flag used for setting negative selections
 	numM=0, ///< Number of molecule pointers needed for assembly
 	numR=0, ///< Number of residue pointers needed for assembly
 	numA=0; ///< Number of atom pointers needed for assembly
@@ -59,10 +62,10 @@ IA.m=(molecule_tree_index*)calloc(IA.nm,sizeof(molecule_tree_index));
 for(am=0;am<IA.nm;am++){ // for each molecule
 	IA.m[am].nr=E[0].m[am].nr;
 	IA.m[am].ri=(int*)calloc(IA.m[am].nr,sizeof(int));
-	IA.m[am].r=(residue_tree_index*)calloc(IA.nr,sizeof(residue_tree_index));
+	IA.m[am].r=(residue_tree_index*)calloc(IA.m[am].nr,sizeof(residue_tree_index));
 	for(ar=0;ar<IA.m[am].nr;ar++){ // for each residue 
 		IA.m[am].r[ar].na=E[0].m[am].r[ar].na;
-		IA.m[am].r[ar].a=(int*)calloc(IA.m[am].r[ar].na,sizeof(int));
+		IA.m[am].r[ar].ai=(int*)calloc(IA.m[am].r[ar].na,sizeof(int));
 		}
 	}
 
@@ -80,7 +83,7 @@ if(MS[ams].posneg==1){
 	// For each molecule index specified
 	for(ai=0;ai<MS[ams].nmi;ai++){ IA.mi[MS[ams].mi[ai]]=1; }
 	// Check each molecule for names and numbers
-	for(am=0;am<IA.nm,am++){ 
+	for(am=0;am<IA.nm;am++){ 
 		// For each name specified
 		for(ai=0;ai<MS[ams].nmN;ai++){ if((E[0].m[am].N!=NULL)&&(strcmp(E[0].m[am].N,MS[ams].mN[ai])==0)){IA.mi[am]=1;} }
 		// For each number specified
@@ -114,7 +117,7 @@ for(ai=0;ai<MS[ams].nan;ai++){ if(E[0].m[am].r[ar].a[aa].n==MS[ams].an[ai]){IA.m
 if(MS[ams].posneg==1){ 
 	// Molecules
 	// Check each molecule for names and numbers
-	for(am=0;am<IA.nm,am++){ 
+	for(am=0;am<IA.nm;am++){ 
 		// For each molecule index specified
 		aflag=1;
 		for(ai=0;ai<MS[ams].nmi;ai++){ if(am==MS[ams].mi[ai]) aflag=0; }
@@ -171,7 +174,7 @@ if(aflag==1) { IA.m[am].r[ar].ai[aa]=1; }
 numM=numR=numA=0;
 for(am=0;am<IA.nm;am++){ if(IA.mi[am]>0) numM++;
 	for(ar=0;ar<IA.m[am].nr;ar++){ if(IA.m[am].ri[ar]>0) numR++;
-		for(aa=0;aa<IA.m[am].r[ar].na;am++){ if(IA.m[am].r[ar].ai==1) numA++;
+		for(aa=0;aa<IA.m[am].r[ar].na;am++){ if(IA.m[am].r[ar].ai[aa]==1) numA++;
 			}
 		}
 	}
@@ -197,7 +200,7 @@ for(am=0;am<IA.nm;am++){
 			if(numR>A.nr){mywhine("get_moiety_selection_assembly: memory allocation issue in A.nr/numR");}
 			}
 		for(aa=0;aa<IA.m[am].r[ar].na;am++){ 
-			if(IA.m[am].r[ar].ai==1){
+			if(IA.m[am].r[ar].ai[aa]==1){
 				A.a[numA]=&E[0].m[am].r[ar].a[aa];
 				numA++;
 				if(numA>A.na){mywhine("get_moiety_selection_assembly: memory allocation issue in A.na/numA");}

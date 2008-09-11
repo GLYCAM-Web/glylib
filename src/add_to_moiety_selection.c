@@ -89,18 +89,18 @@ More about the selections:
 void add_to_moiety_selection(moiety_selection *M, const char *SEL){
 int 	aa=0, ///< counter
 	ab=0, ///< counter
-	ac=0; ///< counter
+	ac=0, ///< counter
 	posneg=0, ///< flag for negative selection
 	number=0; ///< number of designations in the list
 char 	*tp, ///< Temporary pointer
 	*ts, ///< Temporary string
 	*S, ///< The trimmed selection
-	*class; ///< The class
-	*des; ///< The designation
+	*class, ///< The class
+	*des, ///< The designation
 	**d; ///< The designation_list
 
 /// Make sure there is no leading or trailing whitespace in S to cause confusion
-S=prune_string_whitespace(SEL);
+S=strdup(prune_string_whitespace(SEL));
 
 /// grab three items, place into number, class and designation
 tp=S; // use a temporary pointer (tp) to move around in S.
@@ -165,14 +165,14 @@ switch(class[0]){ ///< First letter of class differentiates molecule, residue or
 				ab=M[0].nmN;
 				M[0].nmN+=number;
 				M[0].mN=(char**)realloc(M[0].mN,M[0].nmN*sizeof(char*));
-				for(aa=0;aa<number;aa++){M[0].mN[aa+ab]=strdup(des[aa]);}
+				for(aa=0;aa<number;aa++){M[0].mN[aa+ab]=strdup(d[aa]);}
 				break;
 			case 'U':
 			case 'u':
 				ab=M[0].nmn;
 				M[0].nmn+=number;
 				M[0].mn=(int*)realloc(M[0].mn,M[0].nmn*sizeof(int));
-				for(aa=0;aa<number;aa++){ac=sscanf(des[aa],"%d",&M[0].mn[aa+ab]);
+				for(aa=0;aa<number;aa++){ac=sscanf(d[aa],"%d",&M[0].mn[aa+ab]);
 					if(ac!=1){mywhine("add_to_moiety_selection: expected integer for des-number, got something else");}}
 				break;
 			case 'N':
@@ -180,7 +180,7 @@ switch(class[0]){ ///< First letter of class differentiates molecule, residue or
 				ab=M[0].nmi;
 				M[0].nmi+=number;
 				M[0].mi=(int*)realloc(M[0].mi,M[0].nmi*sizeof(int));
-				for(aa=0;aa<number;aa++){ac=sscanf(des[aa],"%d",&M[0].mi[aa+ab]);
+				for(aa=0;aa<number;aa++){ac=sscanf(d[aa],"%d",&M[0].mi[aa+ab]);
 					if(ac!=1){mywhine("add_to_moiety_selection: expected integer for index, got something else");}}
 				break;
 			default:
@@ -195,14 +195,14 @@ switch(class[0]){ ///< First letter of class differentiates molecule, residue or
 				ab=M[0].nrN;
 				M[0].nrN+=number;
 				M[0].rN=(char**)realloc(M[0].rN,M[0].nrN*sizeof(char*));
-				for(aa=0;aa<number;aa++){M[0].rN[aa+ab]=strdup(des[aa]);}
+				for(aa=0;aa<number;aa++){M[0].rN[aa+ab]=strdup(d[aa]);}
 				break;
 			case 'U':
 			case 'u':
 				ab=M[0].nrn;
 				M[0].nrn+=number;
 				M[0].rn=(int*)realloc(M[0].rn,M[0].nrn*sizeof(int));
-				for(aa=0;aa<number;aa++){ac=sscanf(des[aa],"%d",&M[0].rn[aa+ab]);
+				for(aa=0;aa<number;aa++){ac=sscanf(d[aa],"%d",&M[0].rn[aa+ab]);
 					if(ac!=1){mywhine("add_to_moiety_selection: expected integer for des-number, got something else");}}
 				break;
 			case 'N':
@@ -210,7 +210,7 @@ switch(class[0]){ ///< First letter of class differentiates molecule, residue or
 				ab=M[0].nri;
 				M[0].nri+=number;
 				M[0].ri=(int*)realloc(M[0].ri,M[0].nri*sizeof(int));
-				for(aa=0;aa<number;aa++){ac=sscanf(des[aa],"%d",&M[0].ri[aa+ab]);
+				for(aa=0;aa<number;aa++){ac=sscanf(d[aa],"%d",&M[0].ri[aa+ab]);
 					if(ac!=1){mywhine("add_to_moiety_selection: expected integer for index, got something else");}}
 				break;
 			default:
@@ -225,14 +225,14 @@ switch(class[0]){ ///< First letter of class differentiates molecule, residue or
 				ab=M[0].naN;
 				M[0].naN+=number;
 				M[0].aN=(char**)realloc(M[0].aN,M[0].naN*sizeof(char*));
-				for(aa=0;aa<number;aa++){M[0].aN[aa+ab]=strdup(des[aa]);}
+				for(aa=0;aa<number;aa++){M[0].aN[aa+ab]=strdup(d[aa]);}
 				break;
 			case 'U':
 			case 'u':
 				ab=M[0].nan;
 				M[0].nan+=number;
 				M[0].an=(int*)realloc(M[0].an,M[0].nan*sizeof(int));
-				for(aa=0;aa<number;aa++){ac=sscanf(des[aa],"%d",&M[0].an[aa+ab]);
+				for(aa=0;aa<number;aa++){ac=sscanf(d[aa],"%d",&M[0].an[aa+ab]);
 					if(ac!=1){mywhine("add_to_moiety_selection: expected integer for des-number, got something else");}}
 				break;
 			case 'N':
@@ -240,7 +240,7 @@ switch(class[0]){ ///< First letter of class differentiates molecule, residue or
 				ab=M[0].nai;
 				M[0].nai+=number;
 				M[0].ai=(int*)realloc(M[0].ai,M[0].nai*sizeof(int));
-				for(aa=0;aa<number;aa++){ac=sscanf(des[aa],"%d",&M[0].ai[aa+ab]);
+				for(aa=0;aa<number;aa++){ac=sscanf(d[aa],"%d",&M[0].ai[aa+ab]);
 					if(ac!=1){mywhine("add_to_moiety_selection: expected integer for index, got something else");}}
 				break;
 			default:
