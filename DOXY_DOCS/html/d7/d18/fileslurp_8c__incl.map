@@ -1,2 +1,4 @@
-<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="413,81,477,105">
-<area shape="rect" href="$d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="725,156,805,180">
+<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="468,81,532,105">
+<area shape="rect" href="$d9/d14/general_8h.html" title="Deprecated header file containing structures used by various functions within the..." alt="" coords="827,156,907,180">
+<area shape="rect" href="$d1/d34/gly__codeutils_8h.html" title="header file that loads utilities to facilitate programming" alt="" coords="545,231,657,255">
+<area shape="rect" href="$de/d42/gly__fileutils_8h.html" title="header file that loads utilities related to file I/O" alt="" coords="777,231,879,255">

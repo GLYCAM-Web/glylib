@@ -5,9 +5,9 @@
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#430fd7512f5ff72cab1453eb22df7cda" title="isolateDockedPDB" alt="" coords="165,197,301,221">
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#fd095307e1784971d3a18ceac6dbcf2e" title="isolateInputPDB" alt="" coords="173,245,293,269">
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#7a868395f5dad0888eea7ac11dfb8f95" title="load_pdb_from_slurp" alt="" coords="159,293,308,317">
-<area shape="rect" href="$dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1)." alt="" coords="196,341,271,365">
+<area shape="rect" href="$d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1)." alt="" coords="196,341,271,365">
 <area shape="rect" href="$df/da0/group__FILE__UTILS.html#g77e969d3a949fa8aa7195481797b2f19" title="Complains (EEK!!!) if a file read fails." alt="" coords="193,389,273,413">
-<area shape="rect" href="$df/da0/group__FILE__UTILS.html#g32beab6660a30c42c4a1c744f109f8f1" title="Slurps in the contents of an entire file." alt="" coords="195,440,272,464">
+<area shape="rect" href="$df/da0/group__FILE__UTILS.html#g32beab6660a30c42c4a1c744f109f8f1" title="slurp_file" alt="" coords="195,440,272,464">
 <area shape="rect" href="$d3/de6/molecules_8h.html#c2704c36414a2539685ed152713762c5" title="deallocateResidue" alt="" coords="357,5,493,29">
 <area shape="rect" href="$d3/de6/molecules_8h.html#ba294de81060c7012ac380b42c2759c8" title="deallocateAtom" alt="" coords="547,5,664,29">
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#2115d5fe84c6d8ec8d8c2fcfa886f2df" title="getMolecule" alt="" coords="377,293,473,317">

@@ -1,7 +1,9 @@
-<area shape="rect" href="$d7/d40/load__pdb_8h.html" title="load_pdb.h" alt="" coords="355,81,443,105">
+<area shape="rect" href="$d7/d40/load__pdb_8h.html" title="load_pdb.h" alt="" coords="400,81,488,105">
 <area shape="rect" href="$d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="147,156,243,180">
-<area shape="rect" href="$dd/da3/structures_8h.html" title="structures.h" alt="" coords="352,156,445,180">
-<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="601,156,665,180">
+<area shape="rect" href="$dd/da3/structures_8h.html" title="structures.h" alt="" coords="397,156,491,180">
+<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="691,156,755,180">
 <area shape="rect" href="$d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="5,231,107,255">
 <area shape="rect" href="$d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="131,231,259,255">
-<area shape="rect" href="$d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="1003,231,1083,255">
+<area shape="rect" href="$d9/d14/general_8h.html" title="Deprecated header file containing structures used by various functions within the..." alt="" coords="1053,231,1133,255">
+<area shape="rect" href="$d1/d34/gly__codeutils_8h.html" title="header file that loads utilities to facilitate programming" alt="" coords="965,305,1077,329">
+<area shape="rect" href="$de/d42/gly__fileutils_8h.html" title="header file that loads utilities related to file I/O" alt="" coords="1113,305,1215,329">

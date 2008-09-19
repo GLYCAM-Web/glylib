@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>GLYLIB: &quot;File Utilities&quot;</title>
+<title>GLYLIB: FILE_UTILS</title>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css">
 <link href="../../tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -27,9 +27,11 @@
   </div>
 </div>
 <div class="contents">
-<h1>"File Utilities"</h1><table border="0" cellpadding="0" cellspacing="0">
+<h1>FILE_UTILS</h1><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d78/structgly__keysvals.html">gly_keysvals</a></td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d59/structfileset.html">fileset</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d31/structfileslurp.html">fileslurp</a></td></tr>
@@ -51,75 +53,21 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#ge2504ac9b9bee48a3757f9695ca8202a">read_fneek</a> (const char *surprise, int <a class="el" href="../../d7/d40/load__pdb_8h.html#c0943872323c1ec7d8f0db57e0bdbbb6">line</a>, int field, const char *FILENAME)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Complains (EEK!!!) if a file read fails.  <a href="#ge2504ac9b9bee48a3757f9695ca8202a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g18a2e3b8f87ae3bc6e08457a73a318e1">crdsnaps</a> (const char *, const char *, int)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">counts snapshots in a crd file  <a href="#g18a2e3b8f87ae3bc6e08457a73a318e1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g0aa978abdf0e063978189238820eb7f7">mytime</a> (const char *)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the time in a nice format.  <a href="#g0aa978abdf0e063978189238820eb7f7"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g85ba1704a246a08be59af6a375127fb7">sscan_file</a> (FILE *F, const char *str)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Scans a file for instances of a string.  <a href="#g85ba1704a246a08be59af6a375127fb7"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g3fd835a9b6e92d5e410262d065b16bf4">cscan_file</a> (FILE *F, char c)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Scans a file for instances of a character.  <a href="#g3fd835a9b6e92d5e410262d065b16bf4"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="../../d7/d31/structfileslurp.html">fileslurp</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g32beab6660a30c42c4a1c744f109f8f1">slurp_file</a> (<a class="el" href="../../dc/d59/structfileset.html">fileset</a> F)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Slurps in the contents of an entire file.  <a href="#g32beab6660a30c42c4a1c744f109f8f1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="../../df/d78/structgly__keysvals.html">gly_keysvals</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g43ccd3dc37d4202817a454d5d15463f6">get_keysvals_from_slurp</a> (<a class="el" href="../../d7/d31/structfileslurp.html">fileslurp</a> F, const char *SEP, int newline_sep, int ignore_hash)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="../../df/d78/structgly__keysvals.html">gly_keysvals</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g47349a1117aa52ae410a864093ad6a20">get_keysvals_from_file</a> (<a class="el" href="../../dc/d59/structfileset.html">fileset</a> F, const char *SEP, int newline_sep, int ignore_hash)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="g18a2e3b8f87ae3bc6e08457a73a318e1"></a><!-- doxytag: member="mylib.h::crdsnaps" ref="g18a2e3b8f87ae3bc6e08457a73a318e1" args="(const char *, const char *, int)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int crdsnaps           </td>
-          <td>(</td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-counts snapshots in a crd file 
-<p>
-Makes certain that the number of snapshots read from a crd file makes sense in terms of the given topology file. This declaration should be moved to some other location eventually (not so general -- really just amber). 
-<p>Definition at line <a class="el" href="../../d4/d8c/crdsnaps_8c-source.html#l00005">5</a> of file <a class="el" href="../../d4/d8c/crdsnaps_8c-source.html">crdsnaps.c</a>.</p>
-
-<p>References <a class="el" href="../../d9/dc2/myfopen_8c-source.html#l00006">myfopen()</a>, and <a class="el" href="../../d7/d30/mywhine_8c-source.html#l00007">mywhine()</a>.</p>
-
-<p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dynsection">
-<p><center><img src="../../df/da0/group__FILE__UTILS_g18a2e3b8f87ae3bc6e08457a73a318e1_cgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_g18a2e3b8f87ae3bc6e08457a73a318e1_cgraph_map" alt=""></center>
-<map name="df/da0/group__FILE__UTILS_g18a2e3b8f87ae3bc6e08457a73a318e1_cgraph_map">
-<area shape="rect" href="../../df/da0/group__FILE__UTILS.html#ga350ff339d771f0880203e6eb7abb58e" title="Opens a file with error checking." alt="" coords="135,5,209,29"><area shape="rect" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1)." alt="" coords="135,53,209,77"></map>
-</div>
-
-</div>
-</div><p>
-<a class="anchor" name="g3fd835a9b6e92d5e410262d065b16bf4"></a><!-- doxytag: member="mylib.h::cscan_file" ref="g3fd835a9b6e92d5e410262d065b16bf4" args="(FILE *F, char c)" -->
+<a class="anchor" name="g3fd835a9b6e92d5e410262d065b16bf4"></a><!-- doxytag: member="gly_fileutils.h::cscan_file" ref="g3fd835a9b6e92d5e410262d065b16bf4" args="(FILE *F, char c)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -145,14 +93,151 @@ Here is the call graph for this function:</div>
 <div class="memdoc">
 
 <p>
-Scans a file for instances of a character. 
-<p>
 Returns the number of times the character c is found in file F 
 <p>Definition at line <a class="el" href="../../d8/df1/scan__file_8c-source.html#l00025">25</a> of file <a class="el" href="../../d8/df1/scan__file_8c-source.html">scan_file.c</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="ga350ff339d771f0880203e6eb7abb58e"></a><!-- doxytag: member="mylib.h::myfopen" ref="ga350ff339d771f0880203e6eb7abb58e" args="(const char *Name, const char *option)" -->
+<a class="anchor" name="g47349a1117aa52ae410a864093ad6a20"></a><!-- doxytag: member="gly_fileutils.h::get_keysvals_from_file" ref="g47349a1117aa52ae410a864093ad6a20" args="(fileset F, const char *SEP, int newline_sep, int ignore_hash)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../df/d78/structgly__keysvals.html">gly_keysvals</a> get_keysvals_from_file           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dc/d59/structfileset.html">fileset</a>&nbsp;</td>
+          <td class="paramname"> <em>F</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>SEP</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>newline_sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>ignore_hash</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+This is like get_keysvals_from_slurp (see) except it uses a file and not a <a class="el" href="../../d7/d31/structfileslurp.html" title="A structure for a function similar to the perl notion of &quot;slurping&quot; a file...">fileslurp</a>.<p>
+In fact, this function merely slurps in your file and then calls get_keysvals_from_slurp<p>
+Reads in keyword/value pairs from a file, drops them in a structure designed for the purpose. 
+<p>
+&lt; Slurp file<p>
+&lt; Call the slurp version... 
+<p>Definition at line <a class="el" href="../../d0/d84/get__keysvals_8c-source.html#l00075">75</a> of file <a class="el" href="../../d0/d84/get__keysvals_8c-source.html">get_keysvals.c</a>.</p>
+
+<p>References <a class="el" href="../../d0/d84/get__keysvals_8c-source.html#l00028">get_keysvals_from_slurp()</a>, and <a class="el" href="../../d5/d82/fileslurp_8c-source.html#l00019">slurp_file()</a>.</p>
+
+<p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../df/da0/group__FILE__UTILS_g47349a1117aa52ae410a864093ad6a20_cgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_g47349a1117aa52ae410a864093ad6a20_cgraph_map" alt=""></center>
+<map name="df/da0/group__FILE__UTILS_g47349a1117aa52ae410a864093ad6a20_cgraph_map">
+<area shape="rect" href="../../df/da0/group__FILE__UTILS.html#g43ccd3dc37d4202817a454d5d15463f6" title="get_keysvals_from_slurp" alt="" coords="217,5,391,29"><area shape="rect" href="../../df/da0/group__FILE__UTILS.html#g32beab6660a30c42c4a1c744f109f8f1" title="slurp_file" alt="" coords="265,53,343,77"><area shape="rect" href="../../d1/d34/gly__codeutils_8h.html#f790a45562b331054052f3280f65dea9" title="prune_string_whitespace" alt="" coords="441,5,615,29"><area shape="rect" href="../../df/da0/group__FILE__UTILS.html#ga350ff339d771f0880203e6eb7abb58e" title="Opens a file with error checking." alt="" coords="491,53,565,77"></map>
+</div>
+
+</div>
+</div><p>
+<a class="anchor" name="g43ccd3dc37d4202817a454d5d15463f6"></a><!-- doxytag: member="gly_fileutils.h::get_keysvals_from_slurp" ref="g43ccd3dc37d4202817a454d5d15463f6" args="(fileslurp F, const char *SEP, int newline_sep, int ignore_hash)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../df/d78/structgly__keysvals.html">gly_keysvals</a> get_keysvals_from_slurp           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d31/structfileslurp.html">fileslurp</a>&nbsp;</td>
+          <td class="paramname"> <em>F</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>SEP</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>newline_sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>ignore_hash</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Reads in keyword/value pairs from a file, drops them in a structure designed for the purpose.<p>
+Some notes:<ul>
+<li>If ignore_hash is 0, everything from a hash mark (#) to the end of the line is ignored.</li><li>Any line not containing the separator SEP is ignored.</li><li>Keywords and values may not be separated by a newline.</li><li>If newline_sep is set to zero, everything* from the start of the line to the first instance of SEP will be regarded as the KEYWORD and everything* from the first instance of SEP to the end of the line will be regarded as the VALUE. *Intial and final whitespace will be removed from both keyword and value, but all else, including internal whitespace, will be retained.</li><li>If newline_sep is not set to zero, neither keywords nor values may contain whitespace.</li><li>SEP should be passed as a string complete with a null terminator.</li></ul>
+<p>
+Reads in keyword/value pairs from a file, drops them in a structure designed for the purpose.<p>
+Some notes:<p>
+<ul>
+<li>If ignore_hash is 0, everything from a hash mark (#) to the end of the line is ignored.</li><li>Any line not containing the separator SEP is ignored.</li><li>Keywords and values may not be separated by a newline.</li><li>If newline_sep is set to zero, everything* from the start of the line to the first instance of SEP will be regarded as the KEYWORD and everything* from the first instance of SEP to the end of the line will be regarded as the VALUE. *Intial and final whitespace will be removed from both keyword and value, but all else, including internal whitespace, will be retained.</li><li>If newline_sep is not set to zero, neither keywords nor values may contain whitespace.</li><li>SEP should be passed as a string complete with a null terminator. </li></ul>
+
+<p>
+&lt; counter<p>
+&lt; temporary pointer<p>
+&lt; Loop through the slurp<p>
+&lt; See if there is a hash in this line<p>
+&lt; If there is a hash, call that the end of the string<p>
+&lt; If no separator this line, ignore it<p>
+&lt; If newline_sep is set<p>
+&lt; Split string at SEP (find with strstr)<p>
+&lt; Set end of the keyword string<p>
+&lt; Prune whitespace and copy to K<p>
+&lt; Move pointer to the end of the separator<p>
+&lt; Prune whitespace and copy to V<p>
+Else<ul>
+<li>Grab K</li><li>Check for SEP</li><li>Grab V --- Allow for line-crossing? No!!! (what a pain...) </li></ul>
+
+<p>Definition at line <a class="el" href="../../d0/d84/get__keysvals_8c-source.html#l00028">28</a> of file <a class="el" href="../../d0/d84/get__keysvals_8c-source.html">get_keysvals.c</a>.</p>
+
+<p>References <a class="el" href="../../d3/d7f/gly__fileutils_8h-source.html#l00019">gly_keysvals::K</a>, <a class="el" href="../../d3/d7f/gly__fileutils_8h-source.html#l00032">fileslurp::L</a>, <a class="el" href="../../d3/d7f/gly__fileutils_8h-source.html#l00031">fileslurp::n</a>, <a class="el" href="../../d3/d7f/gly__fileutils_8h-source.html#l00018">gly_keysvals::n</a>, <a class="el" href="../../db/dc8/string__utilities_8c-source.html#l00016">prune_string_whitespace()</a>, and <a class="el" href="../../d3/d7f/gly__fileutils_8h-source.html#l00020">gly_keysvals::V</a>.</p>
+
+<p>Referenced by <a class="el" href="../../d0/d84/get__keysvals_8c-source.html#l00075">get_keysvals_from_file()</a>.</p>
+
+<p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../df/da0/group__FILE__UTILS_g43ccd3dc37d4202817a454d5d15463f6_cgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_g43ccd3dc37d4202817a454d5d15463f6_cgraph_map" alt=""></center>
+<map name="df/da0/group__FILE__UTILS_g43ccd3dc37d4202817a454d5d15463f6_cgraph_map">
+<area shape="rect" href="../../d1/d34/gly__codeutils_8h.html#f790a45562b331054052f3280f65dea9" title="prune_string_whitespace" alt="" coords="231,5,404,29"></map>
+</div>
+
+</div>
+</div><p>
+<a class="anchor" name="ga350ff339d771f0880203e6eb7abb58e"></a><!-- doxytag: member="gly_fileutils.h::myfopen" ref="ga350ff339d771f0880203e6eb7abb58e" args="(const char *Name, const char *option)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -180,14 +265,14 @@ Returns the number of times the character c is found in file F
 <p>
 Opens a file with error checking. 
 <p>
-Opens a file with error checking. This function will open a file and then check to see if the file actually opened. If not, it will write a descriptive error message and exit(1) the program. Doing this saves many, many core dumps. 
+List of files and directories generated for each state. Opens a file with error checking. This function will open a file and then check to see if the file actually opened. If not, it will write a descriptive error message and exit(1) the program. Doing this saves many, many core dumps. 
 <p>Definition at line <a class="el" href="../../d9/dc2/myfopen_8c-source.html#l00006">6</a> of file <a class="el" href="../../d9/dc2/myfopen_8c-source.html">myfopen.c</a>.</p>
 
 <p>Referenced by <a class="el" href="../../d4/d8c/crdsnaps_8c-source.html#l00005">crdsnaps()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00004">load_pdb()</a>, <a class="el" href="../../d0/d89/outputPDB_8c-source.html#l00077">outputAsmblPDB()</a>, <a class="el" href="../../d0/d89/outputPDB_8c-source.html#l00010">outputMolPDB()</a>, <a class="el" href="../../da/dae/parse__amber__prmtop_8c-source.html#l00008">parse_amber_prmtop()</a>, <a class="el" href="../../d5/d87/read__amber__prmtop_8c-source.html#l00017">read_amber_prmtop_asis()</a>, <a class="el" href="../../d5/d82/fileslurp_8c-source.html#l00019">slurp_file()</a>, and <a class="el" href="../../d3/d3a/write__amber__prmtop_8c-source.html#l00033">write_amber_prmtop()</a>.</p>
 
 </div>
 </div><p>
-<a class="anchor" name="gb1eb9a7cbe4d705465f2270550ace4c4"></a><!-- doxytag: member="mylib.h::myfreopen" ref="gb1eb9a7cbe4d705465f2270550ace4c4" args="(const char *Name, const char *, FILE *option)" -->
+<a class="anchor" name="gb1eb9a7cbe4d705465f2270550ace4c4"></a><!-- doxytag: member="gly_fileutils.h::myfreopen" ref="gb1eb9a7cbe4d705465f2270550ace4c4" args="(const char *Name, const char *, FILE *option)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -228,52 +313,7 @@ Like myfopen, but the freopen version.
 
 </div>
 </div><p>
-<a class="anchor" name="g0aa978abdf0e063978189238820eb7f7"></a><!-- doxytag: member="mylib.h::mytime" ref="g0aa978abdf0e063978189238820eb7f7" args="(const char *)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* mytime           </td>
-          <td>(</td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Gets the time in a nice format. 
-<p>
-Usage:<p>
-const char * mylocaltimestring,mytime(format)<p>
--for example:<p>
-strcpy(mylocaltimestring,mytime("format"));<p>
-where:<p>
-format is one of:<p>
-[keyword] [example]<p>
-YYYYMMDD 20070321<p>
-YYYYMMDDhhmmss 20070321152110<p>
-pretty Wed, 21 March, 2007<p>
-longpretty 15:12:10, Wed, 21 March, 2007 
-<p>Definition at line <a class="el" href="../../d9/dd2/mytime_8c-source.html#l00017">17</a> of file <a class="el" href="../../d9/dd2/mytime_8c-source.html">mytime.c</a>.</p>
-
-<p>References <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00039">DATE</a>, and <a class="el" href="../../d7/d30/mywhine_8c-source.html#l00007">mywhine()</a>.</p>
-
-<p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dynsection">
-<p><center><img src="../../df/da0/group__FILE__UTILS_g0aa978abdf0e063978189238820eb7f7_cgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_g0aa978abdf0e063978189238820eb7f7_cgraph_map" alt=""></center>
-<map name="df/da0/group__FILE__UTILS_g0aa978abdf0e063978189238820eb7f7_cgraph_map">
-<area shape="rect" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1)." alt="" coords="121,5,196,29"></map>
-</div>
-
-</div>
-</div><p>
-<a class="anchor" name="g77e969d3a949fa8aa7195481797b2f19"></a><!-- doxytag: member="mylib.h::read_eek" ref="g77e969d3a949fa8aa7195481797b2f19" args="(const char *surprise, const char *FileDesc)" -->
+<a class="anchor" name="g77e969d3a949fa8aa7195481797b2f19"></a><!-- doxytag: member="gly_fileutils.h::read_eek" ref="g77e969d3a949fa8aa7195481797b2f19" args="(const char *surprise, const char *FileDesc)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -311,7 +351,7 @@ Exiting.<p>
 
 </div>
 </div><p>
-<a class="anchor" name="ge2504ac9b9bee48a3757f9695ca8202a"></a><!-- doxytag: member="mylib.h::read_fneek" ref="ge2504ac9b9bee48a3757f9695ca8202a" args="(const char *surprise, int line, int field, const char *FILENAME)" -->
+<a class="anchor" name="ge2504ac9b9bee48a3757f9695ca8202a"></a><!-- doxytag: member="gly_fileutils.h::read_fneek" ref="ge2504ac9b9bee48a3757f9695ca8202a" args="(const char *surprise, int line, int field, const char *FILENAME)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -358,7 +398,7 @@ Complains (EEK!!!) if a file read fails.
 
 </div>
 </div><p>
-<a class="anchor" name="gbe1ecfe61377f58ccb2e93f9d333cdee"></a><!-- doxytag: member="mylib.h::read_neek" ref="gbe1ecfe61377f58ccb2e93f9d333cdee" args="(const char *surprise, int line, int field)" -->
+<a class="anchor" name="gbe1ecfe61377f58ccb2e93f9d333cdee"></a><!-- doxytag: member="gly_fileutils.h::read_neek" ref="gbe1ecfe61377f58ccb2e93f9d333cdee" args="(const char *surprise, int line, int field)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -400,7 +440,7 @@ Complains (EEK!!!) if a file read fails. Prints the following: "<p>
 
 </div>
 </div><p>
-<a class="anchor" name="g32beab6660a30c42c4a1c744f109f8f1"></a><!-- doxytag: member="mylib.h::slurp_file" ref="g32beab6660a30c42c4a1c744f109f8f1" args="(fileset F)" -->
+<a class="anchor" name="g32beab6660a30c42c4a1c744f109f8f1"></a><!-- doxytag: member="gly_fileutils.h::slurp_file" ref="g32beab6660a30c42c4a1c744f109f8f1" args="(fileset F)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -417,14 +457,12 @@ Complains (EEK!!!) if a file read fails. Prints the following: "<p>
 <div class="memdoc">
 
 <p>
-Slurps in the contents of an entire file. 
-<p>
-
+Slurps in the contents of an entire file 
 <p>Definition at line <a class="el" href="../../d5/d82/fileslurp_8c-source.html#l00019">19</a> of file <a class="el" href="../../d5/d82/fileslurp_8c-source.html">fileslurp.c</a>.</p>
 
-<p>References <a class="el" href="../../d5/d31/general_8h-source.html#l00034">fileset::F</a>, <a class="el" href="../../d5/d31/general_8h-source.html#l00039">fileslurp::L</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00035">line</a>, <a class="el" href="../../d9/dc2/myfopen_8c-source.html#l00006">myfopen()</a>, <a class="el" href="../../d5/d31/general_8h-source.html#l00038">fileslurp::n</a>, and <a class="el" href="../../d5/d31/general_8h-source.html#l00033">fileset::N</a>.</p>
+<p>References <a class="el" href="../../d3/d7f/gly__fileutils_8h-source.html#l00026">fileset::F</a>, <a class="el" href="../../d3/d7f/gly__fileutils_8h-source.html#l00032">fileslurp::L</a>, <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00035">line</a>, <a class="el" href="../../d9/dc2/myfopen_8c-source.html#l00006">myfopen()</a>, <a class="el" href="../../d3/d7f/gly__fileutils_8h-source.html#l00031">fileslurp::n</a>, and <a class="el" href="../../d3/d7f/gly__fileutils_8h-source.html#l00025">fileset::N</a>.</p>
 
-<p>Referenced by <a class="el" href="../../d8/daf/load__dlg__mol_8c-source.html#l00016">load_dlg_mol()</a>.</p>
+<p>Referenced by <a class="el" href="../../d0/d84/get__keysvals_8c-source.html#l00075">get_keysvals_from_file()</a>, and <a class="el" href="../../d8/daf/load__dlg__mol_8c-source.html#l00016">load_dlg_mol()</a>.</p>
 
 <p>
 <div class="dynheader">
@@ -437,7 +475,7 @@ Here is the call graph for this function:</div>
 
 </div>
 </div><p>
-<a class="anchor" name="g85ba1704a246a08be59af6a375127fb7"></a><!-- doxytag: member="mylib.h::sscan_file" ref="g85ba1704a246a08be59af6a375127fb7" args="(FILE *F, const char *str)" -->
+<a class="anchor" name="g85ba1704a246a08be59af6a375127fb7"></a><!-- doxytag: member="gly_fileutils.h::sscan_file" ref="g85ba1704a246a08be59af6a375127fb7" args="(FILE *F, const char *str)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -471,7 +509,7 @@ Returns the number of times the string str is found in file F
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 14:12:23 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Sep 19 10:43:12 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
