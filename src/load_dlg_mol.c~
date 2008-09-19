@@ -43,6 +43,7 @@ if(distVer != 3 && distVer != 4){
 if(localdebug>0){printf("load_dlg_mol: At top.\n");}
 //Initialize the dockinfo, and find the input pdb in the file
 D=(dockinfo*)calloc(1,sizeof(dockinfo));
+D[0].ver = fullVer;			//Set Autodock version number
 rewind(F.F);
 sl = slurp_file(F);			//Called from fileslurp.c
 sl = isolateInputPDB(sl);		//Called from load_pdb.c
@@ -145,8 +146,8 @@ for(a=0;a<D[0].M.nr;a++){
 		}
 	}
 
-/*  This part of the function finds the energies for each run, as well as the
- *  coordinates for each run, and store it in the dockinfo molecule*/
+//  This part of the function finds the energies for each run, as well as the
+//  coordinates for each run, and store it in the dockinfo molecule
 di = 0;
 while(fgets(line,500,F.F)!=NULL){
 	if(strstr(line,"FINAL LAMARCKIAN GENETIC ALGORITHM DOCKED STATE")!=NULL){
