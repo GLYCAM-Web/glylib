@@ -5,6 +5,9 @@
 #include "mylib.h"
 
 
+/** Determines the current working directory. */
+const char *gly_get_current_working_directory(void);
+
 /****************** check_file_existence() ******************/
 /** Figures out whether a file exists, but that's all. 
 
