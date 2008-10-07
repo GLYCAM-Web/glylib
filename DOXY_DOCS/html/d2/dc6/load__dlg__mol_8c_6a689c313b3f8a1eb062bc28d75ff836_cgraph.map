@@ -10,12 +10,12 @@
 <area shape="rect" href="$df/da0/group__FILE__UTILS.html#g32beab6660a30c42c4a1c744f109f8f1" title="slurp_file" alt="" coords="195,440,272,464">
 <area shape="rect" href="$d3/de6/molecules_8h.html#c2704c36414a2539685ed152713762c5" title="deallocateResidue" alt="" coords="357,5,493,29">
 <area shape="rect" href="$d3/de6/molecules_8h.html#ba294de81060c7012ac380b42c2759c8" title="deallocateAtom" alt="" coords="547,5,664,29">
-<area shape="rect" href="$d7/d40/load__pdb_8h.html#2115d5fe84c6d8ec8d8c2fcfa886f2df" title="getMolecule" alt="" coords="377,293,473,317">
+<area shape="rect" href="$d7/d40/load__pdb_8h.html#3993b80515fd8e237f1caf42622aeec1" title="getMolecule" alt="" coords="377,293,473,317">
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8" title="isAtom" alt="" coords="727,331,791,355">
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#da9d275f9ebea79e15b777b2a3bb5804" title="init_struct_slurp" alt="" coords="367,125,484,149">
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#e5090a7808436da0250f82b6eda19eef" title="rwm_line_char" alt="" coords="371,197,480,221">
-<area shape="rect" href="$d7/d40/load__pdb_8h.html#e3716ea85773f1a9531cdf78826e39db" title="findTotalResidue" alt="" coords="543,293,668,317">
-<area shape="rect" href="$d7/d40/load__pdb_8h.html#ee9062a58f0eed481635b2b84bc3b234" title="getResInfo" alt="" coords="561,245,649,269">
+<area shape="rect" href="$d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87" title="findTotalResidue" alt="" coords="543,293,668,317">
+<area shape="rect" href="$d7/d40/load__pdb_8h.html#32f0c7fce194f4464ebc00164b5bb53d" title="getResInfo" alt="" coords="561,245,649,269">
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#918f0f0482fe0947a7a7b2910c98e165" title="endOfMol" alt="" coords="717,269,800,293">
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#8db95c4b03c738d00106d04f78082f17" title="pdb_def" alt="" coords="571,101,640,125">
 <area shape="rect" href="$d7/d40/load__pdb_8h.html#7e12779005bda886569bfa460e18782d" title="get_type" alt="" coords="568,149,643,173">
