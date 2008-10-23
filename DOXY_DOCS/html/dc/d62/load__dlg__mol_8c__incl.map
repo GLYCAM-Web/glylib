@@ -1,8 +1,10 @@
-<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="368,156,467,180">
-<area shape="rect" href="$d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="5,231,85,255">
-<area shape="rect" href="$d3/de6/molecules_8h.html" title="../inc/molecules.h" alt="" coords="819,156,947,180">
-<area shape="rect" href="$db/d40/declarations_8h.html" title="../inc/declarations.h" alt="" coords="617,81,759,105">
-<area shape="rect" href="$d7/d40/load__pdb_8h.html" title="../inc/load_pdb.h" alt="" coords="471,81,593,105">
-<area shape="rect" href="$d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="981,231,1083,255">
-<area shape="rect" href="$d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="829,231,957,255">
-<area shape="rect" href="$dd/da3/structures_8h.html" title="structures.h" alt="" coords="491,156,584,180">
+<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="511,156,609,180">
+<area shape="rect" href="$d9/d14/general_8h.html" title="Deprecated header file containing structures used by various functions within the..." alt="" coords="827,231,907,255">
+<area shape="rect" href="$d3/de6/molecules_8h.html" title="../inc/molecules.h" alt="" coords="931,156,1059,180">
+<area shape="rect" href="$db/d40/declarations_8h.html" title="../inc/declarations.h" alt="" coords="1003,81,1144,105">
+<area shape="rect" href="$d7/d40/load__pdb_8h.html" title="../inc/load_pdb.h" alt="" coords="805,81,928,105">
+<area shape="rect" href="$d1/d34/gly__codeutils_8h.html" title="header file that loads utilities to facilitate programming" alt="" coords="772,305,884,329">
+<area shape="rect" href="$de/d42/gly__fileutils_8h.html" title="header file that loads utilities related to file I/O" alt="" coords="597,305,699,329">
+<area shape="rect" href="$d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="1083,231,1184,255">
+<area shape="rect" href="$d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="931,231,1059,255">
+<area shape="rect" href="$dd/da3/structures_8h.html" title="structures.h" alt="" coords="813,156,907,180">

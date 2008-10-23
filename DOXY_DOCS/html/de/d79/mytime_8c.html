@@ -37,19 +37,66 @@ Include dependency graph for mytime.c:</div>
 <div class="dynsection">
 <p><center><img src="../../de/d7d/mytime_8c__incl.png" border="0" usemap="#src/mytime.c_map" alt=""></center>
 <map name="src/mytime.c_map">
-<area shape="rect" href="../../dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="369,81,433,105"><area shape="rect" href="../../d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="725,156,805,180"></map>
+<area shape="rect" href="../../dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="459,81,523,105"><area shape="rect" href="../../d9/d14/general_8h.html" title="Deprecated header file containing structures used by various functions within the..." alt="" coords="776,156,856,180"><area shape="rect" href="../../d1/d34/gly__codeutils_8h.html" title="header file that loads utilities to facilitate programming" alt="" coords="688,231,800,255"><area shape="rect" href="../../de/d42/gly__fileutils_8h.html" title="header file that loads utilities related to file I/O" alt="" coords="836,231,937,255"></map>
 </div>
 
 <p>
 <a href="../../d9/dd2/mytime_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g0aa978abdf0e063978189238820eb7f7">mytime</a> (const char *timehow)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d79/mytime_8c.html#e74565b9b661b5dc8d74f84aacf83255">mytime</a> (const char *timehow)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the time in a nice format.  <a href="../../df/da0/group__FILE__UTILS.html#g0aa978abdf0e063978189238820eb7f7"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the time in a nice format.  <a href="#e74565b9b661b5dc8d74f84aacf83255"></a><br></td></tr>
 </table>
+<hr><h2>Function Documentation</h2>
+<a class="anchor" name="e74565b9b661b5dc8d74f84aacf83255"></a><!-- doxytag: member="mytime.c::mytime" ref="e74565b9b661b5dc8d74f84aacf83255" args="(const char *timehow)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* mytime           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 14:12:19 2008 for GLYLIB by&nbsp;
+<div class="memdoc">
+
+<p>
+Gets the time in a nice format. 
+<p>
+Returns a the time in one of four popular formats.<p>
+Usage:<p>
+const char * mylocaltimestring,mytime(format)<p>
+-for example:<p>
+strcpy(mylocaltimestring,mytime("format"));<p>
+where:<p>
+format is one of:<p>
+[keyword] [example]<p>
+YYYYMMDD 20070321<p>
+YYYYMMDDhhmmss 20070321152110<p>
+pretty Wed, 21 March, 2007<p>
+longpretty 15:12:10, Wed, 21 March, 2007 
+<p>Definition at line <a class="el" href="../../d9/dd2/mytime_8c-source.html#l00017">17</a> of file <a class="el" href="../../d9/dd2/mytime_8c-source.html">mytime.c</a>.</p>
+
+<p>References <a class="el" href="../../d7/d04/load__pdb_8h-source.html#l00039">DATE</a>, and <a class="el" href="../../d7/d30/mywhine_8c-source.html#l00007">mywhine()</a>.</p>
+
+<p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../de/d79/mytime_8c_e74565b9b661b5dc8d74f84aacf83255_cgraph.png" border="0" usemap="#de/d79/mytime_8c_e74565b9b661b5dc8d74f84aacf83255_cgraph_map" alt=""></center>
+<map name="de/d79/mytime_8c_e74565b9b661b5dc8d74f84aacf83255_cgraph_map">
+<area shape="rect" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1)." alt="" coords="121,5,196,29"></map>
+</div>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Oct 7 18:13:42 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

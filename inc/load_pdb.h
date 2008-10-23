@@ -14,10 +14,10 @@ point by Mike Tessier.  See also the load_pdb functions.*/
 assembly* load_pdb(char* file_name);
 int howManyMolecules();
 assembly* getAssembly();
-int findTotalResidue(int start,int minRes);
+int findTotalResidue(int start);
 int endOfMol(linedef* line);
 int isAtom(linedef* line);
-void getResInfo(residue* res, int start, int minRes);
+void getResInfo(residue* res, int start);
 void init_struct();
 linetype get_type(char*);
 void pdb_def(); /* contains definitions of lines and fields */
@@ -29,7 +29,7 @@ fileslurp isolateInputPDB(fileslurp S);
 fileslurp isolateDockedPDB(fileslurp S);
 void init_struct_slurp(fileslurp S);
 void rwm_line_char(char* curLine, int rwmln);
-molecule* getMolecule(int minRes);
+molecule* getMolecule(void);
 
 FILE *IN, *OUT, *OUTC;
 linedef line[1];

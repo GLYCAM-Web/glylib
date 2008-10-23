@@ -94,7 +94,7 @@
 <a name="l00063"></a>00063 <span class="keywordflow">if</span>(strncmp(<span class="stringliteral">"\%FLAG"</span>,line,5)!=0){ <span class="comment">// must start with %FLAG</span>
 <a name="l00064"></a>00064 <a class="code" href="../../df/da0/group__FILE__UTILS.html#ge2504ac9b9bee48a3757f9695ca8202a" title="Complains (EEK!!!) if a file read fails.">read_fneek</a>(<span class="stringliteral">"Entry not FLAG in read_amber_prmtop"</span>,anl,fld,F.<a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">N</a>);}
 <a name="l00065"></a>00065 <span class="comment">// Parse the FLAG line</span>
-<a name="l00066"></a>00066 <span class="keywordflow">if</span>(sscanf(line,<span class="stringliteral">"%s %s"</span>,over,tmp)!=2){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"Problem in read_amber_prmtop with 1st FLAG read."</span>);}
+<a name="l00066"></a>00066 <span class="keywordflow">if</span>(sscanf(line,<span class="stringliteral">"%s %s"</span>,over,tmp)!=2){<a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"Problem in read_amber_prmtop with 1st FLAG read."</span>);}
 <a name="l00067"></a>00067 newflag=0;
 <a name="l00068"></a>00068 <span class="comment">//</span>
 <a name="l00069"></a>00069 <span class="comment">// Start main read of topology file</span>
@@ -176,7 +176,7 @@
 <a name="l00145"></a>00145         ent=P[0].<a class="code" href="../../de/de7/structamber__prmtop.html#59432c9b24b4b7a49dd86128fe0c7bb4">S</a>[sec].<a class="code" href="../../d6/d75/structamber__prmtop__section.html#eb18cf50010915bb2299df78336e6407">nt</a>;
 <a name="l00146"></a>00146         <span class="keywordflow">switch</span>(P[0].S[sec].nc){
 <a name="l00147"></a>00147                 <span class="keywordflow">case</span> 0:
-<a name="l00148"></a>00148                         <a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"format character length reports as zero in read_amber_prmtop\n"</span>);
+<a name="l00148"></a>00148                         <a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"format character length reports as zero in read_amber_prmtop\n"</span>);
 <a name="l00149"></a>00149                         <span class="keywordflow">break</span>;
 <a name="l00150"></a>00150                 <span class="keywordflow">case</span> 1:
 <a name="l00151"></a>00151                         P[0].<a class="code" href="../../de/de7/structamber__prmtop.html#59432c9b24b4b7a49dd86128fe0c7bb4">S</a>[sec].<a class="code" href="../../d6/d75/structamber__prmtop__section.html#eb18cf50010915bb2299df78336e6407">nt</a>+=5;
@@ -248,7 +248,7 @@
 <a name="l00217"></a>00217                         ent+=2;
 <a name="l00218"></a>00218                         <span class="keywordflow">break</span>;
 <a name="l00219"></a>00219                 <span class="keywordflow">default</span>:
-<a name="l00220"></a>00220                         <a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"nc should be less than five in read_amber_prmtop, but seems like more than five...\n"</span>);
+<a name="l00220"></a>00220                         <a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"nc should be less than five in read_amber_prmtop, but seems like more than five...\n"</span>);
 <a name="l00221"></a>00221                 }
 <a name="l00222"></a>00222         }
 <a name="l00223"></a>00223 <span class="keywordflow">if</span>(P[0].S[sec].nc==5){ <span class="comment">// the read contains exactly one entry</span>
@@ -369,7 +369,7 @@
 <a name="l00338"></a>00338 <span class="keywordflow">return</span>;
 <a name="l00339"></a>00339 } 
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 14:12:08 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Oct 7 18:13:38 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

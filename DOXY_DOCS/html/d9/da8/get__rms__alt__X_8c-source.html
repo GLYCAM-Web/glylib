@@ -54,8 +54,8 @@
 <a name="l00023"></a>00023 <span class="keywordtype">double</span> RMS=0;
 <a name="l00024"></a>00024 <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> c;
 <a name="l00025"></a>00025 
-<a name="l00026"></a>00026 <span class="keywordflow">if</span>(xt&lt;0){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"get_alt_rms_res: target coord cannot be main set"</span>);}
-<a name="l00027"></a>00027 <span class="keywordflow">if</span>(xs&lt;0){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"get_alt_rms_res: main set source coords not written yet"</span>);}
+<a name="l00026"></a>00026 <span class="keywordflow">if</span>(xt&lt;0){<a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"get_alt_rms_res: target coord cannot be main set"</span>);}
+<a name="l00027"></a>00027 <span class="keywordflow">if</span>(xs&lt;0){<a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"get_alt_rms_res: main set source coords not written yet"</span>);}
 <a name="l00028"></a>00028 <span class="keywordflow">for</span>(ai=0;ai&lt;r[0].<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>;ai++){
 <a name="l00029"></a>00029         c=<a class="code" href="../../d3/de6/molecules_8h.html#c2d89921ea18de9be3492cb087d20f85">subtract_coord</a>(r[0].a[ai].xa[xs],r[0].a[ai].xa[xt]);
 <a name="l00030"></a>00030         RMS+=c.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>*c.<a class="code" href="../../d8/d31/structcoord__3D.html#1f8f98b096f36ce354a3ee1a6db7c3d1">i</a>+c.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>*c.<a class="code" href="../../d8/d31/structcoord__3D.html#8a790098660a3d34020a033f7bf724e4">j</a>+c.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>*c.<a class="code" href="../../d8/d31/structcoord__3D.html#6a4c5674e2f5c5ef7425138f528ff02c" title="Values assigned to the three coordinates.">k</a>;
@@ -71,8 +71,8 @@
 <a name="l00040"></a>00040 <span class="keywordtype">double</span> RMS=0;
 <a name="l00041"></a>00041 <a class="code" href="../../d8/d31/structcoord__3D.html">coord_3D</a> c;
 <a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="keywordflow">if</span>(xt&lt;0){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"get_alt_rms_mol: target coord cannot be main set"</span>);}
-<a name="l00044"></a>00044 <span class="keywordflow">if</span>(xs&lt;0){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"get_alt_rms_mol: main set source coords not written yet"</span>);}
+<a name="l00043"></a>00043 <span class="keywordflow">if</span>(xt&lt;0){<a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"get_alt_rms_mol: target coord cannot be main set"</span>);}
+<a name="l00044"></a>00044 <span class="keywordflow">if</span>(xs&lt;0){<a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"get_alt_rms_mol: main set source coords not written yet"</span>);}
 <a name="l00045"></a>00045 
 <a name="l00046"></a>00046 <span class="keywordflow">for</span>(ri=0;ri&lt;m[0].<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b">nr</a>;ri++){
 <a name="l00047"></a>00047         nat+=m[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[ri].<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>;
@@ -86,7 +86,7 @@
 <a name="l00055"></a>00055 }
 <a name="l00056"></a>00056 
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 14:12:08 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Oct 7 18:13:38 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

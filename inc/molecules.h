@@ -247,6 +247,9 @@ typedef struct{
 	double *USE; // (4) Unbound System's Energy <Autodock 4.0 only>
 	int nDIH; // number of dihedrals
 	double *DIH; // the dihedrals
+	char *D; //Free-form descriptor for the set
+	char *DOCK_PROGRAM; //The docking program used, if known and relevant
+	char *VERSION; //The version, or similar indentifier, of the above program
 	molecule M; // to hold molecule info about the initial/docked structures
 } dockinfo;
 

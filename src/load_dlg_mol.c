@@ -43,6 +43,9 @@ if(distVer != 3 && distVer != 4){
 if(localdebug>0){printf("load_dlg_mol: At top.\n");}
 //Initialize the dockinfo, and find the input pdb in the file
 D=(dockinfo*)calloc(1,sizeof(dockinfo));
+D[0].DOCK_PROGRAM = strdup("Autodock");	//Set autodock as the name of the docking program
+D[0].VERSION = (char*)calloc(5,sizeof(char));
+sprintf(D[0].VERSION,"%.2lf",fullVer);	//Set the version number
 rewind(F.F);
 sl = slurp_file(F);			//Called from fileslurp.c
 sl = isolateInputPDB(sl);		//Called from load_pdb.c

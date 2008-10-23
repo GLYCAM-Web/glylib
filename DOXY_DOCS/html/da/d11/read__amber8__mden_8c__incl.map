@@ -1,6 +1,8 @@
-<area shape="rect" href="$df/d3f/read__amber8__mden_8h.html" title="AMBER/read_amber8_mden.h" alt="" coords="660,81,871,105">
-<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="415,156,479,180">
-<area shape="rect" href="$d9/d14/general_8h.html" title="Convenience structures used by various functions within the library." alt="" coords="725,231,805,255">
-<area shape="rect" href="$d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="832,156,928,180">
-<area shape="rect" href="$d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="829,231,931,255">
-<area shape="rect" href="$d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="955,231,1083,255">
+<area shape="rect" href="$df/d3f/read__amber8__mden_8h.html" title="AMBER/read_amber8_mden.h" alt="" coords="761,81,972,105">
+<area shape="rect" href="$dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers" alt="" coords="493,156,557,180">
+<area shape="rect" href="$d9/d14/general_8h.html" title="Deprecated header file containing structures used by various functions within the..." alt="" coords="827,231,907,255">
+<area shape="rect" href="$d3/de6/molecules_8h.html" title="molecules.h" alt="" coords="947,156,1043,180">
+<area shape="rect" href="$d1/d34/gly__codeutils_8h.html" title="header file that loads utilities to facilitate programming" alt="" coords="772,305,884,329">
+<area shape="rect" href="$de/d42/gly__fileutils_8h.html" title="header file that loads utilities related to file I/O" alt="" coords="597,305,699,329">
+<area shape="rect" href="$d4/ddb/geometries_8h.html" title="geometries.h" alt="" coords="1083,231,1184,255">
+<area shape="rect" href="$d1/d10/parameter__sets_8h.html" title="parameter_sets.h" alt="" coords="931,231,1059,255">

@@ -31,4 +31,7 @@ Defines that are are only needed for some specialized circumstances
 */
 #define _GNU_SOURCE
 
+/** Determines the current working directory. */
+const char *gly_get_current_working_directory(void);
+
 #endif

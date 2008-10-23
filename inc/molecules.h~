@@ -37,12 +37,26 @@ typedef struct {
 	int r; ///< residue index
 	int a; ///< atom index
 } ensindex;
+
+typedef struct { 
+	int na, *ai; // na atom indices and the na indices 
+} residue_tree_index;
+typedef struct { 
+	int nr, *ri; // nr residue indices and the nr indices
+	residue_tree_index *r; /// nr residue_tree_index structures
+} molecule_tree_index;
+typedef struct { 
+	int nm, *mi; // nm molecule indices and the nm indices
+	molecule_tree_index *m; // nm molecule_tree_index structures
+} ensemble_tree_index;
+
 typedef struct {
-	int nmN,nmi,*mi; //</ # of molecule names & indicies, nmi indices
+	int posneg; ///< Is this a positive (1), negative (-1) or brand new (0) selection set?
+	int nmN,nmi,nmn,*mn,*mi; //</ # of molecule names, numbers & indicies, nmn numbers and nmi indices
 	char **mN; ///< nmN names
-	int nrN,nri,*ri; ///< # of residue names & indicies, nri indices
+	int nrN,nri,nrn,*rn,*ri; ///< # of residue names, numbers & indicies, nrn numbers and nri indices
 	char **rN; ///< nrN names
-	int naN,nai,*ai; ///< # of atom names & indicies, nai indices
+	int naN,nai,nan,*an,*ai; ///< # of atom names, numbers & indicies, nan numbers and nai indices
 	char **aN; ///< naN names
 } moiety_selection; 
 
@@ -147,7 +161,7 @@ typedef struct {
 	char *N; // residue name 
 	char *D; // free-form description for residue
 	int t; // type number
-	rtype *typ; // pointer to atype structure
+	rtype *typ; // pointer to rtype structure
 	molindex moli; // the molecule index for this residue (address -- set .a to -1 or 0) 
 	int na; // number of atoms in residue
 	double m; // molecular weight
@@ -164,6 +178,7 @@ typedef struct {
 	int nrp; // number of ring planes defined
 	plane *rp; // equations for average/approximate/exact/etc. ring planes (where useful)
 	// need something for more complex structures eventually
+// change these to noi and *oi and add a plain i so it looks like other structures
 	int ni; // number of other indices
 	int *i; // other indices, as needed (ni of these)
 	int nd; // number of double-precision parameters
@@ -178,10 +193,12 @@ typedef struct {
 
 /********** structure molecule *************/
 typedef struct {
+	int n; // molecule number given in an input file
 	int i; // index
 	char *N; // free-form name for molecule
 	char *D; // free-form description for residue
 	double m; // molecular weight
+	int mi; // number corresponding to the index in the parent ensemble
 	int Ei; // number corresponding to parent ensemble
 	int t; // type number
 	mtype *typ; // pointer to atype structure
@@ -231,6 +248,7 @@ typedef struct{
 	double *USE; // (4) Unbound System's Energy <Autodock 4.0 only>
 	int nDIH; // number of dihedrals
 	double *DIH; // the dihedrals
+	double ver; // the version number of the program the data was read from
 	molecule M; // to hold molecule info about the initial/docked structures
 } dockinfo;
 
@@ -452,7 +470,7 @@ void initialize_ensemble(ensemble *E);
 //Functions that recursively free memory in themselves, with the exception of parameters
 void deallocateBondType(bond_type btp);
 void deallocateMolbond(molbond mlb);
-void deallocateConnectionTree(connection_tree con)
+void deallocateConnectionTree(connection_tree con);
 void deallocateBond(bond bnd);
 void deallocateBondset(bondset bst);
 void deallocateAtom(atom atm);

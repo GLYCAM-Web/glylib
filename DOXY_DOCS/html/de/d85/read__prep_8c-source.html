@@ -58,7 +58,7 @@
 <a name="l00027"></a>00027 <span class="comment">*/</span> 
 <a name="l00028"></a>00028 <span class="preprocessor">#include &lt;<a class="code" href="../../dd/dea/mylib_8h.html" title="generic header file that loads utilities often needed by programmers">mylib.h</a>&gt;</span>
 <a name="l00029"></a>00029 <span class="preprocessor">#include &lt;<a class="code" href="../../d3/de6/molecules_8h.html">molecules.h</a>&gt;</span>
-<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;<a class="code" href="../../d9/d14/general_8h.html" title="Convenience structures used by various functions within the library.">general.h</a>&gt;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;<a class="code" href="../../d9/d14/general_8h.html" title="Deprecated header file containing structures used by various functions within the...">general.h</a>&gt;</span>
 <a name="l00031"></a>00031 <span class="preprocessor">#include &lt;<a class="code" href="../../d3/d65/read__prep_8h.html">AMBER/read_prep.h</a>&gt;</span>
 <a name="l00032"></a>00032 <span class="preprocessor">#include &lt;<a class="code" href="../../db/d40/declarations_8h.html">declarations.h</a>&gt;</span>
 <a name="l00033"></a>00033 <span class="comment">//#include "../inc/mylib.h"</span>
@@ -88,7 +88,7 @@
 <a name="l00057"></a>00057 rpuse=malloc_usable_size(M[0].r);
 <a name="l00058"></a>00058 rpsz=<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>);
 <a name="l00059"></a>00059 rpbins=rpuse/rpsz;
-<a name="l00060"></a>00060 <span class="keywordflow">if</span>(rpbins&lt;1){<a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"read_prep: no space in residue -- is molecule not initialized?"</span>);}
+<a name="l00060"></a>00060 <span class="keywordflow">if</span>(rpbins&lt;1){<a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"read_prep: no space in residue -- is molecule not initialized?"</span>);}
 <a name="l00061"></a>00061 
 <a name="l00062"></a>00062 <span class="comment">//printf("about to read through the file. Current line is\n\t&gt;&gt;%s&lt;&lt;\n",line);</span>
 <a name="l00063"></a>00063 fgetpos(F.<a class="code" href="../../dc/d59/structfileset.html#5b094cf2097c6512b7a3f55c9de9ac25" title="the name of the file -- use strdup to allocate/copy">F</a>,&amp;f_linestart);<span class="comment">// get current position</span>
@@ -299,7 +299,7 @@
 <a name="l00268"></a>00268                 <span class="keywordflow">break</span>;} }
 <a name="l00269"></a>00269 <span class="keywordflow">if</span>(A.<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a">t</a>==-1){
 <a name="l00270"></a>00270         sprintf(whinetext,<span class="stringliteral">"read_prepatom:\n\tMatch not found for atom type %s.  The prep file line follows:\n\n%s\n\n"</span>,A.<a class="code" href="../../da/d81/structatom.html#f14335c1ea4f916d84b72ebd1b514aca">T</a>,line);
-<a name="l00271"></a>00271         <a class="code" href="../../dd/dea/mylib_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(whinetext);
+<a name="l00271"></a>00271         <a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(whinetext);
 <a name="l00272"></a>00272         }
 <a name="l00273"></a>00273 <span class="comment">//printf("The entire line is:\n");</span>
 <a name="l00274"></a>00274 <span class="comment">/*printf("%d %s %s %s %d %d %d %f %f %f %f\n",aap[0].I,aap[0].IGRAPH,aap[0].ISYMBL,\</span>
@@ -312,7 +312,7 @@
 <a name="l00281"></a>00281 }
 <a name="l00282"></a>00282 
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 14:12:08 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Oct 7 18:13:38 2008 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
