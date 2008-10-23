@@ -2,7 +2,8 @@
 	size and/or other attributes of a file or directory. 
 */
 
-#include "mylib.h"
+#include <mylib.h>
+#include <gly_fileutils.h>
 
 /****************** check_file_existence() ******************/
 /** Figures out whether a file exists, but that's all. 

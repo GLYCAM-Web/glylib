@@ -82,6 +82,9 @@ int cscan_file(FILE* F,char c);
 /** Slurps in the contents of an entire file */
 fileslurp slurp_file(fileset F); 
 
+/** Determines the current working directory. */
+const char *gly_get_current_working_directory(void);
+
 /** Reads in keyword/value pairs from a file, drops them in a
 structure designed for the purpose.
 

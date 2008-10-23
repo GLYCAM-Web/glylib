@@ -45,6 +45,9 @@
 #include "mylib.h"
 #include "molecules.h"
 
+
+//START HERE -- change name to get_moiety_selection_assembly_from_ensemble
+// Make similar called get_moiety_selection_assembly_from_assembly
 assembly get_moiety_selection_assembly(ensemble *E, int nMS, moiety_selection *MS){
 int 	am=0,ar=0,aa=0,ai=0,ams=0, ///< counters
 	aflag=0, ///< Flag used for setting negative selections

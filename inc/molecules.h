@@ -178,7 +178,6 @@ typedef struct {
 	int nrp; // number of ring planes defined
 	plane *rp; // equations for average/approximate/exact/etc. ring planes (where useful)
 	// need something for more complex structures eventually
-// change these to noi and *oi and add a plain i so it looks like other structures
 	int ni; // number of other indices
 	int *i; // other indices, as needed (ni of these)
 	int nd; // number of double-precision parameters
