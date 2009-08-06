@@ -76,7 +76,8 @@ for(b=0;b<TI[a].n;b++){
 }
 }
 for(a=0;a<nMB;a++){
-//printf("MB[%d] : s = %d ; t = %d\n",a,MB[a].s.i,MB[a].t.i);}
+//printf("MB[%d] : s = %d ; t = %d\n",a,MB[a].s.i,MB[a].t.i);
+}
 
 // Find the molecules
 for(a=0;a<nMB;a++){ // loop through the molbond array 
