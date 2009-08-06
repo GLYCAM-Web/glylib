@@ -75,7 +75,7 @@
 <a name="l00044"></a>00044 <a class="code" href="../../d3/dc4/structambermprepinfo.html">ambermprepinfo</a> *amp;
 <a name="l00045"></a>00045 fpos_t f_linestart;
 <a name="l00046"></a>00046 
-<a name="l00047"></a>00047 M[0].<a class="code" href="../../dc/d7f/structmolecule.html#92c6ba1667d5fbfe4c7395c9e12eef94">nVP</a>=1;
+<a name="l00047"></a>00047 M[0].<a class="code" href="../../dc/d7f/structmolecule.html#92c6ba1667d5fbfe4c7395c9e12eef94" title="number of void structures">nVP</a>=1;
 <a name="l00048"></a>00048 amp=(<a class="code" href="../../d3/dc4/structambermprepinfo.html">ambermprepinfo</a>*)calloc(1,<span class="keyword">sizeof</span>(<a class="code" href="../../d3/dc4/structambermprepinfo.html">ambermprepinfo</a>));
 <a name="l00049"></a>00049 F.<a class="code" href="../../dc/d59/structfileset.html#5b094cf2097c6512b7a3f55c9de9ac25" title="the name of the file -- use strdup to allocate/copy">F</a>=<a class="code" href="../../df/da0/group__FILE__UTILS.html#gb1eb9a7cbe4d705465f2270550ace4c4" title="Like myfopen, but the freopen version.">myfreopen</a>(F.<a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">N</a>,<span class="stringliteral">"r"</span>,F.<a class="code" href="../../dc/d59/structfileset.html#5b094cf2097c6512b7a3f55c9de9ac25" title="the name of the file -- use strdup to allocate/copy">F</a>); <span class="comment">// don't depend on calling function to have opened</span>
 <a name="l00050"></a>00050 amp[0].<a class="code" href="../../d3/dc4/structambermprepinfo.html#06d3dca8ac637bf64a528da25f2975ca">FN</a>=strdup(F.<a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">N</a>);
@@ -83,7 +83,7 @@
 <a name="l00052"></a>00052 sscanf(line,<span class="stringliteral">"%d %d %d"</span>,&amp;amp[0].IDBGEN,&amp;amp[0].IREST,&amp;amp[0].ITYPF);
 <a name="l00053"></a>00053 fgets(line,500,F.<a class="code" href="../../dc/d59/structfileset.html#5b094cf2097c6512b7a3f55c9de9ac25" title="the name of the file -- use strdup to allocate/copy">F</a>);
 <a name="l00054"></a>00054 amp[0].<a class="code" href="../../d3/dc4/structambermprepinfo.html#db813bd0a319b34d999c5415f4922d95">NAMDBF</a>=strdup(line);
-<a name="l00055"></a>00055 M[0].<a class="code" href="../../dc/d7f/structmolecule.html#fba791390d31b3fb143defda7c0cb879">VP</a>=amp;
+<a name="l00055"></a>00055 M[0].<a class="code" href="../../dc/d7f/structmolecule.html#fba791390d31b3fb143defda7c0cb879" title="nVP of these, whatever they may be">VP</a>=amp;
 <a name="l00056"></a>00056 
 <a name="l00057"></a>00057 rpuse=malloc_usable_size(M[0].r);
 <a name="l00058"></a>00058 rpsz=<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>);
@@ -110,10 +110,10 @@
 <a name="l00079"></a>00079 <span class="comment">//printf("stopflag is %d\n",stopflag);</span>
 <a name="l00080"></a>00080         <span class="keywordflow">if</span>(stopflag==0){<span class="keywordflow">break</span>;} <span class="comment">// break loop</span>
 <a name="l00081"></a>00081 <span class="comment">//printf("about to allocate space for the residue...\n");</span>
-<a name="l00082"></a>00082         M[0].<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b">nr</a>++;<span class="comment">// allocate new memory for a residue</span>
-<a name="l00083"></a>00083         M[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>=(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>*)realloc(M[0].r,M[0].nr*<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>));
+<a name="l00082"></a>00082         M[0].<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b" title="number of residues">nr</a>++;<span class="comment">// allocate new memory for a residue</span>
+<a name="l00083"></a>00083         M[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b" title="pointers to residues">r</a>=(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>*)realloc(M[0].r,M[0].nr*<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>));
 <a name="l00084"></a>00084         fsetpos(F.<a class="code" href="../../dc/d59/structfileset.html#5b094cf2097c6512b7a3f55c9de9ac25" title="the name of the file -- use strdup to allocate/copy">F</a>,&amp;f_linestart); <span class="comment">// rewind to start of line</span>
-<a name="l00085"></a>00085         M[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b">r</a>[M[0].<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b">nr</a>-1]=<a class="code" href="../../d3/d65/read__prep_8h.html#6be83cebe121fdaa2e3603f8389c39fc">read_prepres</a>(F,TYP);<span class="comment">// call read_prepres to read in the residue information</span>
+<a name="l00085"></a>00085         M[0].<a class="code" href="../../dc/d7f/structmolecule.html#cf4979ff6bc7bf2ce6bb61710780257b" title="pointers to residues">r</a>[M[0].<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b" title="number of residues">nr</a>-1]=<a class="code" href="../../d3/d65/read__prep_8h.html#6be83cebe121fdaa2e3603f8389c39fc">read_prepres</a>(F,TYP);<span class="comment">// call read_prepres to read in the residue information</span>
 <a name="l00086"></a>00086         fgetpos(F.<a class="code" href="../../dc/d59/structfileset.html#5b094cf2097c6512b7a3f55c9de9ac25" title="the name of the file -- use strdup to allocate/copy">F</a>,&amp;f_linestart);<span class="comment">// get current position </span>
 <a name="l00087"></a>00087         } <span class="comment">// end while not end of file</span>
 <a name="l00088"></a>00088 <span class="keywordflow">return</span>;
@@ -135,14 +135,14 @@
 <a name="l00104"></a>00104 <span class="keywordtype">char</span> whinetext[1001];
 <a name="l00105"></a>00105 
 <a name="l00106"></a>00106 <span class="comment">// initialize R</span>
-<a name="l00107"></a>00107 R.<a class="code" href="../../d0/d7e/structresidue.html#b08e7a7d8bd809c886c81cb1b8266824">n</a>=0; <span class="comment">// residue number given in input file</span>
-<a name="l00108"></a>00108 R.<a class="code" href="../../d0/d7e/structresidue.html#79e841122d8d5a17473851e20f18c51e">N</a>=strdup(<span class="stringliteral">""</span>); <span class="comment">// reside name -- can live with residue names of 200 chars or less???  :-)</span>
-<a name="l00109"></a>00109 R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>=0; <span class="comment">// number of atoms in residue</span>
-<a name="l00110"></a>00110 R.<a class="code" href="../../d0/d7e/structresidue.html#e8b142df842ef7e8c6291b426c317cc2">m</a>=0; <span class="comment">// molecular weight</span>
-<a name="l00111"></a>00111 R.<a class="code" href="../../d0/d7e/structresidue.html#4055c4b807634b9c37051f892384b63f">COM</a>=<a class="code" href="../../d3/de6/molecules_8h.html#dc0a15e5e592bed33584b4c9814aaf91">zero_coord</a>(); <span class="comment">// center of mass for residue</span>
-<a name="l00112"></a>00112 R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>=(<a class="code" href="../../da/d81/structatom.html">atom</a>*)calloc(1,<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>)); <span class="comment">// atom structures (na of these)</span>
-<a name="l00113"></a>00113 R.<a class="code" href="../../d0/d7e/structresidue.html#2289f0c047e66f13f68514b9d6b5ad59">nbs</a>=0; <span class="comment">// number of bond sets</span>
-<a name="l00114"></a>00114 R.<a class="code" href="../../d0/d7e/structresidue.html#297a055a9c89697b55958892a0c5faa7">bs</a>=(<a class="code" href="../../d6/df4/structbondset.html">bondset</a>*)calloc(1,<span class="keyword">sizeof</span>(<a class="code" href="../../d6/df4/structbondset.html">bondset</a>)); <span class="comment">// (consecutive bonds, use these for plotting, etc.)</span>
+<a name="l00107"></a>00107 R.<a class="code" href="../../d0/d7e/structresidue.html#b08e7a7d8bd809c886c81cb1b8266824" title="residue number given in input file">n</a>=0; <span class="comment">// residue number given in input file</span>
+<a name="l00108"></a>00108 R.<a class="code" href="../../d0/d7e/structresidue.html#79e841122d8d5a17473851e20f18c51e" title="residue name">N</a>=strdup(<span class="stringliteral">""</span>); <span class="comment">// reside name -- can live with residue names of 200 chars or less???  :-)</span>
+<a name="l00109"></a>00109 R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519" title="number of atoms in residue">na</a>=0; <span class="comment">// number of atoms in residue</span>
+<a name="l00110"></a>00110 R.<a class="code" href="../../d0/d7e/structresidue.html#e8b142df842ef7e8c6291b426c317cc2" title="molecular weight">m</a>=0; <span class="comment">// molecular weight</span>
+<a name="l00111"></a>00111 R.<a class="code" href="../../d0/d7e/structresidue.html#4055c4b807634b9c37051f892384b63f" title="center of mass for residue">COM</a>=<a class="code" href="../../d3/de6/molecules_8h.html#dc0a15e5e592bed33584b4c9814aaf91">zero_coord</a>(); <span class="comment">// center of mass for residue</span>
+<a name="l00112"></a>00112 R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a" title="atom structures (na of these)">a</a>=(<a class="code" href="../../da/d81/structatom.html">atom</a>*)calloc(1,<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>)); <span class="comment">// atom structures (na of these)</span>
+<a name="l00113"></a>00113 R.<a class="code" href="../../d0/d7e/structresidue.html#2289f0c047e66f13f68514b9d6b5ad59" title="number of bond sets">nbs</a>=0; <span class="comment">// number of bond sets</span>
+<a name="l00114"></a>00114 R.<a class="code" href="../../d0/d7e/structresidue.html#297a055a9c89697b55958892a0c5faa7" title="(consecutive bonds, use these for plotting, etc.)">bs</a>=(<a class="code" href="../../d6/df4/structbondset.html">bondset</a>*)calloc(1,<span class="keyword">sizeof</span>(<a class="code" href="../../d6/df4/structbondset.html">bondset</a>)); <span class="comment">// (consecutive bonds, use these for plotting, etc.)</span>
 <a name="l00115"></a>00115 <span class="comment">//int nr; // number of simple rings (no cage structures, etc.)</span>
 <a name="l00116"></a>00116 <span class="comment">//int nrbs; // number of ring bondsets defined</span>
 <a name="l00117"></a>00117 <span class="comment">//bondset *rbs; // bondsets for rings</span>
@@ -150,10 +150,10 @@
 <a name="l00119"></a>00119 <span class="comment">//coord_3D *rc; // coordinates for ring/reference centers</span>
 <a name="l00120"></a>00120 <span class="comment">//int nrp; // number of ring planes defined</span>
 <a name="l00121"></a>00121 <span class="comment">//plane *rp; // equations for average/approximate/exact/etc. ring planes (where useful)</span>
-<a name="l00122"></a>00122 R.<a class="code" href="../../d0/d7e/structresidue.html#1478dd3eaa2dfef6557daf91a03d423c">ni</a>=1; <span class="comment">// number of other indices</span>
-<a name="l00123"></a>00123 R.<a class="code" href="../../d0/d7e/structresidue.html#2f59748194399a6e9317de86e5b4207c">i</a>=(<span class="keywordtype">int</span>*)calloc(R.<a class="code" href="../../d0/d7e/structresidue.html#1478dd3eaa2dfef6557daf91a03d423c">ni</a>,<span class="keyword">sizeof</span>(<span class="keywordtype">int</span>)); <span class="comment">// other indices, as needed (ni of these)</span>
-<a name="l00124"></a>00124 R.<a class="code" href="../../d0/d7e/structresidue.html#074ff29a1c28555e4c1f90ae699ba0dc">nd</a>=1; <span class="comment">// number of double-precision parameters</span>
-<a name="l00125"></a>00125 R.<a class="code" href="../../d0/d7e/structresidue.html#c429e0758cf2656b7c51cee6ba97223c">d</a>=(<span class="keywordtype">double</span>*)calloc(R.<a class="code" href="../../d0/d7e/structresidue.html#074ff29a1c28555e4c1f90ae699ba0dc">nd</a>,<span class="keyword">sizeof</span>(<span class="keywordtype">double</span>)); <span class="comment">// other parameters, as needed (nd of these)</span>
+<a name="l00122"></a>00122 R.<a class="code" href="../../d0/d7e/structresidue.html#1478dd3eaa2dfef6557daf91a03d423c" title="number of other indices">ni</a>=1; <span class="comment">// number of other indices</span>
+<a name="l00123"></a>00123 R.<a class="code" href="../../d0/d7e/structresidue.html#2f59748194399a6e9317de86e5b4207c" title="other indices, as needed (ni of these)">i</a>=(<span class="keywordtype">int</span>*)calloc(R.<a class="code" href="../../d0/d7e/structresidue.html#1478dd3eaa2dfef6557daf91a03d423c" title="number of other indices">ni</a>,<span class="keyword">sizeof</span>(<span class="keywordtype">int</span>)); <span class="comment">// other indices, as needed (ni of these)</span>
+<a name="l00124"></a>00124 R.<a class="code" href="../../d0/d7e/structresidue.html#074ff29a1c28555e4c1f90ae699ba0dc" title="number of double-precision parameters">nd</a>=1; <span class="comment">// number of double-precision parameters</span>
+<a name="l00125"></a>00125 R.<a class="code" href="../../d0/d7e/structresidue.html#c429e0758cf2656b7c51cee6ba97223c" title="other parameters, as needed (nd of these)">d</a>=(<span class="keywordtype">double</span>*)calloc(R.<a class="code" href="../../d0/d7e/structresidue.html#074ff29a1c28555e4c1f90ae699ba0dc" title="number of double-precision parameters">nd</a>,<span class="keyword">sizeof</span>(<span class="keywordtype">double</span>)); <span class="comment">// other parameters, as needed (nd of these)</span>
 <a name="l00126"></a>00126 
 <a name="l00127"></a>00127 <span class="comment">// allocate space for prepinfo</span>
 <a name="l00128"></a>00128 arp=(<a class="code" href="../../db/d53/structamberrprepinfo.html">amberrprepinfo</a>*)calloc(1,<span class="keyword">sizeof</span>(<a class="code" href="../../db/d53/structamberrprepinfo.html">amberrprepinfo</a>));
@@ -178,7 +178,7 @@
 <a name="l00147"></a>00147 <span class="comment">//printf("line 1 looks like: &gt;&gt;%s&lt;&lt;\n",desc);</span>
 <a name="l00148"></a>00148 <span class="keywordflow">if</span>(linestat==NULL){<a class="code" href="../../df/da0/group__FILE__UTILS.html#g77e969d3a949fa8aa7195481797b2f19" title="Complains (EEK!!!) if a file read fails.">read_eek</a>(<span class="stringliteral">"EOF during residue header read, line 1"</span>,F.<a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">N</a>);}
 <a name="l00149"></a>00149 arp[0].<a class="code" href="../../db/d53/structamberrprepinfo.html#65d464b499d074016c3ff47f0db66ce8">TITLE</a>=strdup(desc); <span class="comment">// add description to arp (destined for void pointer)</span>
-<a name="l00150"></a>00150 R.<a class="code" href="../../d0/d7e/structresidue.html#fa9378e23c46105823b0ec135b8f57b4">D</a>=strdup(desc); <span class="comment">// copy to residue structure</span>
+<a name="l00150"></a>00150 R.<a class="code" href="../../d0/d7e/structresidue.html#fa9378e23c46105823b0ec135b8f57b4" title="free-form description for residue">D</a>=strdup(desc); <span class="comment">// copy to residue structure</span>
 <a name="l00151"></a>00151 linestat=fgets(line,500,F.<a class="code" href="../../dc/d59/structfileset.html#5b094cf2097c6512b7a3f55c9de9ac25" title="the name of the file -- use strdup to allocate/copy">F</a>); <span class="comment">// second line</span>
 <a name="l00152"></a>00152 <span class="comment">//printf("line 2 looks like: &gt;&gt;%s&lt;&lt;\n",line);</span>
 <a name="l00153"></a>00153 <span class="keywordflow">if</span>(linestat==NULL){<a class="code" href="../../df/da0/group__FILE__UTILS.html#g77e969d3a949fa8aa7195481797b2f19" title="Complains (EEK!!!) if a file read fails.">read_eek</a>(<span class="stringliteral">"EOF during residue header read, line 2"</span>,F.<a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">N</a>);}
@@ -188,7 +188,7 @@
 <a name="l00157"></a>00157 <span class="keywordflow">if</span>(linestat==NULL){<a class="code" href="../../df/da0/group__FILE__UTILS.html#g77e969d3a949fa8aa7195481797b2f19" title="Complains (EEK!!!) if a file read fails.">read_eek</a>(<span class="stringliteral">"EOF during residue header read, line 3"</span>,F.<a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">N</a>);}
 <a name="l00158"></a>00158 sscanf(line,<span class="stringliteral">"%s %s %d"</span>,desc,ctmp,&amp;itmp);
 <a name="l00159"></a>00159 <span class="comment">//printf("line 3 looks like: &gt;&gt;%s&lt;&lt;\n",line);</span>
-<a name="l00160"></a>00160 R.<a class="code" href="../../d0/d7e/structresidue.html#79e841122d8d5a17473851e20f18c51e">N</a>=strdup(desc); <span class="comment">// set the residue name</span>
+<a name="l00160"></a>00160 R.<a class="code" href="../../d0/d7e/structresidue.html#79e841122d8d5a17473851e20f18c51e" title="residue name">N</a>=strdup(desc); <span class="comment">// set the residue name</span>
 <a name="l00161"></a>00161 arp[0].<a class="code" href="../../db/d53/structamberrprepinfo.html#49b4daa516bb51d726d9c263c1b2c664">NAMRES</a>=strdup(desc);
 <a name="l00162"></a>00162 <span class="keywordflow">if</span>(strcmp(ctmp,<span class="stringliteral">"INT"</span>)!=0){<a class="code" href="../../df/da0/group__FILE__UTILS.html#g77e969d3a949fa8aa7195481797b2f19" title="Complains (EEK!!!) if a file read fails.">read_eek</a>(<span class="stringliteral">"entry not INT on line 3 of residue header"</span>,F.<a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">N</a>);}
 <a name="l00163"></a>00163 <span class="keywordflow">if</span>(itmp!=0){<a class="code" href="../../df/da0/group__FILE__UTILS.html#g77e969d3a949fa8aa7195481797b2f19" title="Complains (EEK!!!) if a file read fails.">read_eek</a>(<span class="stringliteral">"KFORM not zero on line 3 of residue header"</span>,F.<a class="code" href="../../dc/d59/structfileset.html#c5bad8f08f5d86a5ed63cb40362bada7">N</a>);}
@@ -230,11 +230,11 @@
 <a name="l00199"></a>00199                         <span class="keywordflow">break</span>; } }
 <a name="l00200"></a>00200         <span class="keywordflow">if</span>(rline==1) <span class="keywordflow">break</span>;<span class="comment">// if an empty line, break loop</span>
 <a name="l00201"></a>00201 <span class="comment">//printf("calling read atom for line: %s\n",line);</span>
-<a name="l00202"></a>00202         R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>++;<span class="comment">//       allocate space</span>
-<a name="l00203"></a>00203         R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>=(<a class="code" href="../../da/d81/structatom.html">atom</a>*)realloc(R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>,R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
-<a name="l00204"></a>00204         R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>-1]=<a class="code" href="../../d3/d65/read__prep_8h.html#3188c5030e980c9b7883c885add832f1">read_prepatom</a>(line,TYP);<span class="comment">//read_prepatom</span>
+<a name="l00202"></a>00202         R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519" title="number of atoms in residue">na</a>++;<span class="comment">//       allocate space</span>
+<a name="l00203"></a>00203         R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a" title="atom structures (na of these)">a</a>=(<a class="code" href="../../da/d81/structatom.html">atom</a>*)realloc(R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a" title="atom structures (na of these)">a</a>,R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519" title="number of atoms in residue">na</a>*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
+<a name="l00204"></a>00204         R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a" title="atom structures (na of these)">a</a>[R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519" title="number of atoms in residue">na</a>-1]=<a class="code" href="../../d3/d65/read__prep_8h.html#3188c5030e980c9b7883c885add832f1">read_prepatom</a>(line,TYP);<span class="comment">//read_prepatom</span>
 <a name="l00205"></a>00205         <span class="comment">// update molecular weight for residue</span>
-<a name="l00206"></a>00206         R.<a class="code" href="../../d0/d7e/structresidue.html#e8b142df842ef7e8c6291b426c317cc2">m</a>+=TYP[0].<a class="code" href="../../d5/de2/structtypes.html#12d591c31570aa8ace0e995864f59d96">a</a>[R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a>[R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519">na</a>-1].<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a">t</a>].<a class="code" href="../../dc/d7a/structatype.html#7b33ba31bb5de997c6c19f5dd65a29f2">m</a>;
+<a name="l00206"></a>00206         R.<a class="code" href="../../d0/d7e/structresidue.html#e8b142df842ef7e8c6291b426c317cc2" title="molecular weight">m</a>+=TYP[0].<a class="code" href="../../d5/de2/structtypes.html#12d591c31570aa8ace0e995864f59d96">a</a>[R.<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a" title="atom structures (na of these)">a</a>[R.<a class="code" href="../../d0/d7e/structresidue.html#82f3cbc693fcd03518cb573775a18519" title="number of atoms in residue">na</a>-1].<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a" title="type number -- must correspond to assignments of &amp;quot;atype&amp;quot; (see)">t</a>].<a class="code" href="../../dc/d7a/structatype.html#7b33ba31bb5de997c6c19f5dd65a29f2">m</a>;
 <a name="l00207"></a>00207         } <span class="comment">// end read of the residue's atoms</span>
 <a name="l00208"></a>00208 
 <a name="l00209"></a>00209 <span class="comment">// while not "DONE", read any after-atoms residue information</span>
@@ -254,8 +254,8 @@
 <a name="l00223"></a>00223 <span class="comment">//printf("Residue %s contains %d atoms\n",R.N,R.na);</span>
 <a name="l00224"></a>00224 <span class="comment">// for future:</span>
 <a name="l00225"></a>00225 <span class="comment">//   scan atom info to set bonding</span>
-<a name="l00226"></a>00226 R.<a class="code" href="../../d0/d7e/structresidue.html#f51a2cb5d1a6e88187ed1cb3224e8d86">nVP</a>=1;
-<a name="l00227"></a>00227 R.<a class="code" href="../../d0/d7e/structresidue.html#0878f7fac8ebbd8bce4f3c9060bb7f63">VP</a>=arp;
+<a name="l00226"></a>00226 R.<a class="code" href="../../d0/d7e/structresidue.html#f51a2cb5d1a6e88187ed1cb3224e8d86" title="number of void structures">nVP</a>=1;
+<a name="l00227"></a>00227 R.<a class="code" href="../../d0/d7e/structresidue.html#0878f7fac8ebbd8bce4f3c9060bb7f63" title="nVP of these, whatever they may be">VP</a>=arp;
 <a name="l00228"></a>00228 
 <a name="l00229"></a>00229 <span class="keywordflow">return</span> R;       
 <a name="l00230"></a>00230 }
@@ -284,35 +284,35 @@
 <a name="l00253"></a>00253 
 <a name="l00254"></a>00254 sscanf(line,<span class="stringliteral">"%d %s %s %s %d %d %d %lf %lf %lf %lf"</span>,\
 <a name="l00255"></a>00255         &amp;aap[0].I,N,T,C,&amp;aap[0].NA,&amp;aap[0].NB,&amp;aap[0].NC,&amp;aap[0].R,&amp;aap[0].THETA,&amp;aap[0].PHI,&amp;aap[0].CHG);
-<a name="l00256"></a>00256 A.<a class="code" href="../../da/d81/structatom.html#ffa12be28aae3ed4401d7ac1d469a65a">N</a>=strdup(N);
+<a name="l00256"></a>00256 A.<a class="code" href="../../da/d81/structatom.html#ffa12be28aae3ed4401d7ac1d469a65a" title="atom name">N</a>=strdup(N);
 <a name="l00257"></a>00257 aap[0].<a class="code" href="../../df/d84/structamberaprepinfo.html#2c9db9e2a1096294ecf44d5cc792316e">IGRAPH</a>=strdup(N);
-<a name="l00258"></a>00258 A.<a class="code" href="../../da/d81/structatom.html#f14335c1ea4f916d84b72ebd1b514aca">T</a>=strdup(T);
+<a name="l00258"></a>00258 A.<a class="code" href="../../da/d81/structatom.html#f14335c1ea4f916d84b72ebd1b514aca" title="atom type name">T</a>=strdup(T);
 <a name="l00259"></a>00259 aap[0].<a class="code" href="../../df/d84/structamberaprepinfo.html#48ea04260779ff4780a57525886f77f4">ISYMBL</a>=strdup(T);
 <a name="l00260"></a>00260 aap[0].<a class="code" href="../../df/d84/structamberaprepinfo.html#d204068db90fdbe653c3848503343b5e">ITREE</a>=strdup(C);
-<a name="l00261"></a>00261 A.<a class="code" href="../../da/d81/structatom.html#96e1df3770238c3d598d8bbf9d07957f">n</a>=aap[0].<a class="code" href="../../df/d84/structamberaprepinfo.html#8d0383c6681218e6e25d172406643d98">I</a>-3; 
+<a name="l00261"></a>00261 A.<a class="code" href="../../da/d81/structatom.html#96e1df3770238c3d598d8bbf9d07957f" title="atom number or other identifying index">n</a>=aap[0].<a class="code" href="../../df/d84/structamberaprepinfo.html#8d0383c6681218e6e25d172406643d98">I</a>-3; 
 <a name="l00262"></a>00262 <span class="comment">// set the atom's type according to the data in TYP</span>
-<a name="l00263"></a>00263 A.<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a">t</a>=-1;
+<a name="l00263"></a>00263 A.<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a" title="type number -- must correspond to assignments of &amp;quot;atype&amp;quot; (see)">t</a>=-1;
 <a name="l00264"></a>00264 <span class="keywordflow">for</span>(raa=0;raa&lt;TYP[0].<a class="code" href="../../d5/de2/structtypes.html#2bb14dd5c8d2e17fc378cec167d8d252">na</a>;raa++){
 <a name="l00265"></a>00265 <span class="comment">//printf("TYP[0].a[raa].N is &gt;&gt;%s&lt;&lt; ; A.T is &gt;&gt;%s&lt;&lt;\n",TYP[0].a[raa].N,A.T);</span>
-<a name="l00266"></a>00266         <span class="keywordflow">if</span>(strcmp(TYP[0].a[raa].N,A.<a class="code" href="../../da/d81/structatom.html#f14335c1ea4f916d84b72ebd1b514aca">T</a>)==0){ 
-<a name="l00267"></a>00267                 A.<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a">t</a>=raa; 
+<a name="l00266"></a>00266         <span class="keywordflow">if</span>(strcmp(TYP[0].a[raa].N,A.<a class="code" href="../../da/d81/structatom.html#f14335c1ea4f916d84b72ebd1b514aca" title="atom type name">T</a>)==0){ 
+<a name="l00267"></a>00267                 A.<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a" title="type number -- must correspond to assignments of &amp;quot;atype&amp;quot; (see)">t</a>=raa; 
 <a name="l00268"></a>00268                 <span class="keywordflow">break</span>;} }
-<a name="l00269"></a>00269 <span class="keywordflow">if</span>(A.<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a">t</a>==-1){
-<a name="l00270"></a>00270         sprintf(whinetext,<span class="stringliteral">"read_prepatom:\n\tMatch not found for atom type %s.  The prep file line follows:\n\n%s\n\n"</span>,A.<a class="code" href="../../da/d81/structatom.html#f14335c1ea4f916d84b72ebd1b514aca">T</a>,line);
+<a name="l00269"></a>00269 <span class="keywordflow">if</span>(A.<a class="code" href="../../da/d81/structatom.html#0007983fb28310826dfd6851d92b6d4a" title="type number -- must correspond to assignments of &amp;quot;atype&amp;quot; (see)">t</a>==-1){
+<a name="l00270"></a>00270         sprintf(whinetext,<span class="stringliteral">"read_prepatom:\n\tMatch not found for atom type %s.  The prep file line follows:\n\n%s\n\n"</span>,A.<a class="code" href="../../da/d81/structatom.html#f14335c1ea4f916d84b72ebd1b514aca" title="atom type name">T</a>,line);
 <a name="l00271"></a>00271         <a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(whinetext);
 <a name="l00272"></a>00272         }
 <a name="l00273"></a>00273 <span class="comment">//printf("The entire line is:\n");</span>
 <a name="l00274"></a>00274 <span class="comment">/*printf("%d %s %s %s %d %d %d %f %f %f %f\n",aap[0].I,aap[0].IGRAPH,aap[0].ISYMBL,\</span>
 <a name="l00275"></a>00275 <span class="comment">        aap[0].ITREE,aap[0].NA,aap[0].NB,aap[0].NC,aap[0].R,aap[0].THETA,aap[0].PHI,aap[0].CHG);*/</span>
 <a name="l00276"></a>00276 <span class="comment">//</span>
-<a name="l00277"></a>00277 A.<a class="code" href="../../da/d81/structatom.html#9477300ec23c52f62185edfbad8ccbd5">nVP</a>=1;
-<a name="l00278"></a>00278 A.<a class="code" href="../../da/d81/structatom.html#021437b68fe3da8de34ef437c2ae8f56">VP</a>=aap;
+<a name="l00277"></a>00277 A.<a class="code" href="../../da/d81/structatom.html#9477300ec23c52f62185edfbad8ccbd5" title="number of void structures">nVP</a>=1;
+<a name="l00278"></a>00278 A.<a class="code" href="../../da/d81/structatom.html#021437b68fe3da8de34ef437c2ae8f56" title="nVP of these, whatever they may be">VP</a>=aap;
 <a name="l00279"></a>00279 
 <a name="l00280"></a>00280 <span class="keywordflow">return</span> A;
 <a name="l00281"></a>00281 }
 <a name="l00282"></a>00282 
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Oct 7 18:13:38 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Aug 6 15:40:35 2009 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

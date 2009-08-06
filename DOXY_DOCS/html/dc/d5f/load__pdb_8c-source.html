@@ -156,11 +156,11 @@
 <a name="l00125"></a>00125   <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;<span class="comment">// atom* atm;</span>
 <a name="l00126"></a>00126   <span class="comment">//Get all the information for the first molecule</span>
 <a name="l00127"></a>00127   curMol = (mol+j);
-<a name="l00128"></a>00128   (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b">nr</a> = <a class="code" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87">findTotalResidue</a>(i);
+<a name="l00128"></a>00128   (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b" title="number of residues">nr</a> = <a class="code" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87">findTotalResidue</a>(i);
 <a name="l00129"></a>00129   (*curMol).r = (<a class="code" href="../../d0/d7e/structresidue.html">residue</a>*) malloc ((*curMol).nr*<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>));
 <a name="l00130"></a>00130   <a class="code" href="../../d7/d40/load__pdb_8h.html#32f0c7fce194f4464ebc00164b5bb53d">getResInfo</a>((*curMol).r,i);
 <a name="l00131"></a>00131   curRes = ((*curMol).r+k);
-<a name="l00132"></a>00132   (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
+<a name="l00132"></a>00132   (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a" title="atom structures (na of these)">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
 <a name="l00133"></a>00133   curAtm = ((*curRes).a+l);
 <a name="l00134"></a>00134   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="../../d7/d40/load__pdb_8h.html#e2d7e48709961b1058dc6fa90e427098">INWC</a>; i++)
 <a name="l00135"></a>00135   {
@@ -169,12 +169,12 @@
 <a name="l00138"></a>00138     {
 <a name="l00139"></a>00139       j++;
 <a name="l00140"></a>00140       curMol = (mol+j);
-<a name="l00141"></a>00141       (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b">nr</a> = <a class="code" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87">findTotalResidue</a>(i+1);
+<a name="l00141"></a>00141       (*curMol).<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b" title="number of residues">nr</a> = <a class="code" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87">findTotalResidue</a>(i+1);
 <a name="l00142"></a>00142       (*curMol).r = (<a class="code" href="../../d0/d7e/structresidue.html">residue</a>*) malloc ((*curMol).nr*<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>));
 <a name="l00143"></a>00143       <a class="code" href="../../d7/d40/load__pdb_8h.html#32f0c7fce194f4464ebc00164b5bb53d">getResInfo</a>((*curMol).r,i+1);
 <a name="l00144"></a>00144       curRes = ((*curMol).r+k);
 <a name="l00145"></a>00145       k = 0;l = 0;
-<a name="l00146"></a>00146       (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
+<a name="l00146"></a>00146       (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a" title="atom structures (na of these)">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>));
 <a name="l00147"></a>00147       curAtm = ((*curRes).a+l);
 <a name="l00148"></a>00148     }
 <a name="l00149"></a>00149     <span class="keywordflow">else</span> <span class="keywordflow">if</span>(<a class="code" href="../../d7/d40/load__pdb_8h.html#5450bee2d296b0c7e1d84c3c92d591c8">isAtom</a>((<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)) == 1)
@@ -183,7 +183,7 @@
 <a name="l00152"></a>00152       {
 <a name="l00153"></a>00153        k++;l = 0;
 <a name="l00154"></a>00154        curRes = ((*curMol).r+k);
-<a name="l00155"></a>00155        (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>)); 
+<a name="l00155"></a>00155        (*curRes).<a class="code" href="../../d0/d7e/structresidue.html#35582b318123377171e24d2dc47d5e2a" title="atom structures (na of these)">a</a> = (<a class="code" href="../../da/d81/structatom.html">atom</a>*) malloc ((*curRes).na*<span class="keyword">sizeof</span>(<a class="code" href="../../da/d81/structatom.html">atom</a>)); 
 <a name="l00156"></a>00156        <span class="comment">//curAtm = ((*curRes).a+l);</span>
 <a name="l00157"></a>00157       }
 <a name="l00158"></a>00158       curAtm = ((*curRes).a+l);
@@ -302,7 +302,7 @@
 <a name="l00271"></a>00271   <a class="code" href="../../d0/d7e/structresidue.html">residue</a>* curRes;<span class="comment">// residue* res;</span>
 <a name="l00272"></a>00272   <a class="code" href="../../da/d81/structatom.html">atom</a>* curAtm;<span class="comment">// atom* atm;</span>
 <a name="l00273"></a>00273   <span class="comment">//Get all the information for the first molecule</span>
-<a name="l00274"></a>00274   (*mol).<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b">nr</a> = <a class="code" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87">findTotalResidue</a>(i);
+<a name="l00274"></a>00274   (*mol).<a class="code" href="../../dc/d7f/structmolecule.html#b45722e5d34f738a8af51b774c31631b" title="number of residues">nr</a> = <a class="code" href="../../d7/d40/load__pdb_8h.html#990443ff50d20f97b4c3d5dba7141c87">findTotalResidue</a>(i);
 <a name="l00275"></a>00275   (*mol).r = (<a class="code" href="../../d0/d7e/structresidue.html">residue</a>*)calloc((*mol).nr,<span class="keyword">sizeof</span>(<a class="code" href="../../d0/d7e/structresidue.html">residue</a>));
 <a name="l00276"></a>00276   <span class="comment">//Initialize of the residue numbers to -1 so the program knows they're not used yet</span>
 <a name="l00277"></a>00277   <span class="keywordflow">for</span>(j = 0; j &lt; (*mol).nr; j++){(*mol).r[j].n = -1;}
@@ -337,24 +337,28 @@
 <a name="l00306"></a>00306       <span class="comment">//Getting the atom name</span>
 <a name="l00307"></a>00307       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[3].c; sscanf(temp,<span class="stringliteral">"%s"</span>,name);
 <a name="l00308"></a>00308       (*curAtm).N = strdup(name);
-<a name="l00309"></a>00309       <span class="comment">//Getting the chain identifier</span>
-<a name="l00310"></a>00310       (*curAtm).cID = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[7].c[0];
-<a name="l00311"></a>00311 
-<a name="l00312"></a>00312       <span class="comment">//Getting the X coordinate</span>
-<a name="l00313"></a>00313       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[11].c; sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;dblY); (*curAtm).x.i = dblY;
-<a name="l00314"></a>00314       <span class="comment">//Getting the Y coordinate</span>
-<a name="l00315"></a>00315       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[12].c; sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;dblY); (*curAtm).x.j = dblY;
-<a name="l00316"></a>00316       <span class="comment">//Getting the Z coordinate</span>
-<a name="l00317"></a>00317       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[13].c; sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;dblY); (*curAtm).x.k = dblY;   
-<a name="l00318"></a>00318 
-<a name="l00319"></a>00319       l[rI]++;
-<a name="l00320"></a>00320     }
-<a name="l00321"></a>00321   }
-<a name="l00322"></a>00322  <span class="keywordflow">return</span> mol;
-<a name="l00323"></a>00323 }
-<a name="l00324"></a>00324 
+<a name="l00309"></a>00309 printf(<span class="stringliteral">"Got atom number %d and name %s in get Molecule\n"</span>,(*curAtm).n,(*curAtm).N);
+<a name="l00310"></a>00310 printf(<span class="stringliteral">"in load_pdb_from_slurp: Atom number %d of residue number %d (%s) has the name %s\n"</span>,mol[0].r[5].a[21].n,\
+<a name="l00311"></a>00311         mol[0].r[5].n,mol[0].r[5].N,mol[0].r[5].a[21].N);
+<a name="l00312"></a>00312       <span class="comment">//Getting the chain identifier</span>
+<a name="l00313"></a>00313       (*curAtm).cID = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[7].c[0];
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315       <span class="comment">//Getting the X coordinate</span>
+<a name="l00316"></a>00316       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[11].c; sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;dblY); (*curAtm).x.i = dblY;
+<a name="l00317"></a>00317       <span class="comment">//Getting the Y coordinate</span>
+<a name="l00318"></a>00318       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[12].c; sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;dblY); (*curAtm).x.j = dblY;
+<a name="l00319"></a>00319       <span class="comment">//Getting the Z coordinate</span>
+<a name="l00320"></a>00320       temp  = (*(<a class="code" href="../../dd/da3/structures_8h.html#41c4b475e6a8bd801878f47ad4a8699c">ln</a>+i)).f[13].c; sscanf(temp,<span class="stringliteral">"%lf"</span>,&amp;dblY); (*curAtm).x.k = dblY;   
+<a name="l00321"></a>00321 
+<a name="l00322"></a>00322       l[rI]++;
+<a name="l00323"></a>00323     }
+<a name="l00324"></a>00324   }
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326  <span class="keywordflow">return</span> mol;
+<a name="l00327"></a>00327 }
+<a name="l00328"></a>00328 
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Oct 7 18:13:38 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Aug 6 15:40:35 2009 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

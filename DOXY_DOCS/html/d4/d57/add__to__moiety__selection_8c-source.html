@@ -124,7 +124,7 @@
 <a name="l00179"></a>00179                         <span class="keywordflow">case</span> <span class="charliteral">'n'</span>:
 <a name="l00180"></a>00180                                 ab=M[0].<a class="code" href="../../d0/d18/structmoiety__selection.html#dd99590fe49b69d66fc28dae4c927577">nmi</a>;
 <a name="l00181"></a>00181                                 M[0].<a class="code" href="../../d0/d18/structmoiety__selection.html#dd99590fe49b69d66fc28dae4c927577">nmi</a>+=number;
-<a name="l00182"></a>00182                                 M[0].<a class="code" href="../../d0/d18/structmoiety__selection.html#525765145d8aa27314ae9531230cb9fc">mi</a>=(<span class="keywordtype">int</span>*)realloc(M[0].mi,M[0].nmi*<span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));
+<a name="l00182"></a>00182                                 M[0].<a class="code" href="../../d0/d18/structmoiety__selection.html#525765145d8aa27314ae9531230cb9fc" title="# of molecule names, numbers &amp;amp; indicies, nmn numbers and nmi indices">mi</a>=(<span class="keywordtype">int</span>*)realloc(M[0].mi,M[0].nmi*<span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));
 <a name="l00183"></a>00183                                 <span class="keywordflow">for</span>(aa=0;aa&lt;number;aa++){ac=sscanf(d[aa],<span class="stringliteral">"%d"</span>,&amp;M[0].mi[aa+ab]);
 <a name="l00184"></a>00184                                         <span class="keywordflow">if</span>(ac!=1){<a class="code" href="../../d1/d34/gly__codeutils_8h.html#adce93feeb2a291f0fef33ffc4a8509d" title="Prints error message and exits(1).">mywhine</a>(<span class="stringliteral">"add_to_moiety_selection: expected integer for index, got something else"</span>);}}
 <a name="l00185"></a>00185                                 <span class="keywordflow">break</span>;
@@ -199,7 +199,7 @@
 <a name="l00254"></a>00254 <span class="keywordflow">return</span>;
 <a name="l00255"></a>00255 }
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Oct 7 18:13:37 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Aug 6 15:40:35 2009 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

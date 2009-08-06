@@ -60,6 +60,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="../../d7/d31/structfileslurp.html">fileslurp</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g32beab6660a30c42c4a1c744f109f8f1">slurp_file</a> (<a class="el" href="../../dc/d59/structfileset.html">fileset</a> F)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g7d296c93d816eacef4c11bd051a2756d">gly_get_current_working_directory</a> (void)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="../../df/d78/structgly__keysvals.html">gly_keysvals</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g43ccd3dc37d4202817a454d5d15463f6">get_keysvals_from_slurp</a> (<a class="el" href="../../d7/d31/structfileslurp.html">fileslurp</a> F, const char *SEP, int newline_sep, int ignore_hash)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="../../df/d78/structgly__keysvals.html">gly_keysvals</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da0/group__FILE__UTILS.html#g47349a1117aa52ae410a864093ad6a20">get_keysvals_from_file</a> (<a class="el" href="../../dc/d59/structfileset.html">fileset</a> F, const char *SEP, int newline_sep, int ignore_hash)</td></tr>
@@ -235,6 +237,41 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="../../d1/d34/gly__codeutils_8h.html#f790a45562b331054052f3280f65dea9" title="prune_string_whitespace" alt="" coords="231,5,404,29"></map>
 </div>
 
+<p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../df/da0/group__FILE__UTILS_g43ccd3dc37d4202817a454d5d15463f6_icgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_g43ccd3dc37d4202817a454d5d15463f6_icgraph_map" alt=""></center>
+<map name="df/da0/group__FILE__UTILS_g43ccd3dc37d4202817a454d5d15463f6_icgraph_map">
+<area shape="rect" href="../../df/da0/group__FILE__UTILS.html#g47349a1117aa52ae410a864093ad6a20" title="get_keysvals_from_file" alt="" coords="229,5,392,29"></map>
+</div>
+
+</div>
+</div><p>
+<a class="anchor" name="g7d296c93d816eacef4c11bd051a2756d"></a><!-- doxytag: member="gly_fileutils.h::gly_get_current_working_directory" ref="g7d296c93d816eacef4c11bd051a2756d" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* gly_get_current_working_directory           </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Determines the current working directory.<p>
+Returns a pointer to a string corresponding to the current working directory.<p>
+Typical usage:<p>
+char *myCWD;<p>
+myCWD=strdup(<a class="el" href="../../df/da0/group__FILE__UTILS.html#g7d296c93d816eacef4c11bd051a2756d">gly_get_current_working_directory()</a>); 
+<p>Definition at line <a class="el" href="../../d7/d5e/file__directory__status__utils_8c-source.html#l00053">53</a> of file <a class="el" href="../../d7/d5e/file__directory__status__utils_8c-source.html">file_directory_status_utils.c</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="ga350ff339d771f0880203e6eb7abb58e"></a><!-- doxytag: member="gly_fileutils.h::myfopen" ref="ga350ff339d771f0880203e6eb7abb58e" args="(const char *Name, const char *option)" -->
@@ -268,7 +305,16 @@ Opens a file with error checking.
 List of files and directories generated for each state. Opens a file with error checking. This function will open a file and then check to see if the file actually opened. If not, it will write a descriptive error message and exit(1) the program. Doing this saves many, many core dumps. 
 <p>Definition at line <a class="el" href="../../d9/dc2/myfopen_8c-source.html#l00006">6</a> of file <a class="el" href="../../d9/dc2/myfopen_8c-source.html">myfopen.c</a>.</p>
 
-<p>Referenced by <a class="el" href="../../d4/d8c/crdsnaps_8c-source.html#l00005">crdsnaps()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00004">load_pdb()</a>, <a class="el" href="../../d0/d89/outputPDB_8c-source.html#l00077">outputAsmblPDB()</a>, <a class="el" href="../../d0/d89/outputPDB_8c-source.html#l00010">outputMolPDB()</a>, <a class="el" href="../../da/dae/parse__amber__prmtop_8c-source.html#l00008">parse_amber_prmtop()</a>, <a class="el" href="../../d5/d87/read__amber__prmtop_8c-source.html#l00017">read_amber_prmtop_asis()</a>, <a class="el" href="../../d5/d82/fileslurp_8c-source.html#l00019">slurp_file()</a>, and <a class="el" href="../../d3/d3a/write__amber__prmtop_8c-source.html#l00033">write_amber_prmtop()</a>.</p>
+<p>Referenced by <a class="el" href="../../d4/d8c/crdsnaps_8c-source.html#l00005">crdsnaps()</a>, <a class="el" href="../../d7/d2d/load__atypes_8c-source.html#l00015">load_atypes()</a>, <a class="el" href="../../dc/d5f/load__pdb_8c-source.html#l00004">load_pdb()</a>, <a class="el" href="../../d0/d89/outputPDB_8c-source.html#l00077">outputAsmblPDB()</a>, <a class="el" href="../../d0/d89/outputPDB_8c-source.html#l00010">outputMolPDB()</a>, <a class="el" href="../../da/dae/parse__amber__prmtop_8c-source.html#l00008">parse_amber_prmtop()</a>, <a class="el" href="../../d5/d87/read__amber__prmtop_8c-source.html#l00017">read_amber_prmtop_asis()</a>, <a class="el" href="../../d5/d82/fileslurp_8c-source.html#l00019">slurp_file()</a>, and <a class="el" href="../../d3/d3a/write__amber__prmtop_8c-source.html#l00033">write_amber_prmtop()</a>.</p>
+
+<p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../df/da0/group__FILE__UTILS_ga350ff339d771f0880203e6eb7abb58e_icgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_ga350ff339d771f0880203e6eb7abb58e_icgraph_map" alt=""></center>
+<map name="df/da0/group__FILE__UTILS_ga350ff339d771f0880203e6eb7abb58e_icgraph_map">
+<area shape="rect" href="../../d0/de0/crdsnaps_8c.html#34cd5b6f1e863488317bc95dce474e82" title="crdsnaps" alt="" coords="179,5,256,29"><area shape="rect" href="../../dd/d4e/load__atypes_8c.html#b26df601063e382c79e64d36bf38bb3c" title="load_atypes" alt="" coords="169,53,265,77"><area shape="rect" href="../../d8/df6/load__pdb_8c.html#08a055e60a0cafa3f1b495ad4b0d8101" title="load_pdb" alt="" coords="179,101,256,125"><area shape="rect" href="../../d8/dd9/outputPDB_8c.html#34bd141713077582c0cf0b7a5174173c" title="outputAsmblPDB" alt="" coords="155,149,280,173"><area shape="rect" href="../../d8/dd9/outputPDB_8c.html#e93840530512e0c9eadc2a81f10f8244" title="outputMolPDB" alt="" coords="163,197,272,221"><area shape="rect" href="../../db/d7d/parse__amber__prmtop_8c.html#970eceb530918cdd3dbe78fd7e8b7b73" title="parse_amber_prmtop" alt="" coords="141,245,293,269"><area shape="rect" href="../../da/da5/read__amber__prmtop_8c.html#0917d84096357bfb282409862756ea78" title="read_amber_prmtop_asis" alt="" coords="128,293,307,317"><area shape="rect" href="../../df/da0/group__FILE__UTILS.html#g32beab6660a30c42c4a1c744f109f8f1" title="slurp_file" alt="" coords="179,341,256,365"><area shape="rect" href="../../d9/dbc/write__amber__prmtop_8c.html#f927e7c4e379a8099d5477298b218d21" title="write_amber_prmtop" alt="" coords="144,389,291,413"><area shape="rect" href="../../d4/d44/load__amber__prmtop_8c.html#e21c911f5bda735f6458ef7377c873f7" title="load_amber_prmtop" alt="" coords="364,269,508,293"><area shape="rect" href="../../df/da0/group__FILE__UTILS.html#g47349a1117aa52ae410a864093ad6a20" title="get_keysvals_from_file" alt="" coords="355,317,517,341"><area shape="rect" href="../../d2/dc6/load__dlg__mol_8c.html#6a689c313b3f8a1eb062bc28d75ff836" title="load_dlg_mol" alt="" coords="384,365,488,389"></map>
+</div>
 
 </div>
 </div><p>
@@ -309,7 +355,16 @@ Like myfopen, but the freopen version.
 Like myfopen, but the freopen version. 
 <p>Definition at line <a class="el" href="../../d9/dc2/myfopen_8c-source.html#l00025">25</a> of file <a class="el" href="../../d9/dc2/myfopen_8c-source.html">myfopen.c</a>.</p>
 
-<p>Referenced by <a class="el" href="../../d7/d2d/load__atypes_8c-source.html#l00015">load_atypes()</a>, <a class="el" href="../../db/dee/read__amber8__mden_8c-source.html#l00083">read_amber8_mden()</a>, and <a class="el" href="../../de/d85/read__prep_8c-source.html#l00041">read_prep()</a>.</p>
+<p>Referenced by <a class="el" href="../../db/dee/read__amber8__mden_8c-source.html#l00083">read_amber8_mden()</a>, and <a class="el" href="../../de/d85/read__prep_8c-source.html#l00041">read_prep()</a>.</p>
+
+<p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../df/da0/group__FILE__UTILS_gb1eb9a7cbe4d705465f2270550ace4c4_icgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_gb1eb9a7cbe4d705465f2270550ace4c4_icgraph_map" alt=""></center>
+<map name="df/da0/group__FILE__UTILS_gb1eb9a7cbe4d705465f2270550ace4c4_icgraph_map">
+<area shape="rect" href="../../dd/dcf/read__amber8__mden_8c.html#640e509b8cb3d3fa33fa6daa0dd6cfe9" title="read_amber8_mden" alt="" coords="143,5,287,29"><area shape="rect" href="../../da/d0c/read__prep_8c.html#2af97deb8c94ca0bc4e575c53ff2cd90" title="read_prep" alt="" coords="173,53,256,77"></map>
+</div>
 
 </div>
 </div><p>
@@ -348,6 +403,15 @@ Exiting.<p>
 <p>Definition at line <a class="el" href="../../d8/d4d/read__eek_8c-source.html#l00006">6</a> of file <a class="el" href="../../d8/d4d/read__eek_8c-source.html">read_eek.c</a>.</p>
 
 <p>Referenced by <a class="el" href="../../d7/d2d/load__atypes_8c-source.html#l00015">load_atypes()</a>, <a class="el" href="../../d8/daf/load__dlg__mol_8c-source.html#l00016">load_dlg_mol()</a>, <a class="el" href="../../d5/d87/read__amber__prmtop_8c-source.html#l00017">read_amber_prmtop_asis()</a>, and <a class="el" href="../../de/d85/read__prep_8c-source.html#l00097">read_prepres()</a>.</p>
+
+<p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../df/da0/group__FILE__UTILS_g77e969d3a949fa8aa7195481797b2f19_icgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_g77e969d3a949fa8aa7195481797b2f19_icgraph_map" alt=""></center>
+<map name="df/da0/group__FILE__UTILS_g77e969d3a949fa8aa7195481797b2f19_icgraph_map">
+<area shape="rect" href="../../dd/d4e/load__atypes_8c.html#b26df601063e382c79e64d36bf38bb3c" title="load_atypes" alt="" coords="175,5,271,29"><area shape="rect" href="../../d2/dc6/load__dlg__mol_8c.html#6a689c313b3f8a1eb062bc28d75ff836" title="load_dlg_mol" alt="" coords="171,53,275,77"><area shape="rect" href="../../da/da5/read__amber__prmtop_8c.html#0917d84096357bfb282409862756ea78" title="read_amber_prmtop_asis" alt="" coords="133,101,312,125"><area shape="rect" href="../../da/d0c/read__prep_8c.html#6be83cebe121fdaa2e3603f8389c39fc" title="read_prepres" alt="" coords="171,149,275,173"><area shape="rect" href="../../d4/d44/load__amber__prmtop_8c.html#e21c911f5bda735f6458ef7377c873f7" title="load_amber_prmtop" alt="" coords="360,101,504,125"><area shape="rect" href="../../da/d0c/read__prep_8c.html#2af97deb8c94ca0bc4e575c53ff2cd90" title="read_prep" alt="" coords="391,149,473,173"></map>
+</div>
 
 </div>
 </div><p>
@@ -396,6 +460,15 @@ Complains (EEK!!!) if a file read fails.
 
 <p>Referenced by <a class="el" href="../../d5/d87/read__amber__prmtop_8c-source.html#l00017">read_amber_prmtop_asis()</a>.</p>
 
+<p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../df/da0/group__FILE__UTILS_ge2504ac9b9bee48a3757f9695ca8202a_icgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_ge2504ac9b9bee48a3757f9695ca8202a_icgraph_map" alt=""></center>
+<map name="df/da0/group__FILE__UTILS_ge2504ac9b9bee48a3757f9695ca8202a_icgraph_map">
+<area shape="rect" href="../../da/da5/read__amber__prmtop_8c.html#0917d84096357bfb282409862756ea78" title="read_amber_prmtop_asis" alt="" coords="144,5,323,29"><area shape="rect" href="../../d4/d44/load__amber__prmtop_8c.html#e21c911f5bda735f6458ef7377c873f7" title="load_amber_prmtop" alt="" coords="371,5,515,29"></map>
+</div>
+
 </div>
 </div><p>
 <a class="anchor" name="gbe1ecfe61377f58ccb2e93f9d333cdee"></a><!-- doxytag: member="gly_fileutils.h::read_neek" ref="gbe1ecfe61377f58ccb2e93f9d333cdee" args="(const char *surprise, int line, int field)" -->
@@ -438,6 +511,15 @@ Complains (EEK!!!) if a file read fails. Prints the following: "<p>
 
 <p>Referenced by <a class="el" href="../../d4/d33/rwm__line_8c-source.html#l00008">rwm_line()</a>, and <a class="el" href="../../d4/d33/rwm__line_8c-source.html#l00093">rwm_line_char()</a>.</p>
 
+<p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../df/da0/group__FILE__UTILS_gbe1ecfe61377f58ccb2e93f9d333cdee_icgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_gbe1ecfe61377f58ccb2e93f9d333cdee_icgraph_map" alt=""></center>
+<map name="df/da0/group__FILE__UTILS_gbe1ecfe61377f58ccb2e93f9d333cdee_icgraph_map">
+<area shape="rect" href="../../da/d7a/rwm__line_8c.html#fc7b41cef87153cbe556e46f65b3a59d" title="rwm_line" alt="" coords="159,5,236,29"><area shape="rect" href="../../da/d7a/rwm__line_8c.html#e5090a7808436da0250f82b6eda19eef" title="rwm_line_char" alt="" coords="143,53,252,77"><area shape="rect" href="../../d8/df6/load__pdb_8c.html#08a055e60a0cafa3f1b495ad4b0d8101" title="load_pdb" alt="" coords="339,5,416,29"><area shape="rect" href="../../d8/df6/load__pdb_8c.html#7a868395f5dad0888eea7ac11dfb8f95" title="load_pdb_from_slurp" alt="" coords="303,53,452,77"><area shape="rect" href="../../d2/dc6/load__dlg__mol_8c.html#6a689c313b3f8a1eb062bc28d75ff836" title="load_dlg_mol" alt="" coords="501,53,605,77"></map>
+</div>
+
 </div>
 </div><p>
 <a class="anchor" name="g32beab6660a30c42c4a1c744f109f8f1"></a><!-- doxytag: member="gly_fileutils.h::slurp_file" ref="g32beab6660a30c42c4a1c744f109f8f1" args="(fileset F)" -->
@@ -471,6 +553,15 @@ Here is the call graph for this function:</div>
 <p><center><img src="../../df/da0/group__FILE__UTILS_g32beab6660a30c42c4a1c744f109f8f1_cgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_g32beab6660a30c42c4a1c744f109f8f1_cgraph_map" alt=""></center>
 <map name="df/da0/group__FILE__UTILS_g32beab6660a30c42c4a1c744f109f8f1_cgraph_map">
 <area shape="rect" href="../../df/da0/group__FILE__UTILS.html#ga350ff339d771f0880203e6eb7abb58e" title="Opens a file with error checking." alt="" coords="131,5,205,29"></map>
+</div>
+
+<p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dynsection">
+<p><center><img src="../../df/da0/group__FILE__UTILS_g32beab6660a30c42c4a1c744f109f8f1_icgraph.png" border="0" usemap="#df/da0/group__FILE__UTILS_g32beab6660a30c42c4a1c744f109f8f1_icgraph_map" alt=""></center>
+<map name="df/da0/group__FILE__UTILS_g32beab6660a30c42c4a1c744f109f8f1_icgraph_map">
+<area shape="rect" href="../../df/da0/group__FILE__UTILS.html#g47349a1117aa52ae410a864093ad6a20" title="get_keysvals_from_file" alt="" coords="131,5,293,29"><area shape="rect" href="../../d2/dc6/load__dlg__mol_8c.html#6a689c313b3f8a1eb062bc28d75ff836" title="load_dlg_mol" alt="" coords="160,53,264,77"></map>
 </div>
 
 </div>
@@ -509,7 +600,7 @@ Returns the number of times the string str is found in file F
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Oct 7 18:13:43 2008 for GLYLIB by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Aug 6 15:41:02 2009 for GLYLIB by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="../../doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
