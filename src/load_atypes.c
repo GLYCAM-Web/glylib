@@ -15,7 +15,7 @@
 void load_atypes(fileset F, types *T){
 char line[10001],*entry;
 int test=0,la=0,numbnd=0;
-F.F=myfreopen(F.N,"r",F.F); // don't depend on calling function to have opened
+F.F=myfopen(F.N,"r"); // 
 while(fgets(line,10000,F.F)!=NULL){// while not end of file
 	if(line[0]!='#'){//check that the line does not start with a hash 
 		if(strchr(line,EOF)!=NULL){read_eek("EOF",F.N);}

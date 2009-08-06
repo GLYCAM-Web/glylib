@@ -172,7 +172,7 @@ if(strcmp(P[0].S[pa].N,"ATOM_NAME")==0){ // these eventually go into the molecul
   	P[0].IGRAPH=pa; // IGRAPH : the user atoms names 
 	P[0].S[pa].is_standard=0; // set as a standard section
 	// for now, add these to the straight list of Assembly atoms
-//printf("A.na is %d\n",A.na);
+//printf("P[0].S[pa].nt=%d, A.na is %d\n",P[0].S[pa].nt,A.na);
 	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in ATOM_NAME in parse_amber_prmtop");}
 	for(pb=0;pb<A.na;pb++){
 		//A.a[pb][0].N=(char*)calloc((P[0].S[pa].nc+1),sizeof(char));
@@ -251,6 +251,7 @@ if(strcmp(P[0].S[pa].N,"NONBONDED_PARM_INDEX")==0){ //
 if(strcmp(P[0].S[pa].N,"RESIDUE_LABEL")==0){ // names of residues
   	P[0].LABRES =pa; // LABRES : the residue labels 
 	P[0].S[pa].is_standard=0; // set as a standard section
+//printf("P[0].S[pa].nt=%d and A.nr=%d\n",P[0].S[pa].nt,A.nr);
 	if(P[0].S[pa].nt!=A.nr){mywhine("P[0].S[pa].nt!=A.nr in RESIDUE_LABEL in parse_amber_prmtop");}
 	for(pb=0;pb<A.nr;pb++){
 		A.r[pb][0].N=(char*)calloc((P[0].S[pa].nc+1),sizeof(char));

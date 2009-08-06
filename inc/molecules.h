@@ -6,8 +6,8 @@ File begun May 2007 by Lachele Foley and modified continually ever since
 
 #if !defined(GLYLIB_MOLECULES)
 #define GLYLIB_MOLECULES
-#include "geometries.h"
-#include "parameter_sets.h"
+#include <geometries.h>
+#include <parameter_sets.h>
 
 char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; ///< locations of type databases,
 	// to be set by the program, but globally visible
@@ -28,7 +28,7 @@ typedef struct {
 	int m; ///< molecule index
 	int r; ///< residue index
 	int a; ///< atom index
-} molindex;
+} molindex; ///< Index to describe position in a molecule
 typedef struct {
 	int i; ///< general index
 	int E; ///< ensemble
@@ -36,23 +36,29 @@ typedef struct {
 	int m; ///< molecule index
 	int r; ///< residue index
 	int a; ///< atom index
-} ensindex;
+} ensindex; ///< Index to describe position in an ensemble
+typedef struct {
+	int nP; ///< number of positions in the ring
+	ensindex *P; ///< the nP relevant positions
+	int nin,*in; ///< reference integers in *P for other ring members with incoming bonds
+	int nout,*out; ///< reference integers in *P for other ring members with outgoing bonds
+} ring_ensindex; ///< Structure holding ensemble indices for a ring, plus maybe other info
 
 typedef struct { 
-	int na, *ai; // na atom indices and the na indices 
-} residue_tree_index;
+	int na, *ai; ///< na atom indices and the na indices 
+} residue_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
 typedef struct { 
-	int nr, *ri; // nr residue indices and the nr indices
-	residue_tree_index *r; /// nr residue_tree_index structures
-} molecule_tree_index;
+	int nr, *ri; ///< nr residue indices and the nr indices
+	residue_tree_index *r; ///< nr residue_tree_index structures
+} molecule_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
 typedef struct { 
-	int nm, *mi; // nm molecule indices and the nm indices
-	molecule_tree_index *m; // nm molecule_tree_index structures
-} ensemble_tree_index;
+	int nm, *mi; ///< nm molecule indices and the nm indices
+	molecule_tree_index *m; ///< nm molecule_tree_index structures
+} ensemble_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
 
 typedef struct {
 	int posneg; ///< Is this a positive (1), negative (-1) or brand new (0) selection set?
-	int nmN,nmi,nmn,*mn,*mi; //</ # of molecule names, numbers & indicies, nmn numbers and nmi indices
+	int nmN,nmi,nmn,*mn,*mi; ///< # of molecule names, numbers & indicies, nmn numbers and nmi indices
 	char **mN; ///< nmN names
 	int nrN,nri,nrn,*rn,*ri; ///< # of residue names, numbers & indicies, nrn numbers and nri indices
 	char **rN; ///< nrN names
@@ -76,21 +82,28 @@ typedef struct {
 	bond *b; // n of these
 } bondset; // set of consecutive bonds
 typedef struct {
-// See the documentation directory for more information
-	int ni; // number incoming bonds
-	molindex *i; // atoms making incoming bonds
-	int no; // number outgoing bonds
-	molindex *o; // atoms making outgoing bonds
-	molindex oref; // index of grandparent incoming atom to use to set torsion
-	char RS, DL; // for R/S and D/L type chirality
-	int pm; // for optical activity
-	char *iso; // other description of isomerism
-	double *angle; // angles (no + ni - 1)
-	double *chirot; // chirality rotation (no + ni - 2)
-	molindex itors; // index of grandparent incoming atom to use to set torsion
-	double tors; // the torsion angle 
-	double *distance; // distances (no)
-} connection_tree; // for detailed descriptions of 
+	int ni; ///< number incoming bonds
+	ensindex *i; ///< atoms making incoming bonds
+	int ii; ///< of the ni incoming bonds, which one is used as reference (valid from 0 to ni-1, default=0)
+	int no; ///< number outgoing bonds
+	ensindex *o; ///< atoms making outgoing bonds
+	ensindex iref; ///< index of grandparent incoming atom to use to set torsion
+	ensindex oref; ///< index of outgoing atom used to use to set chirality
+	double *angle; ///< angles 
+	double *chirot; ///< chirality rotation 
+	ensindex itors; ///< index of grandparent incoming atom to use to set torsion
+	double tors; ///< the torsion angle 
+	double *distance; ///< distances (no)
+	char RS,DL,pm; ///< for R/S & D/L type chirality & p/m type optical activity
+	char UD, AB; ///< for up/down and alpha/beta descriptors
+	int niso; ///< number of other descriptors
+	char **iso; ///< the niso other descriptions of isomerism
+	char *ELGEOM,*SPGEOM; ///< electronic geometry (sp2, sp3, etc.) and spatial geometry (tetrahedral, etc.)
+	int nopen; ///< number of open valences
+	coord_3D *open; ///< approximate or optimal locations for new attachments (at half-bond)
+	int nLP; ///< number of lone pairs defined
+	coord_3D *LP; ///< approximate or optimal locations for the lone pairs
+} connection_tree; ///< for non-redundant bonding descriptions. See the documentation directory for more information
 
 typedef struct {
 	molindex s,t; // source & target atoms for bond
@@ -123,201 +136,205 @@ typedef struct {
 
 /********** structure atom *************/
 typedef struct {
-	int n; // atom number or other identifying index
-	char *N; // atom name 
-	char *T; // atom type name
-	char *D; // free-form description
-	int t; // type number -- must correspond to assignments of "atype" (see)
-	atype *typ; // pointer to atype structure
-	molindex moli; // the molecule index for this atom (address)
-	int nb; // number of actual bonds (not expected bonds)
-	bond *b; // bond structures (nb of these)
-	int nmb; // number of bonds to other residues or molecules
-	molbond *mb; // nmb of these
-	coord_3D x; // atom's coordinates 
-	int nalt; // number of alternate coordinate sets
-	coord_3D *xa; // nalt of alternate coords
-	int nvec; // number of vector sets
-	vectormag_3D *v; // vector sets
-	int nch; // number of charges
-	double *ch; // nch charges for this atom
-	int ni; // number of other indices
-	int *i; // other indices, as needed (ni of these)
-	int nd; // number of double-precision parameters
-	double *d; // other parameters, as needed (nd of these) 
-	int nensi; // number of ensemble indices
-	ensindex *ensi; // list of ensemble indices
-	char *sres; // name of some other/original residue to which this atom belonged
-	int nOD; // number of other descriptors
-	char **OD; // the nOD descriptors
-	int nVP; // number of void structures
-	char cID; // chain identifier
-	void *VP; // nVP of these, whatever they may be
-} atom; // an actual atom in a residue/molecule
+	int n; ///< atom number or other identifying index
+	char *N; ///< atom name 
+	char *T; ///< atom type name
+	char *D; ///< free-form description
+	int t; ///< type number -- must correspond to assignments of "atype" (see)
+	atype *typ; ///< pointer to atype structure
+	molindex moli; ///< the molecule index for this atom (address)
+	int nb; ///< number of actual bonds (not expected bonds)
+	bond *b; ///< bond structures (nb of these)
+	int nmb; ///< number of bonds to other residues or molecules
+	molbond *mb; ///< nmb of these
+	coord_3D x; ///< atom's main coordinates 
+	coord_3D xv; ///< atom's main velocity
+	int nalt; ///< number of alternate coordinate sets
+	coord_3D *xa; ///< nalt of alternate coords
+	int nxva; ///< number of alternate velocities defined
+	coord_3D *xva; ///< nxva alternate velocities
+	int nvec; ///< number of vector sets
+	vectormag_3D *v; ///< vector sets
+	int nch; ///< number of charges
+	double *ch; ///< nch charges for this atom
+	int ni; ///< number of other indices
+	int *i; ///< other indices, as needed (ni of these)
+	int nd; ///< number of double-precision parameters
+	double *d; ///< other parameters, as needed (nd of these) 
+	int nensi; ///< number of ensemble indices
+	ensindex *ensi; ///< list of ensemble indices
+	char *sres; ///< name of some other/original residue to which this atom belonged
+	int nOD; ///< number of other descriptors
+	char **OD; ///< the nOD descriptors
+	int nVP; ///< number of void structures
+	char cID; ///< chain identifier
+	void *VP; ///< nVP of these, whatever they may be
+} atom; ///< an actual atom in a residue/molecule
 
 /********** structure residue *************/
 typedef struct {
-	int n; // residue number given in input file
-	char *N; // residue name 
-	char *D; // free-form description for residue
-	int t; // type number
-	rtype *typ; // pointer to rtype structure
-	molindex moli; // the molecule index for this residue (address -- set .a to -1 or 0) 
-	int na; // number of atoms in residue
-	double m; // molecular weight
-	coord_3D COM; // center of mass for residue
-	atom *a; // atom structures (na of these)
-	connection_tree *T; // na of these
-	int nbs; // number of bond sets 
-	bondset *bs; // (consecutive bonds, use these for plotting, etc.)
-	int nr; // number of simple rings (no cage structures, etc.)
-	int nrbs; // number of ring bondsets defined
-	bondset *rbs; // bondsets for rings
+	int n; ///< residue number given in input file
+	char *N; ///< residue name 
+	char *D; ///< free-form description for residue
+	int t; ///< type number
+	rtype *typ; ///< pointer to rtype structure
+	molindex moli; ///< the molecule index for this residue (address -- set .a to -1 or 0) 
+	int na; ///< number of atoms in residue
+	double m; ///< molecular weight
+	coord_3D COM; ///< center of mass for residue
+	atom *a; ///< atom structures (na of these)
+	connection_tree *T; ///< na of these
+	int nbs; ///< number of bond sets 
+	bondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
+	int nr; ///< number of simple rings (no cage structures, etc.)
+	int nrbs; ///< number of ring bondsets defined
+	bondset *rbs; ///< bondsets for rings
 	int nrc; // number of ring/reference coordinate sets defined
-	coord_3D *rc; // coordinates for ring/reference centers
-	int nrp; // number of ring planes defined
-	plane *rp; // equations for average/approximate/exact/etc. ring planes (where useful)
+	coord_3D *rc; ///< coordinates for ring/reference centers
+	int nrp; ///< number of ring planes defined
+	plane *rp; ///< equations for average/approximate/exact/etc. ring planes (where useful)
 	// need something for more complex structures eventually
-	int ni; // number of other indices
-	int *i; // other indices, as needed (ni of these)
-	int nd; // number of double-precision parameters
-	double *d; // other parameters, as needed (nd of these)
-	int nensi; // number of ensemble indices
-	ensindex *ensi; // list of ensemble indices
-	int nOD; // number of other descriptors
-	char **OD; // the nOD descriptors
-	int nVP; // number of void structures
-	void *VP; // nVP of these, whatever they may be
-} residue; // an actual residue in a molecule
+	int ni; ///< number of other indices
+	int *i; ///< other indices, as needed (ni of these)
+	int nd; ///< number of double-precision parameters
+	double *d; ///< other parameters, as needed (nd of these)
+	int nensi; ///< number of ensemble indices
+	ensindex *ensi; ///< list of ensemble indices
+	int nOD; ///< number of other descriptors
+	char **OD; ///< the nOD descriptors
+	int nVP; ///< number of void structures
+	void *VP; ///< nVP of these, whatever they may be
+} residue; ///< an actual residue in a molecule
 
 /********** structure molecule *************/
 typedef struct {
-	int n; // molecule number given in an input file
-	int i; // index
-	char *N; // free-form name for molecule
-	char *D; // free-form description for residue
-	double m; // molecular weight
-	int mi; // number corresponding to the index in the parent ensemble
-	int Ei; // number corresponding to parent ensemble
-	int t; // type number
-	mtype *typ; // pointer to atype structure
-	coord_3D COM; // center of mass for molecule
-	int na; // total number of atoms in molecule
-	atom **a; // na of these, but should point into residues
-	connection_tree *aT; // nat of these
-	int nr; // number of residues
-        residue *r; // pointers to residues
-	connection_tree *rT; // nr of these
-	int nrb; // number of bonds between residues
-	molbond *rb; // nrb of these descriptions of bonds 
-	int nrbs; // number of sets of bonds between residues (for example, linear chains)
-	molbondset *rbs; // nrbs of these sets
-	int nrc; // number of additional reference ../inc/molecules.h:265: error: expected specificoordinates (rings, for example)
-	coord_3D *rc; // nrc of these
+	int n; ///< molecule number given in an input file
+	int i; ///< index
+	char *N; ///< free-form name for molecule
+	char *D; ///< free-form description for residue
+	double m; ///< molecular weight
+	int mi; ///< number corresponding to the index in the parent ensemble
+	int Ei; ///< number corresponding to parent ensemble
+	int t; ///< type number
+	mtype *typ; ///< pointer to atype structure
+	coord_3D COM; ///< center of mass for molecule
+	int na; ///< total number of atoms in molecule
+	atom **a; ///< na of these, but should point into residues
+	connection_tree *aT; ///< nat of these
+	int nr; ///< number of residues
+        residue *r; ///< pointers to residues
+	connection_tree *rT; ///< nr of these residue-level connection trees
+	int nrb; ///< number of bonds between residues
+	molbond *rb; ///< nrb of these descriptions of bonds 
+	int nrbs; ///< number of sets of bonds between residues (for example, linear chains)
+	molbondset *rbs; ///< nrbs of these sets
+	int nrc; ///< number of additional reference (ring centers, for example)
+	coord_3D *rc; ///< nrc of these
 	int nBOX; ///< Number of box_info structures defined
 	boxinfo *BOX; ///< The nBOX structures
 	//coord_3D boxl,boxh; // box dimensions
-	int noi; // number of other indices
-	int *oi; // other indices, as needed (ni of these)
-	int nd; // number of double-precision parameters
-	double *d; // other parameters, as needed (nd of these)
-	int nensi; // number of ensemble indices
-	ensindex *ensi; // list of ensemble indices
-	int nOD; // number of other descriptors
-	char **OD; // the nOD descriptors
-	int nVP; // number of void structures
-	void *VP; // nVP of these, whatever they may be
+	int noi; ///< number of other indices
+	int *oi; ///< other indices, as needed (ni of these)
+	int nd; ///< number of double-precision parameters
+	double *d; ///< other parameters, as needed (nd of these)
+	int nensi; ///< number of ensemble indices
+	ensindex *ensi; ///< list of ensemble indices
+	int nOD; ///< number of other descriptors
+	char **OD; ///< the nOD descriptors
+	int nVP; ///< number of void structures
+	void *VP; ///< nVP of these, whatever they may be
 } molecule;
 
 /********** structure dockinfo *************/
 typedef struct{
-	int i; // index
-	int n; // number of docked structures represented
-	coord_3D RC, *TR; // reference coordinate ; translation for docked structure
-        vectormag_3D *Q, *QN, *QN0; // Quaternion x,y,z,w ; Quaternion nx,ny,nz,angle
-	// NOTE!! do -not- use typical vectormag_3D functions on these structures
-	int nTors; // Number of Torsions 
-	double *Tors; // nTors torsions
-	double *eFEB; // Estimated Free Energy of Binding, kcal/mol [=(1)+(3)]
-	double *eKi, *Tmp; // Estimated Inhibition Constant, Ki & temperature, Kelvin
-	double *fDE; // Final Docked Energy, kcal/mol [=(1)+(2)] or [=(1)+(2)+(3)-(4)]
-	double *fIE; // (1) Final Intermolecular Energy   
-	double *fIEL; // (2) Final Internal Energy of Ligand 
-	double *TFE; // (3) Torsional Free Energy          
-	double *USE; // (4) Unbound System's Energy <Autodock 4.0 only>
-	int nDIH; // number of dihedrals
-	double *DIH; // the dihedrals
-	char *D; //Free-form descriptor for the set
-	char *DOCK_PROGRAM; //The docking program used, if known and relevant
-	char *VERSION; //The version, or similar indentifier, of the above program
-	molecule M; // to hold molecule info about the initial/docked structures
+	int i; ///< index
+	int n; ///< number of docked structures represented
+	coord_3D RC, *TR; ///< reference coordinate ; translation for docked structure
+        vectormag_3D *Q, *QN, *QN0; ///< Quaternion x,y,z,w ; Quaternion nx,ny,nz,angle
+	///< NOTE!! do -not- use typical vectormag_3D functions on these structures
+	int nTors; ///< Number of Torsions 
+	double *Tors; ///< nTors torsions
+	double *eFEB; ///< Estimated Free Energy of Binding, kcal/mol [=(1)+(3)]
+	double *eKi, *Tmp; ///< Estimated Inhibition Constant, Ki & temperature, Kelvin
+	double *fDE; ///< Final Docked Energy, kcal/mol [=(1)+(2)] or [=(1)+(2)+(3)-(4)]
+	double *fIE; ///< (1) Final Intermolecular Energy   
+	double *fIEL; ///< (2) Final Internal Energy of Ligand 
+	double *TFE; ///< (3) Torsional Free Energy          
+	double *USE; ///< (4) Unbound System's Energy <Autodock 4.0 only>
+	int nDIH; ///< number of dihedrals
+	double *DIH; ///< the dihedrals
+	char *D; ///<Free-form descriptor for the set
+	char *DOCK_PROGRAM; ///<The docking program used, if known and relevant
+	char *VERSION; ///<The version, or similar indentifier, of the above program
+	molecule M; ///< to hold molecule info about the initial/docked structures
 } dockinfo;
 
 /********** structure assembly *************/
-typedef struct { // structure for groups of molecules within a larger structure
-	int i; // index
-	char *N; // name
-	char *D; // description (free-form) (was *desc)
-	double mass; // mass of assembly
-	coord_3D COM; // center of mass 
-	int nm; // number of molecule structures
-	molecule **m; // nm of these
-	connection_tree *mT; // nm of these
+typedef struct { 
+	int i; ///< index
+	char *N; ///< name
+	char *D; ///< description (free-form) (was *desc)
+	double mass; ///< mass of assembly
+	double TIME; ///< current/initial/reference time in the simulation
+	coord_3D COM; ///< center of mass 
+	int nm; ///< number of molecule structures
+	molecule **m; ///< nm of these
+	connection_tree *mT; ///< nm of these
 	//int nmb; // number of bonds/connections between molecules (H-bonds, for example)
 	//molbond *mb; // nmb of these descriptions of connection 
-	int nr; // number of residues
-	residue **r; // nr of these -- probably best to point into molecules...
-	connection_tree *rT; // nr of these
-	int na; // number of atoms
-	atom **a; // na of these -- probably best to point into mol/res combos
-	int naT; // naT connection trees defined.
-	connection_tree *aT; // naT of these
-	int nb; // total number of bonds
-	molbond *b; // the bonds
-	int nANG; // # of angles
-	angle_index *ANG; // nANG of these
-	int nTOR; // # of torsions
-	torsion_index *TOR; // nTOR of these
-	int nPRM; // number of parameter sets
-	parameter_set *PRM; // pointer to parameter sets
-	int nmbs; // number of sets of connections between molecules 
-	molbondset *mbs; // nmbs of these sets
+	int nr; ///< number of residues
+	residue **r; ///< nr of these -- probably best to point into molecules...
+	connection_tree *rT; ///< nr of these
+	int na; ///< number of atoms
+	atom **a; ///< na of these -- probably best to point into mol/res combos
+	int naT; ///< naT connection trees defined.
+	connection_tree *aT; ///< naT of these
+	int nb; ///< total number of bonds
+	molbond *b; ///< the bonds
+	int nANG; ///< # of angles
+	angle_index *ANG; ///< nANG of these
+	int nTOR; ///< # of torsions
+	torsion_index *TOR; ///< nTOR of these
+	int nPRM; ///< number of parameter sets
+	parameter_set *PRM; ///< pointer to parameter sets
+	int nmbs; ///< number of sets of connections between molecules 
+	molbondset *mbs; ///< nmbs of these sets
 	int nBOX; ///< Number of box_info structures defined
 	boxinfo *BOX; ///< The nBOX structures
 	//coord_3D boxl,boxh; // simple box dimensions (limits low & high or just use one for size)
 	//double boxang; // coord_3D is x, y and z -- angle (probably between XY and YZ planes in degrees, maybe).  
 	//char *boxtype; // type of simple box (cubic, trapezoidal, etc.)
-	int nOD; // number of other descriptors
-	char **OD; // the nOD descriptors
-	int nensi; // number of ensemble indices
-	ensindex *ensi; // list of ensemble indices
-	int nVP; // number of void pointers
-	void *VP; // void pointers
-} assembly;
+	int nOD; ///< number of other descriptors
+	char **OD; ///< the nOD descriptors
+	int nensi; ///< number of ensemble indices
+	ensindex *ensi; ///< list of ensemble indices
+	int nVP; ///< number of void pointers
+	void *VP; ///< void pointers
+} assembly;///< structure for groups of molecules within a larger structure
 
 /********** structure ensemble *************/
-typedef struct { // structure for an entire system of molecules
-	int i; // index
-	char *N; // name
-	char *D; // free-form descriptor
-	double mass; // mass of ensemble
-	coord_3D COM; // center of mass 
-	int nm; // number of molecule structures
-	molecule *m; // nm of these
-	int na; // number of assembly structures
-	assembly *a; // na of these
+typedef struct { 
+	int i; ///< index
+	char *N; ///< name
+	char *D; ///< free-form descriptor
+	double mass; ///< mass of ensemble
+	coord_3D COM; ///< center of mass 
+	int nm; ///< number of molecule structures
+	molecule *m; ///< nm of these
+	int na; ///< number of assembly structures
+	assembly *a; ///< na of these
 	int nBOX; ///< Number of box_info structures defined
 	boxinfo *BOX; ///< The nBOX structures
 	//coord_3D boxl,boxh; // box dimensions
-	int nPRM; // number of parameter sets
-	parameter_set *PRM; // pointer to parameter sets
-	int nOD; // number of other descriptors
-	char **OD; // the nOD descriptors
-	int nensi; // number of ensemble indices
-	ensindex *ensi; // list of ensemble indices
-	int nVP; // number of void pointers
-	void *VP; // void pointers
-} ensemble;
+	int nPRM; ///< number of parameter sets
+	parameter_set *PRM; ///< pointer to parameter sets
+	int nOD; ///< number of other descriptors
+	char **OD; ///< the nOD descriptors
+	int nensi; ///< number of ensemble indices
+	ensindex *ensi; ///< list of ensemble indices
+	int nVP; ///< number of void pointers
+	void *VP; ///< void pointers
+} ensemble;///< structure for an entire system of molecules
 
 /* The following is a set of functions intended primarily to facilitate 
 debugging.  But, they could easily be used for verbose data output within

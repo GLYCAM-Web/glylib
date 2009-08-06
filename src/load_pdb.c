@@ -306,6 +306,9 @@ molecule* getMolecule(void){
       //Getting the atom name
       temp  = (*(ln+i)).f[3].c; sscanf(temp,"%s",name);
       (*curAtm).N = strdup(name);
+printf("Got atom number %d and name %s in get Molecule\n",(*curAtm).n,(*curAtm).N);
+printf("in load_pdb_from_slurp: Atom number %d of residue number %d (%s) has the name %s\n",mol[0].r[5].a[21].n,\
+        mol[0].r[5].n,mol[0].r[5].N,mol[0].r[5].a[21].N);
       //Getting the chain identifier
       (*curAtm).cID = (*(ln+i)).f[7].c[0];
 
@@ -319,6 +322,7 @@ molecule* getMolecule(void){
       l[rI]++;
     }
   }
+
  return mol;
 }
 
