@@ -598,6 +598,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRALS_INC_HYDROGEN")==0){
 		sscanf(P[0].S[pa].D[5*pb+2],"%d",&pA3);
 		sscanf(P[0].S[pa].D[5*pb+3],"%d",&pA3);
 		sscanf(P[0].S[pa].D[5*pb+4],"%d",&pI1); 
+//printf("The atom numbers are pA1=%d ; pA2=%d ;pA3=%d ;pA4=%d ;pI1=%d \n",pA1,pA2,pA3,pA3,pI1);
 		// find the actual atom numbers
 		pA1/=3; // CAREFUL !! these can be negative
 		pA2/=3; 
@@ -996,10 +997,18 @@ for(pa=0;pa<P[0].NRES;pa++){ resi[pa]=-1; }
 for(pa=0;pa<P[0].NATOM;pa++){ 
 	if(MOLBNDI[pa].m>nummol){ nummol = MOLBNDI[pa].m; }  // find numbers of molecules
 	if(resi[MOLBNDI[pa].r]==-1) resi[MOLBNDI[pa].r]=MOLBNDI[pa].m;
-	else if(resi[MOLBNDI[pa].r]!=MOLBNDI[pa].m){mywhine("resi[MOLBNDI[pa].r]!=MOLBNDI[pa].m in parse_amber_prmtop");} 
-//printf("pa is %d ; MOLBNDI[pa].r is %d . . . resi[MOLBNDI[pa].r] ===  %d\n",pa,MOLBNDI[pa].r,resi[MOLBNDI[pa].r]);
+	else if(resi[MOLBNDI[pa].r]!=MOLBNDI[pa].m){
+		if(resi[MOLBNDI[pa].r]!=-1) mywhine("resi[MOLBNDI[pa].r]!=MOLBNDI[pa].m in parse_amber_prmtop");} 
+//printf("pa is %d ; MOLBNDI[pa].r is %d .m is %d resi[MOLBNDI[pa].r] is %d\n",pa,MOLBNDI[pa].r,MOLBNDI[pa].m,resi[MOLBNDI[pa].r]);
 	}
-nummol++;
+for(pa=0;pa<P[0].NATOM;pa++){ 
+	if(resi[MOLBNDI[pa].r]==-1) { // this one isn't assigned a molecule yet
+		nummol++;
+		resi[MOLBNDI[pa].r]=MOLBNDI[pa].m=nummol; // Assign a new molecule number
+		MOLBNDI[pa].r=0; // since there are no bonds, this is a single atom, so only one residue
+		}
+	}
+nummol++; // because the count starts with zero, but the total number doesn't
 A.nm=nummol; // make space for the molecules
 A.m=(molecule**)calloc(A.nm,sizeof(molecule*));
 for(pa=0;pa<A.nm;pa++){ 
