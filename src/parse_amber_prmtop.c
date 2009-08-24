@@ -1057,13 +1057,49 @@ for(pa=0;pa<P[0].NRES;pa++){
 // IPTRES = last residue that is solute
 // NSPSOL = first solvent residue
 //
+
+
 // Use new molecule information to reset residue numbers and molecule affiliations
 //	set the MOLI indices, too...
-//
-// START HERE -- when the above is finished, rewrite the following....
-// Set the bond information at the atom level
+for(pa=0;pa<A.nm;pa++){
+	// set ensemble indices
+	A.m[pa][0].nensi=1;
+	A.m[pa][0].ensi=(ensindex*)calloc(1,sizeof(ensindex));
+	A.m[pa][0].ensi[0].E=A.m[pa][0].ensi[0].r=A.m[pa][0].ensi[0].a=-1;
+	A.m[pa][0].ensi[0].A=0;
+	A.m[pa][0].ensi[0].m=pa;
+	for(pb=0;pb<A.m[pa][0].nr;pb++){
+		// set ensemble indices
+		A.m[pa][0].r[pb].nensi=1;
+		A.m[pa][0].r[pb].ensi=(ensindex*)calloc(1,sizeof(ensindex));
+		A.m[pa][0].r[pb].ensi[0].E=A.m[pa][0].r[pb].ensi[0].a=-1;
+		A.m[pa][0].r[pb].ensi[0].A=0;
+		A.m[pa][0].r[pb].ensi[0].m=pa;
+		A.m[pa][0].r[pb].ensi[0].r=pb;
+		// set molecule indices
+		A.m[pa][0].r[pb].moli.m=pa;
+		A.m[pa][0].r[pb].moli.r=pb;
+		A.m[pa][0].r[pb].moli.a=-1;
+		for(pc=0;pc<A.m[pa][0].r[pb].na;pc++){ 
+			// set ensemble indices
+			A.m[pa][0].r[pb].a[pc].nensi=1;
+			A.m[pa][0].r[pb].a[pc].ensi=(ensindex*)calloc(1,sizeof(ensindex));
+			A.m[pa][0].r[pb].a[pc].ensi[0].E=-1;
+			A.m[pa][0].r[pb].a[pc].ensi[0].A=0;
+			A.m[pa][0].r[pb].a[pc].ensi[0].m=pa;
+			A.m[pa][0].r[pb].a[pc].ensi[0].r=pb;
+			A.m[pa][0].r[pb].a[pc].ensi[0].a=pc;
+			// set molecule indices
+			A.m[pa][0].r[pb].a[pc].moli.m=pa;
+			A.m[pa][0].r[pb].a[pc].moli.r=pb;
+			A.m[pa][0].r[pb].a[pc].moli.a=pc;
+			}
+		} 
+	}
 
 printf("============== there are %d molecules =================\n",A.nm);
+// START HERE -- when the above is finished, rewrite the following....
+// Set the bond information at the atom level
 for(pa=0;pa<A.nm;pa++){
 A.m[pa][0].N=strdup("unknown");
 A.m[pa][0].D=strdup("Molecule determined by read of Amber prmtop file");
