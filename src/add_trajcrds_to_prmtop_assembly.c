@@ -312,22 +312,22 @@ xi=allocated_xa-1;
 newline=1;
 for(ai=0;ai<A[0].na;ai++){
 	scan_tst=fscanf(F.F,"%12s",readnum);
-printf("readnum, v-i is %12s\n",readnum);
+//printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-i.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].i);
-printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].i);
+//printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].i);
 
 	scan_tst=fscanf(F.F,"%12s",readnum);
-printf("readnum, v-i is %12s\n",readnum);
+//printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-i.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].j);
-printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].j);
+//printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].j);
 	
 	scan_tst=fscanf(F.F,"%12s",readnum);
-printf("readnum, v-i is %12s\n",readnum);
+//printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-i.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].k);
-printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].k);
+//printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].k);
 
 	newline*=-1;
 	if(newline==1)
@@ -342,11 +342,11 @@ printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].k);
 	}
 
 for(ai=0;ai<A[0].na;ai++){
-printf("The coords are: %12.7f%12.7f%12.7f\n",A[0].a[ai][0].v[xi].i,A[0].a[ai][0].v[xi].j,A[0].a[ai][0].v[xi].k); }
+//printf("The coords are: %12.7f%12.7f%12.7f\n",A[0].a[ai][0].v[xi].i,A[0].a[ai][0].v[xi].j,A[0].a[ai][0].v[xi].k); }
 
 // Do BOX info, too, if appropriate:
 // Was already allocated -- just need to read it in
-printf("before rst box read and allocated_xa is %d\n",allocated_xa);
+//printf("before rst box read and allocated_xa is %d\n",allocated_xa);
 if(A[0].nBOX>0){
 	scan_tst=fscanf(F.F,"%12s",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
@@ -360,8 +360,8 @@ if(A[0].nBOX>0){
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[2]);
 	}
-printf("After rst box read and BOX is %12.7f%12.7f%12.7f\n",A[0].BOX[allocated_xa].C[0].D[0],A[0].BOX[allocated_xa].C[0].D[1],A[0].BOX[allocated_xa].C[0].D[2]);
-for(ai=0;ai<A[0].na;ai++){
-printf("The coords are now: %12.7f%12.7f%12.7f\n",A[0].a[ai][0].v[xi].i,A[0].a[ai][0].v[xi].j,A[0].a[ai][0].v[xi].k); }
+//printf("After rst box read and BOX is %12.7f%12.7f%12.7f\n",A[0].BOX[allocated_xa].C[0].D[0],A[0].BOX[allocated_xa].C[0].D[1],A[0].BOX[allocated_xa].C[0].D[2]);
+//for(ai=0;ai<A[0].na;ai++){
+//printf("The coords are now: %12.7f%12.7f%12.7f\n",A[0].a[ai][0].v[xi].i,A[0].a[ai][0].v[xi].j,A[0].a[ai][0].v[xi].k); }
 return;
 } 
