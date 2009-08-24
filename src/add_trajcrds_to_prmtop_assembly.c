@@ -341,7 +341,7 @@ for(ai=0;ai<A[0].na;ai++){
 		A[0].a[ai][0].v[xi].k*A[0].a[ai][0].v[xi].k);
 	}
 
-for(ai=0;ai<A[0].na;ai++){
+//for(ai=0;ai<A[0].na;ai++){
 //printf("The coords are: %12.7f%12.7f%12.7f\n",A[0].a[ai][0].v[xi].i,A[0].a[ai][0].v[xi].j,A[0].a[ai][0].v[xi].k); }
 
 // Do BOX info, too, if appropriate:
