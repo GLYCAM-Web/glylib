@@ -82,6 +82,7 @@ Begun on 20080811 by BLFoley.  Significantly altered starting 20090803 BLF.
 */
 #include <mylib.h>
 #include <molecules.h>
+#include <AMBER/amber.h>
 
 void add_trajcrds_to_prmtop_assembly(
 	fileset F, ///< The trajectory file containing the data *Must* be open
@@ -89,12 +90,13 @@ void add_trajcrds_to_prmtop_assembly(
 	char ftype, ///< 'c' if coordinate ; 'v' if velocity ; 'r' if restart (might have both)
 	int offset ///< read in the offset-th trajectory -- starts with zero=current
 	){
-char tmpc; ///< temporary char holders
+char tmpc,readnum[13]; ///< temporary char holders
 int allocated_xa=0, ///< alternate coords or vectors allocated outgoing
     nalt_here=0, ///< alternate coords or vectors allocated incoming
     scan_tst=0, ///< for testing [f,s]scanf results
     ai=0, ///< atom index
-    xi=0; ///< dummy coordinate index
+    xi=0, ///< dummy coordinate index
+    newline=0; ///< counter to test if there should be a newline
 long foffset;
 fpos_t here,here2;
 double temp;
@@ -184,16 +186,55 @@ else{
 
 /// Now scan through and add info to the structure
 xi=allocated_xa-1;
+if(ftype=='r') newline=1;
+else newline=0;
 for(ai=0;ai<A[0].na;ai++){
-	if(ftype=='v') scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].i);
-	else scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].xa[xi].i);
+	//if(ftype=='v') scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].i);
+	//else scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].xa[xi].i);
+	//if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-i.");}
+	//if(ftype=='v') scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].j);
+	//else scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].xa[xi].j);
+	//if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-j.");}
+	//if(ftype=='v') scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].k);
+	//else scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].xa[xi].k);
+	
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	else {
+		scan_tst=fscanf(F.F,"%8s",readnum);
+		newline++;
+		}
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-i.");}
-	if(ftype=='v') scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].j);
-	else scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].xa[xi].j);
+	if(ftype=='v') scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].i);
+	else scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].xa[xi].i);
+
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	else {
+		scan_tst=fscanf(F.F,"%8s",readnum);
+		newline++;
+		}
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-j.");}
-	if(ftype=='v') scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].k);
-	else scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].xa[xi].k);
+	if(ftype=='v') scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].j);
+	else scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].xa[xi].j);
+
+	if(ftype=='r') {
+		scan_tst=fscanf(F.F,"%12s",readnum);
+		newline*=-1;
+		}
+	else {
+		scan_tst=fscanf(F.F,"%8s",readnum);
+		newline++;
+		}
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-k.");}
+	if(ftype=='v') scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].k);
+	else scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].xa[xi].k);
+
+	if( ((ftype=='r')&&(newline==1)) || ((ftype!='r')&&(newline==10)) ) 
+		{
+		scan_tst=fgetc(F.F);
+		if(scan_tst!='\n') {mywhine("newline not found during first read-set");}
+		if(ftype!='r') newline=0;	
+		} 
+
 	if(ftype=='v'){
 		A[0].a[ai][0].v[xi].d=sqrt(A[0].a[ai][0].v[xi].i*A[0].a[ai][0].v[xi].i+\
 			A[0].a[ai][0].v[xi].j*A[0].a[ai][0].v[xi].j+\
@@ -201,6 +242,7 @@ for(ai=0;ai<A[0].na;ai++){
 	}
 
 if(fgetpos(F.F,&here)!=0){mywhine("problem getting file position -- before first BOX read");};
+//printf("before first BOX read and xallocted_xa=%d\n",allocated_xa);
 // Do BOX info, too, if appropriate:
 if(A[0].nBOX>0){
 	nalt_here=A[0].nBOX;
@@ -212,18 +254,28 @@ if(A[0].nBOX>0){
 		A[0].BOX[xi].C[0].nD=3;
 		A[0].BOX[xi].C[0].D=(double*)calloc(3,sizeof(double));
 		}
-	scan_tst=fscanf(F.F,"%lf",&A[0].BOX[allocated_xa].C[0].D[0]);
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	else scan_tst=fscanf(F.F,"%8s",readnum); 
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX 1-0.");}
-	scan_tst=fscanf(F.F,"%lf",&A[0].BOX[allocated_xa].C[0].D[1]);
+	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[0]);
+
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	else scan_tst=fscanf(F.F,"%8s",readnum); 
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX 1-1.");}
-	scan_tst=fscanf(F.F,"%lf",&A[0].BOX[allocated_xa].C[0].D[2]);
+	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[1]);
+
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	else scan_tst=fscanf(F.F,"%8s",readnum); 
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX 1-2.");}
+	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[2]);
 	}
+// START HERE -- one day there might be non-square box info in these files...
+// as of now, though, there isn't...
 if(ftype!='r'){return;}
 
 /// If this is type 'r', see if there is any more info in the file
 if(fgetpos(F.F,&here2)!=0){mywhine("problem getting file position -- before check for extra-r read");};
-scan_tst=fscanf(F.F,"%lf",&temp);
+scan_tst=fscanf(F.F,"%8s",readnum);
 if(scan_tst!=1){return;} // no more info in file
 
 // Still here? Assume there are velocities in the file, but don't do any more fancy checks --
@@ -233,8 +285,8 @@ if(fsetpos(F.F,&here)!=0){mywhine("problem setting file position -- before resta
 // allocate velocity space 
 if(allocated_xa==1){
 	for(ai=0;ai<A[0].na;ai++){
-	A[0].a[ai][0].nvec=allocated_xa;
-	A[0].a[ai][0].v=(vectormag_3D*)calloc(1,sizeof(vectormag_3D));
+		A[0].a[ai][0].nvec=allocated_xa;
+		A[0].a[ai][0].v=(vectormag_3D*)calloc(1,sizeof(vectormag_3D));
 		}
 	}
 else{	
@@ -255,29 +307,61 @@ else{
 		}
 	}
 
-// read in velocities
+// read in velocities 
+xi=allocated_xa-1;
+newline=1;
 for(ai=0;ai<A[0].na;ai++){
-	scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].i);
+	scan_tst=fscanf(F.F,"%12s",readnum);
+printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-i.");}
-	scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].j);
-	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-j.");}
-	scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].k);
-	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-k.");}
+	scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].i);
+printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].i);
+
+	scan_tst=fscanf(F.F,"%12s",readnum);
+printf("readnum, v-i is %12s\n",readnum);
+	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-i.");}
+	scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].j);
+printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].j);
+	
+	scan_tst=fscanf(F.F,"%12s",readnum);
+printf("readnum, v-i is %12s\n",readnum);
+	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-i.");}
+	scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].k);
+printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].k);
+
+	newline*=-1;
+	if(newline==1)
+		{
+		scan_tst=fgetc(F.F);
+		if(scan_tst!='\n'){mywhine("expected newline not found during velocity read in restart file");}
+		}
+
 	A[0].a[ai][0].v[xi].d=sqrt(A[0].a[ai][0].v[xi].i*A[0].a[ai][0].v[xi].i+\
 		A[0].a[ai][0].v[xi].j*A[0].a[ai][0].v[xi].j+\
 		A[0].a[ai][0].v[xi].k*A[0].a[ai][0].v[xi].k);
 	}
 
+for(ai=0;ai<A[0].na;ai++){
+printf("The coords are: %12.7f%12.7f%12.7f\n",A[0].a[ai][0].v[xi].i,A[0].a[ai][0].v[xi].j,A[0].a[ai][0].v[xi].k); }
+
 // Do BOX info, too, if appropriate:
 // Was already allocated -- just need to read it in
+printf("before rst box read and allocated_xa is %d\n",allocated_xa);
 if(A[0].nBOX>0){
-	scan_tst=fscanf(F.F,"%lf",&A[0].BOX[allocated_xa].C[0].D[0]);
-	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-0.");}
-	scan_tst=fscanf(F.F,"%lf",&A[0].BOX[allocated_xa].C[0].D[1]);
+	scan_tst=fscanf(F.F,"%12s",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
-	scan_tst=fscanf(F.F,"%lf",&A[0].BOX[allocated_xa].C[0].D[2]);
-	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-2.");}
-	}
+	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[0]);
 
+	scan_tst=fscanf(F.F,"%12s",readnum);
+	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
+	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[1]);
+
+	scan_tst=fscanf(F.F,"%12s",readnum);
+	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
+	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[2]);
+	}
+printf("After rst box read and BOX is %12.7f%12.7f%12.7f\n",A[0].BOX[allocated_xa].C[0].D[0],A[0].BOX[allocated_xa].C[0].D[1],A[0].BOX[allocated_xa].C[0].D[2]);
+for(ai=0;ai<A[0].na;ai++){
+printf("The coords are now: %12.7f%12.7f%12.7f\n",A[0].a[ai][0].v[xi].i,A[0].a[ai][0].v[xi].j,A[0].a[ai][0].v[xi].k); }
 return;
 } 

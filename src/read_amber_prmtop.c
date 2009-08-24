@@ -208,7 +208,7 @@ while(newline!=0){
 
 fclose(F.F);
 
-/**/
+/*
 F.F=myfopen("test_rewrite_of_prmtop","w");
 fprintf(F.F,"%s",P[0].VERSION);
 for(sec=0;sec<P[0].nS;sec++){ // for each section found
@@ -225,7 +225,7 @@ for(sec=0;sec<P[0].nS;sec++){ // for each section found
 	if(((aa)*P[0].S[sec].nc)%80!=0){fprintf(F.F,"\n");} 
 	}
 fclose(F.F);
-/**/
+*/
 
 return;
 } 

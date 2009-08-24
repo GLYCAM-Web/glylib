@@ -115,11 +115,13 @@ for(pa=0;pa<P[0].nS;pa++){ // get pointers first...
   		sscanf(P[0].S[pa].D[26],"%d",&P[0].MDPER); // number of dihedrals with atoms completely in perturbed groups
 		// Box information
   		sscanf(P[0].S[pa].D[27],"%d",&P[0].IFBOX); // set to 1 if standard periodic box, 2 when truncated octahedral
+//printf("checking box info and P[0].IFBOX is %d\n",P[0].IFBOX);
 		if(P[0].IFBOX==0){A.nBOX=0;} ///< There are no boxes defined in this prmtop
 		else{
 			A.nBOX=1;
 			A.BOX=(boxinfo*)calloc(A.nBOX,sizeof(boxinfo));
 			A.BOX[0].nC=A.BOX[0].nCD=2; ///< One for the "boxang" and the other for the x,y,z values
+//printf("just set the assembly to have box info\n");
 			A.BOX[0].C=(coord_nD*)calloc(A.BOX[0].nC,sizeof(coord_nD));
 			A.BOX[0].CD=(char**)calloc(A.BOX[0].nCD,sizeof(char*));
 			A.BOX[0].CD[0]=strdup("Periodic box, angle between the XY and YZ planes in degrees.");
@@ -140,7 +142,9 @@ for(pa=0;pa<P[0].nS;pa++){ // get pointers first...
 
 		// NOT adding these at all 
   		sscanf(P[0].S[pa].D[28],"%d",&P[0].NMXRS); // number of atoms in the largest residue
+//printf("checking box info and P[0].NMXRS is %d\n",P[0].NMXRS);
   		sscanf(P[0].S[pa].D[29],"%d",&P[0].IFCAP); // set to 1 if the CAP option from edit was specified
+//printf("checking box info and P[0].IFCAP is %d\n",P[0].IFCAP);
 		//
 		break; // no need to keep scanning...
 		}
@@ -934,6 +938,7 @@ if(strcmp(P[0].S[pa].N,"PERT_POLARIZABILITY")==0){
 }
 	} // close loop through each section in the prmtop structure
 
+/*
 F.F=myfopen("test_rewrite_of_prmtop","w");
 fprintf(F.F,"%s",P[0].VERSION);
 for(pa=0;pa<P[0].nS;pa++){ // for each section found
@@ -951,6 +956,7 @@ for(pa=0;pa<P[0].nS;pa++){ // for each section found
 	if(((pb)*P[0].S[pa].nc)%80!=0){fprintf(F.F,"\n");} 
 	}
 fclose(F.F);
+*/
 
 // Set the names of the atom types in the type array
 for(pa=0;pa<A.na;pa++){ A.PRM[0].AT[A.a[pa][0].t].N=strdup(ATNAME[pa]); }
@@ -1113,6 +1119,7 @@ printf("\t\t\t    .a=%d\n",MOLBNDI[MBTMP[pa].t.i].a);
 	A.m[tm][0].r[tr].a[ta].mb[A.m[tm][0].r[tr].a[ta].nmb-1].t.m = A.b[pa].s.m ;
 	}
 
+/* uncomment this to check the function's work
 for(pa=0;pa<A.nm;pa++){
 printf("MOLECULE #%d\n",pa);
 for(pb=0;pb<A.m[pa][0].nr;pb++){
@@ -1128,6 +1135,9 @@ printf("\t\t\tTo %s (atom number %d)\n",A.m[tm][0].r[tr].a[ta].N,A.m[tm][0].r[tr
 }
 }
 }
+*/
+
+
 //	-- MOLI[i] contains residue and atom info per each linear-numbered atom
 // -- set local torsions and angles
 // -- set connection tree after all that...
