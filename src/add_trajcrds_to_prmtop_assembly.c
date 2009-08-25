@@ -101,6 +101,8 @@ long foffset;
 fpos_t here,here2;
 double temp;
 
+for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+
 /// DO NOT RE/OPEN the file 
 // But do check to see that it is already open
 if(F.F==NULL){mywhine("add_trajcrds_to_prmtop_assembly: called file is not already open.");}
@@ -198,7 +200,8 @@ for(ai=0;ai<A[0].na;ai++){
 	//if(ftype=='v') scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].v[xi].k);
 	//else scan_tst=fscanf(F.F,"%lf",&A[0].a[ai][0].xa[xi].k);
 	
-	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
 	else {
 		scan_tst=fscanf(F.F,"%8s",readnum);
 		newline++;
@@ -207,7 +210,8 @@ for(ai=0;ai<A[0].na;ai++){
 	if(ftype=='v') scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].i);
 	else scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].xa[xi].i);
 
-	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
 	else {
 		scan_tst=fscanf(F.F,"%8s",readnum);
 		newline++;
@@ -216,8 +220,9 @@ for(ai=0;ai<A[0].na;ai++){
 	if(ftype=='v') scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].j);
 	else scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].xa[xi].j);
 
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	if(ftype=='r') {
-		scan_tst=fscanf(F.F,"%12s",readnum);
+		scan_tst=fscanf(F.F,"%12c",readnum);
 		newline*=-1;
 		}
 	else {
@@ -241,6 +246,11 @@ for(ai=0;ai<A[0].na;ai++){
 			A[0].a[ai][0].v[xi].k*A[0].a[ai][0].v[xi].k);}
 	}
 
+if( ((ftype=='r')&&(newline!=1)) || ((ftype!='r')&&(newline!=10)) ) { 
+	scan_tst=fgetc(F.F);
+	if(scan_tst!='\n') {mywhine("newline not found during first read-set");}
+	}
+
 if(fgetpos(F.F,&here)!=0){mywhine("problem getting file position -- before first BOX read");};
 //printf("before first BOX read and xallocted_xa=%d\n",allocated_xa);
 // Do BOX info, too, if appropriate:
@@ -254,17 +264,20 @@ if(A[0].nBOX>0){
 		A[0].BOX[xi].C[0].nD=3;
 		A[0].BOX[xi].C[0].D=(double*)calloc(3,sizeof(double));
 		}
-	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
 	else scan_tst=fscanf(F.F,"%8s",readnum); 
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX 1-0.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[0]);
 
-	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
 	else scan_tst=fscanf(F.F,"%8s",readnum); 
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX 1-1.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[1]);
 
-	if(ftype=='r') scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
 	else scan_tst=fscanf(F.F,"%8s",readnum); 
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX 1-2.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[2]);
@@ -311,19 +324,22 @@ else{
 xi=allocated_xa-1;
 newline=1;
 for(ai=0;ai<A[0].na;ai++){
-	scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	scan_tst=fscanf(F.F,"%12c",readnum);
 //printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-i.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].i);
 //printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].i);
 
-	scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	scan_tst=fscanf(F.F,"%12c",readnum);
 //printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-i.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].j);
 //printf("the value saved is  %12.7f\n",A[0].a[ai][0].v[xi].j);
 	
-	scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	scan_tst=fscanf(F.F,"%12c",readnum);
 //printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass r-v-i.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].k);
@@ -333,7 +349,13 @@ for(ai=0;ai<A[0].na;ai++){
 	if(newline==1)
 		{
 		scan_tst=fgetc(F.F);
-		if(scan_tst!='\n'){mywhine("expected newline not found during velocity read in restart file");}
+		if(scan_tst!='\n')
+			{
+			printf("ai is %d and newline is %d\n",ai,newline);
+			printf("the velocities are:\n");
+			printf("%12.7f%12.7f%12.7f\n",A[0].a[ai][0].v[xi].i,A[0].a[ai][0].v[xi].j,A[0].a[ai][0].v[xi].k);
+			mywhine("expected newline not found during velocity read in restart file");
+			}
 		}
 
 	A[0].a[ai][0].v[xi].d=sqrt(A[0].a[ai][0].v[xi].i*A[0].a[ai][0].v[xi].i+\
@@ -348,15 +370,18 @@ for(ai=0;ai<A[0].na;ai++){
 // Was already allocated -- just need to read it in
 //printf("before rst box read and allocated_xa is %d\n",allocated_xa);
 if(A[0].nBOX>0){
-	scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	scan_tst=fscanf(F.F,"%12c",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[0]);
 
-	scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	scan_tst=fscanf(F.F,"%12c",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[1]);
 
-	scan_tst=fscanf(F.F,"%12s",readnum);
+	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
+	scan_tst=fscanf(F.F,"%12c",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[2]);
 	}
