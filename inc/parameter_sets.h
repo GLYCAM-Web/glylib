@@ -16,6 +16,16 @@ likely to be one whopping big structure, hence the separate file. */
 #if !defined(GLYLIB_PARAMETERS)
 #define GLYLIB_PARAMETERS
 
+/************ structures for descriptions of molecules ***********************/
+typedef struct {
+	char RS,DL,pm; ///< for R/S & D/L type chirality & p/m type optical activity
+	char UD, AB; ///< for up/down and alpha/beta descriptors
+	int niso; ///< number of other descriptors
+	char **iso; ///< the niso other descriptions of isomerism
+	char *ELGEOM,*SPGEOM; ///< electronic (sp2, sp3, etc.) and spatial (tetrahedral, etc.) geometry
+} chirality_description;
+
+
 /************ sub structures for the parameter_set structure *****************/
 typedef struct{ // bond_type
 	char **NT; // first and second atom types in bond (match NT in atype)

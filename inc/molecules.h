@@ -31,8 +31,8 @@ typedef struct {
 } molindex; ///< Index to describe position in a molecule
 typedef struct {
 	int i; ///< general index
-	int E; ///< ensemble
-	int A; ///< assembly
+	int E; ///< ensemble index
+	int A; ///< assembly index
 	int m; ///< molecule index
 	int r; ///< residue index
 	int a; ///< atom index
@@ -81,29 +81,23 @@ typedef struct {
 	int n; // number of bonds
 	bond *b; // n of these
 } bondset; // set of consecutive bonds
+
 typedef struct {
+	char isorigin; ///< Y/y/N/n -- is this the first atom in the tree?
 	int ni; ///< number incoming bonds
 	ensindex *i; ///< atoms making incoming bonds
-	int ii; ///< of the ni incoming bonds, which one is used as reference (valid from 0 to ni-1, default=0)
+	int ii; ///< index of reference incoming (outgoing if origin) bond (0 to ni-1, default=0)
 	int no; ///< number outgoing bonds
-	ensindex *o; ///< atoms making outgoing bonds
-	ensindex iref; ///< index of grandparent incoming atom to use to set torsion
-	ensindex oref; ///< index of outgoing atom used to use to set chirality
-	double *angle; ///< angles 
-	double *chirot; ///< chirality rotation 
-	ensindex itors; ///< index of grandparent incoming atom to use to set torsion
-	double tors; ///< the torsion angle 
-	double *distance; ///< distances (no)
-	char RS,DL,pm; ///< for R/S & D/L type chirality & p/m type optical activity
-	char UD, AB; ///< for up/down and alpha/beta descriptors
-	int niso; ///< number of other descriptors
-	char **iso; ///< the niso other descriptions of isomerism
-	char *ELGEOM,*SPGEOM; ///< electronic geometry (sp2, sp3, etc.) and spatial geometry (tetrahedral, etc.)
-	int nopen; ///< number of open valences
-	coord_3D *open; ///< approximate or optimal locations for new attachments (at half-bond)
-	int nLP; ///< number of lone pairs defined
-	coord_3D *LP; ///< approximate or optimal locations for the lone pairs
-} connection_tree; ///< for non-redundant bonding descriptions. See the documentation directory for more information
+	int ic; ///< index of outgoing atom used to use to set chirality
+	ensindex *o; ///< atoms (no of them) making outgoing bonds
+	bonded_position_set *op; ///< position information for the no outgoing bonds
+	ensindex tref; ///< index of grandparent incoming atom to use to set torsion
+	double tors; ///< torsion to set with respect to indexed grandparent (and ii and ic)
+	int nOV; ///< number of open valences
+	bonded_position_set *OV; ///< coordinate info for open valences
+	int nEC; ///< number of extra coordinates (e.g., lone pairs) defined
+	bonded_position_set *EC; ///< coordinate info for the extra locations
+} connection_tree; ///< for non-redundant bonding descriptions. See documentation for information.
 
 typedef struct {
 	molindex s,t; // source & target atoms for bond
@@ -140,13 +134,14 @@ typedef struct {
 	char *N; ///< atom name 
 	char *T; ///< atom type name
 	char *D; ///< free-form description
+	double m; ///< atom mass -- units defined per program needs
 	int t; ///< type number -- must correspond to assignments of "atype" (see)
 	atype *typ; ///< pointer to atype structure
 	molindex moli; ///< the molecule index for this atom (address)
-	int nb; ///< number of actual bonds (not expected bonds)
+	int nb; ///< number of bonds within this residue (deprecated, soon to go away)
 	bond *b; ///< bond structures (nb of these)
 	int nmb; ///< number of bonds to other residues or molecules
-	molbond *mb; ///< nmb of these
+	molbond *mb; ///< nmb of these (pointers to the structures)
 	coord_3D x; ///< atom's main coordinates 
 	coord_3D xv; ///< atom's main velocity
 	int nalt; ///< number of alternate coordinate sets

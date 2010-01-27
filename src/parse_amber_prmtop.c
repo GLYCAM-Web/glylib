@@ -18,7 +18,7 @@ torsion_index *MTOR;
 molindex *MOLI,*MOLBNDI; // MOLI for here, MOLBNDI for assigning molecules
 char **ATNAME,**TREECLASS,*RADTYPE,tmp[80];
 double *R,*SC,*MASS; // radii and screening constants for IS, atom masses
-fileset F;
+//fileset F;
 //amber_prmtop *aprm;
 
 /// Drop the contents of the original file in the void pointer space
@@ -115,13 +115,11 @@ for(pa=0;pa<P[0].nS;pa++){ // get pointers first...
   		sscanf(P[0].S[pa].D[26],"%d",&P[0].MDPER); // number of dihedrals with atoms completely in perturbed groups
 		// Box information
   		sscanf(P[0].S[pa].D[27],"%d",&P[0].IFBOX); // set to 1 if standard periodic box, 2 when truncated octahedral
-//printf("checking box info and P[0].IFBOX is %d\n",P[0].IFBOX);
 		if(P[0].IFBOX==0){A.nBOX=0;} ///< There are no boxes defined in this prmtop
 		else{
 			A.nBOX=1;
 			A.BOX=(boxinfo*)calloc(A.nBOX,sizeof(boxinfo));
 			A.BOX[0].nC=A.BOX[0].nCD=2; ///< One for the "boxang" and the other for the x,y,z values
-//printf("just set the assembly to have box info\n");
 			A.BOX[0].C=(coord_nD*)calloc(A.BOX[0].nC,sizeof(coord_nD));
 			A.BOX[0].CD=(char**)calloc(A.BOX[0].nCD,sizeof(char*));
 			A.BOX[0].CD[0]=strdup("Periodic box, angle between the XY and YZ planes in degrees.");
@@ -135,16 +133,10 @@ for(pa=0;pa<P[0].nS;pa++){ // get pointers first...
 			if(P[0].IFBOX==2){A.BOX[0].GTYPE=strdup("truncated octahedral");}
 			if(P[0].IFBOX>2){A.BOX[0].GTYPE=strdup("unknown box type");} 
 			}
-		//if(P[0].IFBOX==0){A.boxtype=strdup("none");}   // changed to new box_info type by BLF on 20080813
-		//if(P[0].IFBOX==1){A.boxtype=strdup("standard periodic");}
-		//if(P[0].IFBOX==2){A.boxtype=strdup("truncated octahedral");}
-		//if(P[0].IFBOX>2){A.boxtype=strdup("unknown box type");}
 
 		// NOT adding these at all 
   		sscanf(P[0].S[pa].D[28],"%d",&P[0].NMXRS); // number of atoms in the largest residue
-//printf("checking box info and P[0].NMXRS is %d\n",P[0].NMXRS);
   		sscanf(P[0].S[pa].D[29],"%d",&P[0].IFCAP); // set to 1 if the CAP option from edit was specified
-//printf("checking box info and P[0].IFCAP is %d\n",P[0].IFCAP);
 		//
 		break; // no need to keep scanning...
 		}
@@ -156,6 +148,8 @@ for(pa=0;pa<P[0].nS;pa++){// Loop through each of the sections
 	// 	if there is a match:
 	// 		set is_standard to zero
 	// 		record to assembly as needed
+	//
+	//		note that here 1=FALSE and 0=TRUE
 	//
 
 //FORMAT(20a4)  (ITITL(i), i=1,20)
@@ -176,20 +170,11 @@ if(strcmp(P[0].S[pa].N,"ATOM_NAME")==0){ // these eventually go into the molecul
   	P[0].IGRAPH=pa; // IGRAPH : the user atoms names 
 	P[0].S[pa].is_standard=0; // set as a standard section
 	// for now, add these to the straight list of Assembly atoms
-//printf("P[0].S[pa].nt=%d, A.na is %d\n",P[0].S[pa].nt,A.na);
 	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in ATOM_NAME in parse_amber_prmtop");}
 	for(pb=0;pb<A.na;pb++){
-		//A.a[pb][0].N=(char*)calloc((P[0].S[pa].nc+1),sizeof(char));
-//printf("P[0].S[%d].D[%d] is ",pa,pb);
-//printf(">>>%s<<<\n",P[0].S[pa].D[pb]);
 		sscanf(P[0].S[pa].D[pb],"%s",tmp);
 		A.a[pb][0].N=(char*)calloc((strlen(tmp)+1),sizeof(char));
-		strcpy(A.a[pb][0].N,tmp);
-		//sscanf(P[0].S[pa].D[pb],"%s",A.a[pb][0].N);
-//printf("P[0].S[pa].D[pb] is >>>%s<<< and A.a[pb][0].N is >>>%s<<< (strlen %d)\t",P[0].S[pa].D[pb],A.a[pb][0].N,strlen(A.a[pb][0].N));
-		//A.a[pb][0].N=(char*)realloc(A.a[pb][0].N,strlen(A.a[pb][0].N+1));
-//printf("P[0].S[pa].D[pb] is >>>%s<<< and A.a[pb][0].N is >>>%s<<<\n",P[0].S[pa].D[pb],A.a[pb][0].N);
-
+		strcpy(A.a[pb][0].N,tmp); 
 		}
 }
 // FORMAT(5E16.8)  (CHRG(i), i=1,NATOM)
@@ -211,8 +196,8 @@ if(strcmp(P[0].S[pa].N,"MASS")==0){ // with each atom
 	P[0].S[pa].is_standard=0; // set as a standard section
 	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in AMASS in parse_amber_prmtop");}
 	MASS=(double*)calloc(A.na,sizeof(double));
-	for(pb=0;pb<A.na;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&MASS[pb]);}
-	//for(pb=0;pb<A.na;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.a[pb][0].m);}
+	for(pb=0;pb<A.na;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&A.a[pb][0].m); }
+	// for(pb=0;pb<A.na;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&MASS[pb]); } // before m in atom struct
 }
 // FORMAT(12I6)  (IAC(i), i=1,NATOM)
 // START HERE -- is this really just an atom type index?  One hopes...
@@ -255,7 +240,6 @@ if(strcmp(P[0].S[pa].N,"NONBONDED_PARM_INDEX")==0){ //
 if(strcmp(P[0].S[pa].N,"RESIDUE_LABEL")==0){ // names of residues
   	P[0].LABRES =pa; // LABRES : the residue labels 
 	P[0].S[pa].is_standard=0; // set as a standard section
-//printf("P[0].S[pa].nt=%d and A.nr=%d\n",P[0].S[pa].nt,A.nr);
 	if(P[0].S[pa].nt!=A.nr){mywhine("P[0].S[pa].nt!=A.nr in RESIDUE_LABEL in parse_amber_prmtop");}
 	for(pb=0;pb<A.nr;pb++){
 		A.r[pb][0].N=(char*)calloc((P[0].S[pa].nc+1),sizeof(char));
@@ -276,72 +260,45 @@ if(strcmp(P[0].S[pa].N,"RESIDUE_POINTER")==0){ // for adding atoms to residues
 	P[0].S[pa].is_standard=0; // set as a standard section
 	pc=0;
 	if(P[0].S[pa].nt!=A.nr){mywhine("P[0].S[pa].nt!=A.nr in RESIDUE_POINTER in parse_amber_prmtop");}
-//printf("A.nr is %d\n",A.nr);
 	for(pb=0;pb<(A.nr-1);pb++){
-//printf("pb is %d\n",pb);
 		sscanf(P[0].S[pa].D[pb+1],"%d",&NextRes);
-//printf("NextRes is %d\n",NextRes);
 		NextRes-=1;
 		A.r[pb][0].na=NextRes-pc;
-//printf("A.r[pb][0].na is %d\n",A.r[pb][0].na);
 		A.r[pb][0].a=(atom*)calloc(A.r[pb][0].na,sizeof(atom));
 		pd=0;
 		for(pc=pc;pc<NextRes;pc++){
-//printf("pc is %d\n",pc);
 			A.r[pb][0].a[pd]=A.a[pc][0]; // copy atom into residue
-			//A.r[pb][0].a[NextRes-pc]=A.a[pc][0]; // copy atom into residue
-			//free(A.a[pc]); // free that memory
 			A.a[pc]=&A.r[pb][0].a[pd]; // set atom pointer to new location
-			//A.a[pc]=&A.r[pb][0].a[NextRes-pc]; // set atom pointer to new location
 			A.a[pc][0].n=pc+1; // set the amber original number
 			MOLI[pc].i=pc; // set absolute atom number in array terms
 			MOLI[pc].m=-1; // we don't know this yet
 			MOLI[pc].r=pb; // check this later
 			MOLI[pc].a=pd; // check this later
-			//MOLI[pc].a=NextRes-pc; // check this later
 			pd++;
 			}
 		}
-//printf("pb is %d\n",pb);
 		A.r[pb][0].na=P[0].NATOM-pc;
-//printf("A.r[pb][0].na is %d\n",A.r[pb][0].na);
 		A.r[pb][0].a=(atom*)calloc(A.r[pb][0].na,sizeof(atom));
 		pd=0;
 		for(pc=pc;pc<P[0].NATOM;pc++){
-//printf("pc is %d\t",pc);
 			A.r[pb][0].a[pd]=A.a[pc][0]; // copy atom into residue
-//printf("the name of atom pc is >>>%s<<<\n",A.a[pc][0].N);
-//printf("\tthe charge of atom pc is >>>%f<<<\n",A.a[pc][0].ch[0]);
-//printf("the name of new atom pc is >>>%s<<<\n",A.r[pb][0].a[pd].N);
-//printf("\tthe charge of new atom pc is >>>%f<<<\n",A.r[pb][0].a[pd].ch[0]);
-			//A.r[pb][0].a[NextRes-pc]=A.a[pc][0]; // copy atom into residue
-			//free(A.a[pc]); // free that memory
-//printf("\t***the name of new atom pc is >>>%s<<<\n",A.r[pb][0].a[pd].N);
-//printf("\t***the charge of new atom pc is >>>%f<<<\n",A.r[pb][0].a[pd].ch[0]);
-//printf("xxxx the name of atom pc is >>>%s<<<\n",A.a[pc][0].N);
 			A.a[pc]=&A.r[pb][0].a[pd]; // set atom pointer to new location
-			//A.a[pc]=&A.r[pb][0].a[NextRes-pc]; // set atom pointer to new location
 			A.a[pc][0].n=pc+1; // set the amber original number
 			MOLI[pc].i=pc; // set absolute atom number in array terms
 			MOLI[pc].m=-1; // we don't know this yet
 			MOLI[pc].r=pb; // check this later
 			MOLI[pc].a=pd; // check this later
-			//MOLI[pc].a=NextRes-pc; // check this later
 			pd++;
 			}
 
 	
 }
-           	// IPRES(i) to IPRES(i+1)-1 
 // FORMAT(5E16.8)  (RK(i), i=1,NUMBND)
 if(strcmp(P[0].S[pa].N,"BOND_FORCE_CONSTANT")==0){ // 
   	P[0].RK     =pa; // RK     : force constant for the bonds of each type, kcal/mol 
 	P[0].S[pa].is_standard=0; // set as a standard section
-//printf("pa is %d; this is BOND_FORCE_CONSTANT\n",pa);
-//printf("the number of bond types is %d\n",A.PRM[0].nBT);
 	if(P[0].S[pa].nt!=A.PRM[0].nBT){mywhine("P[0].S[pa].nt!=A.PRM[0].nBT in BOND_FORCE_CONSTANT in parse_amber_prmtop");}
 	for(pb=0;pb<A.PRM[0].nBT;pb++){
-//printf("P[0].S[%d].D[%d] is >>>%s<<<\n",pa,pb,P[0].S[pa].D[pb]);
 		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].BT[pb].k);
 		}
 }
@@ -453,7 +410,6 @@ if(strcmp(P[0].S[pa].N,"BONDS_INC_HYDROGEN")==0){
 		sscanf(P[0].S[pa].D[3*pb],"%d",&pA1);
 		sscanf(P[0].S[pa].D[3*pb+1],"%d",&pA2);
 		sscanf(P[0].S[pa].D[3*pb+2],"%d",&pI1); 
-//printf("pA1 is %d ; pA2 is %d ; pI1 is %d \n",pA1,pA2,pI1);
 		// find the actual atom numbers
 		pA1/=3;  // CAREFUL !! these can be negative
 		pA2/=3; 
@@ -471,7 +427,6 @@ if(strcmp(P[0].S[pa].N,"BONDS_INC_HYDROGEN")==0){
 		MB[pb].t.r=-1; 
 		MB[pb].t.i=pA2; 
 		MB[pb].t.a=pA2; 
-//printf("MB[pb].s.i is  %d ; MB[pb].t.i is %d ;  MB[%d].i is %d \n",MB[pb].s.i,MB[pb].t.i,pb,MB[pb].i);
 		}
 }
 // FORMAT(12I6)  (IB(i),JB(i),ICB(i), i=1,NBONA)
@@ -480,18 +435,13 @@ if(strcmp(P[0].S[pa].N,"BONDS_WITHOUT_HYDROGEN")==0){
   	P[0].JB     =pa; // JB     : atom involved in bond "i", bond does not contain hydrogen
   	P[0].ICB    =pa; // ICB    : index into parameter arrays RK and REQ 
 	P[0].S[pa].is_standard=0; // set as a standard section
-//printf("NBONH is %d ; MBONA is %d ; (sum : %d) and nb is A.nb=%d \n", P[0].NBONH,P[0].MBONA,P[0].MBONA+P[0].NBONH,A.nb);
 	//for(pb=P[0].NBONH;pb<(P[0].NBONH+P[0].MBONA);pb++) // save this line for use later...
 	if(P[0].S[pa].nt!=3*P[0].MBONA){mywhine("P[0].S[pa].nt!=P[0].MBONA in BONDS_WITHOUT_HYDROGEN in parse_amber_prmtop");}
 	for(pb=0;pb<P[0].MBONA;pb++){ // save this line for use later...
-//printf("P[0].S[%d].D[%d] is >>>%s<<<\n",pa,3*pb,P[0].S[pa].D[3*pb]);
-//printf("P[0].S[%d].D[%d] is >>>%s<<<\n",pa,3*pb+1,P[0].S[pa].D[3*pb+1]);
-//printf("P[0].S[%d].D[%d] is >>>%s<<<\n",pa,3*pb+2,P[0].S[pa].D[3*pb+2]);
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[3*pb],"%d",&pA1);
 		sscanf(P[0].S[pa].D[3*pb+1],"%d",&pA2);
 		sscanf(P[0].S[pa].D[3*pb+2],"%d",&pI1); 
-//printf("(non-H) pA1 is %d ; pA2 is %d ; pI1 is %d \n",pA1,pA2,pI1);
 		// find the actual atom numbers
 		if(pA1<0) pA1*=-1;
 		if(pA2<0) pA2*=-1;
@@ -511,7 +461,6 @@ if(strcmp(P[0].S[pa].N,"BONDS_WITHOUT_HYDROGEN")==0){
 		MB[pb+P[0].NBONH].t.r=-1; 
 		MB[pb+P[0].NBONH].t.a=pA2; 
 		MB[pb+P[0].NBONH].t.i=pA2; 
-//printf("(non-H) MB[pb].s.i is  %d ; MB[pb].t.i is %d ;  MB[%d].i is %d \n",MB[pb+P[0].NBONH].s.i,MB[pb+P[0].NBONH].t.i,pb+P[0].NBONH,MB[pb+P[0].NBONH].i);
 		}
 }
 // FORMAT(12I6)  (ITH(i),JTH(i),KTH(i),ICTH(i), i=1,NTHETH)
@@ -602,7 +551,6 @@ if(strcmp(P[0].S[pa].N,"DIHEDRALS_INC_HYDROGEN")==0){
 		sscanf(P[0].S[pa].D[5*pb+2],"%d",&pA3);
 		sscanf(P[0].S[pa].D[5*pb+3],"%d",&pA3);
 		sscanf(P[0].S[pa].D[5*pb+4],"%d",&pI1); 
-//printf("The atom numbers are pA1=%d ; pA2=%d ;pA3=%d ;pA4=%d ;pI1=%d \n",pA1,pA2,pA3,pA3,pI1);
 		// find the actual atom numbers
 		pA1/=3; // CAREFUL !! these can be negative
 		pA2/=3; 
@@ -690,11 +638,9 @@ if(strcmp(P[0].S[pa].N,"EXCLUDED_ATOMS_LIST")==0){
 if(strcmp(P[0].S[pa].N,"HBOND_ACOEF")==0){
   	P[0].ASOL   =pa; // ASOL   : the value for the r**12 term for hydrogen bonds of all
 	P[0].S[pa].is_standard=0; // set as a standard section
-//printf("A.PRM[0].nNBT is %d\n",A.PRM[0].nNBT);
 	if(P[0].NPHB>0){
 	if(P[0].S[pa].nt>0){
 	for(pb=0;pb<P[0].S[pa].nt;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].NBT[pb].LJ12_1012);}
-	//for(pb=0;pb<A.PRM[0].nNBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].NBT[pb].LJ12_1012);}
 		}
 		}
 }
@@ -709,7 +655,6 @@ if(strcmp(P[0].S[pa].N,"HBOND_BCOEF")==0){
 	if(P[0].NPHB>0){
 	if(P[0].S[pa].nt>0){
 		for(pb=0;pb<P[0].S[pa].nt;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].NBT[pb].LJ10_1012);}
-		//for(pb=0;pb<A.PRM[0].nNBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].NBT[pb].LJ10_1012);}
 		}
 		}
 }
@@ -789,10 +734,6 @@ if(strcmp(P[0].S[pa].N,"BOX_DIMENSIONS")==0){
 		sscanf(P[0].S[pa].D[1],"%lf",&A.BOX[0].C[1].D[0]); ///< Record BOX X
 		sscanf(P[0].S[pa].D[2],"%lf",&A.BOX[0].C[1].D[1]); ///< Record BOX Y
 		sscanf(P[0].S[pa].D[3],"%lf",&A.BOX[0].C[1].D[2]); ///< Record BOX Z
-		//sscanf(P[0].S[pa].D[0],"%lf",&A.boxang); // changed for new box_info by BLF on 20080813
-		//sscanf(P[0].S[pa].D[1],"%lf",&A.boxl.i);
-		//sscanf(P[0].S[pa].D[2],"%lf",&A.boxl.j);
-		//sscanf(P[0].S[pa].D[3],"%lf",&A.boxl.k);
 		}
 	else{fprintf(stderr,"\nIn parse_amber_prmtop.c : unexpected number of entries in section BOX_DIMENSIONS.  Ignoring contents.\n\n");}
 }
@@ -938,8 +879,11 @@ if(strcmp(P[0].S[pa].N,"PERT_POLARIZABILITY")==0){
 }
 	} // close loop through each section in the prmtop structure
 
+/*  The following code prints out the prmtop file exactly as read in from the unparsed read */
 /*
-F.F=myfopen("test_rewrite_of_prmtop","w");
+fileset F;
+F.N=strdup("test_rewrite_of_prmtop");
+F.F=myfopen(F.N,"w");
 fprintf(F.F,"%s",P[0].VERSION);
 for(pa=0;pa<P[0].nS;pa++){ // for each section found
 	fprintf(F.F,"%%FLAG %s\n",P[0].S[pa].N);
@@ -986,8 +930,6 @@ MBTMP=(molbond*)calloc(A.nb,sizeof(molbond));
 for(pa=0;pa<P[0].NATOM;pa++){ MOLBNDI[pa]=MOLI[pa]; }
 for(pa=0;pa<A.nb;pa++){ 
 	MBTMP[pa]=MB[pa]; 
-//printf("MBTMP[%d].s.i is %d ; MBTMP[%d].t.i is %d \n",pa,MBTMP[pa].s.i,pa,MBTMP[pa].t.i);
-//printf("MB[%d].s.i is %d ; MB[%d].t.i is %d \n",pa,MB[pa].s.i,pa,MB[pa].t.i);
 	}
 // call the "find molecules" function
 find_molecules_molbond_array(A.nb, MBTMP, P[0].NATOM, MOLBNDI);
@@ -1005,7 +947,6 @@ for(pa=0;pa<P[0].NATOM;pa++){
 	if(resi[MOLBNDI[pa].r]==-1) resi[MOLBNDI[pa].r]=MOLBNDI[pa].m;
 	else if(resi[MOLBNDI[pa].r]!=MOLBNDI[pa].m){
 		if(resi[MOLBNDI[pa].r]!=-1) mywhine("resi[MOLBNDI[pa].r]!=MOLBNDI[pa].m in parse_amber_prmtop");} 
-//printf("pa is %d ; MOLBNDI[pa].r is %d .m is %d resi[MOLBNDI[pa].r] is %d\n",pa,MOLBNDI[pa].r,MOLBNDI[pa].m,resi[MOLBNDI[pa].r]);
 	}
 for(pa=0;pa<P[0].NATOM;pa++){ 
 	if(resi[MOLBNDI[pa].r]==-1) { // this one isn't assigned a molecule yet
@@ -1030,23 +971,14 @@ for(pa=0;pa<P[0].NRES;pa++){
 	A.m[resi[pa]][0].nr++;
 	A.m[resi[pa]][0].r=(residue*)realloc(A.m[resi[pa]][0].r,A.m[resi[pa]][0].nr*sizeof(residue));
 	A.m[resi[pa]][0].r[A.m[resi[pa]][0].nr-1]=A.r[pa][0]; // copy over residue 
-	//free(A.r[pa]); // free space
 	A.r[pa]=&A.m[resi[pa]][0].r[A.m[resi[pa]][0].nr-1];// reassign pointer
-//printf("A.r[pa][0].na is %d\n",A.r[pa][0].na);
 	for(pb=0;pb<A.r[pa][0].na;pb++){
-//printf("\tA.r[%d][0].a[%d].n is %d  ;  MOLBNDI[A.r[pa][0].a[pb].n-1].r is %d \n",pa,pb,A.r[pa][0].a[pb].n,MOLBNDI[A.r[pa][0].a[pb].n-1].r); 
 		MOLBNDI[A.r[pa][0].a[pb].n-1].r=A.m[resi[pa]][0].nr-1;
-//printf("\t\t MOLBNDI[A.r[pa][0].a[pb].n-1].r is %d \n",MOLBNDI[A.r[pa][0].a[pb].n-1].r);
 		}
-//printf("Residue index %d has name >>>%s<<< (A.r[pa][0].N) or >>>%s<<< (thru the mol)\n",pa,A.r[pa][0].N,A.m[resi[pa]][0].r[A.m[resi[pa]][0].nr-1].N);
-////printf("\t na is %d (original)\n",A.r[pa][0].na); 
-//printf("\t na is %d \n",A.m[resi[pa]][0].r[A.m[resi[pa]][0].nr-1].na); 
-//for(pb=0;pb<A.m[resi[pa]][0].r[A.m[resi[pa]][0].nr-1].na;pb++){
-//printf("\tAtom #%d is named >>>%s<<<\n",pb,A.m[resi[pa]][0].r[A.m[resi[pa]][0].nr-1].a[pb].N);
-//}
 	}
 
 
+// Use the following to print info for all molecules to screen (for debugging)
 //for(pa=0;pa<A.nm;pa++){
 //printf("============== there are %d molecules =================\n",A.nm);
 //dprint_molecule(A.m[pa],1000);}
@@ -1097,8 +1029,8 @@ for(pa=0;pa<A.nm;pa++){
 		} 
 	}
 
-printf("============== there are %d molecules =================\n",A.nm);
-// START HERE -- when the above is finished, rewrite the following....
+// printf("============== there are %d molecules =================\n",A.nm);
+
 // Set the bond information at the atom level
 for(pa=0;pa<A.nm;pa++){
 A.m[pa][0].N=strdup("unknown");
@@ -1112,10 +1044,6 @@ for(pc=0;pc<A.m[pa][0].r[pb].na;pc++){
 	}
 	}
 	}
-//for(pa=0;pa<A.na;pa++){
-//printf("MOLBNDI[pa=%d] i is %d ; m is %d ; r is %d ; a is %d\n",pa,MOLBNDI[pa].i,MOLBNDI[pa].m,MOLBNDI[pa].r,MOLBNDI[pa].a);
-//if(pa>150) exit(0);
-//}
 
 for(pa=0;pa<A.nb;pa++){
 	// set global bonds
@@ -1127,6 +1055,8 @@ for(pa=0;pa<A.nb;pa++){
 	A.b[pa].t.m=tm=MOLBNDI[MBTMP[pa].t.i].m;
 	A.b[pa].t.r=tr=MOLBNDI[MBTMP[pa].t.i].r;
 	A.b[pa].t.a=ta=MOLBNDI[MBTMP[pa].t.i].a;
+
+/* If you're trying to fix the code, the following might be instructive. */
 /*
 printf("bond number, pa=%d \n",pa);
 printf("  MBTMP[pa].s.i is %d \n",MBTMP[pa].s.i);
@@ -1141,7 +1071,6 @@ printf("\t\t\t    .a=%d\n",MOLBNDI[MBTMP[pa].t.i].a);
 	// -- set local bonds to molbond structure (later to local bond structure)
 	A.m[sm][0].r[sr].a[sa].nmb++;
 	A.m[tm][0].r[tr].a[ta].nmb++;
-	// START HERE -- make sure these are allocated somewhere first.....
 	A.m[sm][0].r[sr].a[sa].mb=(molbond*)realloc(A.m[sm][0].r[sr].a[sa].mb,A.m[sm][0].r[sr].a[sa].nmb*sizeof(molbond));
 	A.m[tm][0].r[tr].a[ta].mb=(molbond*)realloc(A.m[tm][0].r[tr].a[ta].mb,A.m[tm][0].r[tr].a[ta].nmb*sizeof(molbond));
 	// set both atoms as being bonded to the other
@@ -1174,19 +1103,10 @@ printf("\t\t\tTo %s (atom number %d)\n",A.m[tm][0].r[tr].a[ta].N,A.m[tm][0].r[tr
 */
 
 
-//	-- MOLI[i] contains residue and atom info per each linear-numbered atom
+// One day when we know how the connection tree will be structured:
 // -- set local torsions and angles
 // -- set connection tree after all that...
 // 	-- check this tree against the amber tree info for sanity
-//int IPTRES=0,NSPM=0,NSPSOL=0,*NSP; // solvent/solute info & #atoms per molecule
-//molbond *MB;
-//angle_index *MANG;
-//torsion_index *MTOR;
-//char **ATNAME,**TREECLASS,*RADTYPE;
-//double *R,*SC,*MASS; // radii and screening constants for IS, atom masses
-//fileset F;
-//
-
 
 return A;
 }
