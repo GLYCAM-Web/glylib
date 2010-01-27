@@ -99,7 +99,6 @@ int allocated_xa=0, ///< alternate coords or vectors allocated outgoing
     newline=0; ///< counter to test if there should be a newline
 long foffset;
 fpos_t here,here2;
-double temp;
 
 for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 

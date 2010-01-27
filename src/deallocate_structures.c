@@ -22,17 +22,17 @@ void deallocateMolbond(molbond mlb){
 
 void deallocateConnectionTree(connection_tree con){
  //Free up the Incoming Bonds
- if((con.i != NULL || con.i != 0x0) && con.ni > 0){free(con.i);}
+// if((con.i != NULL || con.i != 0x0) && con.ni > 0){free(con.i);}
  //Free up the Outgoing Bonds
- if((con.o != NULL || con.o != 0x0) && con.no > 0){free(con.o);}
+// if((con.o != NULL || con.o != 0x0) && con.no > 0){free(con.o);}
  //Free up the Description of Isomerism
- if(con.iso != NULL || con.iso != 0x0){free(con.iso);}
+// if(con.iso != NULL || con.iso != 0x0){free(con.iso);}
  //Free up the Angles
- if(con.angle != NULL || con.angle != 0x0){free(con.angle);}
+// if(con.angle != NULL || con.angle != 0x0){free(con.angle);}
  //Free up the Chirality
- if(con.chirot != NULL || con.chirot != 0x0){free(con.chirot);}
+// if(con.chirot != NULL || con.chirot != 0x0){free(con.chirot);}
  //Free up the Distance
- if(con.distance != NULL || con.distance != 0x0){free(con.distance);}
+// if(con.distance != NULL || con.distance != 0x0){free(con.distance);}
  
  return ;
 }
