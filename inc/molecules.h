@@ -66,17 +66,17 @@ typedef struct {
 	char **aN; ///< naN names
 } moiety_selection; 
 
+/* 20100127 BLFoley: I'm changing the bond structure.  With luck, this will 
+only break the vibrations program I'm rewriting... */
 /// for simple, all-one-residue bonding (for early programs)
 typedef struct { 
-	int s; ///< "source" -- index to first atom in bond
-		///< this is redundant within an atom structure, but
-		///< not if the bond structure is used independently
-	int t; ///< "target" -- index to the other atom in the bond
+	ensindex s; ///< "source" -- index to first atom in bond
+	ensindex t; ///< "target" -- index to the other atom in the bond
 	double o; ///< order of bond
 	bond_type *typ; ///< pointer to type of bond
 	int i; ///< index -- for example as alternative to *typ
 	char *D; ///< free-form description
-} bond; ///< an actual bond (as opposed to an expected one)
+} bond; ///< a generic bond structure for connections of any type
 typedef struct {
 	int n; // number of bonds
 	bond *b; // n of these
@@ -100,18 +100,18 @@ typedef struct {
 } connection_tree; ///< for non-redundant bonding descriptions. See documentation for information.
 
 typedef struct {
-	molindex s,t; // source & target atoms for bond
-	double o; // order 
-	bond_type *typ; // pointer to type of bond
-	int i; // index -- for example as alternative to *typ
-	char *D; // free-form description
-} molbond; // set of consecutive bonds
-
+	molindex s; ///< source atom in the bond
+	molindex t; ///< target atom in the bond
+	double o; ///< order 
+	bond_type *typ; ///< pointer to type of bond
+	int i; ///< index -- for example as alternative to *typ
+	char *D; ///< free-form description
+} molbond; ///< a bond within a molecule
 typedef struct {
 	int n;  // number of these
 	molbond *b; // n of them
 	char *D; // free-form description
-} molbondset; // set of consecutive bonds
+} molbondset; // set of consecutive molbonds
 
 typedef struct {
 	molindex a,b,c; // three atoms in the angle
@@ -316,8 +316,8 @@ typedef struct {
 	coord_3D COM; ///< center of mass 
 	int nm; ///< number of molecule structures
 	molecule *m; ///< nm of these
-	int na; ///< number of assembly structures
-	assembly *a; ///< na of these
+	int nA; ///< number of assembly structures 
+	assembly **A; ///< nA of these
 	int nBOX; ///< Number of box_info structures defined
 	boxinfo *BOX; ///< The nBOX structures
 	//coord_3D boxl,boxh; // box dimensions

@@ -23,8 +23,8 @@ Some libraries that are often needed
 #include <time.h>
 #include <malloc.h>
 #include <general.h>
-#include <gly_fileutils.h>
-#include <gly_codeutils.h>
+//#include <gly_fileutils.h> // included in general.h
+//#include <gly_codeutils.h> // included in general.h
 
 /**
 Defines that are are only needed for some specialized circumstances
