@@ -86,8 +86,12 @@ return;
 }
 
 void initialize_bond(bond *b) {
-b[0].s=INDEX_INIT; // "source" -- index to first atom in bond
-b[0].t=INDEX_INIT; // "target" -- index to the other atom in the bond
+b[0].s.m=INDEX_INIT; // "source" -- index to first atom in bond
+b[0].s.r=INDEX_INIT; // "source" -- index to first atom in bond
+b[0].s.a=INDEX_INIT; // "source" -- index to first atom in bond
+b[0].t.m=INDEX_INIT; // "target" -- index to the other atom in the bond
+b[0].t.r=INDEX_INIT; // "target" -- index to the other atom in the bond
+b[0].t.a=INDEX_INIT; // "target" -- index to the other atom in the bond
 b[0].o=0; // order of bond
 return;
 }
@@ -215,8 +219,8 @@ E[0].mass=0; // mass of ensemble
 E[0].COM.i=E[0].COM.j=E[0].COM.k=0; // center of mass 
 E[0].nm=0; // number of molecule structures
 E[0].m=(molecule*)calloc(1,sizeof(molecule)); // nm of these
-E[0].na=0; // number of assembly structures
-E[0].a=(assembly*)calloc(1,sizeof(assembly)); // na of these
+E[0].nA=0; // number of assembly structures
+E[0].A=(assembly**)calloc(1,sizeof(assembly*)); // na of these
 E[0].nBOX=0; ///< changed to new BOX member on 20080813 BLF
 //E[0].boxl.i=E[0].boxl.j=E[0].boxl.k=0; // center of mass 
 //E[0].boxh.i=E[0].boxh.j=E[0].boxh.k=0; // center of mass 

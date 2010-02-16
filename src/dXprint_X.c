@@ -49,9 +49,11 @@ return;
 }
 
 void dXprint_bond(bond *b){
-	printf("bond s t o \t%d \t%d \t%20.12f\n",b[0].s,b[0].t,b[0].o);
+	printf("bond s (m,r,a=%d,%d,%d) t (m,r,a=%d,%d,%d) o %20.12f\n",b[0].s.m,b[0].s.r,b[0].s.a,b[0].t.m,b[0].t.r,b[0].t.a,b[0].o);
 return;
 }
+
+
 
 void dXprint_atom(atom *a,int i){
 	int pa=0;
