@@ -11,5 +11,6 @@ be needed by procedures related to amber. */
 #include <AMBER/read_prep.h>
 #include <AMBER/run_control.h>
 #include <AMBER/amber_prmtop.h>
+#include <AMBER/amber_coords.h>
 
 #endif
