@@ -902,8 +902,11 @@ for(pa=0;pa<P[0].nS;pa++){ // for each section found
 fclose(F.F);
 */
 
-// Set the names of the atom types in the type array
-for(pa=0;pa<A.na;pa++){ A.PRM[0].AT[A.a[pa][0].t].N=strdup(ATNAME[pa]); }
+// Set the names of the atom types in the type array and in the atom struct
+for(pa=0;pa<A.na;pa++){ 
+	A.a[pa][0].T=strdup(ATNAME[pa]); 
+	A.PRM[0].AT[A.a[pa][0].t].N=strdup(ATNAME[pa]); 
+	}
 // Now set the names in the non-bonded bond type array
 // -- set atom information in the LJ type arrays
 //int *ICO,nICO;
