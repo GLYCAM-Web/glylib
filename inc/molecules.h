@@ -490,4 +490,10 @@ void deallocateAtom(atom atm);
 void deallocateResidue(residue res);
 void deallocateMolecule(molecule mol);
 
+//Functions that add or remove structures from other structures
+void add_assembly_to_ensemble(
+        assembly *A, ///< pointer to the assembly being added (SEE DOCS)
+        ensemble *E ///< pointer to the ensemble being grown
+        );
+
 #endif
