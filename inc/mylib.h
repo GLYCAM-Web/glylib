@@ -19,6 +19,7 @@ Some libraries that are often needed
 #include <stddef.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 #include <math.h>
 #include <time.h>
 #include <malloc.h>
