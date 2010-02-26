@@ -17,178 +17,265 @@ I'm also about to expand these considerably to reflect the new structure design.
 
 void deallocateChiralityDescription(chirality_description *cd){
  int i;
-	if(cd[0].ELGEOM != NULL && cd[0].ELGEOM != 0x0){free(cd[0].ELGEOM);} 
-	if(cd[0].SPGEOM != NULL && cd[0].SPGEOM != 0x0){free(cd[0].SPGEOM);} 
-	for(i=0;i<cd[0].niso;i++){
-		if(cd[0].iso[i] != NULL && cd[0].iso[i] != 0x0){free(cd[0].iso[i]);} 
+	if(cd.ELGEOM != NULL && cd.ELGEOM != 0x0){free(cd.ELGEOM);} 
+	if(cd.SPGEOM != NULL && cd.SPGEOM != 0x0){free(cd.SPGEOM);} 
+	for(i=0;i<cd.niso;i++){
+		if(cd.iso[i] != NULL && cd.iso[i] != 0x0){free(cd.iso[i]);} 
 		}
  return ;
 }
 
 void deallocateBondType(bond_type *btp){
  //Free up the description
- if(btp[0].desc != NULL && btp[0].desc != 0x0){free(btp[0].desc);}
+ if(btp.desc != NULL && btp.desc != 0x0){free(btp.desc);}
  //Free up the first and second atom types in bond
- if(btp[0].NT[0] != NULL && btp[0].NT[0] != 0x0){free(btp[0].NT[0]);}
- if(btp[0].NT[1] != NULL && btp[0].NT[1] != 0x0){free(btp[0].NT[1]);}
+ if(btp.NT[0] != NULL && btp.NT[0] != 0x0){free(btp.NT[0]);}
+ if(btp.NT[1] != NULL && btp.NT[1] != 0x0){free(btp.NT[1]);}
  //Print a warning if the void pointer doesn't seem to be empty
- if(btp[0].VP!= NULL && btp[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating bond_type structure with non-NULL void pointer!\n");}
+ if(btp.VP!= NULL && btp.VP != 0x0){fprintf(stderr,"WARNING: deallocating bond_type structure with non-NULL void pointer!\n");}
  return ;
 }
-void deallocateAngleType(angle_type *atp){
+void deallocateAngleType(angle_type atp){
  //Free up the description
- if(atp[0].desc != NULL && atp[0].desc != 0x0){free(atp[0].desc);}
+ if(atp.desc != NULL && atp.desc != 0x0){free(atp.desc);}
  //Free up the first and second atom types in bond
- if(atp[0].NT[0] != NULL && atp[0].NT[0] != 0x0){free(atp[0].NT[0]);}
- if(atp[0].NT[1] != NULL && atp[0].NT[1] != 0x0){free(atp[0].NT[1]);}
- if(atp[0].NT[2] != NULL && atp[0].NT[2] != 0x0){free(atp[0].NT[2]);}
+ if(atp.NT[0] != NULL && atp.NT[0] != 0x0){free(atp.NT[0]);}
+ if(atp.NT[1] != NULL && atp.NT[1] != 0x0){free(atp.NT[1]);}
+ if(atp.NT[2] != NULL && atp.NT[2] != 0x0){free(atp.NT[2]);}
  //Print a warning if the void pointer doesn't seem to be empty
- if(atp[0].VP!= NULL && atp[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating angle_type structure with non-NULL void pointer!\n");}
+ if(atp.VP!= NULL && atp.VP != 0x0){fprintf(stderr,"WARNING: deallocating angle_type structure with non-NULL void pointer!\n");}
  return ;
-}
-void deallocateTorsionType(torsion_type *ttp){
+void deallocateTorsionType(torsion_type ttp){
  //Free up the description
- if(ttp[0].desc != NULL && ttp[0].desc != 0x0){free(ttp[0].desc);}
+ if(ttp.desc != NULL && ttp.desc != 0x0){free(ttp.desc);}
  //Free up the first and second atom types in bond
- if(ttp[0].NT[0] != NULL && ttp[0].NT[0] != 0x0){free(ttp[0].NT[0]);}
- if(ttp[0].NT[1] != NULL && ttp[0].NT[1] != 0x0){free(ttp[0].NT[1]);}
- if(ttp[0].NT[2] != NULL && ttp[0].NT[2] != 0x0){free(ttp[0].NT[2]);}
- if(ttp[0].NT[3] != NULL && ttp[0].NT[3] != 0x0){free(ttp[0].NT[3]);}
+ if(ttp.NT[0] != NULL && ttp.NT[0] != 0x0){free(ttp.NT[0]);}
+ if(ttp.NT[1] != NULL && ttp.NT[1] != 0x0){free(ttp.NT[1]);}
+ if(ttp.NT[2] != NULL && ttp.NT[2] != 0x0){free(ttp.NT[2]);}
+ if(ttp.NT[3] != NULL && ttp.NT[3] != 0x0){free(ttp.NT[3]);}
  //Free the n terms
- if(ttp[0].k != NULL && ttp[0].k != 0x0){free(ttp[0].k);} 
- if(ttp[0].N != NULL && ttp[0].N != 0x0){free(ttp[0].N);} 
- if(ttp[0].P != NULL && ttp[0].P != 0x0){free(ttp[0].P);} 
+ if(ttp.k != NULL && ttp.k != 0x0){free(ttp.k);} 
+ if(ttp.N != NULL && ttp.N != 0x0){free(ttp.N);} 
+ if(ttp.P != NULL && ttp.P != 0x0){free(ttp.P);} 
  //Print a warning if the void pointer doesn't seem to be empty
- if(ttp[0].VP!= NULL && ttp[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating torsion_type structure with non-NULL void pointer!\n");}
+ if(ttp.VP!= NULL && ttp.VP != 0x0){fprintf(stderr,"WARNING: deallocating torsion_type structure with non-NULL void pointer!\n");}
  return ;
 }
 
-void deallocateAtype(atype *atp){
+void deallocateAtype(atype atp){
  int i;
- if(atp[0].N != NULL && atp[0].N != 0x0){free(atp[0].N);}
- if(atp[0].NT != NULL && atp[0].NT != 0x0){free(atp[0].NT);}
- if(atp[0].desc != NULL && atp[0].desc != 0x0){free(atp[0].desc);}
- if(atp[0].bo != NULL && atp[0].bo != 0x0){free(atp[0].bo);}
- if(atp[0].ch != NULL && atp[0].ch != 0x0){free(atp[0].ch);}
- if(atp[0].R != NULL && atp[0].R != 0x0){free(atp[0].R);}
- if(atp[0].SC != NULL && atp[0].SC != 0x0){free(atp[0].SC);}
+ if(atp.N != NULL && atp.N != 0x0){free(atp.N);}
+ if(atp.NT != NULL && atp.NT != 0x0){free(atp.NT);}
+ if(atp.desc != NULL && atp.desc != 0x0){free(atp.desc);}
+ if(atp.bo != NULL && atp.bo != 0x0){free(atp.bo);}
+ if(atp.ch != NULL && atp.ch != 0x0){free(atp.ch);}
+ if(atp.R != NULL && atp.R != 0x0){free(atp.R);}
+ if(atp.SC != NULL && atp.SC != 0x0){free(atp.SC);}
 // free up the convenience indices & pointers
- if(atp[0].iBT != NULL && atp[0].iBT != 0x0){free(atp[0].iBT);}
- if(atp[0].BT != NULL && atp[0].BT != 0x0){free(atp[0].BT);}
- if(atp[0].iHBT != NULL && atp[0].iHBT != 0x0){free(atp[0].iHBT);}
- if(atp[0].HBT != NULL && atp[0].HBT != 0x0){free(atp[0].HBT);}
- if(atp[0].iNBT != NULL && atp[0].iNBT != 0x0){free(atp[0].iNBT);}
- if(atp[0].NBT != NULL && atp[0].NBT != 0x0){free(atp[0].NBT);}
- if(atp[0].iANT != NULL && atp[0].iANT != 0x0){free(atp[0].iANT);}
- if(atp[0].ANT != NULL && atp[0].ANT != 0x0){free(atp[0].ANT);}
- if(atp[0].iHANT != NULL && atp[0].iHANT != 0x0){free(atp[0].iHANT);}
- if(atp[0].HANT != NULL && atp[0].HANT != 0x0){free(atp[0].HANT);}
- if(atp[0].iNANT != NULL && atp[0].iNANT != 0x0){free(atp[0].iNANT);}
- if(atp[0].NANT != NULL && atp[0].NANT != 0x0){free(atp[0].NANT);}
- if(atp[0].iTRT != NULL && atp[0].iTRT != 0x0){free(atp[0].iTRT);}
- if(atp[0].TRT != NULL && atp[0].TRT != 0x0){free(atp[0].TRT);}
- if(atp[0].iHTRT != NULL && atp[0].iHTRT != 0x0){free(atp[0].iHTRT);}
- if(atp[0].HTRT != NULL && atp[0].HTRT != 0x0){free(atp[0].HTRT);}
- if(atp[0].iNTRT != NULL && atp[0].iNTRT != 0x0){free(atp[0].iNTRT);}
- if(atp[0].NTRT != NULL && atp[0].NTRT != 0x0){free(atp[0].NTRT);}
+ if(atp.iBT != NULL && atp.iBT != 0x0){free(atp.iBT);}
+ if(atp.BT != NULL && atp.BT != 0x0){free(atp.BT);}
+ if(atp.iHBT != NULL && atp.iHBT != 0x0){free(atp.iHBT);}
+ if(atp.HBT != NULL && atp.HBT != 0x0){free(atp.HBT);}
+ if(atp.iNBT != NULL && atp.iNBT != 0x0){free(atp.iNBT);}
+ if(atp.NBT != NULL && atp.NBT != 0x0){free(atp.NBT);}
+ if(atp.iANT != NULL && atp.iANT != 0x0){free(atp.iANT);}
+ if(atp.ANT != NULL && atp.ANT != 0x0){free(atp.ANT);}
+ if(atp.iHANT != NULL && atp.iHANT != 0x0){free(atp.iHANT);}
+ if(atp.HANT != NULL && atp.HANT != 0x0){free(atp.HANT);}
+ if(atp.iNANT != NULL && atp.iNANT != 0x0){free(atp.iNANT);}
+ if(atp.NANT != NULL && atp.NANT != 0x0){free(atp.NANT);}
+ if(atp.iTRT != NULL && atp.iTRT != 0x0){free(atp.iTRT);}
+ if(atp.TRT != NULL && atp.TRT != 0x0){free(atp.TRT);}
+ if(atp.iHTRT != NULL && atp.iHTRT != 0x0){free(atp.iHTRT);}
+ if(atp.HTRT != NULL && atp.HTRT != 0x0){free(atp.HTRT);}
+ if(atp.iNTRT != NULL && atp.iNTRT != 0x0){free(atp.iNTRT);}
+ if(atp.NTRT != NULL && atp.NTRT != 0x0){free(atp.NTRT);}
  //Free n terms
- for(i=0;i<atp[0].nR;i++){ if(atp[0].RD[i] != NULL && atp[0].RD[i] != 0x0){free(atp[0].RD[i]);} } 
+ for(i=0;i<atp.nR;i++){ if(atp.RD[i] != NULL && atp.RD[i] != 0x0){free(atp.RD[i]);} } 
  //Print a warning if the void pointer doesn't seem to be empty
- if(atp[0].VP!= NULL && atp[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating atom_type structure with non-NULL void pointer!\n");}
+ if(atp.VP!= NULL && atp.VP != 0x0){fprintf(stderr,"WARNING: deallocating atom_type structure with non-NULL void pointer!\n");}
  return ;
 } 
-void deallocateRtype(rtype *rtp){
- if(rtp[0].ac != NULL && rtp[0].ac != 0x0){free(rtp[0].ac);} 
+void deallocateRtype(rtype rtp){
+ if(rtp.ac != NULL && rtp.ac != 0x0){free(rtp.ac);} 
  //Print a warning if the void pointer doesn't seem to be empty
- if(rtp[0].VP!= NULL && rtp[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating rtype structure with non-NULL void pointer!\n");}
+ if(rtp.VP!= NULL && rtp.VP != 0x0){fprintf(stderr,"WARNING: deallocating rtype structure with non-NULL void pointer!\n");}
  return ;
 }
-void deallocateMtype(mtype *mtp){
+void deallocateMtype(mtype mtp){
  //Print a warning if the void pointer doesn't seem to be empty
- if(mtp[0].VP!= NULL && mtp[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating mtype structure with non-NULL void pointer!\n");}
+ if(mtp.VP!= NULL && mtp.VP != 0x0){fprintf(stderr,"WARNING: deallocating mtype structure with non-NULL void pointer!\n");}
  return ;
 } 
-void deallocateTypes(types *tps){
+void deallocateTypes(types tps){
  int i;
  //deallocate substructures
-	for(i=0;i<tps[0].na;i++) deallocateAtype(&tps[0].a[i]);
-	for(i=0;i<tps[0].nr;i++) deallocateRtype(&tps[0].r[i]);
-	for(i=0;i<tps[0].nm;i++) deallocateMtype(&tps[0].m[i]);
- //Print a warning if the void pointer doesn't seem to be emp if(tps[0].VP!= NULL && tps[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating types structure with non-NULL void pointer!\n");}
+	for(i=0;i<tps.na;i++) deallocateAtype(tps.a[i]);
+	for(i=0;i<tps.nr;i++) deallocateRtype(tps.r[i]);
+	for(i=0;i<tps.nm;i++) deallocateMtype(tps.m[i]);
+ //Print a warning if the void pointer doesn't seem to be empty
+ if(foo.VP!= NULL && foo.VP != 0x0){fprintf(stderr,"WARNING: deallocating foo structure with non-NULL void pointer!\n");}
  return ;
 }
 
-void deallocateParameterSet(parameter_set *ps){
+void deallocateParameterSet(parameter_set ps){
  int i;
  //deallocate substructures
-	for(i=0;i<ps[0].nAT;i++) deallocateAtype(&ps[0].AT[i]);
-	for(i=0;i<ps[0].nRT;i++) deallocateRtype(&ps[0].RT[i]);
-	for(i=0;i<ps[0].nMT;i++) deallocateMtype(&ps[0].MT[i]); 
-	for(i=0;i<ps[0].nBT;i++) deallocateBondType(&ps[0].BT[i]);
-	for(i=0;i<ps[0].nHBT;i++) deallocateBondType(&ps[0].HBT[i]);
-	for(i=0;i<ps[0].nNBT;i++) deallocateBondType(&ps[0].NBT[i]);
-	for(i=0;i<ps[0].nANT;i++) deallocateAngleType(&ps[0].ANT[i]);
-	for(i=0;i<ps[0].nTRT;i++) deallocateTorsionType(&ps[0].TRT[i]);
+	for(i=0;i<tps.nAT;i++) deallocateAtype(tps.AT[i]);
+	for(i=0;i<tps.nRT;i++) deallocateRtype(tps.RT[i]);
+	for(i=0;i<tps.nMT;i++) deallocateMtype(tps.MT[i]); 
+	for(i=0;i<tps.nBT;i++) deallocateBondType(tps.BT[i]);
+	for(i=0;i<tps.nHBT;i++) deallocateBondType(tps.HBT[i]);
+	for(i=0;i<tps.nNBT;i++) deallocateBondType(tps.NBT[i]);
+	for(i=0;i<tps.nANT;i++) deallocateAngleType(tps.ANT[i]);
+	for(i=0;i<tps.nTRT;i++) deallocateTorsionType(tps.TRT[i]);
  return ;
 }
 
 /********** structures from molecules.h ****************/
 
-void deallocateRingEnsindex(ring_ensindex *re){
- if(re[0].P != NULL && re[0].P != 0x0){free(re[0].P);} 
- if(re[0].in != NULL && re[0].in != 0x0){free(re[0].in);} 
- if(re[0].out != NULL && re[0].out != 0x0){free(re[0].out);} 
+void deallocateRingEnsindex(ring_ensindex re){
+ if(re.P != NULL && re.P != 0x0){free(re.P);} 
  return ;
 }
-void deallocateResidueTreeIndex(residue_tree_index *rti){
- if(rti[0].ai != NULL && rti[0].ai != 0x0){free(rti[0].ai);} 
-}
-void deallocateMoleculeTreeIndex(molecule_tree_index *mti){
- if(mti[0].ri != NULL && mti[0].ri != 0x0){free(mti[0].ri);} 
- if(mti[0].r != NULL && mti[0].r != 0x0){deallocateResidueTreeIndex(&mti[0].r);} 
-}
-void deallocateEnsembleTreeIndex(ensemble_tree_index *eti){
- if(eti[0].mi != NULL && eti[0].mi != 0x0){free(eti[0].mi);} 
- if(eti[0].m != NULL && eti[0].m != 0x0){deallocateResidueTreeIndex(&eti[0].m);} 
-}
-
-void deallocateMoietySelection(moiety_selection *ms){
- int i;
- if(ms[0].mn != NULL && ms[0].mn != 0x0){free(ms[0].mn);} 
- if(ms[0].mi != NULL && ms[0].mi != 0x0){free(ms[0].mi);} 
- if(ms[0].rn != NULL && ms[0].rn != 0x0){free(ms[0].rn);} 
- if(ms[0].ri != NULL && ms[0].ri != 0x0){free(ms[0].ri);} 
- if(ms[0].an != NULL && ms[0].an != 0x0){free(ms[0].an);} 
- if(ms[0].ai != NULL && ms[0].ai != 0x0){free(ms[0].ai);} 
- for(i=0;i<ms[0].nmN;i++){free ms[0].mN[i]}
- for(i=0;i<ms[0].nrN;i++){free ms[0].rN[i]}
- for(i=0;i<ms[0].naN;i++){free ms[0].aN[i]}
-}
-
-void deallocateBond(bond *bnd){
- if(bnd[0].D != NULL && bnd[0].D != 0x0){free(bnd[0].D);}
- if(bnd[0].typ != NULL && bnd[0].typ != 0x0){deallocateBondType(bnd[0].typ);} 
- return ;
-} 
-void deallocateBondset(bondset *bst){
- int i; 
- if(bst[0].b != NULL && bst[0].b != 0x0){
-  for( i = 0; i < bst[0].n; i++) deallocateBond(&bst[0].b[i]);
-  free(bst[0].b);
- } 
- return ; 
-}
-
-void deallocatefoo(foo *bar){
+typedef struct {
+	int nP; ///< number of positions in the ring
+	ensindex *P; ///< the nP relevant positions
+	int nin,*in; ///< reference integers in *P for other ring members with incoming bonds
+	int nout,*out; ///< reference integers in *P for other ring members with outgoing bonds
+} ring_ensindex; ///< Structure holding ensemble indices for a ring, plus maybe other info
+void deallocatefoo(foo bar){
  int i;
 	if( != NULL &&  != 0x0){free();} 
 	for(i=0;i< ;i++){
 		if( != NULL &&  != 0x0){free();} 
 		}
  //Print a warning if the void pointer doesn't seem to be empty
- if(foo[0].VP!= NULL && foo[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating foo structure with non-NULL void pointer!\n");}
+ if(foo.VP!= NULL && foo.VP != 0x0){fprintf(stderr,"WARNING: deallocating foo structure with non-NULL void pointer!\n");}
  return ;
 }
+typedef struct { 
+	int na, *ai; ///< na atom indices and the na indices 
+} residue_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
+void deallocatefoo(foo bar){
+ int i;
+	if( != NULL &&  != 0x0){free();} 
+	for(i=0;i< ;i++){
+		if( != NULL &&  != 0x0){free();} 
+		}
+ //Print a warning if the void pointer doesn't seem to be empty
+ if(foo.VP!= NULL && foo.VP != 0x0){fprintf(stderr,"WARNING: deallocating foo structure with non-NULL void pointer!\n");}
+ return ;
+}
+typedef struct { 
+	int nr, *ri; ///< nr residue indices and the nr indices
+	residue_tree_index *r; ///< nr residue_tree_index structures
+} molecule_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
+void deallocatefoo(foo bar){
+ int i;
+	if( != NULL &&  != 0x0){free();} 
+	for(i=0;i< ;i++){
+		if( != NULL &&  != 0x0){free();} 
+		}
+ //Print a warning if the void pointer doesn't seem to be empty
+ if(foo.VP!= NULL && foo.VP != 0x0){fprintf(stderr,"WARNING: deallocating foo structure with non-NULL void pointer!\n");}
+ return ;
+}
+typedef struct { 
+	int nm, *mi; ///< nm molecule indices and the nm indices
+	molecule_tree_index *m; ///< nm molecule_tree_index structures
+} ensemble_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
+
+void deallocatefoo(foo bar){
+ int i;
+	if( != NULL &&  != 0x0){free();} 
+	for(i=0;i< ;i++){
+		if( != NULL &&  != 0x0){free();} 
+		}
+ //Print a warning if the void pointer doesn't seem to be empty
+ if(foo.VP!= NULL && foo.VP != 0x0){fprintf(stderr,"WARNING: deallocating foo structure with non-NULL void pointer!\n");}
+ return ;
+}
+typedef struct {
+	int posneg; ///< Is this a positive (1), negative (-1) or brand new (0) selection set?
+	int nmN,nmi,nmn,*mn,*mi; ///< # of molecule names, numbers & indicies, nmn numbers and nmi indices
+	char **mN; ///< nmN names
+	int nrN,nri,nrn,*rn,*ri; ///< # of residue names, numbers & indicies, nrn numbers and nri indices
+	char **rN; ///< nrN names
+	int naN,nai,nan,*an,*ai; ///< # of atom names, numbers & indicies, nan numbers and nai indices
+	char **aN; ///< naN names
+} moiety_selection; 
+
+void deallocatefoo(foo bar){
+ int i;
+	if( != NULL &&  != 0x0){free();} 
+	for(i=0;i< ;i++){
+		if( != NULL &&  != 0x0){free();} 
+		}
+ //Print a warning if the void pointer doesn't seem to be empty
+ if(foo.VP!= NULL && foo.VP != 0x0){fprintf(stderr,"WARNING: deallocating foo structure with non-NULL void pointer!\n");}
+ return ;
+}
+typedef struct { 
+	ensindex s; ///< "source" -- index to first atom in bond
+	ensindex t; ///< "target" -- index to the other atom in the bond
+	double o; ///< order of bond
+	bond_type *typ; ///< pointer to type of bond
+	int i; ///< index -- for example as alternative to *typ
+	char *D; ///< free-form description
+} bond; ///< a generic bond structure for connections of any type
+typedef struct {
+	int n; // number of bonds
+	bond *b; // n of these
+} bondset; // set of consecutive bonds
+
+
+void deallocateMolbond(molbond mlb){
+ //Free up the Free Form Description
+ if(mlb.D != NULL && mlb.D != 0x0){free(mlb.D);}
+ //Free up the Type of Bond
+ if(mlb.typ != NULL && mlb.typ != 0x0){deallocateBondType(mlb.typ[0]);}
+
+ return ;
+}
+
+void deallocateConnectionTree(connection_tree con){
+ //Free up the Incoming Bonds
+// if((con.i != NULL && con.i != 0x0) && con.ni > 0){free(con.i);}
+ //Free up the Outgoing Bonds
+// if((con.o != NULL && con.o != 0x0) && con.no > 0){free(con.o);}
+ //Free up the Description of Isomerism
+// if(con.iso != NULL && con.iso != 0x0){free(con.iso);}
+ //Free up the Angles
+// if(con.angle != NULL && con.angle != 0x0){free(con.angle);}
+ //Free up the Chirality
+// if(con.chirot != NULL && con.chirot != 0x0){free(con.chirot);}
+ //Free up the Distance
+// if(con.distance != NULL && con.distance != 0x0){free(con.distance);}
+ 
+ return ;
+}
+
+void deallocateBond(bond bnd){
+ //Free up the Free Form Description
+ if(bnd.D != NULL && bnd.D != 0x0){free(bnd.D);}
+ //Free up the Type of Bond
+ if(bnd.typ != NULL && bnd.typ != 0x0){deallocateBondType(bnd.typ[0]);}
+
+ return ;
+}
+
+void deallocateBondset(bondset bst){
+ int i; 
+ //Free up the Bonds
+ if((bst.b != NULL && bst.b != 0x0) && bst.n > 0){
+  for( i = 0; i < bst.n; i++)
+   deallocateBond(bst.b[i]);
+  free(bst.b);
+ }
+
+ return ; 
+
 typedef struct {
 	char isorigin; ///< Y/y/N/n -- is this the first atom in the tree?
 	int ni; ///< number incoming bonds
