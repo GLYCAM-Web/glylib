@@ -9,16 +9,13 @@ seemed to use a variant of:
 ...but I think that should be && not ||.  So, I'm gonna change them all to
 be that way and if everything seems to break, I'll undo it.
 
+I say this because if a system has some weird notion of what "NULL"
+means, possibly because of something a programmer did, then a pointer 
+could actually be null, but the compiler would still try to free it,
+because it would never check the second case.  And if 0x0 is always
+the same as NULL, then why check both?
 
-sdjfdskjfh
-
-
-I say this because if a system has some weird notion of what "NULL" means,
-possibly because of something a programmer did, then a pointer could actually
-be null, but the compiler would still try to free it, because it would never
-check the second case.  And if 0x0 is always the same as NULL, then why check
-both?  I'm also about to expand these considerably to reflect the new
-structure design.
+I'm also about to expand these considerably to reflect the new structure design.
 
 */
 
@@ -31,6 +28,7 @@ void deallocateChiralityDescription(chirality_description *cd){
 	for(i=0;i<cd[0].niso;i++){
 		if(cd[0].iso[i] != NULL && cd[0].iso[i] != 0x0){free(cd[0].iso[i]);} 
 		}
+	free(cd[0].iso);
  return ;
 }
 
