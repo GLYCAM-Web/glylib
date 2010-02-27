@@ -9,6 +9,11 @@ seemed to use a variant of:
 ...but I think that should be && not ||.  So, I'm gonna change them all to
 be that way and if everything seems to break, I'll undo it.
 
+I say this because if a system has some weird notion of what "NULL"
+means, possibly because of something a programmer did, then a pointer 
+could actually be null, but the compiler would still try to free it,
+because it would never check the second case.  And if 0x0 is always
+the same as NULL, then why check both?
 
 I'm also about to expand these considerably to reflect the new structure design.
 
