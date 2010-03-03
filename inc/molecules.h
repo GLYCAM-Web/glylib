@@ -170,15 +170,16 @@ typedef struct {
 typedef struct {
 	int n; ///< residue number given in input file
 	char *N; ///< residue name 
+	char *T; ///< residue type
 	char *D; ///< free-form description for residue
 	int t; ///< type number
 	rtype *typ; ///< pointer to rtype structure
 	molindex moli; ///< the molecule index for this residue (address -- set .a to -1 or 0) 
 	int na; ///< number of atoms in residue
+	atom *a; ///< atom structures (na of these)
+	connection_tree *aT; ///< na of these (one per atom)
 	double m; ///< molecular weight
 	coord_3D COM; ///< center of mass for residue
-	atom *a; ///< atom structures (na of these)
-	connection_tree *T; ///< na of these
 	int nbs; ///< number of bond sets 
 	bondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
 	int nr; ///< number of simple rings (no cage structures, etc.)
@@ -206,6 +207,7 @@ typedef struct {
 	int n; ///< molecule number given in an input file
 	int i; ///< index
 	char *N; ///< free-form name for molecule
+	char *T; ///< free-form type for molecule
 	char *D; ///< free-form description for residue
 	double m; ///< molecular weight
 	int mi; ///< number corresponding to the index in the parent ensemble
@@ -268,6 +270,7 @@ typedef struct{
 typedef struct { 
 	int i; ///< index
 	char *N; ///< name
+	char *T; ///< type
 	char *D; ///< description (free-form) (was *desc)
 	double mass; ///< mass of assembly
 	double TIME; ///< current/initial/reference time in the simulation
@@ -282,8 +285,8 @@ typedef struct {
 	connection_tree *rT; ///< nr of these
 	int na; ///< number of atoms
 	atom **a; ///< na of these -- probably best to point into mol/res combos
-	int naT; ///< naT connection trees defined.
-	connection_tree *aT; ///< naT of these
+	//int naT; ///< naT connection trees defined. // WHY naT???
+	connection_tree *aT; ///< na of these
 	int nb; ///< total number of bonds
 	molbond *b; ///< the bonds
 	int nANG; ///< # of angles
@@ -291,7 +294,7 @@ typedef struct {
 	int nTOR; ///< # of torsions
 	torsion_index *TOR; ///< nTOR of these
 	int nPRM; ///< number of parameter sets
-	parameter_set *PRM; ///< pointer to parameter sets
+	parameter_set **PRM; ///< pointers to parameter sets
 	int nmbs; ///< number of sets of connections between molecules 
 	molbondset *mbs; ///< nmbs of these sets
 	int nBOX; ///< Number of box_info structures defined
@@ -311,6 +314,7 @@ typedef struct {
 typedef struct { 
 	int i; ///< index
 	char *N; ///< name
+	char *T; ///< type
 	char *D; ///< free-form descriptor
 	double mass; ///< mass of ensemble
 	coord_3D COM; ///< center of mass 

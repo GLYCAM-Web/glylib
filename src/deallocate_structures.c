@@ -180,10 +180,7 @@ void deallocateParameterSet(parameter_set *ps){
 /********** structures from molecules.h ****************/
 
 void deallocateRingEnsindex(ring_ensindex *re){
- int i;
- if(re[0].P != NULL && re[0].P != 0x0){
- 	for(i=0;i<re[0].nP;i++){if(re[0].P[i] != NULL && re[0].P[i] != 0x0){free(&re[0].P[i]);}}
-	free(re[0].P);} 
+ if(re[0].P != NULL && re[0].P != 0x0){free(re[0].P);} //ensindex is simple -- no deallocation
  if(re[0].in != NULL && re[0].in != 0x0){free(re[0].in);} 
  if(re[0].out != NULL && re[0].out != 0x0){free(re[0].out);} 
  return ;
@@ -233,240 +230,278 @@ void deallocateBondset(bondset *bst){
  return ; 
 } 
 void deallocateConnectionTree(connection_tree *ct){
- int i;
- if(ct[0].i != NULL && ct[0].i != 0x0){
- 	for(i=0;i<ct[0].ni;i++){free(&ct[0].i[i]);}
- 	free(ct[0].i);}
- if(ct[0].o != NULL && ct[0].o != 0x0){
- 	for(i=0;i<ct[0].no;i++){free(&ct[0].o[i]);}
- 	free(ct[0].o);}
- if(ct[0].op != NULL && ct[0].op != 0x0){
- 	for(i=0;i<ct[0].no;i++){free(&ct[0].op[i]);}
- 	free(ct[0].op);}
- if(ct[0].OV != NULL && ct[0].OV != 0x0){
- 	for(i=0;i<ct[0].nOV;i++){free(&ct[0].OV[i]);}
- 	free(ct[0].OV);}
- if(ct[0].EC != NULL && ct[0].EC != 0x0){
- 	for(i=0;i<ct[0].nEC;i++){free(&ct[0].EC[i]);}
- 	free(ct[0].EC);}
+// all members are simple, no deallocation
+ if(ct[0].i != NULL && ct[0].i != 0x0){free(ct[0].i);}
+ if(ct[0].o != NULL && ct[0].o != 0x0){free(ct[0].o);}
+ if(ct[0].op != NULL && ct[0].op != 0x0){free(ct[0].op);}
+ if(ct[0].OV != NULL && ct[0].OV != 0x0){free(ct[0].OV);}
+ if(ct[0].EC != NULL && ct[0].EC != 0x0){free(ct[0].EC);}
  return ;
 }
 
 void deallocateMolbond(molbond *mb){
  // the bond_type pointer should point into an array, so just set null
  mb[0].typ = 0x0;
- if(mb[0].D != NULL && mb[0].D != 0x0){ free(mb[0].D);}
+ if(mb[0].D != NULL && mb[0].D != 0x0){free(mb[0].D);}
  return ;
 }
-typedef struct {
-	int n;  // number of these
-	molbond *b; // n of them
-	char *D; // free-form description
-} molbondset; // set of consecutive molbonds
-
-void deallocatefoo(foo *bar){
+void deallocateMolbondset(molbondset *mbs){
  int i;
- if(f[0].b != NULL && f[0].b != 0x0){
- 	for(i=0;i<f[0].n;i++){deallocatef(&f[0].b[i]);}
- 	free(f[0].b);}
- //Print a warning if the void pointer doesn't seem to be empty
- if(f[0].VP!= NULL && f[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating foo structure with non-NULL void pointer!\n");}
+ if(mbs[0].D != NULL && mbs[0].D != 0x0){free(mbs[0].D);}
+ if(mbs[0].b != NULL && mbs[0].b != 0x0){
+ 	for(i=0;i<mbs[0].n;i++){deallocateMolbond(&mbs[0].b[i]);}
+ 	free(mbs[0].b);}
  return ;
 }
-typedef struct {
-	molindex a,b,c; // three atoms in the angle
-	double ang; // the angle
-	angle_type *typ; // pointer to type of angle
-	char *D;// free-form descriptor
-	int i; // index -- for example as alternative to *typ
-} angle_index; // index to atoms in an angle
-typedef struct {
-	molindex a,b,c,d; // four atoms defining the torsion
-	double ang; // the angle
-	torsion_type *typ; // pointer to type of torsion
-	char *D;// free-form descriptor
-	int i; // index -- for example as alternative to *typ
-} torsion_index; // index to atoms in an angle
+void deallocateMolbondset(molbondset *mbs){
+ int i;
+ if(mbs[0].b != NULL && mbs[0].b != 0x0){
+ 	for(i=0;i<mbs[0].n;i++){deallocateMolbond(&mbs[0].b[i]);}
+ 	free(mbs[0].b);}
+ if(mbs[0].D != NULL && mbs[0].D != 0x0){free(mbs[0].D);}
+ return ;
+}
+void deallocateAngleIndex(angle_index *ai){
+ // the pointer should point into an array, so just set null
+ ai[0].typ = 0x0;
+ if(ai[0].D != NULL && ai[0].D != 0x0){free(ai[0].D);}
+ return ;
+}
+void deallocateAngleIndex(angle_index *ai){
+ // the pointer should point into an array, so just set null
+ ai[0].typ = 0x0;
+ if(ai[0].D != NULL && ai[0].D != 0x0){free(ai[0].D);}
+ return ;
+}
+void deallocateTorsinIndex(torsion_index *ai){
+ // the pointer should point into an array, so just set null
+ ti[0].typ = 0x0;
+ if(ti[0].D != NULL && ti[0].D != 0x0){free(ti[0].D);}
+ return ;
+}
 
 /********** structure atom *************/
-typedef struct {
-	int n; ///< atom number or other identifying index
-	char *N; ///< atom name 
-	char *T; ///< atom type name
-	char *D; ///< free-form description
-	double m; ///< atom mass -- units defined per program needs
-	int t; ///< type number -- must correspond to assignments of "atype" (see)
-	atype *typ; ///< pointer to atype structure
-	molindex moli; ///< the molecule index for this atom (address)
-	int nb; ///< number of bonds within this residue (deprecated, soon to go away)
-	bond *b; ///< bond structures (nb of these)
-	int nmb; ///< number of bonds to other residues or molecules
-	molbond *mb; ///< nmb of these (pointers to the structures)
-	coord_3D x; ///< atom's main coordinates 
-	coord_3D xv; ///< atom's main velocity
-	int nalt; ///< number of alternate coordinate sets
-	coord_3D *xa; ///< nalt of alternate coords
-	int nxva; ///< number of alternate velocities defined
-	coord_3D *xva; ///< nxva alternate velocities
-	int nvec; ///< number of vector sets
-	vectormag_3D *v; ///< vector sets
-	int nch; ///< number of charges
-	double *ch; ///< nch charges for this atom
-	int ni; ///< number of other indices
-	int *i; ///< other indices, as needed (ni of these)
-	int nd; ///< number of double-precision parameters
-	double *d; ///< other parameters, as needed (nd of these) 
-	int nensi; ///< number of ensemble indices
-	ensindex *ensi; ///< list of ensemble indices
-	char *sres; ///< name of some other/original residue to which this atom belonged
-	int nOD; ///< number of other descriptors
-	char **OD; ///< the nOD descriptors
-	int nVP; ///< number of void structures
-	char cID; ///< chain identifier
-	void *VP; ///< nVP of these, whatever they may be
-} atom; ///< an actual atom in a residue/molecule
+void deallocateAtom(atom *a){
+ int i;
+ //set null
+ a[0].typ = 0x0;
+ // deallocate each
+ if(a[0].b != NULL && a[0].b != 0x0){
+ 	for(i=0;i<a[0].nb;i++){deallocateBond(&a[0].b[i]);}
+ 	free(a[0].b);}
+ if(a[0].mb != NULL && a[0].mb != 0x0){
+ 	for(i=0;i<a[0].nmb;i++){deallocateMolbond(&a[0].mb[i]);}
+ 	free(a[0].mb);}
+ // free each
+ if(a[0].OD != NULL && a[0].OD != 0x0){
+ 	for(i=0;i<a[0].nOD;i++){if(a[0].OD[i] != NULL && a[0].OD[i] != 0x0){free a[0].OD[i]}}
+	free(a[0].OD);}
+ // free top
+ if(a[0].N != NULL && a[0].N != 0x0){free(a[0].N);}
+ if(a[0].T != NULL && a[0].T != 0x0){free(a[0].T);}
+ if(a[0].D != NULL && a[0].D != 0x0){free(a[0].D);}
+ if(a[0].xa != NULL && a[0].xa != 0x0){free(a[0].xa);}
+ if(a[0].xva != NULL && a[0].xva != 0x0){free(a[0].xva);}
+ if(a[0].v != NULL && a[0].v != 0x0){free(a[0].v);}
+ if(a[0].ch != NULL && a[0].ch != 0x0){free(a[0].ch);}
+ if(a[0].i != NULL && a[0].i != 0x0){free(a[0].i);}
+ if(a[0].d != NULL && a[0].d != 0x0){free(a[0].d);}
+ if(a[0].ensi != NULL && a[0].ensi != 0x0){free(a[0].ensi);}
+ if(a[0].sres != NULL && a[0].sres != 0x0){free(a[0].sres);}
+	// check and warn if non-null
+ if(a[0].VP!= NULL && a[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating atom structure with non-NULL void pointer!\n");}
+ return ;
+}
+void deallocateResidue(residue *r){
+ int i;
+ //set null
+ r[0].typ = 0x0;
+ // deallocate each
+ if(r[0].a != NULL && r[0].a != 0x0){
+ 	for(i=0;i<r[0].na;i++){deallocateAtom(&r[0].a[i]);}
+ 	free(r[0].a);}
+ if(r[0].a != NULL && r[0].a != 0x0){
+ 	for(i=0;i<r[0].na;i++){deallocateAtom(&r[0].a[i]);}
+ 	free(r[0].a);}
+ if(r[0].aT != NULL && r[0].aT != 0x0){
+ 	for(i=0;i<r[0].na;i++){deallocateConnectionTree(&r[0].aT[i]);}
+ 	free(r[0].aT);}
+ if(r[0].bs != NULL && r[0].bs != 0x0){
+ 	for(i=0;i<r[0].nbs;i++){deallocateBondset(&r[0].bs[i]);}
+ 	free(r[0].bs);}
+ if(r[0].rbs != NULL && r[0].rbs != 0x0){
+ 	for(i=0;i<r[0].nrbs;i++){deallocateBondset(&r[0].rbs[i]);}
+ 	free(r[0].rbs);}
+ // free each
+ if(r[0].OD != NULL && r[0].OD != 0x0){
+ 	for(i=0;i<r[0].nOD;i++){if(r[0].OD[i] != NULL && r[0].OD[i] != 0x0){free r[0].OD[i]}}
+	free(r[0].OD);}
+ // free top
+ if(r[0].N != NULL && r[0].N != 0x0){free(r[0].N);}
+ if(r[0].T != NULL && r[0].T != 0x0){free(r[0].T);}
+ if(r[0].D != NULL && r[0].D != 0x0){free(r[0].D);}
+ if(r[0].rc != NULL && r[0].rc != 0x0){free(r[0].rc);}
+ if(r[0].rp != NULL && r[0].rp != 0x0){free(r[0].rp);}
+ if(r[0].i != NULL && r[0].i != 0x0){free(r[0].i);}
+ if(r[0].d != NULL && r[0].d != 0x0){free(r[0].d);}
+ if(r[0].ensi != NULL && r[0].ensi != 0x0){free(r[0].ensi);}
+	// check and warn if non-null
+ if(r[0].VP!= NULL && r[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating residue structure with non-NULL void pointer!\n");}
+ return ;
+}
+void deallocateMolecule(molecule *m){
+ int i;
+ //set null
+ m[0].typ = 0x0;
+ // deallocate each
+ if(m[0].r != NULL && m[0].r != 0x0){
+ 	for(i=0;i<m[0].nr;i++){deallocateResidue(&m[0].r[i]);}
+ 	free(m[0].r);}
+ if(m[0].rb != NULL && m[0].rb != 0x0){
+ 	for(i=0;i<m[0].nrb;i++){deallocateMolbond(&m[0].rb[i]);}
+ 	free(m[0].rb);}
+ if(m[0].rbs != NULL && m[0].rbs != 0x0){
+ 	for(i=0;i<m[0].nrbs;i++){deallocateMolbondset(&m[0].rbs[i]);}
+ 	free(m[0].rbs);}
+ if(m[0].aT != NULL && m[0].aT != 0x0){
+ 	for(i=0;i<m[0].na;i++){deallocateConnectionTree(&m[0].aT[i]);}
+ 	free(m[0].aT);}
+ if(m[0].rT != NULL && m[0].rT != 0x0){
+ 	for(i=0;i<m[0].nr;i++){deallocateConnectionTree(&m[0].rT[i]);}
+ 	free(m[0].rT);}
+ if(m[0].BOX != NULL && m[0].BOX != 0x0){
+ 	for(i=0;i<m[0].nBOX;i++){deallocateBoxinfo(&m[0].BOX[i]);}
+ 	free(m[0].BOX);}
+ // free each
+ if(m[0].OD != NULL && m[0].OD != 0x0){
+ 	for(i=0;i<m[0].nOD;i++){if(m[0].OD[i] != NULL && m[0].OD[i] != 0x0){free m[0].OD[i]}}
+	free(m[0].OD);}
+ // free top
+ if(m[0].N != NULL && m[0].N != 0x0){free(m[0].N);}
+ if(m[0].D != NULL && m[0].D != 0x0){free(m[0].D);}
+ if(m[0].T != NULL && m[0].T != 0x0){free(m[0].T);}
+ if(m[0].a != NULL && m[0].a != 0x0){free(m[0].a);}
+ if(m[0].rc != NULL && m[0].rc != 0x0){free(m[0].rc);}
+ if(m[0].oi != NULL && m[0].oi != 0x0){free(m[0].oi);}
+ if(m[0].d != NULL && m[0].d != 0x0){free(m[0].d);}
+ if(m[0].ensi != NULL && m[0].ensi != 0x0){free(m[0].ensi);}
+	// check and warn if non-null
+ if(m[0].VP!= NULL && m[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating molecule structure with non-NULL void pointer!\n");}
+ return ;
+} 
+void deallocateDockinfo(dockinfo *di){
+ int i;
+ // deallocate each
+ deallocateMolecule(&di[0].M); // this can't be null...
+ // free top
+ if(di[0].TR != NULL && di[0].TR != 0x0){free(di[0].TR);}
+ if(di[0].Q != NULL && di[0].Q != 0x0){free(di[0].Q);}
+ if(di[0].QN != NULL && di[0].QN != 0x0){free(di[0].QN);}
+ if(di[0].QN0 != NULL && di[0].QN0 != 0x0){free(di[0].QN0);}
+ if(di[0].Tors != NULL && di[0].Tors != 0x0){free(di[0].Tors);}
+ if(di[0].eFEB != NULL && di[0].eFEB != 0x0){free(di[0].eFEB);}
+ if(di[0].eKi != NULL && di[0].eKi != 0x0){free(di[0].eKi);}
+ if(di[0].Tmp != NULL && di[0].Tmp != 0x0){free(di[0].Tmp);}
+ if(di[0].fDE != NULL && di[0].fDE != 0x0){free(di[0].fDE);}
+ if(di[0].fIE != NULL && di[0].fIE != 0x0){free(di[0].fIE);}
+ if(di[0].fIEL != NULL && di[0].fIEL != 0x0){free(di[0].fIEL);}
+ if(di[0].TFE != NULL && di[0].TFE != 0x0){free(di[0].TFE);}
+ if(di[0].USE != NULL && di[0].USE != 0x0){free(di[0].USE);}
+ if(di[0].DIH != NULL && di[0].DIH != 0x0){free(di[0].DIH);}
+ if(di[0].D != NULL && di[0].D != 0x0){free(di[0].D);}
+ if(di[0].DOCK_PROGRAM != NULL && di[0].DOCK_PROGRAM != 0x0){free(di[0].DOCK_PROGRAM);}
+ if(di[0].VERSION != NULL && di[0].VERSION != 0x0){free(di[0].VERSION);}
+ return ;
+}
+ 
+void deallocateAssembly(assembly *a){
+ int i;
+ // deallocate each
+ if(a[0].mT != NULL && a[0].mT != 0x0){
+ 	for(i=0;i<a[0].nm;i++){deallocateConnectionTree(&a[0].mT[i]);}
+ 	free(a[0].mT);}
+ if(a[0].RT != NULL && a[0].RT != 0x0){
+ 	for(i=0;i<a[0].nr;i++){deallocateConnectionTree(&a[0].RT[i]);}
+ 	free(a[0].RT);}
+ if(a[0].aT != NULL && a[0].aT != 0x0){
+ 	for(i=0;i<a[0].na;i++){deallocateConnectionTree(&a[0].aT[i]);}
+ 	free(a[0].aT);}
+ if(a[0].b != NULL && a[0].b != 0x0){
+ 	for(i=0;i<a[0].nb;i++){deallocateMolbond(&a[0].b[i]);}
+ 	free(a[0].b);}
+ if(a[0].bs != NULL && a[0].bs != 0x0){
+ 	for(i=0;i<a[0].nbs;i++){deallocateMolbondset(&a[0].bs[i]);}
+ 	free(a[0].bs);}
+ if(a[0].ANG != NULL && a[0].ANG != 0x0){
+ 	for(i=0;i<a[0].nANG;i++){deallocateAngleIndex(&a[0].ANG[i]);}
+ 	free(a[0].ANG);}
+ if(a[0].TOR != NULL && a[0].TOR != 0x0){
+ 	for(i=0;i<a[0].nTOR;i++){deallocateTorsionIndex(&a[0].TOR[i]);}
+ 	free(a[0].TOR);}
+ if(a[0].BOX != NULL && a[0].BOX != 0x0){
+ 	for(i=0;i<a[0].nBOX;i++){deallocateBoxinfo(&a[0].BOX[i]);}
+ 	free(a[0].BOX);}
+ if(a[0].PRM != NULL && a[0].PRM != 0x0){
+ 	for(i=0;i<a[0].nPRM;i++){deallocateParameterSet(&a[0].PRM[i]);}
+ 	free(a[0].PRM);}
+ // free each
+ if(a[0].OD != NULL && a[0].OD != 0x0){
+ 	for(i=0;i<a[0].nOD;i++){if(a[0].OD[i] != NULL && a[0].OD[i] != 0x0){free a[0].OD[i]}}
+	free(a[0].OD);}
+ // free top
+ if(a[0].N != NULL && a[0].N != 0x0){free(a[0].N);}
+ if(a[0].T != NULL && a[0].T != 0x0){free(a[0].T);}
+ if(a[0].D != NULL && a[0].D != 0x0){free(a[0].D);}
+ if(a[0].r != NULL && a[0].r != 0x0){free(a[0].r);}
+ if(a[0].a != NULL && a[0].a != 0x0){free(a[0].a);}
+ if(a[0].m != NULL && a[0].m != 0x0){free(a[0].m);}
+ if(a[0].ensi != NULL && a[0].ensi != 0x0){free(a[0].ensi);}
+	// check and warn if non-null
+ if(a[0].VP!= NULL && a[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating molecule structure with non-NULL void pointer!\n");}
+ return ;
+}
+void deallocateFullAssembly(assembly *a){
+ if(a[0].m != NULL && a[0].m != 0x0){
+	for(i=0;i<a[0].nm;i++){if(a[0].m[i] != NULL && a[0].m[i] != 0x0){deallocateMolecule(a[0].m[i]);}}}
+ deallocateAssembly(a);
+ return ;
+}
 
-/********** structure residue *************/
-typedef struct {
-	int n; ///< residue number given in input file
-	char *N; ///< residue name 
-	char *D; ///< free-form description for residue
-	int t; ///< type number
-	rtype *typ; ///< pointer to rtype structure
-	molindex moli; ///< the molecule index for this residue (address -- set .a to -1 or 0) 
-	int na; ///< number of atoms in residue
-	double m; ///< molecular weight
-	coord_3D COM; ///< center of mass for residue
-	atom *a; ///< atom structures (na of these)
-	connection_tree *T; ///< na of these
-	int nbs; ///< number of bond sets 
-	bondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
-	int nr; ///< number of simple rings (no cage structures, etc.)
-	int nrbs; ///< number of ring bondsets defined
-	bondset *rbs; ///< bondsets for rings
-	int nrc; // number of ring/reference coordinate sets defined
-	coord_3D *rc; ///< coordinates for ring/reference centers
-	int nrp; ///< number of ring planes defined
-	plane *rp; ///< equations for average/approximate/exact/etc. ring planes (where useful)
-	// need something for more complex structures eventually
-	int ni; ///< number of other indices
-	int *i; ///< other indices, as needed (ni of these)
-	int nd; ///< number of double-precision parameters
-	double *d; ///< other parameters, as needed (nd of these)
-	int nensi; ///< number of ensemble indices
-	ensindex *ensi; ///< list of ensemble indices
-	int nOD; ///< number of other descriptors
-	char **OD; ///< the nOD descriptors
-	int nVP; ///< number of void structures
-	void *VP; ///< nVP of these, whatever they may be
-} residue; ///< an actual residue in a molecule
-
-/********** structure molecule *************/
-typedef struct {
-	int n; ///< molecule number given in an input file
-	int i; ///< index
-	char *N; ///< free-form name for molecule
-	char *D; ///< free-form description for residue
-	double m; ///< molecular weight
-	int mi; ///< number corresponding to the index in the parent ensemble
-	int Ei; ///< number corresponding to parent ensemble
-	int t; ///< type number
-	mtype *typ; ///< pointer to atype structure
-	coord_3D COM; ///< center of mass for molecule
-	int na; ///< total number of atoms in molecule
-	atom **a; ///< na of these, but should point into residues
-	connection_tree *aT; ///< nat of these
-	int nr; ///< number of residues
-        residue *r; ///< pointers to residues
-	connection_tree *rT; ///< nr of these residue-level connection trees
-	int nrb; ///< number of bonds between residues
-	molbond *rb; ///< nrb of these descriptions of bonds 
-	int nrbs; ///< number of sets of bonds between residues (for example, linear chains)
-	molbondset *rbs; ///< nrbs of these sets
-	int nrc; ///< number of additional reference (ring centers, for example)
-	coord_3D *rc; ///< nrc of these
-	int nBOX; ///< Number of box_info structures defined
-	boxinfo *BOX; ///< The nBOX structures
-	//coord_3D boxl,boxh; // box dimensions
-	int noi; ///< number of other indices
-	int *oi; ///< other indices, as needed (ni of these)
-	int nd; ///< number of double-precision parameters
-	double *d; ///< other parameters, as needed (nd of these)
-	int nensi; ///< number of ensemble indices
-	ensindex *ensi; ///< list of ensemble indices
-	int nOD; ///< number of other descriptors
-	char **OD; ///< the nOD descriptors
-	int nVP; ///< number of void structures
-	void *VP; ///< nVP of these, whatever they may be
-} molecule;
-
-/********** structure dockinfo *************/
-typedef struct{
-	int i; ///< index
-	int n; ///< number of docked structures represented
-	coord_3D RC, *TR; ///< reference coordinate ; translation for docked structure
-        vectormag_3D *Q, *QN, *QN0; ///< Quaternion x,y,z,w ; Quaternion nx,ny,nz,angle
-	///< NOTE!! do -not- use typical vectormag_3D functions on these structures
-	int nTors; ///< Number of Torsions 
-	double *Tors; ///< nTors torsions
-	double *eFEB; ///< Estimated Free Energy of Binding, kcal/mol [=(1)+(3)]
-	double *eKi, *Tmp; ///< Estimated Inhibition Constant, Ki & temperature, Kelvin
-	double *fDE; ///< Final Docked Energy, kcal/mol [=(1)+(2)] or [=(1)+(2)+(3)-(4)]
-	double *fIE; ///< (1) Final Intermolecular Energy   
-	double *fIEL; ///< (2) Final Internal Energy of Ligand 
-	double *TFE; ///< (3) Torsional Free Energy          
-	double *USE; ///< (4) Unbound System's Energy <Autodock 4.0 only>
-	int nDIH; ///< number of dihedrals
-	double *DIH; ///< the dihedrals
-	char *D; ///<Free-form descriptor for the set
-	char *DOCK_PROGRAM; ///<The docking program used, if known and relevant
-	char *VERSION; ///<The version, or similar indentifier, of the above program
-	molecule M; ///< to hold molecule info about the initial/docked structures
-} dockinfo;
-
-/********** structure assembly *************/
-typedef struct { 
-	int i; ///< index
-	char *N; ///< name
-	char *D; ///< description (free-form) (was *desc)
-	double mass; ///< mass of assembly
-	double TIME; ///< current/initial/reference time in the simulation
-	coord_3D COM; ///< center of mass 
-	int nm; ///< number of molecule structures
-	molecule **m; ///< nm of these
-	connection_tree *mT; ///< nm of these
-	//int nmb; // number of bonds/connections between molecules (H-bonds, for example)
-	//molbond *mb; // nmb of these descriptions of connection 
-	int nr; ///< number of residues
-	residue **r; ///< nr of these -- probably best to point into molecules...
-	connection_tree *rT; ///< nr of these
-	int na; ///< number of atoms
-	atom **a; ///< na of these -- probably best to point into mol/res combos
-	int naT; ///< naT connection trees defined.
-	connection_tree *aT; ///< naT of these
-	int nb; ///< total number of bonds
-	molbond *b; ///< the bonds
-	int nANG; ///< # of angles
-	angle_index *ANG; ///< nANG of these
-	int nTOR; ///< # of torsions
-	torsion_index *TOR; ///< nTOR of these
-	int nPRM; ///< number of parameter sets
-	parameter_set *PRM; ///< pointer to parameter sets
-	int nmbs; ///< number of sets of connections between molecules 
-	molbondset *mbs; ///< nmbs of these sets
-	int nBOX; ///< Number of box_info structures defined
-	boxinfo *BOX; ///< The nBOX structures
-	//coord_3D boxl,boxh; // simple box dimensions (limits low & high or just use one for size)
-	//double boxang; // coord_3D is x, y and z -- angle (probably between XY and YZ planes in degrees, maybe).  
-	//char *boxtype; // type of simple box (cubic, trapezoidal, etc.)
-	int nOD; ///< number of other descriptors
-	char **OD; ///< the nOD descriptors
-	int nensi; ///< number of ensemble indices
-	ensindex *ensi; ///< list of ensemble indices
-	int nVP; ///< number of void pointers
-	void *VP; ///< void pointers
-} assembly;///< structure for groups of molecules within a larger structure
-
+void deallocateResidue(residue *r){
+ int i;
+ //set null
+ r[0].typ = 0x0;
+ // deallocate each
+ if(r[0].a != NULL && r[0].a != 0x0){
+ 	for(i=0;i<r[0].na;i++){deallocateAtom(&r[0].a[i]);}
+ 	free(r[0].a);}
+ if(r[0].a != NULL && r[0].a != 0x0){
+ 	for(i=0;i<r[0].na;i++){deallocateAtom(&r[0].a[i]);}
+ 	free(r[0].a);}
+ if(r[0].aT != NULL && r[0].aT != 0x0){
+ 	for(i=0;i<r[0].na;i++){deallocateConnectionTree(&r[0].aT[i]);}
+ 	free(r[0].aT);}
+ if(r[0].bs != NULL && r[0].bs != 0x0){
+ 	for(i=0;i<r[0].nbs;i++){deallocateBondset(&r[0].bs[i]);}
+ 	free(r[0].bs);}
+ if(r[0].rbs != NULL && r[0].rbs != 0x0){
+ 	for(i=0;i<r[0].nrbs;i++){deallocateBondset(&r[0].rbs[i]);}
+ 	free(r[0].rbs);}
+ // free each
+ if(r[0].OD != NULL && r[0].OD != 0x0){
+ 	for(i=0;i<r[0].nOD;i++){if(r[0].OD[i] != NULL && r[0].OD[i] != 0x0){free r[0].OD[i]}}
+	free(r[0].OD);}
+ // free top
+ if(r[0].N != NULL && r[0].N != 0x0){free(r[0].N);}
+ if(r[0].T != NULL && r[0].T != 0x0){free(r[0].T);}
+ if(r[0].D != NULL && r[0].D != 0x0){free(r[0].D);}
+ if(r[0].rc != NULL && r[0].rc != 0x0){free(r[0].rc);}
+ if(r[0].rp != NULL && r[0].rp != 0x0){free(r[0].rp);}
+ if(r[0].i != NULL && r[0].i != 0x0){free(r[0].i);}
+	// check and warn if non-null
+ if(m[0].VP!= NULL && m[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating molecule structure with non-NULL void pointer!\n");}
+ return ;
+}
 /********** structure ensemble *************/
 typedef struct { 
 	int i; ///< index
@@ -491,201 +526,3 @@ typedef struct {
 	void *VP; ///< void pointers
 } ensemble;///< structure for an entire system of molecules
 
-
-void deallocateBondType(bond_type btp){
- //Free up the description
- if(btp.desc != NULL && btp.desc != 0x0){free(btp.desc);}
- //Free up the first and second atom types in bond
- if(btp.NT[0] != NULL && btp.NT[0] != 0x0){free(btp.NT[0]);}
- if(btp.NT[1] != NULL && btp.NT[1] != 0x0){free(btp.NT[1]);}
-
- return ;
-}
-
-void deallocateMolbond(molbond mlb){
- //Free up the Free Form Description
- if(mlb.D != NULL && mlb.D != 0x0){free(mlb.D);}
- //Free up the Type of Bond
- if(mlb.typ != NULL && mlb.typ != 0x0){deallocateBondType(mlb.typ[0]);}
-
- return ;
-}
-
-void deallocateConnectionTree(connection_tree con){
- //Free up the Incoming Bonds
-// if((con.i != NULL && con.i != 0x0) && con.ni > 0){free(con.i);}
- //Free up the Outgoing Bonds
-// if((con.o != NULL && con.o != 0x0) && con.no > 0){free(con.o);}
- //Free up the Description of Isomerism
-// if(con.iso != NULL && con.iso != 0x0){free(con.iso);}
- //Free up the Angles
-// if(con.angle != NULL && con.angle != 0x0){free(con.angle);}
- //Free up the Chirality
-// if(con.chirot != NULL && con.chirot != 0x0){free(con.chirot);}
- //Free up the Distance
-// if(con.distance != NULL && con.distance != 0x0){free(con.distance);}
- 
- return ;
-}
-
-void deallocateBond(bond bnd){
- //Free up the Free Form Description
- if(bnd.D != NULL && bnd.D != 0x0){free(bnd.D);}
- //Free up the Type of Bond
- if(bnd.typ != NULL && bnd.typ != 0x0){deallocateBondType(bnd.typ[0]);}
-
- return ;
-}
-
-void deallocateBondset(bondset bst){
- int i; 
- //Free up the Bonds
- if((bst.b != NULL && bst.b != 0x0) && bst.n > 0){
-  for( i = 0; i < bst.n; i++)
-   deallocateBond(bst.b[i]);
-  free(bst.b);
- }
-
- return ; 
-}
-
-void deallocateAtom(atom atm){
- int i;
- 
- //Free up the Name
- if(atm.N != NULL && atm.N != 0X0){free(atm.N);}
- //Free up the Atom Type Name
- if(atm.T != NULL && atm.T != 0X0){free(atm.T);}
- //Free up the Free-Form Description
- if(atm.D != NULL && atm.D != 0X0){free(atm.D);}
- //Free up the Bond Structure
-/* if((atm.b != NULL && atm.b != 0X0) && atm.nb > 0)
-  for(i = 0; i < atm.nb; i++)
-   deallocateMolbond(atm.b[i]);*/
- //Free up the Alternate Coordinates
- if((atm.xa != NULL && atm.xa != 0X0) && atm.nalt > 0){free(atm.xa);}
- //Free up the Vector Sets
- if((atm.v != NULL && atm.v != 0X0) && atm.nvec > 0){free(atm.v);}
- //Free up the Changes
- if((atm.ch != NULL && atm.ch != 0X0) && atm.nch > 0){free(atm.ch);}
- //Free up the Other Indicies
- if((atm.i != NULL && atm.i != 0X0) && atm.ni > 0){free(atm.i);}
- //Free up the Other Parameters
- if((atm.d != NULL && atm.d != 0X0) && atm.nd > 0){free(atm.d);}
- //Free up the list of Ensemble Indicies
- if((atm.ensi != NULL && atm.ensi != 0X0) && atm.nensi > 0){free(atm.ensi);}
- //Free up the Alternate Residue
- if(atm.sres != NULL && atm.sres != 0X0){free(atm.sres);}
- //Free up the Other Descriptors
- if((atm.OD != NULL && atm.OD != 0X0) && atm.nOD > 0){
-  for(i = 0; i < atm.nOD; i++)
-   free(atm.OD[i]);
-  free(atm.OD);
- }
- return;
-}
-
-void deallocateResidue(residue res){
- int i;
- 
- //Free up the Name
- if(res.N != NULL && res.N != 0X0){free(res.N);}
- //Free up the Free Form Description
- if(res.D != NULL && res.D != 0X0){free(res.D);}
- //Free up the Atoms
- if((res.a != NULL && res.a != 0X0) && res.na > 0){
-  for(i = 0; i < res.na; i++)
-   deallocateAtom(res.a[i]);
-  free(res.a);
- }
- //Free up the Connection Tree
-/* if((res.T != NULL && res.T != 0X0) && res.na > 0){
-  for(i = 0; i < res.na; i++)
-   deallocateConnectionTree(res.T[i]);
-  free(res.T);
- }*/
- //Free up the Bondset
-/* if((res.bs != NULL && res.bs != 0X0) && res.nbs > 0){
-  for(i = 0; i < res.nbs; i++)
-   deallocateBondset(res.bs[i]);
-  free(res.bs);
- }*/
- //Free up the Bondset for Rings
-/* if((res.rbs != NULL && res.rbs != 0X0) && res.nrbs > 0){
-  for(i = 0; i < res.nrbs; i++)
-   deallocateBondset(res.rbs[i]);
-  free(res.rbs);
- }*/
- //Free up the Rings/Reference Centers 
- if((res.a != NULL && res.a != 0X0) && res.na > 0){free(res.rc);}
- //Free up the Ring Planes  
- if((res.rp != NULL && res.rp != 0X0) && res.nrp > 0){free(res.rp);}
- //Free up the Other Indices 
- if((res.i != NULL && res.i != 0X0) && res.ni > 0){free(res.i);}
- //Free up the Other Parameters 
- if((res.d != NULL && res.d != 0X0) && res.nd > 0){free(res.d);}
- //Free up the list of Ensemble Indices
- if((res.ensi != NULL && res.ensi != 0X0) && res.nensi > 0){free(res.ensi);}
- //Free up the Other Descriptors
- if((res.OD != NULL && res.OD != 0X0) && res.nOD > 0){
-  for(i = 0; i < res.nOD; i++)
-   free(res.OD[i]);
-  free(res.OD);
- }
- return ;
-}
-
-void deallocateMolecule(molecule mol){
- int i;
-
- //Free up the Name
- if(mol.N != NULL && mol.N != 0X0){free(mol.N);}
- //Free up the Free Form Descriptor
- if(mol.D != NULL && mol.D != 0X0){free(mol.D);}
- //The atoms should be removed via their respective residues
- //Free up the Residues
- if((mol.r != NULL && mol.r != 0X0) && mol.nr > 0){
-  for(i = 0; i < mol.nr; i++)
-   deallocateResidue(mol.r[i]);
-  free(mol.r);
- }
- //Free up the Connection Tree
-/* if((mol.rT != NULL && mol.rT != 0X0) && res.nr > 0){
-  for(i = 0; i < mol.nr; i++)
-   deallocateConnectionTree(mol.rT[i]);
-  free(mol.rT);
- }*/
- //Free up the Molbond
-/* if((mol.rb != NULL && mol.rb != 0X0) && mol.nrb > 0){
-  for(i = 0; i < mol.nrb; i++)
-   deallocateMolbond(mol.rb[i]);
-  free(mol.rb);
- }*/ 
- //Free up the Molbondset
-/* if((mol.rbs != NULL && mol.rbs != 0X0) && mol.nrbs > 0){
-  for(i = 0; i < mol.nrbs; i++)
-   deallocateMolbondset(mol.rbs[i]);
-  free(mol.rbs);
- }*/ 
- //Free up the Additional References
- if((mol.rc != NULL && mol.rc != 0X0) && mol.nrc > 0){free(mol.rc);}
- //Free up the Box Info
-/* if((mol.BOX != NULL && mol.BOX != 0X0) && mol.nBOX > 0){
-  for(i = 0; i < mol.nBOX; i++)
-   deallocateBoxinfo(mol.Box[i]);
-  free(mol.BOX);
- }*/
- //Free up the Other Indices
- if((mol.oi != NULL && mol.oi != 0X0) && mol.noi > 0){free(mol.oi);}
- //Free up the Other Parameters
- if((mol.d != NULL && mol.d != 0X0) && mol.nd > 0){free(mol.d);}
- //Free up the Ensemble Indices
- if((mol.ensi != NULL && mol.ensi != 0X0) && mol.nensi > 0){free(mol.ensi);}
- //Free up the Other Descriptors
- if((mol.OD != NULL && mol.OD != 0X0) && mol.nOD > 0){
-  for(i = 0; i < mol.nOD; i++)
-   free(mol.OD[i]);
-  free(mol.OD);
- }
- return ;
-}
