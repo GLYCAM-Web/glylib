@@ -485,14 +485,14 @@ void initialize_assembly(assembly *A);
 void initialize_ensemble(ensemble *E);
 
 //Functions that recursively free memory in themselves, with the exception of parameters
-void deallocateBondType(bond_type btp);
-void deallocateMolbond(molbond mlb);
-void deallocateConnectionTree(connection_tree con);
-void deallocateBond(bond bnd);
-void deallocateBondset(bondset bst);
-void deallocateAtom(atom atm);
-void deallocateResidue(residue res);
-void deallocateMolecule(molecule mol);
+void deallocateBondType(bond_type *btp);
+void deallocateMolbond(molbond *mlb);
+void deallocateConnectionTree(connection_tree *con);
+void deallocateBond(bond *bnd);
+void deallocateBondset(bondset *bst);
+void deallocateAtom(atom *atm);
+void deallocateResidue(residue *res);
+void deallocateMolecule(molecule *mol);
 
 //Functions that add or remove structures from other structures
 void add_assembly_to_ensemble(

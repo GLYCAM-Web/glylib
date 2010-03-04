@@ -1,7 +1,12 @@
 #include "../inc/mylib.h"
 #include "../inc/molecules.h"
 
-/* 20100223 BLFoley:  When I got here, I found that these functions all 
+/* \file deallocate_structures.c 
+\addtogroup MEMORY_MANAGEMENT
+\brief   Dealloction routines for structures relevant to main GLYLIB 
+structures.
+
+20100223 BLFoley:  When I got here, I found that these functions all 
 seemed to use a variant of:
 
 	if(foo != NULL || foo != 0x0){free(foo);}
@@ -29,8 +34,6 @@ Notes regarding these functions:
 	* Freeing the top-level pointer should not interfere with data below 
 */
 
-/********** structures from gly_codeutils.h ****************/
-/********** structures from gly_fileutils.h ****************/
 /********** structures from geometries.h ****************/
 // Structures that contain no pointers need no work, but here are some
 // functions in case someone calls it -- it won't complain
@@ -57,10 +60,11 @@ void deallocateCoordNDi(coord_nDi *c){
 	return ; 
 }
 void deallocateBoxinfo(boxinfo *bi){ 
+	int i;
 	if(bi[0].STYPE != NULL && bi[0].STYPE != 0x0){free(bi[0].STYPE);} 
 	if(bi[0].GTYPE != NULL && bi[0].GTYPE != 0x0){free(bi[0].GTYPE);} 
 	if(bi[0].C != NULL && bi[0].C != 0x0){
-		for(i=0;i<bi[0].nC;i++) if(bi[0].C[i] != NULL && bi[0].C[i] != 0x0){deallocateCoordND(&bi[0].C[i]);}
+		for(i=0;i<bi[0].nC;i++){deallocateCoordND(&bi[0].C[i]);}
 		free(bi[0].C);}
 	if(bi[0].CD != NULL && bi[0].CD != 0x0){
 		for(i=0;i<bi[0].nCD;i++){if(bi[0].CD[i] != NULL && bi[0].CD[i] != 0x0){free(bi[0].CD[i]);}}
@@ -170,13 +174,13 @@ void deallocateTypes(types *tps){
  int i;
  //deallocate substructures
 	if(tps[0].a != NULL && tps[0].a != 0x0){
-		for(i=0;i<tps[0].na;i++) if(tps[0].a[i] != NULL && tps[0].a[i] != 0x0){deallocateAtype(&tps[0].a[i]);}
+		for(i=0;i<tps[0].na;i++){deallocateAtype(&tps[0].a[i]);}
 		free(tps[0].a);}
 	if(tps[0].r != NULL && tps[0].r != 0x0){
-		for(i=0;i<tps[0].nr;i++) if(tps[0].r[i] != NULL && tps[0].r[i] != 0x0){deallocateRtype(&tps[0].r[i]);}
+		for(i=0;i<tps[0].nr;i++){deallocateRtype(&tps[0].r[i]);}
 		free(tps[0].r);}
 	if(tps[0].m != NULL && tps[0].m != 0x0){
-		for(i=0;i<tps[0].nm;i++) if(tps[0].m[i] != NULL && tps[0].m[i] != 0x0){deallocateMtype(&tps[0].m[i]);}
+		for(i=0;i<tps[0].nm;i++){deallocateMtype(&tps[0].m[i]);}
 		free(tps[0].m);}
  //Print a warning if the void pointer doesn't seem to be emp if(tps[0].VP!= NULL && tps[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating types structure with non-NULL void pointer!\n");}
 if(tps[0].VP!= NULL && tps[0].VP != 0x0){fprintf(stderr,"WARNING: deallocating types structure with non-NULL void pointer!\n");}
@@ -187,28 +191,28 @@ void deallocateParameterSet(parameter_set *ps){
  int i;
  //deallocate substructures
 	if(ps[0].AT != NULL && ps[0].AT != 0x0){
-		for(i=0;i<ps[0].nAT;i++) if(ps[0].AT[i] != NULL && ps[0].AT[i] != 0x0){deallocateAtype(&ps[0].AT[i]);}
+		for(i=0;i<ps[0].nAT;i++){deallocateAtype(&ps[0].AT[i]);}
 		free(ps[0].AT);}
 	if(ps[0].RT != NULL && ps[0].RT != 0x0){
-		for(i=0;i<ps[0].nRT;i++) if(ps[0].RT[i] != NULL && ps[0].RT[i] != 0x0){deallocateRtype(&ps[0].RT[i]);}
+		for(i=0;i<ps[0].nRT;i++){deallocateRtype(&ps[0].RT[i]);}
 		free(ps[0].RT);}
 	if(ps[0].MT != NULL && ps[0].MT != 0x0){
-		for(i=0;i<ps[0].nMT;i++) if(ps[0].MT[i] != NULL && ps[0].MT[i] != 0x0){deallocateMtype(&ps[0].MT[i]); }
+		for(i=0;i<ps[0].nMT;i++){deallocateMtype(&ps[0].MT[i]); }
 		free(ps[0].MT);}
 	if(ps[0].BT != NULL && ps[0].BT != 0x0){
-		for(i=0;i<ps[0].nBT;i++) if(ps[0].BT[i] != NULL && ps[0].BT[i] != 0x0){deallocateBondType(&ps[0].BT[i]);}
+		for(i=0;i<ps[0].nBT;i++){deallocateBondType(&ps[0].BT[i]);}
 		free(ps[0].BT);}
 	if(ps[0].HBT != NULL && ps[0].HBT != 0x0){
-		for(i=0;i<ps[0].nHBT;i++) if(ps[0].HBT[i] != NULL && ps[0].HBT[i] != 0x0){deallocateBondType(&ps[0].HBT[i]);}
+		for(i=0;i<ps[0].nHBT;i++){deallocateBondType(&ps[0].HBT[i]);}
 		free(ps[0].HBT);}
 	if(ps[0].NBT != NULL && ps[0].NBT != 0x0){
-		for(i=0;i<ps[0].nNBT;i++) if(ps[0].NBT[i] != NULL && ps[0].NBT[i] != 0x0){deallocateBondType(&ps[0].NBT[i]);}
+		for(i=0;i<ps[0].nNBT;i++){deallocateBondType(&ps[0].NBT[i]);}
 		free(ps[0].NBT);}
 	if(ps[0].ANT != NULL && ps[0].ANT != 0x0){
-		for(i=0;i<ps[0].nANT;i++) if(ps[0].ANT[i] != NULL && ps[0].ANT[i] != 0x0){deallocateAngleType(&ps[0].ANT[i]);}
+		for(i=0;i<ps[0].nANT;i++){deallocateAngleType(&ps[0].ANT[i]);}
 		free(ps[0].ANT);}
 	if(ps[0].TRT != NULL && ps[0].TRT != 0x0){
-		for(i=0;i<ps[0].nTRT;i++) if(ps[0].TRT[i] != NULL && ps[0].TRT[i] != 0x0){deallocateTorsionType(&ps[0].TRT[i]);}
+		for(i=0;i<ps[0].nTRT;i++){deallocateTorsionType(&ps[0].TRT[i]);}
 		free(ps[0].TRT);}
  return ;
 }
@@ -223,12 +227,18 @@ void deallocateResidueTreeIndex(residue_tree_index *rti){
  if(rti[0].ai != NULL && rti[0].ai != 0x0){free(rti[0].ai);} 
 }
 void deallocateMoleculeTreeIndex(molecule_tree_index *mti){
+ int i;
  if(mti[0].ri != NULL && mti[0].ri != 0x0){free(mti[0].ri);} 
- if(mti[0].r != NULL && mti[0].r != 0x0){deallocateResidueTreeIndex(&mti[0].r);} 
+ if(mti[0].r != NULL && mti[0].r != 0x0){
+	for(i=0;i<mti[0].nr;i++){deallocateResidueTreeIndex(&mti[0].r[i]);} 
+	free(mti[0].r);}
 }
 void deallocateEnsembleTreeIndex(ensemble_tree_index *eti){
+ int i;
  if(eti[0].mi != NULL && eti[0].mi != 0x0){free(eti[0].mi);} 
- if(eti[0].m != NULL && eti[0].m != 0x0){deallocateResidueTreeIndex(&eti[0].m);} 
+ if(eti[0].m != NULL && eti[0].m != 0x0){
+	for(i=0;i<eti[0].nm;i++){deallocateMoleculeTreeIndex(&eti[0].m[i]);} 
+	free(eti[0].m);}
 }
 void deallocateMoietySelection(moiety_selection *ms){
  int i;
@@ -239,13 +249,13 @@ void deallocateMoietySelection(moiety_selection *ms){
  if(ms[0].an != NULL && ms[0].an != 0x0){free(ms[0].an);} 
  if(ms[0].ai != NULL && ms[0].ai != 0x0){free(ms[0].ai);} 
  if(ms[0].mN != NULL && ms[0].mN != 0x0){
- 	for(i=0;i<ms[0].nmN;i++){if(ms[0].mN[i] != NULL && ms[0].mN[i] != 0x0){free ms[0].mN[i]}}
+ 	for(i=0;i<ms[0].nmN;i++){if(ms[0].mN[i] != NULL && ms[0].mN[i] != 0x0){free(ms[0].mN[i]);}}
 	free(ms[0].mN);}
  if(ms[0].rN != NULL && ms[0].rN != 0x0){
- 	for(i=0;i<ms[0].nrN;i++){if(ms[0].rN[i] != NULL && ms[0].rN[i] != 0x0){free ms[0].rN[i]}}
+ 	for(i=0;i<ms[0].nrN;i++){if(ms[0].rN[i] != NULL && ms[0].rN[i] != 0x0){free(ms[0].rN[i]);}}
 	free(ms[0].rN);}
  if(ms[0].aN != NULL && ms[0].aN != 0x0){
- 	for(i=0;i<ms[0].naN;i++){if(ms[0].aN[i] != NULL && ms[0].aN[i] != 0x0){free ms[0].aN[i]}}
+ 	for(i=0;i<ms[0].naN;i++){if(ms[0].aN[i] != NULL && ms[0].aN[i] != 0x0){free(ms[0].aN[i]);}}
 	free(ms[0].aN);}
 }
 void deallocateBond(bond *bnd){
@@ -284,27 +294,13 @@ void deallocateMolbondset(molbondset *mbs){
  	free(mbs[0].b);}
  return ;
 }
-void deallocateMolbondset(molbondset *mbs){
- int i;
- if(mbs[0].b != NULL && mbs[0].b != 0x0){
- 	for(i=0;i<mbs[0].n;i++){deallocateMolbond(&mbs[0].b[i]);}
- 	free(mbs[0].b);}
- if(mbs[0].D != NULL && mbs[0].D != 0x0){free(mbs[0].D);}
- return ;
-}
 void deallocateAngleIndex(angle_index *ai){
  // the pointer should point into an array, so just set null
  ai[0].typ = 0x0;
  if(ai[0].D != NULL && ai[0].D != 0x0){free(ai[0].D);}
  return ;
 }
-void deallocateAngleIndex(angle_index *ai){
- // the pointer should point into an array, so just set null
- ai[0].typ = 0x0;
- if(ai[0].D != NULL && ai[0].D != 0x0){free(ai[0].D);}
- return ;
-}
-void deallocateTorsinIndex(torsion_index *ai){
+void deallocateTorsionIndex(torsion_index *ti){
  // the pointer should point into an array, so just set null
  ti[0].typ = 0x0;
  if(ti[0].D != NULL && ti[0].D != 0x0){free(ti[0].D);}
@@ -323,7 +319,7 @@ void deallocateAtom(atom *a){
  	free(a[0].mb);}
  // free each
  if(a[0].OD != NULL && a[0].OD != 0x0){
- 	for(i=0;i<a[0].nOD;i++){if(a[0].OD[i] != NULL && a[0].OD[i] != 0x0){free a[0].OD[i]}}
+ 	for(i=0;i<a[0].nOD;i++){if(a[0].OD[i] != NULL && a[0].OD[i] != 0x0){free(a[0].OD[i]);}}
 	free(a[0].OD);}
  // free top
  if(a[0].N != NULL && a[0].N != 0x0){free(a[0].N);}
@@ -360,7 +356,7 @@ void deallocateResidue(residue *r){
  	free(r[0].rbs);}
  // free each
  if(r[0].OD != NULL && r[0].OD != 0x0){
- 	for(i=0;i<r[0].nOD;i++){if(r[0].OD[i] != NULL && r[0].OD[i] != 0x0){free r[0].OD[i]}}
+ 	for(i=0;i<r[0].nOD;i++){if(r[0].OD[i] != NULL && r[0].OD[i] != 0x0){free(r[0].OD[i]);}}
 	free(r[0].OD);}
  // free top
  if(r[0].N != NULL && r[0].N != 0x0){free(r[0].N);}
@@ -400,7 +396,7 @@ void deallocateMolecule(molecule *m){
  	free(m[0].BOX);}
  // free each
  if(m[0].OD != NULL && m[0].OD != 0x0){
- 	for(i=0;i<m[0].nOD;i++){if(m[0].OD[i] != NULL && m[0].OD[i] != 0x0){free m[0].OD[i]}}
+ 	for(i=0;i<m[0].nOD;i++){if(m[0].OD[i] != NULL && m[0].OD[i] != 0x0){free(m[0].OD[i]);}}
 	free(m[0].OD);}
  // free top
  if(m[0].N != NULL && m[0].N != 0x0){free(m[0].N);}
@@ -416,8 +412,7 @@ void deallocateMolecule(molecule *m){
  return ;
 } 
 void deallocateDockinfo(dockinfo *di){
- int i;
- // deallocate each
+ // deallocate once 
  deallocateMolecule(&di[0].M); // this can't be null...
  // free top
  if(di[0].TR != NULL && di[0].TR != 0x0){free(di[0].TR);}
@@ -455,9 +450,9 @@ void deallocateAssembly(assembly *a){
  if(a[0].b != NULL && a[0].b != 0x0){
  	for(i=0;i<a[0].nb;i++){deallocateMolbond(&a[0].b[i]);}
  	free(a[0].b);}
- if(a[0].bs != NULL && a[0].bs != 0x0){
- 	for(i=0;i<a[0].nbs;i++){deallocateMolbondset(&a[0].bs[i]);}
- 	free(a[0].bs);}
+ if(a[0].mbs != NULL && a[0].mbs != 0x0){
+ 	for(i=0;i<a[0].nmbs;i++){deallocateMolbondset(&a[0].mbs[i]);}
+ 	free(a[0].mbs);}
  if(a[0].ANG != NULL && a[0].ANG != 0x0){
  	for(i=0;i<a[0].nANG;i++){deallocateAngleIndex(&a[0].ANG[i]);}
  	free(a[0].ANG);}
@@ -468,11 +463,11 @@ void deallocateAssembly(assembly *a){
  	for(i=0;i<a[0].nBOX;i++){deallocateBoxinfo(&a[0].BOX[i]);}
  	free(a[0].BOX);}
  if(a[0].PRM != NULL && a[0].PRM != 0x0){
- 	for(i=0;i<a[0].nPRM;i++){deallocateParameterSet(&a[0].PRM[i]);}
+ 	for(i=0;i<a[0].nPRM;i++){deallocateParameterSet(a[0].PRM[i]);}
  	free(a[0].PRM);}
  // free each
  if(a[0].OD != NULL && a[0].OD != 0x0){
- 	for(i=0;i<a[0].nOD;i++){if(a[0].OD[i] != NULL && a[0].OD[i] != 0x0){free a[0].OD[i]}}
+ 	for(i=0;i<a[0].nOD;i++){if(a[0].OD[i] != NULL && a[0].OD[i] != 0x0){free(a[0].OD[i]);}}
 	free(a[0].OD);}
  // free top
  if(a[0].N != NULL && a[0].N != 0x0){free(a[0].N);}
@@ -487,6 +482,7 @@ void deallocateAssembly(assembly *a){
  return ;
 }
 void deallocateFullAssembly(assembly *a){
+ int i;
  if(a[0].m != NULL && a[0].m != 0x0){
 	for(i=0;i<a[0].nm;i++){if(a[0].m[i] != NULL && a[0].m[i] != 0x0){deallocateMolecule(a[0].m[i]);}}}
  deallocateAssembly(a);
@@ -509,7 +505,7 @@ void deallocateEnsemble(ensemble *e){
  	free(e[0].PRM);}
  // free each
  if(e[0].OD != NULL && e[0].OD != 0x0){
- 	for(i=0;i<e[0].nOD;i++){if(e[0].OD[i] != NULL && e[0].OD[i] != 0x0){free e[0].OD[i]}}
+ 	for(i=0;i<e[0].nOD;i++){if(e[0].OD[i] != NULL && e[0].OD[i] != 0x0){free(e[0].OD[i]);}}
 	free(e[0].OD);}
  // free top
  if(e[0].N != NULL && e[0].N != 0x0){free(e[0].N);}
