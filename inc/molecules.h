@@ -326,7 +326,7 @@ typedef struct {
 	boxinfo *BOX; ///< The nBOX structures
 	//coord_3D boxl,boxh; // box dimensions
 	int nPRM; ///< number of parameter sets
-	parameter_set *PRM; ///< pointer to parameter sets
+	parameter_set **PRM; ///< pointer to parameter sets
 	int nOD; ///< number of other descriptors
 	char **OD; ///< the nOD descriptors
 	int nensi; ///< number of ensemble indices
