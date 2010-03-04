@@ -1,5 +1,6 @@
 /** \file molecules.h
-	Header file for molecule structures 
+\addtogroup MAIN
+\brief  Header file for molecule structures 
 
 File begun May 2007 by Lachele Foley and modified continually ever since
 	by Lachele Foley and others, including Mike Tessier. */

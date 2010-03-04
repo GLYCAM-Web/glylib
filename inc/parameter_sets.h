@@ -1,5 +1,6 @@
-/** \file parameter_sets.h Structures for adding parameters to ensembles
-	and assemblies.
+/** \file parameter_sets.h 
+\addtogroup MAIN
+\brief Structures for adding parameters to ensembles and assemblies.
 
 Begun on 20080606 by BLFoley
 

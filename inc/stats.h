@@ -1,4 +1,6 @@
-/** \file  stats.h  Statistics utilities for glylib.
+/** \file  stats.h  
+\addtogroup ANALYSIS
+\brief Statistics utilities for glylib.
 
 Begun in the spring of 2008 by BLFoley and modified by heaven only
 knows who since then. */

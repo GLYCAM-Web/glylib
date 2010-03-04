@@ -1,5 +1,9 @@
-/* declarations.h begun 20071016 by BLFoley
- * for functions requiring multiple header files...
+/* \file declarations.h 
+\addtogroup ANALYSIS
+\brief declarations for functions requiring multiple header files...  Probably
+needs to be done more elegantly.
+
+ declarations.h begun 20071016 by BLFoley
  */
 #if !defined(GLYLIB_DECLARES)
 #define GLYLIB_DECLARES
