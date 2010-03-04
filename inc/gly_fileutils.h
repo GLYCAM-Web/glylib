@@ -1,5 +1,6 @@
 /** \file  gly_fileutils.h
-	\brief header file that loads utilities related to file I/O
+\addtogroup FILE_UTILS
+\brief header file that loads utilities related to file I/O
 */
 #if !defined(GLYLIB_FILE_UTILITIES)
 #define GLYLIB_FILE_UTILITIES

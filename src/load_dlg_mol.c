@@ -217,7 +217,7 @@ while(fgets(line,500,F.F)!=NULL){
 		D[0].M.rc[di].i/=D[0].M.m;
 		D[0].M.rc[di].j/=D[0].M.m;
 		D[0].M.rc[di].k/=D[0].M.m;
-		deallocateMolecule(alt);//Free the memory allocated in alt
+		deallocateMolecule(&alt);//Free the memory allocated in alt
 		di++; 			//and incriment to the next alternate set
 	}
 	if(strstr(line,"CLUSTER ANALYSIS OF CONFORMATIONS") != NULL){

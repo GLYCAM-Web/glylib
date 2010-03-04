@@ -1,9 +1,10 @@
-/** \file glylib.h  Header file that loads most GLYLIB header files at once.
+/** \file  glylib.h
+\addtogroup MAIN
+\brief  A grand header file designed to simplify use of glylib by requiring 
+that only one header file be loaded to get most of the glylib functionality.
 
 	Begun on 20100216 by BLFoley
 
-\brief  A grand header file designed to simplify use of glylib by requiring 
-that only one header file be loaded to get most of the glylib functionality.
 */
 
 #if !defined(GLYLIB_MAIN_HEADERS)

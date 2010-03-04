@@ -1,6 +1,6 @@
 /** \file  mylib.h
-	\brief generic header file that loads utilities 
-		often needed by programmers
+\addtogroup CODE_UTILS
+\brief generic header file that loads utilities often needed by programmers
 
 The header files included here are basic C library headers
 (such as string.h). 
@@ -19,6 +19,7 @@ Some libraries that are often needed
 #include <stddef.h>
 #include <string.h>
 #include <ctype.h>
+#include <errno.h>
 #include <math.h>
 #include <time.h>
 #include <malloc.h>

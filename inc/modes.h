@@ -1,7 +1,8 @@
-/* modes.h
-	-- header file for vibrational modes */
+/** \file  modes.h
+\addtogroup ANALYSIS
+\brief  Header file for vibrational modes.
 
-/* Begun 20070519 by Lachele Foley
+Begun 20070519 by Lachele Foley
 This file contains structures to be used for descriptions of
 vibrational modes.  Most of the definitions should be obvious
 to most folks who are concerned with vibrations.  But, a few,
@@ -24,7 +25,7 @@ typedef struct {
 	int ct; // mode class type
 // Class types are indexed by number, e.g.:
 //	0	stretch  
-//	1	anglebend 
+//	1	bend 
 //	2	torsion 
 //	3	ringmotion
 	int ce; // class entry ... 
@@ -43,7 +44,7 @@ typedef struct{
 
 typedef struct {
 	int i; // index
-	char Desc[501]; // free-form description for mode 
+	char *Desc; // free-form description for mode 
 	double I; // intensity of the motion (user-defined...)
 	double e; // extent of stretch in motion
 	molindex  A,B;
@@ -52,16 +53,16 @@ typedef struct {
 
 typedef struct {
 	int i; // index
-	char Desc[501]; // free-form description for mode 
+	char *Desc; // free-form description for mode 
 	double I; // intensity of the motion (user-defined...)
 	double e; // extent of angle bend in motion
 	molindex  A,B,C; 
 	coord_3D c; // e.g., for describing motions in i,j,k 
-} anglebend; // description of anglebend
+} bend; 
 
 typedef struct {
 	int i; // index
-	char Desc[501]; // free-form description for mode 
+	char *Desc; // free-form description for mode 
 	double I; // intensity of the motion (user-defined...)
 	double e; // extent of torsion in motion
 	molindex  A,B,C;
@@ -70,7 +71,7 @@ typedef struct {
 
 typedef struct {
 	int i; // index
-	char Desc[1001]; // free-form description for mode
+	char *Desc; // free-form description for mode
 	double I; // intensity of the motion (user-defined...)
 	double e; // extent of ring-portion of overall motion
 	double pvp; // motion parallel (~0) or perpendicular (~1) to plane
@@ -89,14 +90,14 @@ typedef struct {
 	double I; // intensity of mode, user-defined
 	double IR; // IR intensity of the mode (absorption, preferrably)
 	double RA; // RAMAN intensity of the mode (absorption, preferrably)
-	char Desc[1001]; // free-form description
+	char *Desc; // free-form description
 	int C; // complexity factor (number of different motions represented)
 	int ns; // number of stretches in mode
-	int na; // number of angle bends in mode
+	int nb; // number of angle bends in mode
 	int nt; // number of torsions in mode
 	int nr; // number of ring-related motions in mode
 	stretch *s; // stretches (ns of these)
-	anglebend *a; // number of angle bends (na of these)
+	bend *b; // number of angle bends (na of these)
 	torsion *t; // torsions (nt of these)
 	ringmotion *r; // ring-related motions (nr of these)
 	double te; // extent of translational character in mode
@@ -111,21 +112,21 @@ typedef struct {
 
 typedef struct { // human-readable-assignment structure for two equivalent atoms
 	int C; //complexity
-	int ns2,na2,nt2; // for atom list with unknown symmetry
-	intset *s2,*a2,*t2; 
+	int ns2,nb2,nt2; // for atom list with unknown symmetry
+	intset *s2,*b2,*t2; 
 	int ns2s;
 	intset *s2s; // stretches with two equivalent atoms -- symmetric
 	int ns2a;
 	intset *s2a; // stretches with two equivalent atoms -- asymmetric
-	int na2s;
-	intset *a2s; // stretches with two equivalent atoms -- symmetric
-	int na2a;
-	intset *a2a; // stretches with two equivalent atoms -- asymmetric 
+	int nb2s;
+	intset *b2s; // stretches with two equivalent atoms -- symmetric
+	int nb2a;
+	intset *b2a; // stretches with two equivalent atoms -- asymmetric 
 	int nt2s;
 	intset *t2s; // stretches with two equivalent atoms -- symmetric
 	int nt2a;
 	intset *t2a; // stretches with two equivalent atoms -- asymmetric
-	double s2se,s2ae,a2se,a2ae,t2se,t2ae; // these are "extents" for each of the above motions
+	double s2se,s2ae,b2se,b2ae,t2se,t2ae; // these are "extents" for each of the above motions
 } twoassign; // description of a vibrational mode 
 typedef struct { // human-readable-assignment structure for two ring-related motions
 	int C; //complexity
@@ -182,21 +183,21 @@ typedef struct { // human-readable-assignment structure
 	int i; // index
 	int n; // index (intended as atom index for per-atom info)
 	int loc; // location index (endocyclic, exocyclic H, etc.)
-	char Desc[1001]; // free-form description
+	char *Desc; // free-form description
 	int C; // complexity = number of motion types present 
 // the following pairs are the number per each and their index in an external vibmode array
 //	Simple motions
 	int ns;
 	intset *s; // plain stretches in mode 
-	int na;
-	intset *a; // plain angle bends in mode
+	int nb;
+	intset *b; // plain angle bends in mode
 	int nt;
 	intset *t; // plain torsions in mode
 	int nw;
 	intset *w; // number of plain wags, pointers to locations
 	int nrk;
 	intset *rk; // number of plain rocks, pointers to locations
-	double se,ae,te,we,rke; // these are "extents" for each of the above motions
+	double se,be,te,we,rke; // these are "extents" for each of the above motions
 // 	Motions of two coupled atoms and motions involving rings
 	int nr, ntwo; // numbers of rings or pairs of coupled atoms
 	ringassign *r; // ring assignment structures
@@ -215,7 +216,7 @@ typedef struct { // info tied to atom number
 	int i,j; // index (to an assignment array, perhaps)
 	double I; // normalized motion intensity for this atom (regular intensity is elsewhere)
 	int ns, *s; // number of significant stretches, indices for those in VS
-	int na, *a; // number of significant anglebends, indices for those in VS
+	int nb, *b; // number of significant bends, indices for those in VS
 	int nt, *t; // number of significant torsions, indices for those in VS
 	int loc; // the location of this atom
 } atommode;

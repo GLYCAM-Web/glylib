@@ -1,4 +1,6 @@
-/** \file load_pdb.h Header file for loading pdb files into structures.
+/** \file  load_pdb.h
+\addtogroup PDB
+\brief  Header file for loading pdb files into structures.
 
 Begun at some point in the past by BLFoley and possibly modified at some
 point by Mike Tessier.  See also the load_pdb functions.*/

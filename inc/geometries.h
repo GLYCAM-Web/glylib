@@ -1,7 +1,10 @@
-/* File geometries.h begun by BLFoley on 20080606
-   Purpose: structures related to geometries of molecules,
-	residues, atoms, etc.  
-   NOTE!!!  This file is loaded with the molecules.h header file by default.
+/* \file geometries.h 
+\addtogroup MAIN
+\brief Purpose: structures related to geometries of molecules,
+	residues, atoms, etc.  Loaded when molecules.h is included.
+
+begun by BLFoley on 20080606
+   This file is loaded with the molecules.h header file by default.
         It should only be loaded explicitly in a program if, for some reason,
         you are using it separately. */
 #if !defined(GLYLIB_GEOMETRIES)

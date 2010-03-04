@@ -1,4 +1,6 @@
-/** \file structures.h Very poorly named file containing structures
+/** \file structures.h 
+\addtogroup PDB
+\brief Very poorly named file containing structures
 pertinent to the loading of pdb files.  Recommend name change.
 
 Begun a long time ago by BLFoley and if it was modified at some point since 

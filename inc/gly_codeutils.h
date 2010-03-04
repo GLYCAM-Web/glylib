@@ -1,10 +1,10 @@
 /** \file  gly_codeutils.h
-	\brief header file that loads utilities to facilitate programming
+\addtogroup CODE_UTILS
+\brief Header file that loads utilities to facilitate programming
 
 */
 #if !defined(GLYLIB_CODING_UTILITIES)
 #define GLYLIB_CODING_UTILITIES
-//#include <general.h>
 
 /******************** STRUCTURES ******************/
 
