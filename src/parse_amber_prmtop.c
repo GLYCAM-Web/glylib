@@ -27,7 +27,8 @@ A.VP=P;
 
 // do some initializations
 A.nPRM=1;
-A.PRM=(parameter_set*)calloc(1,sizeof(parameter_set));
+A.PRM=(parameter_set**)calloc(1,sizeof(parameter_set*));
+A.PRM[0]=(parameter_set*)calloc(1,sizeof(parameter_set));
 
 // First, find the pointers and read them into the top structure
 // Also add them to the assembly, as needed
@@ -46,12 +47,12 @@ for(pa=0;pa<P[0].nS;pa++){ // get pointers first...
 		for(pb=0;pb<A.na;pb++){A.a[pb]=(atom*)calloc(1,sizeof(atom));}
 		// number of atom types
   		sscanf(P[0].S[pa].D[1],"%d",&P[0].NTYPES); 
-  		A.PRM[0].nAT=P[0].NTYPES; 
-		if(A.PRM[0].nAT>0){
-			A.PRM[0].AT=(atype*)calloc(A.PRM[0].nAT,sizeof(atype));
-			A.PRM[0].nNBT=A.PRM[0].nAT*(A.PRM[0].nAT+1)/2;
-			A.PRM[0].NBT=(bond_type*)calloc(A.PRM[0].nNBT,sizeof(bond_type));
-			nICO=A.PRM[0].nAT*A.PRM[0].nAT;
+  		A.PRM[0][0].nAT=P[0].NTYPES; 
+		if(A.PRM[0][0].nAT>0){
+			A.PRM[0][0].AT=(atype*)calloc(A.PRM[0][0].nAT,sizeof(atype));
+			A.PRM[0][0].nNBT=A.PRM[0][0].nAT*(A.PRM[0][0].nAT+1)/2;
+			A.PRM[0][0].NBT=(bond_type*)calloc(A.PRM[0][0].nNBT,sizeof(bond_type));
+			nICO=A.PRM[0][0].nAT*A.PRM[0][0].nAT;
 			ICO=(int*)calloc(nICO,sizeof(int));
 			} 
 		// Numbers of actual bonds, angles, dihedrals
@@ -89,21 +90,21 @@ for(pa=0;pa<P[0].nS;pa++){ // get pointers first...
 		if(A.nTOR>0){MTOR=(torsion_index*)calloc(A.nTOR,sizeof(torsion_index));}
 		// Numbers of bond, angle and torsion types
   		sscanf(P[0].S[pa].D[15],"%d",&P[0].NUMBND); // number of unique bond types
-  		A.PRM[0].nBT = P[0].NUMBND; // number of unique bond types
-		if(A.PRM[0].nBT>0){A.PRM[0].BT=(bond_type*)calloc(A.PRM[0].nBT,sizeof(bond_type));}
+  		A.PRM[0][0].nBT = P[0].NUMBND; // number of unique bond types
+		if(A.PRM[0][0].nBT>0){A.PRM[0][0].BT=(bond_type*)calloc(A.PRM[0][0].nBT,sizeof(bond_type));}
   		sscanf(P[0].S[pa].D[16],"%d",&P[0].NUMANG); // number of unique angle types
-  		A.PRM[0].nANT = P[0].NUMANG; // number of unique angle types
-		if(A.PRM[0].nANT>0){A.PRM[0].ANT=(angle_type*)calloc(A.PRM[0].nANT,sizeof(angle_type));}
+  		A.PRM[0][0].nANT = P[0].NUMANG; // number of unique angle types
+		if(A.PRM[0][0].nANT>0){A.PRM[0][0].ANT=(angle_type*)calloc(A.PRM[0][0].nANT,sizeof(angle_type));}
   		sscanf(P[0].S[pa].D[17],"%d",&P[0].NPTRA); // number of unique dihedral types
-  		A.PRM[0].nTRT = P[0].NPTRA; // number of unique dihedral types
-		if(A.PRM[0].nTRT>0){A.PRM[0].TRT=(torsion_type*)calloc(A.PRM[0].nTRT,sizeof(torsion_type));}
+  		A.PRM[0][0].nTRT = P[0].NPTRA; // number of unique dihedral types
+		if(A.PRM[0][0].nTRT>0){A.PRM[0][0].TRT=(torsion_type*)calloc(A.PRM[0][0].nTRT,sizeof(torsion_type));}
 		// Number of atom types in parameter file
 		// NOT adding this at all at present
   		sscanf(P[0].S[pa].D[18],"%d",&P[0].NATYP); // number of atom types in parameter file, see SOLTY below
 		// Number of Lennard-Jones 10-12 H-Bond pair types
   		sscanf(P[0].S[pa].D[19],"%d",&P[0].NPHB); // number of distinct 10-12 hydrogen bond pair types
-		A.PRM[0].nHBT = P[0].NPHB;
-		if(A.PRM[0].nHBT>0){A.PRM[0].HBT=(bond_type*)calloc(A.PRM[0].nHBT,sizeof(bond_type));}
+		A.PRM[0][0].nHBT = P[0].NPHB;
+		if(A.PRM[0][0].nHBT>0){A.PRM[0][0].HBT=(bond_type*)calloc(A.PRM[0][0].nHBT,sizeof(bond_type));}
 		// Perturbation information
 		// NOT adding these at all (no longer used as of AMBER 10)
   		sscanf(P[0].S[pa].D[20],"%d",&P[0].IFPERT); // set to 1 if perturbation info is to be read in
@@ -297,66 +298,66 @@ if(strcmp(P[0].S[pa].N,"RESIDUE_POINTER")==0){ // for adding atoms to residues
 if(strcmp(P[0].S[pa].N,"BOND_FORCE_CONSTANT")==0){ // 
   	P[0].RK     =pa; // RK     : force constant for the bonds of each type, kcal/mol 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0].nBT){mywhine("P[0].S[pa].nt!=A.PRM[0].nBT in BOND_FORCE_CONSTANT in parse_amber_prmtop");}
-	for(pb=0;pb<A.PRM[0].nBT;pb++){
-		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].BT[pb].k);
+	if(P[0].S[pa].nt!=A.PRM[0][0].nBT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nBT in BOND_FORCE_CONSTANT in parse_amber_prmtop");}
+	for(pb=0;pb<A.PRM[0][0].nBT;pb++){
+		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].BT[pb].k);
 		}
 }
 // FORMAT(5E16.8)  (REQ(i), i=1,NUMBND)
 if(strcmp(P[0].S[pa].N,"BOND_EQUIL_VALUE")==0){
   	P[0].REQ    =pa; // REQ    : the equilibrium bond length for the bonds of each type, angstroms 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0].nBT){mywhine("P[0].S[pa].nt!=A.PRM[0].nBT in BOND_EQUIL_VALUE in parse_amber_prmtop");}
-	for(pb=0;pb<A.PRM[0].nBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].BT[pb].l);}
+	if(P[0].S[pa].nt!=A.PRM[0][0].nBT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nBT in BOND_EQUIL_VALUE in parse_amber_prmtop");}
+	for(pb=0;pb<A.PRM[0][0].nBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].BT[pb].l);}
 }
 // FORMAT(5E16.8)  (TK(i), i=1,NUMANG)
 if(strcmp(P[0].S[pa].N,"ANGLE_FORCE_CONSTANT")==0){
   	P[0].TK     =pa; // TK     : force constant for the angles of each type, kcal/mol A**2 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0].nANT){mywhine("P[0].S[pa].nt!=A.PRM[0].nANT in ANGLE_FORCE_CONSTANT in parse_amber_prmtop");}
-	for(pb=0;pb<A.PRM[0].nANT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].ANT[pb].k);}
+	if(P[0].S[pa].nt!=A.PRM[0][0].nANT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nANT in ANGLE_FORCE_CONSTANT in parse_amber_prmtop");}
+	for(pb=0;pb<A.PRM[0][0].nANT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].ANT[pb].k);}
 }
 // FORMAT(5E16.8)  (TEQ(i), i=1,NUMANG)
 if(strcmp(P[0].S[pa].N,"ANGLE_EQUIL_VALUE")==0){
   	P[0].TEQ    =pa; // TEQ    : the equilibrium angle for the angles of each type, radians 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0].nANT){mywhine("P[0].S[pa].nt!=A.PRM[0].nANT in ANGLE_EQUIL_VALUE in parse_amber_prmtop");}
-	for(pb=0;pb<A.PRM[0].nANT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].ANT[pb].l);}
+	if(P[0].S[pa].nt!=A.PRM[0][0].nANT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nANT in ANGLE_EQUIL_VALUE in parse_amber_prmtop");}
+	for(pb=0;pb<A.PRM[0][0].nANT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].ANT[pb].l);}
 }
 // FORMAT(5E16.8)  (PK(i), i=1,NPTRA)
 if(strcmp(P[0].S[pa].N,"DIHEDRAL_FORCE_CONSTANT")==0){
   	P[0].PK     =pa; // PK     : force constant for the dihedrals of each type, kcal/mol 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0].nTRT){mywhine("P[0].S[pa].nt!=A.PRM[0].nTRT in DIHEDRAL_FORCE_CONSTANT in parse_amber_prmtop");}
-	for(pb=0;pb<A.PRM[0].nTRT;pb++){
-		if(A.PRM[0].TRT[pb].n>1){mywhine("A.PRM[0].TRT[pb].n>1 in parse_amber_prmtop!");}
-		A.PRM[0].TRT[pb].n=1;
-		A.PRM[0].TRT[pb].k=(double*)calloc(1,sizeof(double));
-		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].TRT[pb].k[0]);
+	if(P[0].S[pa].nt!=A.PRM[0][0].nTRT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nTRT in DIHEDRAL_FORCE_CONSTANT in parse_amber_prmtop");}
+	for(pb=0;pb<A.PRM[0][0].nTRT;pb++){
+		if(A.PRM[0][0].TRT[pb].n>1){mywhine("A.PRM[0][0].TRT[pb].n>1 in parse_amber_prmtop!");}
+		A.PRM[0][0].TRT[pb].n=1;
+		A.PRM[0][0].TRT[pb].k=(double*)calloc(1,sizeof(double));
+		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].TRT[pb].k[0]);
 		}
 }
 // FORMAT(5E16.8)  (PN(i), i=1,NPTRA)
 if(strcmp(P[0].S[pa].N,"DIHEDRAL_PERIODICITY")==0){
   	P[0].PN     =pa; // PN     : periodicity of the dihedral of a given type 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0].nTRT){mywhine("P[0].S[pa].nt!=A.PRM[0].nTRT in DIHEDRAL_PERIODICITY in parse_amber_prmtop");}
-	for(pb=0;pb<A.PRM[0].nTRT;pb++){
-		if(A.PRM[0].TRT[pb].n>1){mywhine("A.PRM[0].TRT[pb].n>1 in parse_amber_prmtop!");}
-		A.PRM[0].TRT[pb].n=1;
-		A.PRM[0].TRT[pb].N=(double*)calloc(1,sizeof(double));
-		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].TRT[pb].N[0]);
+	if(P[0].S[pa].nt!=A.PRM[0][0].nTRT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nTRT in DIHEDRAL_PERIODICITY in parse_amber_prmtop");}
+	for(pb=0;pb<A.PRM[0][0].nTRT;pb++){
+		if(A.PRM[0][0].TRT[pb].n>1){mywhine("A.PRM[0][0].TRT[pb].n>1 in parse_amber_prmtop!");}
+		A.PRM[0][0].TRT[pb].n=1;
+		A.PRM[0][0].TRT[pb].N=(double*)calloc(1,sizeof(double));
+		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].TRT[pb].N[0]);
 		}
 }
 // FORMAT(5E16.8)  (PHASE(i), i=1,NPTRA)
 if(strcmp(P[0].S[pa].N,"DIHEDRAL_PHASE")==0){
   	P[0].PHASE  =pa; // PHASE  : phase of the dihedral of a given type, radians 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0].nTRT){mywhine("P[0].S[pa].nt!=A.PRM[0].nTRT in DIHEDRAL_PHASE in parse_amber_prmtop");}
-	for(pb=0;pb<A.PRM[0].nTRT;pb++){
-		if(A.PRM[0].TRT[pb].n>1){mywhine("A.PRM[0].TRT[pb].n>1 in parse_amber_prmtop!");}
-		A.PRM[0].TRT[pb].n=1;
-		A.PRM[0].TRT[pb].P=(double*)calloc(1,sizeof(double));
-		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].TRT[pb].P[0]);
+	if(P[0].S[pa].nt!=A.PRM[0][0].nTRT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nTRT in DIHEDRAL_PHASE in parse_amber_prmtop");}
+	for(pb=0;pb<A.PRM[0][0].nTRT;pb++){
+		if(A.PRM[0][0].TRT[pb].n>1){mywhine("A.PRM[0][0].TRT[pb].n>1 in parse_amber_prmtop!");}
+		A.PRM[0][0].TRT[pb].n=1;
+		A.PRM[0][0].TRT[pb].P=(double*)calloc(1,sizeof(double));
+		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].TRT[pb].P[0]);
 		}
 }
 // FORMAT(5E16.8)  (SOLTY(i), i=1,NATYP)
@@ -368,12 +369,12 @@ if(strcmp(P[0].S[pa].N,"SOLTY")==0){ // not much to do here at the moment
 if(strcmp(P[0].S[pa].N,"LENNARD_JONES_ACOEF")==0){
  	P[0].CN1    =pa; // CN1    : Lennard Jones r**12 terms for all possible atom type
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0].nNBT){
-		fprintf(stdout,"P[0].S[pa].nt (%d) !=A.PRM[0].nNBT (%d) in LENNARD_JONES_ACOEF in parse_amber_prmtop\n",P[0].S[pa].nt,A.PRM[0].nNBT);
-		//mywhine("P[0].S[pa].nt!=A.PRM[0].nNBT in LENNARD_JONES_ACOEF in parse_amber_prmtop");
+	if(P[0].S[pa].nt!=A.PRM[0][0].nNBT){
+		fprintf(stdout,"P[0].S[pa].nt (%d) !=A.PRM[0][0].nNBT (%d) in LENNARD_JONES_ACOEF in parse_amber_prmtop\n",P[0].S[pa].nt,A.PRM[0][0].nNBT);
+		//mywhine("P[0].S[pa].nt!=A.PRM[0][0].nNBT in LENNARD_JONES_ACOEF in parse_amber_prmtop");
 		} 
 	// record the LJ parameters to the bond type info
-	for(pb=0;pb<A.PRM[0].nNBT;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].NBT[pb].LJ12_612); }
+	for(pb=0;pb<A.PRM[0][0].nNBT;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].NBT[pb].LJ12_612); }
            	// interactions, indexed by ICO and IAC; for atom i and j
            	// where i < j, the index into this array is as follows
            	// (assuming the value of ICO(index) is positive):
@@ -383,11 +384,11 @@ if(strcmp(P[0].S[pa].N,"LENNARD_JONES_ACOEF")==0){
 if(strcmp(P[0].S[pa].N,"LENNARD_JONES_BCOEF")==0){
   	P[0].CN2    =pa; // CN2    : Lennard Jones r**6 terms for all possible atom type
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0].nNBT){
-		fprintf(stdout,"P[0].S[pa].nt (%d) !=A.PRM[0].nNBT (%d) in LENNARD_JONES_BCOEF in parse_amber_prmtop\n",P[0].S[pa].nt,A.PRM[0].nNBT);
-		//mywhine("P[0].S[pa].nt!=A.PRM[0].nNBT in LENNARD_JONES_BCOEF in parse_amber_prmtop");
+	if(P[0].S[pa].nt!=A.PRM[0][0].nNBT){
+		fprintf(stdout,"P[0].S[pa].nt (%d) !=A.PRM[0][0].nNBT (%d) in LENNARD_JONES_BCOEF in parse_amber_prmtop\n",P[0].S[pa].nt,A.PRM[0][0].nNBT);
+		//mywhine("P[0].S[pa].nt!=A.PRM[0][0].nNBT in LENNARD_JONES_BCOEF in parse_amber_prmtop");
 		}
-	for(pb=0;pb<A.PRM[0].nNBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].NBT[pb].LJ6_612);}
+	for(pb=0;pb<A.PRM[0][0].nNBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].NBT[pb].LJ6_612);}
            	// interactions.  Indexed like CN1 above.  
 }
 /* NOTE: the atom numbers in the following arrays that describe bonds, 
@@ -640,7 +641,7 @@ if(strcmp(P[0].S[pa].N,"HBOND_ACOEF")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
 	if(P[0].NPHB>0){
 	if(P[0].S[pa].nt>0){
-	for(pb=0;pb<P[0].S[pa].nt;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].NBT[pb].LJ12_1012);}
+	for(pb=0;pb<P[0].S[pa].nt;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].NBT[pb].LJ12_1012);}
 		}
 		}
 }
@@ -654,7 +655,7 @@ if(strcmp(P[0].S[pa].N,"HBOND_BCOEF")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
 	if(P[0].NPHB>0){
 	if(P[0].S[pa].nt>0){
-		for(pb=0;pb<P[0].S[pa].nt;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0].NBT[pb].LJ10_1012);}
+		for(pb=0;pb<P[0].S[pa].nt;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].NBT[pb].LJ10_1012);}
 		}
 		}
 }
@@ -905,24 +906,24 @@ fclose(F.F);
 // Set the names of the atom types in the type array and in the atom struct
 for(pa=0;pa<A.na;pa++){ 
 	A.a[pa][0].T=strdup(ATNAME[pa]); 
-	A.PRM[0].AT[A.a[pa][0].t].N=strdup(ATNAME[pa]); 
+	A.PRM[0][0].AT[A.a[pa][0].t].N=strdup(ATNAME[pa]); 
 	}
 // Now set the names in the non-bonded bond type array
 // -- set atom information in the LJ type arrays
 //int *ICO,nICO;
-if(nICO!=(A.PRM[0].nAT*A.PRM[0].nAT)){mywhine("nICO!=(A.PRM[0].nAT*A.PRM[0].nAT) in parse_amber_prmtop");}
+if(nICO!=(A.PRM[0][0].nAT*A.PRM[0][0].nAT)){mywhine("nICO!=(A.PRM[0][0].nAT*A.PRM[0][0].nAT) in parse_amber_prmtop");}
 // For example, for atoms i and j, with i < j, the index is
 // ICO(NTYPES*(IAC(i)-1)+IAC(j)).  
 pI1=P[0].NTYPES*(P[0].NTYPES+1)/2;
-for(pa=0;pa<A.PRM[0].nAT;pa++){ // this is index 'j' in the prmtop file
+for(pa=0;pa<A.PRM[0][0].nAT;pa++){ // this is index 'j' in the prmtop file
 for(pb=0;pb<(pa+1);pb++){ // this is index 'i' in the prmtop file
 	// allocate space for the names of the two atom types
 	pc=P[0].NTYPES*pb+pa;
 	if(pc>nICO){mywhine("pc>nICO in parse_amber_prmtop");}
 	if(ICO[pc]>pI1){mywhine("ICO[pc]>(P[0].NTYPES*(P[0].NTYPES+1)/2) in parse_amber_prmtop");}
-	A.PRM[0].NBT[ICO[pc]].NT=(char**)calloc(2,sizeof(char*));
-	A.PRM[0].NBT[ICO[pc]].NT[0]=strdup(A.PRM[0].AT[pb].N);
-	A.PRM[0].NBT[ICO[pc]].NT[1]=strdup(A.PRM[0].AT[pa].N);
+	A.PRM[0][0].NBT[ICO[pc]].NT=(char**)calloc(2,sizeof(char*));
+	A.PRM[0][0].NBT[ICO[pc]].NT[0]=strdup(A.PRM[0][0].AT[pb].N);
+	A.PRM[0][0].NBT[ICO[pc]].NT[1]=strdup(A.PRM[0][0].AT[pa].N);
 	}
 }
 
