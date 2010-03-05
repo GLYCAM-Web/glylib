@@ -1,5 +1,6 @@
-#include "../inc/gly_codeutils.h"
-#include "../inc/gly_fileutils.h"
+#include "../inc/mylib.h"
+//#include "../inc/gly_codeutils.h"
+//#include "../inc/gly_fileutils.h"
 
 /* \file deallocate_amber_structures.c 
 \addtogroup MEMORY_MANAGEMENT

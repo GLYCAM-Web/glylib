@@ -93,7 +93,7 @@ typedef struct {
 	char *Desc; // free-form description
 	int C; // complexity factor (number of different motions represented)
 	int ns; // number of stretches in mode
-	int na; // number of angle bends in mode
+	int nb; // number of angle bends in mode
 	int nt; // number of torsions in mode
 	int nr; // number of ring-related motions in mode
 	stretch *s; // stretches (ns of these)
