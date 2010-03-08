@@ -183,7 +183,8 @@ typedef struct {
 	coord_3D COM; ///< center of mass for residue
 	int nbs; ///< number of bond sets 
 	bondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
-	int nr; ///< number of simple rings (no cage structures, etc.)
+	int nring; ///< number of simple rings (no cage structures, etc.)
+	ring_ensindex *ring; ///< ensemble indices for the nring rings
 	int nrbs; ///< number of ring bondsets defined
 	bondset *rbs; ///< bondsets for rings
 	int nrc; // number of ring/reference coordinate sets defined
@@ -388,14 +389,17 @@ void dXprint_vectormag_3D(vectormag_3D*),dXprint_coord_3D(coord_3D*);
 /* this moves all the coords in molecule so that the center of mass
 for the molecule is at the origin (right now, though, it only works
 if the molecule has only one residue...*/
-void translate_to_COM(molecule *,atype *,int); // int is xl
+// deprecated>>> void translate_to_COM(molecule *,atype *,int); // int is xl
 	// this assumes the initial coords are in atom.x
 //void translate_zero_to_COM(molecule *,atype *,int,int); 
 	// int#1 is xs, the location of the source coords
 	// int#2 is xt, the location of the translated coords
-void translate_zero_to_coord_M(molecule *,int,int,coord_3D); 
+void translate_residue_by_XYZ(residue *r,int xs,int xd,coord_3D); 
+void translate_molecule_by_XYZ(molecule *m,int xs,int xd,coord_3D); 
+void translate_ensemble_by_XYZ(ensemble *e,int xs,int xd,coord_3D); 
+void translate_zero_to_coord_M(molecule *m,int xs,int xd,coord_3D); 
 	// int#1 is xs, the location of the source coords
-	// int#2 is xt, the location of the translated coords
+	// int#2 is xd, the destination location of the translated coords
 void assign_residue_COM(residue *r,atype *ATYPE);
 void assign_molecule_COM(molecule *m,atype *ATYPE);
 void assign_assembly_COM(assembly *a,atype *ATYPE);
