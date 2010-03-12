@@ -91,8 +91,8 @@ return;
 
 void dXprint_residue(residue *r,int i){
 	int pa=0;
-	printf("residue \tn=%d ; N=>>%s<< ; na=%d ; nbs=%d ; nr=%d \n",r[0].n,r[0].N,\
-		r[0].na,r[0].nbs,r[0].nr); 
+	printf("residue \tn=%d ; N=>>%s<< ; na=%d ; nbs=%d ; nring=%d \n",r[0].n,r[0].N,\
+		r[0].na,r[0].nbs,r[0].nring); 
 	if(i>0){
 		for(pa=0;((pa<i)&&(pa<r[0].na));pa++){
 			printf("\tatom set %d\n",pa);

@@ -1,6 +1,9 @@
 // Function written by B. Lachele Foley, 2007
-#include <mylib.h>
-#include <molecules.h>
+//
+// Deprecated.  Use "set_COM" functions instead
+//
+//#include <mylib.h>
+//#include <molecules.h>
 //#include "../inc/mylib.h"
 //#include "../inc/molecules.h"
 /****************** assign_residue_COM() *********************/
@@ -8,6 +11,7 @@
  * appropriate location.  Similar functions exist for the other
  * structures.
  */
+/*
 void assign_residue_COM(residue *r,atype *ATYPE){
 int ta=0;
 double tmm=0; 
@@ -36,13 +40,14 @@ r[0].COM.k/=tmm;
 //printf("center of mass is at: %20.12e %20.12e %20.12e \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 return;
 }
+*/
 
 /****************** assign_molecule_COM() *********************/
 /* Finds the center of mass of the molecule and places it in the
  * appropriate location.  Similar functions exist for the other
  * structures.
  */
-void assign_molecule_COM(molecule *m,atype *ATYPE){
+/* void assign_molecule_COM(molecule *m,atype *ATYPE){
 int ta=0,tr=0;
 double tmm=0; 
 // calculate the molecular weight 
@@ -74,13 +79,14 @@ m[0].COM.k/=tmm;
 //printf("center of mass is at: %20.12e %20.12e %20.12e \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 return;
 }
+*/
 
 /****************** assign_assembly_COM() *********************/
 /* Finds the center of mass of the molecule and places it in the
  * appropriate location.  Similar functions exist for the other
  * structures.
  */
-void assign_assembly_COM(assembly *a,atype *ATYPE){
+/*void assign_assembly_COM(assembly *a,atype *ATYPE){
 int ta=0,tr=0,tm=0;
 double tmm=0; 
 // calculate the molecular weight 
@@ -116,7 +122,7 @@ a[0].COM.k/=tmm;
 //printf("center of mass is at: %20.12e %20.12e %20.12e \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 return;
 }
-
+*/
 /****************** assign_ensemble_COM() *********************/
 /* Finds the center of mass of the molecule and places it in the
  * appropriate location.  Similar functions exist for the other
@@ -128,7 +134,7 @@ return;
  * 	center of mass for the ensemble, this function ONLY considers
  * 	molecules and not assemblies.
  */
-void assign_ensemble_COM(ensemble *e,atype *ATYPE){
+/* void assign_ensemble_COM(ensemble *e,atype *ATYPE){
 int ta=0,tr=0,tm=0;
 double tmm=0; 
 // calculate the molecular weight 
@@ -164,3 +170,4 @@ e[0].COM.k/=tmm;
 //printf("center of mass is at: %20.12e %20.12e %20.12e \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 return;
 } 
+*/

@@ -110,8 +110,8 @@ return;
 
 void dprint_residue(residue *r,int i){
 	int pa=0,psz=0,puse=0,pbins=0;
-	printf("residue \tn=%d ; N=>>%s<< ; na=%d ; nbs=%d ; nr=%d \n",r[0].n,r[0].N,\
-		r[0].na,r[0].nbs,r[0].nr); 
+	printf("residue \tn=%d ; N=>>%s<< ; na=%d ; nbs=%d ; nring=%d \n",r[0].n,r[0].N,\
+		r[0].na,r[0].nbs,r[0].nring); 
 	if(i>0){
 		puse=malloc_usable_size(r[0].a);
 		psz=sizeof(atom);

@@ -150,7 +150,7 @@ r[0].COM.i=r[0].COM.j=r[0].COM.k=0; // center of mass for molecule
 r[0].a=(atom*)calloc(1,sizeof(atom)); // atom structures (na of these)
 r[0].nbs=0; // number of bond sets 
 r[0].bs=(bondset*)calloc(1,sizeof(bondset)); // (consecutive bonds, use these for plotting, etc.)
-r[0].nr=0; // number of simple rings (no cage structures, etc.)
+r[0].nring=0; // number of simple rings (no cage structures, etc.)
 r[0].nrbs=0; // number of ring bondsets defined
 r[0].rbs=(bondset*)calloc(1,sizeof(bondset)); // bondsets for rings
 r[0].nrc=0; // number of ring/reference coordinate sets defined

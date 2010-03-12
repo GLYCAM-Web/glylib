@@ -40,6 +40,12 @@ typedef struct {
 } ensindex; ///< Index to describe position in an ensemble
 typedef struct {
 	int nP; ///< number of positions in the ring
+	molindex *P; ///< the nP relevant positions
+	int nin,*in; ///< reference integers in *P for other ring members with incoming bonds
+	int nout,*out; ///< reference integers in *P for other ring members with outgoing bonds
+} ring_molindex; ///< Structure holding ensemble indices for a ring, plus maybe other info
+typedef struct {
+	int nP; ///< number of positions in the ring
 	ensindex *P; ///< the nP relevant positions
 	int nin,*in; ///< reference integers in *P for other ring members with incoming bonds
 	int nout,*out; ///< reference integers in *P for other ring members with outgoing bonds
@@ -184,7 +190,7 @@ typedef struct {
 	int nbs; ///< number of bond sets 
 	bondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
 	int nring; ///< number of simple rings (no cage structures, etc.)
-	ring_ensindex *ring; ///< ensemble indices for the nring rings
+	ring_molindex *ring; ///< molecule indices for the nring rings
 	int nrbs; ///< number of ring bondsets defined
 	bondset *rbs; ///< bondsets for rings
 	int nrc; // number of ring/reference coordinate sets defined
@@ -400,13 +406,17 @@ void translate_ensemble_by_XYZ(ensemble *e,int xs,int xd,coord_3D);
 void translate_zero_to_coord_M(molecule *m,int xs,int xd,coord_3D); 
 	// int#1 is xs, the location of the source coords
 	// int#2 is xd, the destination location of the translated coords
-void assign_residue_COM(residue *r,atype *ATYPE);
-void assign_molecule_COM(molecule *m,atype *ATYPE);
-void assign_assembly_COM(assembly *a,atype *ATYPE);
-void assign_ensemble_COM(ensemble *e,atype *ATYPE);
+//void assign_residue_COM(residue *r,atype *ATYPE);
+//void assign_molecule_COM(molecule *m,atype *ATYPE);
+//void assign_assembly_COM(assembly *a,atype *ATYPE);
+//void assign_ensemble_COM(ensemble *e,atype *ATYPE);
+void set_residue_COM(residue *r,atype *ATYPE,int xs);
+void set_molecule_COM(molecule *m,atype *ATYPE,int xs);
+void set_assembly_molecule_COM(assembly *a,atype *ATYPE,int xs);
+void set_ensemble_COM(ensemble *e,atype *ATYPE,int xs);
 coord_3D get_residue_COM(residue *r,atype *ATYPE,int xs);
 coord_3D get_molecule_COM(molecule *m,atype *ATYPE,int xs);
-coord_3D get_assembly_COM(assembly *a,atype *ATYPE,int xs);
+coord_3D get_assembly_molecule_COM(assembly *a,atype *ATYPE,int xs);
 coord_3D get_ensemble_COM(ensemble *e,atype *ATYPE,int xs);
 
 /* the following functions rotate the coordinate list such that the
@@ -418,39 +428,17 @@ void rotate_vector_to_Z_M(molecule*,int,int,int,int,vectormag_3D);
 	// int#2 location of rotated coordinates (-1=x, 0,1,2,etc=xa[xs]
 	// int#3 location of source vectors (-1=do not calc, 0,1,2,etc=v[xs]
 	// int#4 location of rotated vectors (-1=do not calc, 0,1,2,etc=v[xs]
-void rotate_vector_to_Z_list(coord_3D*,int,vectormag_3D); // int is n
 //void rotate_vector_to_Y_M(molecule*,int,vectormag_3D); // int is xl
-//void rotate_vector_to_Y_list(coord_3D*,int,vectormag_3D); // int is n
 //void rotate_vector_to_X_M(molecule*,int,vectormag_3D); // int is xl
-//void rotate_vector_to_X_list(coord_3D*,int,vectormag_3D); // int is n
 /* in these, the firt vector is rotated onto the second vector */
 //void rotate_vector_to_V_M(molecule*,int,vectormag_3D,vectormag_3D); // int is xl
-//void rotate_vector_to_V_list(coord_3D*,int,vectormag_3D,vectormag_3D); // int is n
 
-coord_3D get_geometric_center(coord_3D *,int); // int is n
-plane get_plane(coord_3D,coord_3D,coord_3D);
-vectormag_3D normalize_vec(vectormag_3D);
 void normalize_molecule_vectors(molecule *,int,int);
 	// int #1 -- location of source vector
 	// int #2 -- where to write vectors normalized to one (made unit vectors) 
-vectormag_3D scalarmult_vec(vectormag_3D,double);
-vectormag_3D add_vec(vectormag_3D,vectormag_3D); // add two vectors
-vectormag_3D subtract_vec(vectormag_3D,vectormag_3D); // subtract second vector from first
-coord_3D scalarmult_coord(coord_3D,double); // add two vectors
-coord_3D add_coord(coord_3D,coord_3D); // add two vectors
-coord_3D subtract_coord(coord_3D,coord_3D); // subtract second vector from first
-vectormag_3D get_crossprod(vectormag_3D, vectormag_3D); // returns the cross product
-double get_dotprod(vectormag_3D, vectormag_3D); // returns dot product of two vectors
-/* the following essentially returns the cosine of the angle between two vectors */
-//double get_dotprodN(vectormag_3D, vectormag_3D); // returns dot prod, but normalizes vecs first
-double get_magnitude(vectormag_3D); // calculates vector magnitude for "d" in structure
 void shift_molecule_atoms_by_vector_scale(molecule *m,int xs,int xt,int vr, double scale);
 vectormag_3D get_molecule_point_charge_dipole(molecule *m,int xs,int chgsrc, atype *AT);
 
-vectormag_3D zero_vec(); // zeros a vector
-coord_3D zero_coord(); // zeros a coordinate set
-coord_3D vec_to_coord(vectormag_3D); // turns a vector into a coordinate set
-vectormag_3D coord_to_vec(coord_3D); // turns a coordinate set into a vector
 void rollMolecule(molecule*,double); //Rotates about x-axis using radians
 void pitchMolecule(molecule*,double);//Rotates about y-axis using radians
 void yawMolecule(molecule*,double);  //Rotates about z-axis using radians
@@ -469,9 +457,6 @@ atype *ATYPE_init(); // initialize atom types -- for a few old programs only
 // use void load_atypes(fileset FT, types *T); instead (declarations.h)
 //dockinfo *load_dlg_mol(fileset F,atype *AT); also in declarations.h
 
-void initialize_coord_3D(coord_3D *c);
-void initialize_vectormag_3D(vectormag_3D *v);
-void initialize_plane(plane *p);
 void initialize_atype(atype *at);
 void initialize_rtype(rtype *rt);
 void initialize_mtype(mtype *mt);

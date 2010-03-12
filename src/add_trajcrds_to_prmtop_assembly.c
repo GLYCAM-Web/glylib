@@ -120,10 +120,17 @@ foffset=ftell(F.F);
 if(foffset==0){ // we are at the start of the file
 // Ignore any titles -- let the calling program read them if it wants to
 	tmpc=fgetc(F.F); // read and ignore the first line
-	while((tmpc!='\n')&&(tmpc!='\r')&&(tmpc!=EOF)){ tmpc=fgetc(F.F); }
+	while((tmpc!='\n')&&(tmpc!='\r')&&(tmpc!=EOF)){ 
+		tmpc=fgetc(F.F); 
+		//printf("%c",tmpc);
+		}
+	//printf("\n");
 	if (ftype=='r'){ // if restart, also read and ignore the second line
 		tmpc=fgetc(F.F);
-		while((tmpc!='\n')&&(tmpc!='\r')&&(tmpc!=EOF)){ tmpc=fgetc(F.F); }
+		while((tmpc!='\n')&&(tmpc!='\r')&&(tmpc!=EOF)){ tmpc=fgetc(F.F);
+		//printf("%c",tmpc);
+	       	}
+	//printf("\n");
 		}
 	if(tmpc==EOF){printf("add_trajcrds_to_prmtop_assembly: WARNING: EOF found at top of file.\n");}
 	}
@@ -202,7 +209,7 @@ for(ai=0;ai<A[0].na;ai++){
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
 	else {
-		scan_tst=fscanf(F.F,"%8s",readnum);
+		scan_tst=fscanf(F.F,"%8c",readnum);
 		newline++;
 		}
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-i.");}
@@ -212,7 +219,7 @@ for(ai=0;ai<A[0].na;ai++){
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
 	else {
-		scan_tst=fscanf(F.F,"%8s",readnum);
+		scan_tst=fscanf(F.F,"%8c",readnum);
 		newline++;
 		}
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-j.");}
@@ -225,7 +232,7 @@ for(ai=0;ai<A[0].na;ai++){
 		newline*=-1;
 		}
 	else {
-		scan_tst=fscanf(F.F,"%8s",readnum);
+		scan_tst=fscanf(F.F,"%8c",readnum);
 		newline++;
 		}
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-k.");}
@@ -265,21 +272,29 @@ if(A[0].nBOX>0){
 		}
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
-	else scan_tst=fscanf(F.F,"%8s",readnum); 
+	else scan_tst=fscanf(F.F,"%8c",readnum); 
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX 1-0.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[0]);
 
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
-	else scan_tst=fscanf(F.F,"%8s",readnum); 
+	else scan_tst=fscanf(F.F,"%8c",readnum); 
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX 1-1.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[1]);
 
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
-	else scan_tst=fscanf(F.F,"%8s",readnum); 
+	else scan_tst=fscanf(F.F,"%8c",readnum); 
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX 1-2.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[2]);
+	if(ftype=='r'){
+		scan_tst=fscanf(F.F,"%12c",readnum);
+		//printf("readnum is >>>%s<<<\n",readnum);
+		scan_tst=fscanf(F.F,"%12c",readnum);
+		//printf("readnum is >>>%s<<<\n",readnum);
+		scan_tst=fscanf(F.F,"%12c",readnum);
+		//printf("readnum is >>>%s<<<\n",readnum);
+		}
 	}
 // START HERE -- one day there might be non-square box info in these files...
 // as of now, though, there isn't...
@@ -287,7 +302,8 @@ if(ftype!='r'){return;}
 
 /// If this is type 'r', see if there is any more info in the file
 if(fgetpos(F.F,&here2)!=0){mywhine("problem getting file position -- before check for extra-r read");};
-scan_tst=fscanf(F.F,"%8s",readnum);
+scan_tst=fscanf(F.F,"%12s",readnum);
+//printf("readnum is >>>%s<<< scan_tst is %d\n",readnum,scan_tst);
 if(scan_tst!=1){return;} // no more info in file
 
 // Still here? Assume there are velocities in the file, but don't do any more fancy checks --

@@ -24,5 +24,7 @@ void add_trajcrds_to_prmtop_assembly(
         char ftype, ///< 'c' if coordinate ; 'v' if velocity ; 'r' if restart (might have both)
         int offset ///< read in the offset-th trajectory -- starts with zero=current
         );
+void deallocateAmberPrmtopSection(amber_prmtop_section *aps);
+void deallocateAmberPrmtop(amber_prmtop *ap);
 
 #endif
