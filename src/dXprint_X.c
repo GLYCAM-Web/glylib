@@ -77,6 +77,10 @@ void dXprint_atom(atom *a,int i){
 return;
 }
 
+void dXprint_molbondset(molbondset *bs,int i){
+	printf("NEED TO WRITE dXprint_molbondset\n");
+return;
+}
 void dXprint_bondset(bondset *bs,int i){
 	int pa=0;
 	printf("bondset contains n=%d bonds\n",bs[0].n);
@@ -100,11 +104,11 @@ void dXprint_residue(residue *r,int i){
 			}
 		for(pa=0;((pa<i)&&(pa<r[0].nbs));pa++){
 			printf("\tconsec. lin, bondset set %d\n",pa);
-			dXprint_bondset(&(r[0].bs[pa]),i); 
+			dXprint_molbondset(&(r[0].bs[pa]),i); 
 			}
 		for(pa=0;((pa<i)&&(pa<r[0].nrbs));pa++){
 			printf("\tconsec. ring bondset set %d\n",pa);
-			dXprint_bondset(&(r[0].rbs[pa]),i); 
+			dXprint_molbondset(&(r[0].rbs[pa]),i); 
 			}
 		for(pa=0;((pa<i)&&(pa<r[0].nrc));pa++){
 			printf("\tconsec ring coords set %d:  ",pa);

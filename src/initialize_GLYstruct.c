@@ -149,10 +149,10 @@ r[0].m=0; // molecular weight
 r[0].COM.i=r[0].COM.j=r[0].COM.k=0; // center of mass for molecule
 r[0].a=(atom*)calloc(1,sizeof(atom)); // atom structures (na of these)
 r[0].nbs=0; // number of bond sets 
-r[0].bs=(bondset*)calloc(1,sizeof(bondset)); // (consecutive bonds, use these for plotting, etc.)
+r[0].bs=(molbondset*)calloc(1,sizeof(molbondset)); // (consecutive bonds, use these for plotting, etc.)
 r[0].nring=0; // number of simple rings (no cage structures, etc.)
 r[0].nrbs=0; // number of ring bondsets defined
-r[0].rbs=(bondset*)calloc(1,sizeof(bondset)); // bondsets for rings
+r[0].rbs=(molbondset*)calloc(1,sizeof(molbondset)); // bondsets for rings
 r[0].nrc=0; // number of ring/reference coordinate sets defined
 r[0].rc=(coord_3D*)calloc(1,sizeof(coord_3D)); // coordinates for ring/reference centers
 r[0].nrp=0; // number of ring planes defined

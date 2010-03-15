@@ -1,0 +1,19 @@
+GLYLIB = /home/calcs/GLYLIB_working/lib
+GLYINC = /home/calcs/GLYLIB_working/inc
+#GLYLIB = /home/spandana/GLYLIB/lib
+#GLYINC = /home/spandana/GLYLIB/inc
+#GLYLIB = /home/spandana/GLYLIB_pre20090806/lib
+#GLYINC = /home/spandana/GLYLIB_pre20090806/inc
+FLAGS = -I$(GLYINC) -L$(GLYLIB) -lglylib -Wall -lm
+SOURCE = ring.c
+FUNCTIONS = get_ring_pucker_plane.c
+OUTEXE = run_ring
+
+default:
+	 gcc $(SOURCE)  $(FUNCTIONS) $(FLAGS) -g -o $(OUTEXE)
+
+gdb:
+	gcc $(SOURCE) $(FUNCTIONS) $(FLAGS) -g -o $(OUTEXE)
+
+#test:
+#       gcc $(TESTIN) $(FLAGS) -g -o testexe

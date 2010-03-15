@@ -75,7 +75,6 @@ typedef struct {
 
 /* 20100127 BLFoley: I'm changing the bond structure.  With luck, this will 
 only break the vibrations program I'm rewriting... */
-/// for simple, all-one-residue bonding (for early programs)
 typedef struct { 
 	ensindex s; ///< "source" -- index to first atom in bond
 	ensindex t; ///< "target" -- index to the other atom in the bond
@@ -188,11 +187,11 @@ typedef struct {
 	double m; ///< molecular weight
 	coord_3D COM; ///< center of mass for residue
 	int nbs; ///< number of bond sets 
-	bondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
+	molbondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
 	int nring; ///< number of simple rings (no cage structures, etc.)
 	ring_molindex *ring; ///< molecule indices for the nring rings
 	int nrbs; ///< number of ring bondsets defined
-	bondset *rbs; ///< bondsets for rings
+	molbondset *rbs; ///< bondsets for rings
 	int nrc; // number of ring/reference coordinate sets defined
 	coord_3D *rc; ///< coordinates for ring/reference centers
 	int nrp; ///< number of ring planes defined
@@ -367,12 +366,15 @@ void print_atype(atype*,int),print_plane(plane*);
 void print_vectormag_3D(vectormag_3D*),print_coord_3D(coord_3D*);
 //
 void dprint_molecule(molecule*,int),dprint_residue(residue*,int);
-void dprint_bondset(bondset*,int),dprint_atom(atom*,int),dprint_bond(bond*);
+void dprint_bondset(bondset*,int);
+void dprint_molbondset(molbondset*,int);
+void dprint_atom(atom*,int),dprint_bond(bond*);
 void dprint_atype(atype*,int),dprint_plane(plane*);
 void dprint_vectormag_3D(vectormag_3D*),dprint_coord_3D(coord_3D*);
 //
 void dXprint_molecule(molecule*,int),dXprint_residue(residue*,int);
 void dXprint_bondset(bondset*,int),dXprint_atom(atom*,int),dXprint_bond(bond*);
+void dXprint_molbondset(molbondset*,int);
 void dXprint_atype(atype*,int),dXprint_plane(plane*);
 void dXprint_vectormag_3D(vectormag_3D*),dXprint_coord_3D(coord_3D*);
 
@@ -433,7 +435,8 @@ void rotate_vector_to_Z_M(molecule*,int,int,int,int,vectormag_3D);
 /* in these, the firt vector is rotated onto the second vector */
 //void rotate_vector_to_V_M(molecule*,int,vectormag_3D,vectormag_3D); // int is xl
 
-void normalize_molecule_vectors(molecule *,int,int);
+void normalize_molecule_vectors(molecule *m,int vs,int vd);
+void normalize_ensemble_vectors(ensemble *e,int vs,int vd);
 	// int #1 -- location of source vector
 	// int #2 -- where to write vectors normalized to one (made unit vectors) 
 void shift_molecule_atoms_by_vector_scale(molecule *m,int xs,int xt,int vr, double scale);
