@@ -47,6 +47,7 @@ for(ta=0;ta<r[0].na;ta++){ // COM = sum(m_i * r_i) / sum(m_i)
         c.k+=r[0].a[ta].xa[xs].k*mass[ta];
         }
 	}
+free(mass);
 //printf("center of mass is at: %f %f %f \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 c.i/=tmm;
 c.j/=tmm;
@@ -105,6 +106,10 @@ for(ta=0;ta<m[0].r[tr].na;ta++){ // COM = sum(m_i * r_i) / sum(m_i)
         }
 	}
 	}
+for(tr=0;tr<m[0].nr;tr++){
+	free(mass[tr]);
+	}
+free(mass);
 //printf("center of mass is at: %f %f %f \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 c.i/=tmm;
 c.j/=tmm;
@@ -170,6 +175,13 @@ for(ta=0;ta<a[0].m[tm][0].r[tr].na;ta++){ // COM = sum(m_i * r_i) / sum(m_i)
 	}
 	}
 	}
+for(tm=0;tm<a[0].nm;tm++){
+for(tr=0;tr<a[0].m[tm][0].nr;tr++){
+	free(mass[tm][tr]);
+	}
+	free(mass[tm]);
+	}
+free(mass);
 //printf("center of mass is at: %f %f %f \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 c.i/=tmm;
 c.j/=tmm;
@@ -241,6 +253,13 @@ for(ta=0;ta<e[0].m[tm].r[tr].na;ta++){ // COM = sum(m_i * r_i) / sum(m_i)
 	}
 	}
 	}
+for(tm=0;tm<e[0].nm;tm++){
+for(tr=0;tr<e[0].m[tm].nr;tr++){
+	free(mass[tm][tr]);
+	}
+	free(mass[tm]);
+	}
+free(mass);
 //printf("center of mass is at: %f %f %f \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 c.i/=tmm;
 c.j/=tmm;

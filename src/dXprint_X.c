@@ -77,6 +77,10 @@ void dXprint_atom(atom *a,int i){
 return;
 }
 
+void dXprint_molbondset(molbondset *bs,int i){
+	printf("NEED TO WRITE dXprint_molbondset\n");
+return;
+}
 void dXprint_bondset(bondset *bs,int i){
 	int pa=0;
 	printf("bondset contains n=%d bonds\n",bs[0].n);
@@ -91,8 +95,8 @@ return;
 
 void dXprint_residue(residue *r,int i){
 	int pa=0;
-	printf("residue \tn=%d ; N=>>%s<< ; na=%d ; nbs=%d ; nr=%d \n",r[0].n,r[0].N,\
-		r[0].na,r[0].nbs,r[0].nr); 
+	printf("residue \tn=%d ; N=>>%s<< ; na=%d ; nbs=%d ; nring=%d \n",r[0].n,r[0].N,\
+		r[0].na,r[0].nbs,r[0].nring); 
 	if(i>0){
 		for(pa=0;((pa<i)&&(pa<r[0].na));pa++){
 			printf("\tatom set %d\n",pa);
@@ -100,11 +104,11 @@ void dXprint_residue(residue *r,int i){
 			}
 		for(pa=0;((pa<i)&&(pa<r[0].nbs));pa++){
 			printf("\tconsec. lin, bondset set %d\n",pa);
-			dXprint_bondset(&(r[0].bs[pa]),i); 
+			dXprint_molbondset(&(r[0].bs[pa]),i); 
 			}
 		for(pa=0;((pa<i)&&(pa<r[0].nrbs));pa++){
 			printf("\tconsec. ring bondset set %d\n",pa);
-			dXprint_bondset(&(r[0].rbs[pa]),i); 
+			dXprint_molbondset(&(r[0].rbs[pa]),i); 
 			}
 		for(pa=0;((pa<i)&&(pa<r[0].nrc));pa++){
 			printf("\tconsec ring coords set %d:  ",pa);

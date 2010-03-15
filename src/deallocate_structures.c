@@ -349,10 +349,10 @@ void deallocateResidue(residue *r){
  	for(i=0;i<r[0].na;i++){deallocateConnectionTree(&r[0].aT[i]);}
  	free(r[0].aT);}
  if(r[0].bs != NULL && r[0].bs != 0x0){
- 	for(i=0;i<r[0].nbs;i++){deallocateBondset(&r[0].bs[i]);}
+ 	for(i=0;i<r[0].nbs;i++){deallocateMolbondset(&r[0].bs[i]);}
  	free(r[0].bs);}
  if(r[0].rbs != NULL && r[0].rbs != 0x0){
- 	for(i=0;i<r[0].nrbs;i++){deallocateBondset(&r[0].rbs[i]);}
+ 	for(i=0;i<r[0].nrbs;i++){deallocateMolbondset(&r[0].rbs[i]);}
  	free(r[0].rbs);}
  // free each
  if(r[0].OD != NULL && r[0].OD != 0x0){

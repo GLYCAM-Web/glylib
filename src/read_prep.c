@@ -111,7 +111,7 @@ R.m=0; // molecular weight
 R.COM=zero_coord(); // center of mass for residue
 R.a=(atom*)calloc(1,sizeof(atom)); // atom structures (na of these)
 R.nbs=0; // number of bond sets
-R.bs=(bondset*)calloc(1,sizeof(bondset)); // (consecutive bonds, use these for plotting, etc.)
+R.bs=(molbondset*)calloc(1,sizeof(molbondset)); // (consecutive bonds, use these for plotting, etc.)
 //int nr; // number of simple rings (no cage structures, etc.)
 //int nrbs; // number of ring bondsets defined
 //bondset *rbs; // bondsets for rings

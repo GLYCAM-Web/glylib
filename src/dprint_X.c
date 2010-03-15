@@ -92,6 +92,10 @@ void dprint_atom(atom *a,int i){
 return;
 }
 
+void dprint_molbondset(molbondset *bs,int i){
+	printf("NEED TO WRITE dprint_molbondset\n");
+return;
+}
 void dprint_bondset(bondset *bs,int i){
 	int pa=0,psz=0,puse=0,pbins=0;
 	printf("bondset contains n=%d bonds\n",bs[0].n);
@@ -110,8 +114,8 @@ return;
 
 void dprint_residue(residue *r,int i){
 	int pa=0,psz=0,puse=0,pbins=0;
-	printf("residue \tn=%d ; N=>>%s<< ; na=%d ; nbs=%d ; nr=%d \n",r[0].n,r[0].N,\
-		r[0].na,r[0].nbs,r[0].nr); 
+	printf("residue \tn=%d ; N=>>%s<< ; na=%d ; nbs=%d ; nring=%d \n",r[0].n,r[0].N,\
+		r[0].na,r[0].nbs,r[0].nring); 
 	if(i>0){
 		puse=malloc_usable_size(r[0].a);
 		psz=sizeof(atom);
@@ -123,20 +127,20 @@ void dprint_residue(residue *r,int i){
 			dprint_atom(&(r[0].a[pa]),i); 
 			}
 		puse=malloc_usable_size(r[0].bs);
-		psz=sizeof(bondset);
+		psz=sizeof(molbondset);
 		pbins=puse/psz; 
 		printf("\t%d consecutive, linear bonds have been allocated: \n",pbins);
 		for(pa=0;((pa<i)&&(pa<r[0].nbs)&&(pa<pbins));pa++){
 			printf("\tconsec. lin, bondset set %d\n",pa);
-			dprint_bondset(&(r[0].bs[pa]),i); 
+			dprint_molbondset(&(r[0].bs[pa]),i); 
 			}
 		puse=malloc_usable_size(r[0].rbs);
-		psz=sizeof(bondset);
+		psz=sizeof(molbondset);
 		pbins=puse/psz; 
 		printf("\t%d consecutive ring bonds have been allocated: \n",pbins);
 		for(pa=0;((pa<i)&&(pa<r[0].nrbs)&&(pa<pbins));pa++){
 			printf("\tconsec. ring bondset set %d\n",pa);
-			dprint_bondset(&(r[0].rbs[pa]),i); 
+			dprint_molbondset(&(r[0].rbs[pa]),i); 
 			}
 		puse=malloc_usable_size(r[0].rc);
 		psz=sizeof(coord_3D);

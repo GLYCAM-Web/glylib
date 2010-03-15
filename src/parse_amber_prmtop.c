@@ -241,7 +241,9 @@ if(strcmp(P[0].S[pa].N,"NONBONDED_PARM_INDEX")==0){ //
 if(strcmp(P[0].S[pa].N,"RESIDUE_LABEL")==0){ // names of residues
   	P[0].LABRES =pa; // LABRES : the residue labels 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.nr){mywhine("P[0].S[pa].nt!=A.nr in RESIDUE_LABEL in parse_amber_prmtop");}
+	if(P[0].S[pa].nt!=A.nr){
+		printf("P[0].S[pa].nt is %d and A.nr is %d\n",P[0].S[pa].nt,A.nr);
+		mywhine("P[0].S[pa].nt!=A.nr in RESIDUE_LABEL in parse_amber_prmtop");}
 	for(pb=0;pb<A.nr;pb++){
 		A.r[pb][0].N=(char*)calloc((P[0].S[pa].nc+1),sizeof(char));
 		sscanf(P[0].S[pa].D[pb],"%s",A.r[pb][0].N);
