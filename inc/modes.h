@@ -72,6 +72,7 @@ typedef struct {
 typedef struct {
 	int i; ///< index
 	char *Desc; ///< free-form description for mode
+	char *RingDesc; ///< Description of ring type, e.g. phenyl, 0GB, etc.
 	double I; ///< intensity of the motion (user-defined...)
 	double e; ///< extent of ring-portion of overall motion
 	double pvp; ///< motion parallel (~0) or perpendicular (~1) to plane
