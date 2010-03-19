@@ -48,8 +48,10 @@ void deallocateAmberPrmtopSection(amber_prmtop_section *aps){
  	for(i=0;i<aps[0].nt;i++){if(aps[0].D[i] != NULL && aps[0].D[i] != 0x0){free(aps[0].D[i]);}}
 	free(aps[0].D);}
  // free top
+//printf("aps[0].N is %d\n",aps[0].N);
  if(aps[0].N != NULL && aps[0].N != 0x0){free(aps[0].N);}
  if(aps[0].FORMAT != NULL && aps[0].FORMAT != 0x0){free(aps[0].FORMAT);}
+//printf("aps[0].TYPE is %d\n",aps[0].TYPE);
  if(aps[0].TYPE != NULL && aps[0].TYPE != 0x0){free(aps[0].TYPE);}
  if(aps[0].desc != NULL && aps[0].desc != 0x0){free(aps[0].desc);}
  return ;
@@ -58,7 +60,9 @@ void deallocateAmberPrmtop(amber_prmtop *ap){
  int i;
  // deallocate each
  if(ap[0].S != NULL && ap[0].S != 0x0){
- 	for(i=0;i<ap[0].nS;i++){deallocateAmberPrmtopSection(&ap[0].S[i]);}
+ 	for(i=0;i<ap[0].nS;i++){
+//printf("Deallocating prmtop section i=%d; it's FLAG is >>>%s<<<\n",i,ap[0].S[i].N);
+		deallocateAmberPrmtopSection(&ap[0].S[i]);}
  	free(ap[0].S);}
  // free each
  if(ap[0].SN != NULL && ap[0].SN != 0x0){

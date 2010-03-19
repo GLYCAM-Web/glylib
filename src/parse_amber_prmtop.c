@@ -143,6 +143,7 @@ for(pa=0;pa<P[0].nS;pa++){ // get pointers first...
 		}
 	}
 
+
 for(pa=0;pa<P[0].nS;pa++){// Loop through each of the sections
 	P[0].S[pa].is_standard = 1; // Set is_standard to one as default
 	// 	check against each standard section
