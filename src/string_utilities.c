@@ -141,7 +141,7 @@ switch (j) {
 		mywhine("get_char_string: unrecognized justification specification");
 		break;
 	}
-
+free(t);
 s[w]='\0'; // for safety
 return s;
 }
@@ -325,7 +325,8 @@ switch (j) {
 		mywhine("get_float_string: unrecognized justification specification");
 		break;
 	}
-
+free(t);
+free(xs);
 s[w]='\0'; // for safety
 return s;
 }

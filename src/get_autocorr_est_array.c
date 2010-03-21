@@ -24,5 +24,6 @@ for(k=0;k<(A.k);k++){
 		}
 	A.a[k]/=((A.k-k)*M.v); // assumes whole population or biased sample
 	}
+free(Dmu);
 return A;
 }

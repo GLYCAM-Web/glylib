@@ -109,6 +109,10 @@ typedef struct {
 	double modemax; ///< maximum s-a-t score in mode set (used to scale vectors to max of 1)
 	double maxmodemag; ///< vector magnitude for the modemax vector
 	double maxKEmag; ///< for the larges s-a-t assignment, the KE along that assignment
+	double TOTmag; ///< Total magnitude of all motions, all molecules
+	double TRmag; ///< Total translation-removed magnitude, all molecules
+	double MRmag; ///< Total molecule-rotation-removed magnitude, all molecules
+	double RRmag; ///< Total residue-rotation-removed magnitude, all molecules
 } vibmode; ///< description of a vibrational mode 
 
 

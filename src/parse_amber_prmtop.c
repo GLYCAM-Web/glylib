@@ -21,6 +21,21 @@ double *R,*SC,*MASS; // radii and screening constants for IS, atom masses
 //fileset F;
 //amber_prmtop *aprm;
 
+MOLI=NULL;
+ICO=NULL;
+MB=NULL;
+MANG=NULL;
+MTOR=NULL;
+MASS=NULL;
+NSP=NULL;
+R=NULL;
+SC=NULL;
+MOLBNDI=NULL;
+MBTMP=NULL;
+resi=NULL;
+ATNAME=NULL;
+TREECLASS=NULL;
+
 /// Drop the contents of the original file in the void pointer space
 A.nVP=1; 
 A.VP=P;
@@ -1114,6 +1129,26 @@ printf("\t\t\tTo %s (atom number %d)\n",A.m[tm][0].r[tr].a[ta].N,A.m[tm][0].r[tr
 // -- set local torsions and angles
 // -- set connection tree after all that...
 // 	-- check this tree against the amber tree info for sanity
+
+// free temporary spaces
+if(MOLI!=NULL){free(MOLI);}
+if(ICO!=NULL){free(ICO);}
+if(MB!=NULL){free(MB);}
+if(MANG!=NULL){free(MANG);}
+if(MTOR!=NULL){free(MTOR);}
+if(MASS!=NULL){free(MASS);}
+if(NSP!=NULL){free(NSP);}
+if(R!=NULL){free(R);}
+if(SC!=NULL){free(SC);}
+if(MOLBNDI!=NULL){free(MOLBNDI);}
+if(MBTMP!=NULL){free(MBTMP);}
+if(resi!=NULL){free(resi);}
+for(pa=0;pa<A.na;pa++){
+	if(ATNAME[pa]!=NULL){free(ATNAME[pa]);}
+	if(TREECLASS[pa]!=NULL){free(TREECLASS[pa]);}
+}
+if(ATNAME!=NULL){free(ATNAME);}
+if(TREECLASS!=NULL){free(TREECLASS);}
 
 return A;
 }

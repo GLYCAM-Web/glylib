@@ -154,5 +154,8 @@ if(E[0].nA==1) E[0].A=(assembly**)calloc(1,sizeof(assembly*)); // initialize if 
 else E[0].A=(assembly**)realloc(E[0].A,E[0].nA*sizeof(assembly*));
 E[0].A[E[0].nA-1]=&A[0];
 
+free(rmoli);
+free(amoli);
+
 return;
 }

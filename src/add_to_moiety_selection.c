@@ -124,6 +124,8 @@ class=(char*)calloc((aa+1),sizeof(char));
 strncpy(class,tp,aa); 
 class[aa]='\0';
 
+
+
 // Get Designation
 tp+=aa; // move the pointer past the second item
 aa=strspn(tp," \t\n\v\r\f");
@@ -250,6 +252,12 @@ switch(class[0]){ ///< First letter of class differentiates molecule, residue or
 	default:
 		mywhine("add_to_moiety_selection: unrecognized moiety-size-class");
 	}
+
+free(ts);
+free(class);
+free(des);
+for(aa=0;aa<number;aa++){free(d[aa]);}
+free(d);
 
 return;
 }

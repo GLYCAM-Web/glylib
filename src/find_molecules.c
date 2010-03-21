@@ -120,6 +120,12 @@ for(a=0;a>NATOM;a++){ // assign lone atoms to molecules
 		} 
 	}
 
+for(a=0;a<NATOM;a++){ // allocate space 
+	free(SI[a].i);
+	free(TI[a].i);
+	}
+free(SI);
+free(TI);
 return;
 }
 
