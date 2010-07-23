@@ -37,7 +37,7 @@ if(rwmmt==0){ /* If this is an empty line */
 			rwmdone=fgetc(IN);
 			}
 		}
-	if(WARN!=0){fprintf(OUT,"\n");}
+	/* if(WARN!=0){fprintf(OUT,"\n");} */
 	return;
 	}
 if(DEBUG>=1){printf("rwm_line 2\n");}
@@ -85,7 +85,7 @@ for(rwma=1;rwma<pdb_a[rwmlt.a].b[rwmlt.b].f;rwma++){
         ln[rwmln-1].f[rwma].c[rwmb]='\0';
         } 
 if(DEBUG>=0){printf("rwm_line 13\n");}
-if((WARN==0)&&(SILENT!=0)){fflush(OUTC);}
+/*if((WARN==0)&&(SILENT!=0)){fflush(OUTC);} */
 return;
 }
 
@@ -117,7 +117,7 @@ if(DEBUG>=2){printf("resetting rwmdone \n");}
 	ln[rwmln-1].f[0].c[rwma]=rwmdone;
 	}
 if(rwmmt==0){ /* If this is an empty line */
-	if(WARN!=0){fprintf(OUT,"\n");}
+	/*if(WARN!=0){fprintf(OUT,"\n");}*/
 	return;
 	}
 if(DEBUG>=1){printf("rwm_line 2\n");}
@@ -166,7 +166,7 @@ for(rwma=1;rwma<pdb_a[rwmlt.a].b[rwmlt.b].f;rwma++){
         ln[rwmln-1].f[rwma].c[rwmb]='\0';
         } 
 //if(DEBUG>=0){printf("rwm_line 13\n");}
-if((WARN==0)&&(SILENT!=0)){fflush(OUTC);}
+/*if((WARN==0)&&(SILENT!=0)){fflush(OUTC);} */
 return;
 }
 
