@@ -8,9 +8,9 @@ extern int DEBUG,WARN,SILENT;
 void rwm_line(int rwmln){
 int rwmdone=0, rwma=0, rwmb=0, rwmstop=-1, rwmmt=-1, rwmnl=-1;
 linetype rwmlt;
-char rwmaCL='I',rwmaRN='I';
+char rwmaCL='I',rwmaRN='I',rwmtest='\0';
 /* Read in first six characters and determine line type */
-if(DEBUG>=1){printf("rwm_line 1\n");}
+if(DEBUG>=-10){printf("rwm_line 1\n");}
 for(rwma=0;rwma<6;rwma++){
 	if(rwmstop!=0){
 		rwmdone=fgetc(IN);
@@ -18,7 +18,7 @@ if(DEBUG>=2){printf("Just got new rwmdone \n");}
 		if(rwmdone==EOF){read_neek("EOF",rwmln,rwma);}
 		}
 	if(((rwmdone=='\n')||(rwmdone==' '))&&(rwma==0)){
-if(DEBUG>=1){printf("Empty line found \n");}
+if(DEBUG>=-10){printf("Empty line found \n");}
 		if(rwmdone=='\n'){rwmnl=0;}
 		rwmmt=0;
 		}
@@ -46,14 +46,14 @@ if(DEBUG>=1){printf("rwm_line 2\n");}
 ln[rwmln-1].f[0].c[6]='\0';
 
 // made it here?  find out the line type
-if(DEBUG>=1){printf("rwm_line 3 fieldname is >>>%s<<<\n",ln[rwmln-1].f[0].c);}
+if(DEBUG>=-10){printf("rwm_line 3 fieldname is >>>%s<<<\n",ln[rwmln-1].f[0].c);}
 rwmlt=get_type(ln[rwmln-1].f[0].c); 
 ln[rwmln-1].a=rwmlt.a; // class 
 ln[rwmln-1].b=rwmlt.b; // number for the sub-class
 
 
 
-if(DEBUG>=1){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a, rwmlt.b);}
+if(DEBUG>=-10){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a, rwmlt.b);}
 /* Assign action switch from internal defaults */
 if(DEBUG>=1){printf("rwm_line 4\n");}
 if(DEBUG>=0){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a,rwmlt.b);} 
@@ -84,6 +84,9 @@ for(rwma=1;rwma<pdb_a[rwmlt.a].b[rwmlt.b].f;rwma++){
                 }
         ln[rwmln-1].f[rwma].c[rwmb]='\0';
         } 
+
+rwmtest=fgetc(IN);
+if((rwmtest!='\n')&&(rwmtest!=EOF)){printf("not at end of line!!!\n");} 
 if(DEBUG>=0){printf("rwm_line 13\n");}
 /*if((WARN==0)&&(SILENT!=0)){fflush(OUTC);} */
 return;

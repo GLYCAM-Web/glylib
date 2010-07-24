@@ -10,7 +10,7 @@ assembly* load_pdb(char* file_name)
   DEBUG=-1;LASTRES=-1;LASTOKX=0;LASTOKY=0;LASTOKZ=0;
   UNCTOL=0;CRYX=0;CRYY=0;CRYZ=0;LASTX=0;LASTY=0;LASTZ=0;
   //int resNum;
-  int ma;
+  int ma,mi;
   //molecule* mol;
   assembly* asmbl;
   IN = myfopen(file_name, "r");
@@ -23,8 +23,19 @@ assembly* load_pdb(char* file_name)
   printf("Reading in %s...\n",file_name);
   for(ma=0;ma<INWC;ma++){
   if(DEBUG>=1){printf("made it to here main line loop %d ...\n", ma);} 
-	rwm_line(ma+1);
+  	rwm_line(ma+1); 
 	}
+
+/*
+printf("\n the input pdb \n");
+  for(ma=0;ma<INWC;ma++){
+printf("ma is %d:\t",ma);
+	for(mi=0;mi<20;mi++){printf("  %d>>%s<<  ",mi,ln[ma].f[mi].c); }
+	printf("\n");
+	} 
+	printf("\n");
+*/
+
   //Determine the number of molecules in the pdb
   printf("There are %d molecule(s)\n",howManyMolecules());
   asmbl = getAssembly();
@@ -114,7 +125,8 @@ int howManyMolecules()
 assembly* getAssembly()
 {
   int molNum = howManyMolecules();
-  int i = 0;int j = 0;int k = 0;int l = 0;int atom_num;double x,y,z;
+  int i = 0;int j = 0;int k = 0;int l = 0;int atom_num;int init=0;
+  double x,y,z;
   char* temp;char name[6] = ""; char* atmName = name;
   assembly* asmbl = (assembly*) calloc (1 , sizeof(assembly));
   (*asmbl).nm = molNum;
@@ -124,9 +136,9 @@ assembly* getAssembly()
  //molecule **mol = (molecule**) calloc (molNum,sizeof(molecule*));
 
   (*asmbl).m = (molecule**)calloc(molNum,sizeof(molecule*));//added by MNT on 20080806
-  for(i=0;i<molNum;i++){
+  for(init=0;init<molNum;init++){
 //mol[i] = (molecule*) calloc (1,sizeof(molecule));
-	(*asmbl).m[i] = (molecule*) calloc (1,sizeof(molecule));
+	(*asmbl).m[init] = (molecule*) calloc (1,sizeof(molecule));
 	}
   i=0;
 //  (*asmbl).m[0] = mol[0]; // changed by BLF on 20080622 -- might need revisiting
@@ -138,7 +150,7 @@ assembly* getAssembly()
   (*curMol).nr = findTotalResidue(i);
   (*curMol).r = (residue*) calloc ((*curMol).nr,sizeof(residue));
   //Initialize the residue numbers to -1 so the program knows they're not used yet
-  for(i = 0; i < (*curMol).nr; i++){(*curMol).r[i].n = -1;}
+  for(init = 0; init < (*curMol).nr; init++){(*curMol).r[init].n = -1;}
   i=0;
   getResInfo((*curMol).r,i);
   curRes = ((*curMol).r+k);
@@ -148,16 +160,21 @@ printf("First allocate of residues and atoms:\n");
 printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,(*curRes).na);
   for(i = 0; i < INWC; i++)
   {
+printf("entering the loop, is is %d -- the card is %s\n",i,(*(ln+i)).f[0].c);
     //If it is a TER, LINK, or CONECT card
-    if(endOfMol((ln+i)) == 1)
+    if((endOfMol((ln+i)) == 1)&&(i<(INWC-1)))
     {
       j++;
       curMol = &(*asmbl).m[j][0];
       (*curMol).nr = findTotalResidue(i+1);
       (*curMol).r = (residue*) calloc ((*curMol).nr,sizeof(residue));
+      //Initialize the residue numbers to -1 so the program knows they're not used yet
+      for(init = 0; init < (*curMol).nr; init++){(*curMol).r[init].n = -1;}
+printf("about to call getResInfo. i is %d -- j is %d\n",i,j);
       getResInfo((*curMol).r,i+1);
-      curRes = ((*curMol).r+k);
+printf("\tcalled getResInfo. (*curMol).r[0].N is %s ; i is %d ; k is %d\n",(*curMol).r[0].N,i,k);
       k = 0;l = 0;
+      curRes = &curMol[0].r[k];
 printf("allocating residues and atoms:\n");
 printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,(*curRes).na);
       (*curRes).a = (atom*) calloc ((*curRes).na,sizeof(atom));
