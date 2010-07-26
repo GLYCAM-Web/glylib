@@ -118,55 +118,75 @@ pdb_a[0].b[3].t[13]	=	'i';  /* numSeq         */
 pdb_a[0].b[3].t[14]	=	's';  /* N/A */
 /* RECORD Name : ORIGXn */
 strcpy(pdb_a[0].b[4].typ,"ORIGXn");  /*  */
-pdb_a[0].b[4].f		=	1;  /*  */
-pdb_a[0].b[4].c[0]	=	80;  /* RECORD NAME */
+pdb_a[0].b[4].f		=	2;  /*  */
+pdb_a[0].b[4].c[0]	=	6;  /* RECORD NAME */
+pdb_a[0].b[4].c[1]	=	74;  /* RECORD Text */
 pdb_a[0].b[4].t[0]	=	's';  /* RECORD NAME */
+pdb_a[0].b[4].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SCALEn */
 strcpy(pdb_a[0].b[5].typ,"SCALEn");  /*  */
-pdb_a[0].b[5].f		=	1;  /*  */
-pdb_a[0].b[5].c[0]	=	80;  /* RECORD NAME */
+pdb_a[0].b[5].f		=	2;  /*  */
+pdb_a[0].b[5].c[0]	=	6;  /* RECORD NAME */
+pdb_a[0].b[5].c[1]	=	74;  /* RECORD Text */
 pdb_a[0].b[5].t[0]	=	's';  /* RECORD NAME */
+pdb_a[0].b[5].t[1]	=	's';  /* RECORD NAME */
 /* Class 1:  Once - many line :  */
 /* RECORD Name : AUTHOR */
 strcpy(pdb_a[1].b[0].typ,"AUTHOR");  /*  */
-pdb_a[1].b[0].f		=	1;  /*  */
-pdb_a[1].b[0].c[0]	=	80;  /* RECORD NAME */
+pdb_a[1].b[0].f		=	2;  /*  */
+pdb_a[1].b[0].c[0]	=	6;  /* RECORD NAME */
+pdb_a[1].b[0].c[1]	=	74;  /* RECORD Text */
 pdb_a[1].b[0].t[0]	=	's';  /* RECORD NAME */
+pdb_a[1].b[0].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : CAVEAT */
 strcpy(pdb_a[1].b[1].typ,"CAVEAT");  /*  */
-pdb_a[1].b[1].f		=	1;  /*  */
-pdb_a[1].b[1].c[0]	=	80;  /* RECORD NAME */
+pdb_a[1].b[1].f		=	2;  /*  */
+pdb_a[1].b[1].c[0]	=	6;  /* RECORD NAME */
+pdb_a[1].b[1].c[1]	=	74;  /* RECORD Text */
 pdb_a[1].b[1].t[0]	=	's';  /* RECORD NAME */
+pdb_a[1].b[1].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : COMPND */
 strcpy(pdb_a[1].b[2].typ,"COMPND");  /*  */
-pdb_a[1].b[2].f		=	1;  /*  */
-pdb_a[1].b[2].c[0]	=	80;  /* RECORD NAME */
+pdb_a[1].b[2].f		=	2;  /*  */
+pdb_a[1].b[2].c[0]	=	6;  /* RECORD NAME */
+pdb_a[1].b[2].c[1]	=	74;  /* RECORD Text */
 pdb_a[1].b[2].t[0]	=	's';  /* RECORD NAME */
+pdb_a[1].b[2].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : EXPDTA */
 strcpy(pdb_a[1].b[3].typ,"EXPDTA");  /*  */
-pdb_a[1].b[3].f		=	1;  /*  */
-pdb_a[1].b[3].c[0]	=	80;  /* RECORD NAME */
+pdb_a[1].b[3].f		=	2;  /*  */
+pdb_a[1].b[3].c[0]	=	6;  /* RECORD NAME */
+pdb_a[1].b[3].c[1]	=	74;  /* RECORD Text */
 pdb_a[1].b[3].t[0]	=	's';  /* RECORD NAME */
+pdb_a[1].b[3].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : KEYWDS */
 strcpy(pdb_a[1].b[4].typ,"KEYWDS");  /*  */
-pdb_a[1].b[4].f		=	1;  /*  */
-pdb_a[1].b[4].c[0]	=	80;  /* RECORD NAME */
+pdb_a[1].b[4].f		=	2;  /*  */
+pdb_a[1].b[4].c[0]	=	6;  /* RECORD NAME */
+pdb_a[1].b[4].c[1]	=	74;  /* RECORD Text */
 pdb_a[1].b[4].t[0]	=	's';  /* RECORD NAME */
+pdb_a[1].b[4].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : OBSLTE */
 strcpy(pdb_a[1].b[5].typ,"OBSLTE");  /*  */
-pdb_a[1].b[5].f		=	1;  /*  */
-pdb_a[1].b[5].c[0]	=	80;  /* RECORD NAME */
+pdb_a[1].b[5].f		=	2;  /*  */
+pdb_a[1].b[5].c[0]	=	6;  /* RECORD NAME */
+pdb_a[1].b[5].c[1]	=	74;  /* RECORD Text */
 pdb_a[1].b[5].t[0]	=	's';  /* RECORD NAME */
+pdb_a[1].b[5].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SOURCE */
 strcpy(pdb_a[1].b[6].typ,"SOURCE");  /*  */
-pdb_a[1].b[6].f		=	1;  /*  */
-pdb_a[1].b[6].c[0]	=	80;  /* RECORD NAME */
+pdb_a[1].b[6].f		=	2;  /*  */
+pdb_a[1].b[6].c[0]	=	6;  /* RECORD NAME */
+pdb_a[1].b[6].c[1]	=	74;  /* RECORD Text */
 pdb_a[1].b[6].t[0]	=	's';  /* RECORD NAME */
+pdb_a[1].b[6].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SPRSDE */
 strcpy(pdb_a[1].b[7].typ,"SPRSDE");  /*  */
-pdb_a[1].b[7].f		=	1;  /*  */
-pdb_a[1].b[7].c[0]	=	80;  /* RECORD NAME */
+pdb_a[1].b[7].f		=	2;  /*  */
+pdb_a[1].b[7].c[0]	=	6;  /* RECORD NAME */
+pdb_a[1].b[7].c[1]	=	74;  /* RECORD Text */
 pdb_a[1].b[7].t[0]	=	's';  /* RECORD NAME */
+pdb_a[1].b[7].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : TITLE */
 strcpy(pdb_a[1].b[8].typ,"TITLE");  /*  */
 pdb_a[1].b[8].f		=	5;  /*  */
@@ -183,9 +203,11 @@ pdb_a[1].b[8].t[4]	=	's';  /* N/A */
 /* Class 2:  Many - One line each :  */
 /* RECORD Name : ANISOU */
 strcpy(pdb_a[2].b[0].typ,"ANISOU");  /*  */
-pdb_a[2].b[0].f		=	1;  /*  */
-pdb_a[2].b[0].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[0].f		=	2;  /*  */
+pdb_a[2].b[0].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[0].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[0].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[0].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : ATOM */
 strcpy(pdb_a[2].b[1].typ,"ATOM");  /*  */
 pdb_a[2].b[1].f		=	20;  /*  */
@@ -231,24 +253,32 @@ pdb_a[2].b[1].t[18]	=	's';  /* element        */
 pdb_a[2].b[1].t[19]	=	's';  /* charge         */
 /* RECORD Name : CISPEP */
 strcpy(pdb_a[2].b[2].typ,"CISPEP");  /*  */
-pdb_a[2].b[2].f		=	1;  /*  */
-pdb_a[2].b[2].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[2].f		=	2;  /*  */
+pdb_a[2].b[2].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[2].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[2].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[2].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : CONECT */
 strcpy(pdb_a[2].b[3].typ,"CONECT");  /*  */
-pdb_a[2].b[3].f		=	1;  /*  */
-pdb_a[2].b[3].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[3].f		=	2;  /*  */
+pdb_a[2].b[3].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[3].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[3].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[3].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : DBREF */
 strcpy(pdb_a[2].b[4].typ,"DBREF");  /*  */
-pdb_a[2].b[4].f		=	1;  /*  */
-pdb_a[2].b[4].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[4].f		=	2;  /*  */
+pdb_a[2].b[4].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[4].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[4].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[4].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : HELIX */
 strcpy(pdb_a[2].b[5].typ,"HELIX");  /*  */
-pdb_a[2].b[5].f		=	1;  /*  */
-pdb_a[2].b[5].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[5].f		=	2;  /*  */
+pdb_a[2].b[5].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[5].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[5].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[5].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : HET */
 strcpy(pdb_a[2].b[6].typ,"HET");  /*  */
 pdb_a[2].b[6].f		=	12;  /*  */
@@ -297,85 +327,117 @@ pdb_a[2].b[7].t[6]	=	's';  /* hetSynonyms     */
 pdb_a[2].b[7].t[7]	=	's';  /* N/A */
 /* RECORD Name : HYDBND */
 strcpy(pdb_a[2].b[8].typ,"HYDBND");  /*  */
-pdb_a[2].b[8].f		=	1;  /*  */
-pdb_a[2].b[8].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[8].f		=	2;  /*  */
+pdb_a[2].b[8].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[8].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[8].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[8].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : LINK */
 strcpy(pdb_a[2].b[9].typ,"LINK");  /*  */
-pdb_a[2].b[9].f		=	1;  /*  */
-pdb_a[2].b[9].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[9].f		=	2;  /*  */
+pdb_a[2].b[9].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[9].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[9].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[9].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : MODRES */
 strcpy(pdb_a[2].b[10].typ,"MODRES");  /*  */
-pdb_a[2].b[10].f	=	1;  /*  */
-pdb_a[2].b[10].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[10].f		=	2;  /*  */
+pdb_a[2].b[10].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[10].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[10].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[10].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : MTRIXn */
 strcpy(pdb_a[2].b[11].typ,"MTRIXn");  /*  */
-pdb_a[2].b[11].f	=	1;  /*  */
-pdb_a[2].b[11].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[11].f		=	2;  /*  */
+pdb_a[2].b[11].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[11].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[11].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[11].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : REVDAT */
 strcpy(pdb_a[2].b[12].typ,"REVDAT");  /*  */
-pdb_a[2].b[12].f	=	1;  /*  */
-pdb_a[2].b[12].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[12].f		=	2;  /*  */
+pdb_a[2].b[12].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[12].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[12].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[12].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SEQADV */
 strcpy(pdb_a[2].b[13].typ,"SEQADV");  /*  */
-pdb_a[2].b[13].f	=	1;  /*  */
-pdb_a[2].b[13].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[13].f		=	2;  /*  */
+pdb_a[2].b[13].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[13].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[13].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[13].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SEQRES */
 strcpy(pdb_a[2].b[14].typ,"SEQRES");  /*  */
-pdb_a[2].b[14].f	=	1;  /*  */
-pdb_a[2].b[14].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[14].f		=	2;  /*  */
+pdb_a[2].b[14].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[14].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[14].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[14].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SHEET */
 strcpy(pdb_a[2].b[15].typ,"SHEET");  /*  */
-pdb_a[2].b[15].f	=	1;  /*  */
-pdb_a[2].b[15].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[15].f		=	2;  /*  */
+pdb_a[2].b[15].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[15].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[15].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[15].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SIGATM */
 strcpy(pdb_a[2].b[16].typ,"SIGATM");  /*  */
-pdb_a[2].b[16].f	=	1;  /*  */
-pdb_a[2].b[16].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[16].f		=	2;  /*  */
+pdb_a[2].b[16].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[16].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[16].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[16].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SIGUIJ */
 strcpy(pdb_a[2].b[17].typ,"SIGUIJ");  /*  */
-pdb_a[2].b[17].f	=	1;  /*  */
-pdb_a[2].b[17].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[17].f		=	2;  /*  */
+pdb_a[2].b[17].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[17].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[17].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[17].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SITE */
 strcpy(pdb_a[2].b[18].typ,"SITE");  /*  */
-pdb_a[2].b[18].f	=	1;  /*  */
-pdb_a[2].b[18].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[18].f		=	2;  /*  */
+pdb_a[2].b[18].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[18].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[18].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[18].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SLTBRG */
 strcpy(pdb_a[2].b[19].typ,"SLTBRG");  /*  */
-pdb_a[2].b[19].f	=	1;  /*  */
-pdb_a[2].b[19].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[19].f		=	2;  /*  */
+pdb_a[2].b[19].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[19].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[19].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[19].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : SSBOND */
 strcpy(pdb_a[2].b[20].typ,"SSBOND");  /*  */
-pdb_a[2].b[20].f	=	1;  /*  */
-pdb_a[2].b[20].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[20].f		=	2;  /*  */
+pdb_a[2].b[20].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[20].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[20].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[20].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : TURN */
 strcpy(pdb_a[2].b[21].typ,"TURN");  /*  */
-pdb_a[2].b[21].f	=	1;  /*  */
-pdb_a[2].b[21].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[21].f		=	2;  /*  */
+pdb_a[2].b[21].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[21].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[21].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[21].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : TVECT */
 strcpy(pdb_a[2].b[22].typ,"TVECT");  /*  */
-pdb_a[2].b[22].f	=	1;  /*  */
-pdb_a[2].b[22].c[0]	=	80;  /* RECORD NAME */
+pdb_a[2].b[22].f		=	2;  /*  */
+pdb_a[2].b[22].c[0]	=	6;  /* RECORD NAME */
+pdb_a[2].b[22].c[1]	=	74;  /* RECORD Text */
 pdb_a[2].b[22].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[22].t[1]	=	's';  /* RECORD NAME */
 /* Class 3:  Many -- many line each :  */
 /* RECORD Name : FORMUL */
 strcpy(pdb_a[3].b[0].typ,"FORMUL");  /*  */
-pdb_a[3].b[0].f		=	1;  /*  */
-pdb_a[3].b[0].c[0]	=	80;  /* RECORD NAME */
+pdb_a[3].b[0].f		=	2;  /*  */
+pdb_a[3].b[0].c[0]	=	6;  /* RECORD NAME */
+pdb_a[3].b[0].c[1]	=	74;  /* RECORD Text */
 pdb_a[3].b[0].t[0]	=	's';  /* RECORD NAME */
+pdb_a[3].b[0].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : HETATM */
 strcpy(pdb_a[3].b[1].typ,"HETATM");  /*  */
 pdb_a[3].b[1].f		=	20;  /*  */
@@ -481,9 +543,11 @@ pdb_a[4].b[2].t[8]	=	's';  /* N/A */
 /* Special :  */
 /* RECORD Name : JRNL */
 strcpy(pdb_a[5].b[0].typ,"JRNL");  /*  */
-pdb_a[5].b[0].f		=	1;  /*  */
-pdb_a[5].b[0].c[0]	=	80;  /* RECORD NAME */
+pdb_a[5].b[0].f		=	2;  /*  */
+pdb_a[5].b[0].c[0]	=	6;  /* RECORD NAME */
+pdb_a[5].b[0].c[1]	=	74;  /* RECORD Text */
 pdb_a[5].b[0].t[0]	=	's';  /* RECORD NAME */
+pdb_a[5].b[0].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : REMARK */
 strcpy(pdb_a[5].b[1].typ,"REMARK");  /*  */
 pdb_a[5].b[1].f		=	6;  /*  */

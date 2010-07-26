@@ -7,10 +7,11 @@ extern int DEBUG,WARN,SILENT;
 /* This reads in the line */
 void rwm_line(int rwmln){
 int rwmdone=0, rwma=0, rwmb=0, rwmstop=-1, rwmmt=-1, rwmnl=-1;
+int shortline=-1;
 linetype rwmlt;
 char rwmaCL='I',rwmaRN='I',rwmtest='\0';
 /* Read in first six characters and determine line type */
-if(DEBUG>=-10){printf("rwm_line 1\n");}
+if(DEBUG>=1){printf("rwm_line 1\n");}
 for(rwma=0;rwma<6;rwma++){
 	if(rwmstop!=0){
 		rwmdone=fgetc(IN);
@@ -18,7 +19,7 @@ if(DEBUG>=2){printf("Just got new rwmdone \n");}
 		if(rwmdone==EOF){read_neek("EOF",rwmln,rwma);}
 		}
 	if(((rwmdone=='\n')||(rwmdone==' '))&&(rwma==0)){
-if(DEBUG>=-10){printf("Empty line found \n");}
+if(DEBUG>=2){printf("Empty line found \n");}
 		if(rwmdone=='\n'){rwmnl=0;}
 		rwmmt=0;
 		}
@@ -46,17 +47,16 @@ if(DEBUG>=1){printf("rwm_line 2\n");}
 ln[rwmln-1].f[0].c[6]='\0';
 
 // made it here?  find out the line type
-if(DEBUG>=-10){printf("rwm_line 3 fieldname is >>>%s<<<\n",ln[rwmln-1].f[0].c);}
+if(DEBUG>=1){printf("rwm_line 3 fieldname is >>>%s<<<\n",ln[rwmln-1].f[0].c);}
 rwmlt=get_type(ln[rwmln-1].f[0].c); 
 ln[rwmln-1].a=rwmlt.a; // class 
 ln[rwmln-1].b=rwmlt.b; // number for the sub-class
 
 
 
-if(DEBUG>=-10){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a, rwmlt.b);}
 /* Assign action switch from internal defaults */
 if(DEBUG>=1){printf("rwm_line 4\n");}
-if(DEBUG>=0){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a,rwmlt.b);} 
+if(DEBUG>=1){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a,rwmlt.b);} 
 /* If get_type returned a valid class: */
 
 
@@ -71,12 +71,16 @@ if(rwmstop == 0)
 
 // If the rule is to modify, read in the rest of the line, first...  
 for(rwma=1;rwma<pdb_a[rwmlt.a].b[rwmlt.b].f;rwma++){
+//printf("in the read rest of line loop, chars is %d\n",pdb_a[rwmlt.a].b[rwmlt.b].c[rwma]);
         for(rwmb=0;rwmb<pdb_a[rwmlt.a].b[rwmlt.b].c[rwma];rwmb++){
                 ln[rwmln-1].f[rwma].c[rwmb]=fgetc(IN);
+//printf("the current character (%d) is >>%c<<\n",rwmb,ln[rwmln-1].f[rwma].c[rwmb]);
                 //fprintf(OUTC,"%c",ln[rwmln-1].f[rwma].c[rwmb]);
                 if(ln[rwmln-1].f[rwma].c[rwmb]=='\n'){
                         rwmb=pdb_a[rwmlt.a].b[rwmlt.b].c[rwma];
                         rwma=pdb_a[rwmlt.a].b[rwmlt.b].f;
+			shortline=0;
+			rwmtest='\n';
                         }
                 if(ln[rwmln-1].f[rwma].c[rwmb]==EOF){
                         read_neek("EOF",(rwmln),(rwma+1));
@@ -85,8 +89,15 @@ for(rwma=1;rwma<pdb_a[rwmlt.a].b[rwmlt.b].f;rwma++){
         ln[rwmln-1].f[rwma].c[rwmb]='\0';
         } 
 
-rwmtest=fgetc(IN);
-if((rwmtest!='\n')&&(rwmtest!=EOF)){printf("not at end of line!!!\n");} 
+//printf("rwmtest is >>%c<<\t",rwmtest);
+if(shortline!=0) rwmtest=fgetc(IN);
+//printf("rwmtest is >>%c<<\n",rwmtest);
+
+if((rwmtest!='\n')&&(rwmtest!=EOF)){
+	printf("Found line longer than 80 characters (likely line %d).  Ignoring rest of line.\n",rwmln);
+	rwmtest='\0';
+	while(rwmtest!='\n'){rwmtest=fgetc(IN);}
+	}
 if(DEBUG>=0){printf("rwm_line 13\n");}
 /*if((WARN==0)&&(SILENT!=0)){fflush(OUTC);} */
 return;
