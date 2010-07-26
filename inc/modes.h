@@ -72,6 +72,7 @@ typedef struct {
 typedef struct {
 	int i; ///< index
 	char *Desc; ///< free-form description for mode
+	char *RingDesc; ///< Description of ring type, e.g. phenyl, 0GB, etc.
 	double I; ///< intensity of the motion (user-defined...)
 	double e; ///< extent of ring-portion of overall motion
 	double pvp; ///< motion parallel (~0) or perpendicular (~1) to plane
@@ -108,6 +109,10 @@ typedef struct {
 	double modemax; ///< maximum s-a-t score in mode set (used to scale vectors to max of 1)
 	double maxmodemag; ///< vector magnitude for the modemax vector
 	double maxKEmag; ///< for the larges s-a-t assignment, the KE along that assignment
+	double TOTmag; ///< Total magnitude of all motions, all molecules
+	double TRmag; ///< Total translation-removed magnitude, all molecules
+	double MRmag; ///< Total molecule-rotation-removed magnitude, all molecules
+	double RRmag; ///< Total residue-rotation-removed magnitude, all molecules
 } vibmode; ///< description of a vibrational mode 
 
 

@@ -50,6 +50,7 @@ for(tr=0;tr<m[0].nr;tr++){ // COM = sum(m_i * r_i) / sum(m_i)
 m[0].COM.i/=tmm;
 m[0].COM.j/=tmm;
 m[0].COM.k/=tmm; 
+m[0].m=tmm;
 //printf("center of mass is at: %20.12e %20.12e %20.12e \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 return;
 }
@@ -80,6 +81,7 @@ for(tm=0;tm<a[0].nm;tm++){ // COM = sum(m_i * r_i) / sum(m_i)
 a[0].COM.i/=tmm;
 a[0].COM.j/=tmm;
 a[0].COM.k/=tmm; 
+a[0].mass=tmm;
 //printf("center of mass is at: %20.12e %20.12e %20.12e \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 return;
 }
@@ -112,6 +114,7 @@ for(tm=0;tm<e[0].nm;tm++){ // COM = sum(m_i * r_i) / sum(m_i)
 e[0].COM.i/=tmm;
 e[0].COM.j/=tmm;
 e[0].COM.k/=tmm; 
+e[0].mass=tmm;
 //printf("center of mass is at: %20.12e %20.12e %20.12e \n",m[0].COM.i,m[0].COM.j,m[0].COM.k);
 return;
 } 

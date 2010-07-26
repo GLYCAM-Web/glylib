@@ -33,7 +33,7 @@ void init_struct_slurp(fileslurp S);
 void rwm_line_char(char* curLine, int rwmln);
 molecule* getMolecule(void);
 
-FILE *IN, *OUT, *OUTC;
+FILE *IN;
 linedef line[1];
 int WARN,SILENT; /* default is "false" (=1). "true" is 0 */
 char froot[200],suf[6],sufc[20];

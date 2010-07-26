@@ -20,6 +20,7 @@ int newflag=0,newline=0,iseof=1; // utility flags
 char line[501],over[501],tmp[81],*s1,*s2,*fgets_check; 
 fpos_t line_current;
 
+
 // Open files and initialize some variables
 //F.F=myfreopen(F.N,"r",F.F); // don't depend on calling function to have opened
 F.F=myfopen(F.N,"r"); // 
@@ -82,6 +83,17 @@ while(newflag==0){// while we have found another flag entry
 	P[0].SN=(char**)realloc(P[0].SN,P[0].nS*sizeof(char*));
 	P[0].SN[sec]=strdup(tmp); // record FLAG entry in
 	P[0].S[sec].N=strdup(tmp); // both locations 
+	// clear the other entries in the new structure
+	P[0].S[sec].FORMAT=NULL;
+	P[0].S[sec].TYPE=NULL;
+	P[0].S[sec].desc=NULL;
+	P[0].S[sec].is_standard=0;
+	P[0].S[sec].nc=0;
+	P[0].S[sec].npl=0;
+	P[0].S[sec].nt=0;
+	P[0].S[sec].ns=0;
+	P[0].S[sec].nu=0;
+	P[0].S[sec].D=NULL; 
 	//
 	// Read the FORMAT entry
 	// 
