@@ -19,7 +19,7 @@ assembly* getAssembly();
 int findTotalResidue(int start);
 int endOfMol(linedef* line);
 int isAtom(linedef* line);
-void getResInfo(residue* res, int start);
+int getResInfo(residue* res, int start); /** returns start line for next molecule */
 void init_struct();
 linetype get_type(char*);
 void pdb_def(); /* contains definitions of lines and fields */
