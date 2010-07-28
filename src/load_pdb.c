@@ -129,9 +129,10 @@ assembly* getAssembly()
   int molNum = howManyMolecules();
   int i = 0;int j = 0;int k = 0;int l = 0;int atom_num;
   int init=0, next_mol_line=0;
-  char in_molecule_switch = 'n';
+  char in_molecule_switch = 'n', *temp;
   double x,y,z;
   char name[6] = ""; char* atmName = name;
+  char atmElem[3];
   assembly* asmbl = (assembly*) calloc (1 , sizeof(assembly));
   (*asmbl).nm = molNum;
   molecule *curMol; residue* curRes;// residue* res;
@@ -146,44 +147,52 @@ assembly* getAssembly()
 	}
   i=0; 
   //Get all the information for the first molecule
-  curMol = &(*asmbl).m[0][0];
+/*  curMol = &(*asmbl).m[0][0];
   (*curMol).nr = findTotalResidue(i);
-  (*curMol).r = (residue*) calloc ((*curMol).nr,sizeof(residue));
+  (*curMol).r = (residue*) calloc ((*curMol).nr,sizeof(residue)); */
 //printf("curMol nr is %d \n",(*curMol).nr);
   //Initialize the residue numbers to -1 so the program knows they're not used yet
-  for(init = 0; init < (*curMol).nr; init++){(*curMol).r[init].n = -1;}
+/*  for(init = 0; init < (*curMol).nr; init++){(*curMol).r[init].n = -1;}
   i=0;
   next_mol_line=getResInfo((*curMol).r,i);
   curRes = ((*curMol).r+k);
   (*curRes).a = (atom*) calloc ((*curRes).na,sizeof(atom));
-  curAtm = ((*curRes).a+l);
+  curAtm = ((*curRes).a+l); */
+
 //printf("First allocate of residues and atoms:\n");
 //printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,(*curRes).na);
 
+/* 
+	i = line number
+	j = molecule number
+	k = residue number (within the molecule, not absolute)
+	l = atom number ( I think... )
+*/
+
 in_molecule_switch = 'n';
-for(i = next_mol_line; i < INWC; i++) {
+for(i = 0; i < INWC; i++) {
 //printf("entering the loop, is is %d -- the card is %s\n",i,(*(ln+i)).f[0].c); 
 	if(j==molNum){break;}
 	if(in_molecule_switch == 'n'){ /* If we are not in a molecule. */
 		while( (i<(INWC)) && (isAtom(ln+i)==0) ){ i++; } /* advance to first ATOM/HETATM line */
 		if(i==INWC){break;}
 //printf("about to call getResInfo. i is %d -- j is %d\n",i,j);
-		j++;
-		curMol = &(*asmbl).m[j][0];
+		curMol = &asmbl[0].m[j][0];
 		(*curMol).nr = findTotalResidue(i);
 		(*curMol).r = (residue*) calloc ((*curMol).nr,sizeof(residue));
-		printf("\tcurMol nr is %d \n",(*curMol).nr);
+printf("\tcurMol nr is %d \n",(*curMol).nr);
 		//Initialize the residue numbers to -1 so the program knows they're not used yet
 		for(init = 0; init < (*curMol).nr; init++){(*curMol).r[init].n = -1;}
-		next_mol_line=getResInfo((*curMol).r,i+1);
-//printf("\tcalled getResInfo. (*curMol).r[0].N is %s ; i is %d ; k is %d\n",(*curMol).r[0].N,i,k);
+		next_mol_line=getResInfo((*curMol).r,i);
+printf("\tcalled getResInfo. (*curMol).r[0].N is %s ; i is %d ; k is %d\n",(*curMol).r[0].N,i,k);
 		k = 0;l = 0;
 		curRes = &curMol[0].r[k];
-//printf("allocating residues and atoms:\n");
-//printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,(*curRes).na);
+printf("allocating residues and atoms:\n");
+printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,(*curRes).na);
 		(*curRes).a = (atom*) calloc ((*curRes).na,sizeof(atom));
 		curAtm = ((*curRes).a+l);
 		in_molecule_switch = 'y';/* At this point, we should be at an ATOM/HETATM entry. */
+		j++;
 		} 
 	if(i==INWC){ /* If we ran out of lines... */
 		if((*curMol).nr==-1){ /* If this is molecule does not currently contain residues */
@@ -197,12 +206,14 @@ for(i = next_mol_line; i < INWC; i++) {
 			printf("Got to i=INWC while in a molecule.  Go fix code.\n"); }
 		else { printf("Got to i=INWC for an uncoded value of nr.  Go fix code.\n");}
 		}
-if(j>=molNum){mywhine("Found more molecules than molNum indicates (j>=molNum)\n");}
 
-	while( (i<INWC) && (j<molNum) && (in_molecule_switch=='y') ) { /* while we are in a molecule */
+	while( (i<INWC) && (in_molecule_switch=='y') ) 
+	//while( (i<INWC) && (j<molNum) && (in_molecule_switch=='y') ) 
+		{ /* while we are in a molecule */
 		if(endOfMol((ln+i)) == 1){
 			in_molecule_switch='n';
 			if(next_mol_line!=i) {printf("i is %d and next_mol_line is %d ... should match.\n",i,next_mol_line);}
+			break;
 			}
 		else {
 			if(isAtom((ln+i)) == 1) {
@@ -213,17 +224,18 @@ if(j>=molNum){mywhine("Found more molecules than molNum indicates (j>=molNum)\n"
 					(*curRes).a = (atom*) calloc ((*curRes).na,sizeof(atom));
 					}
 				curAtm = ((*curRes).a+l);
-				//Getting the atom # //temp  = (*(ln+i)).f[1].c;
+				//Getting the atom # //
 				sscanf( (*(ln+i)).f[1].c ,"%d",&atom_num);
 				//Getting the atom name //temp  = (*(ln+i)).f[3].c;
 				sscanf( (*(ln+i)).f[3].c ,"%s",atmName);
+				sscanf( (*(ln+i)).f[18].c ,"%s",atmElem); 
 				//Getting the X, Y and Z coordinates
-				//temp  = (*(ln+i)).f[11].c; //temp  = (*(ln+i)).f[12].c; //temp  = (*(ln+i)).f[13].c;
 				sscanf( (*(ln+i)).f[11].c ,"%lf",&x);
 				sscanf( (*(ln+i)).f[12].c ,"%lf",&y);
 				sscanf( (*(ln+i)).f[13].c ,"%lf",&z);   
 				(*curAtm).n = atom_num;//set the atom #
 				(*curAtm).N = strdup(atmName);//set the atom name
+				(*curAtm).E = strdup(atmElem);//set the atom element
 				//set the atom's coordinates
 				(*curAtm).x.i = x; (*curAtm).x.j = y; (*curAtm).x.k = z;
 				l++;

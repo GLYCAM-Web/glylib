@@ -140,6 +140,7 @@ typedef struct {
 	char *N; ///< atom name 
 	char *T; ///< atom type name
 	char *D; ///< free-form description
+	char *E; ///< atom element
 	double m; ///< atom mass -- units defined per program needs
 	int t; ///< type number -- must correspond to assignments of "atype" (see)
 	atype *typ; ///< pointer to atype structure
