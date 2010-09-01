@@ -65,7 +65,7 @@ if(cZ.j!=0){ // if the j component of the target direction isn't zero
 	cY=normalize_vec(cY); 
 	// get direction cosines for unit vector along new X axis
 	// (this is the X-prod of the new Y and Z axes)
-	cX=get_crossprod(cZ,cY);
+	cX=get_crossprod(cY,cZ); // note ordering looks backwards...
 	}
 else{ // the i component isn't zero (or we would have exited)
 	// set abitrary point in new XY plane for positive X position
@@ -133,7 +133,7 @@ dprint_vectormag_3D(&cY);
 }
 	// get direction cosines for unit vector along new X axis
 	// (this is the X-prod of the new Y and Z axes)
-	cX=get_crossprod(cZ,cY);
+	cX=get_crossprod(cY,cZ); // note ordering looks backwards...
 if(localdebug>=2){
 printf("Just got X axis vector:\n");
 dprint_vectormag_3D(&cX);
