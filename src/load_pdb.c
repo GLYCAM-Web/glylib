@@ -129,7 +129,7 @@ assembly* getAssembly()
   int molNum = howManyMolecules();
   int i = 0;int j = 0;int k = 0;int l = 0;int atom_num;
   int init=0, next_mol_line=0;
-  char in_molecule_switch = 'n', *temp;
+  char in_molecule_switch = 'n';
   double x,y,z;
   char name[6] = ""; char* atmName = name;
   char atmElem[3];

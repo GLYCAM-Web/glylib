@@ -53,7 +53,7 @@ This function will open a file and then check to see if the file actually opened
 If not, it will write a descriptive error message and exit(1) the program. 
 Doing this saves many, many core dumps. */
 FILE *myfopen(const char* Name,const char* option);///< Opens a file with error checking.
-
+//char glyopendir(char *pathToDir);
 /** Like myfopen, but the freopen version. */
 FILE *myfreopen(const char* Name,const char*,FILE* option); ///< Like myfopen, but the freopen version.
 
@@ -80,8 +80,9 @@ int sscan_file(FILE* F,const char* str); ///< Scans a file for instances of a st
 /** Returns the number of times the character c is found in file F */
 int cscan_file(FILE* F,char c); 
 
-/** Slurps in the contents of an entire file */
+/** Slurps in the contents of an entire file or directory */
 fileslurp slurp_file(fileset F); 
+//fileslurp slurp_directory(char *pathToDir);
 
 /** Determines the current working directory. */
 const char *gly_get_current_working_directory(void);
