@@ -213,8 +213,20 @@ for(ai=0;ai<A[0].na;ai++){
 		newline++;
 		}
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-i.");}
+
+//printf("readnum (i) is >>>%s<<< newline is %d\n",readnum,newline);
+	if( ((ftype!='r')&&(newline==10)) ) 
+		{
+		scan_tst=fgetc(F.F);
+//printf("  newline is %d (10, we hope), scan_tst is >>>%c<<<\n",newline, scan_tst);
+		if(scan_tst!='\n') {mywhine("i: newline expected but not found during first read-set");}
+		if(ftype!='r') newline=0;	
+		} 
+
 	if(ftype=='v') scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].i);
 	else scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].xa[xi].i);
+
+//printf("A[0].a[ai][0].xa[xi].i is %f\n",A[0].a[ai][0].xa[xi].i);
 
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	if(ftype=='r') scan_tst=fscanf(F.F,"%12c",readnum);
@@ -223,8 +235,20 @@ for(ai=0;ai<A[0].na;ai++){
 		newline++;
 		}
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-j.");}
+
+//printf("readnum (j) is >>>%s<<< newline is %d\n",readnum,newline);
+	if( ((ftype!='r')&&(newline==10)) ) 
+		{
+		scan_tst=fgetc(F.F);
+//printf("  newline is %d (10, we hope), scan_tst is >>>%c<<<\n",newline, scan_tst);
+		if(scan_tst!='\n') {mywhine("j: newline expected but not found during first read-set");}
+		if(ftype!='r') newline=0;	
+		} 
+
 	if(ftype=='v') scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].j);
 	else scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].xa[xi].j);
+
+//printf("A[0].a[ai][0].xa[xi].j is %f\n",A[0].a[ai][0].xa[xi].j);
 
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	if(ftype=='r') {
@@ -236,13 +260,19 @@ for(ai=0;ai<A[0].na;ai++){
 		newline++;
 		}
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass 1-k.");}
+
+//printf("readnum (k) is >>>%s<<< newline is %d\n",readnum,newline);
+
 	if(ftype=='v') scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].v[xi].k);
 	else scan_tst=sscanf(readnum,"%lf",&A[0].a[ai][0].xa[xi].k);
+
+//printf("A[0].a[ai][0].xa[xi].k is %f\n",A[0].a[ai][0].xa[xi].k);
 
 	if( ((ftype=='r')&&(newline==1)) || ((ftype!='r')&&(newline==10)) ) 
 		{
 		scan_tst=fgetc(F.F);
-		if(scan_tst!='\n') {mywhine("newline not found during first read-set");}
+//printf("  newline is %d (10, we hope), scan_tst is >>>%c<<<\n",newline, scan_tst);
+		if(scan_tst!='\n') {mywhine("1. newline not found during first read-set");}
 		if(ftype!='r') newline=0;	
 		} 
 
@@ -252,9 +282,11 @@ for(ai=0;ai<A[0].na;ai++){
 			A[0].a[ai][0].v[xi].k*A[0].a[ai][0].v[xi].k);}
 	}
 
+
 if( ((ftype=='r')&&(newline!=1)) || ((ftype!='r')&&(newline!=10)) ) { 
 	scan_tst=fgetc(F.F);
-	if(scan_tst!='\n') {mywhine("newline not found during first read-set");}
+//printf("newline is %d, scan_tst is >>>%c<<<\n",newline, scan_tst);
+	if(scan_tst!='\n') {mywhine("2. newline not found during first read-set");}
 	}
 
 if(fgetpos(F.F,&here)!=0){mywhine("problem getting file position -- before first BOX read");};
@@ -295,6 +327,8 @@ if(A[0].nBOX>0){
 		scan_tst=fscanf(F.F,"%12c",readnum);
 		//printf("readnum is >>>%s<<<\n",readnum);
 		}
+	scan_tst=fgetc(F.F);
+	if(scan_tst!='\n') {ungetc(scan_tst,F.F);}
 	}
 // START HERE -- one day there might be non-square box info in these files...
 // as of now, though, there isn't...
@@ -398,24 +432,24 @@ if(newline==-1)
 if(A[0].nBOX>0){
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	scan_tst=fscanf(F.F,"%12c",readnum);
-printf("readnum, v-i is %12s\n",readnum);
+//printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[0]);
-printf("the value saved is  %12.7f\n",A[0].BOX[allocated_xa].C[0].D[0]);
+//printf("the value saved is  %12.7f\n",A[0].BOX[allocated_xa].C[0].D[0]);
 
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	scan_tst=fscanf(F.F,"%12c",readnum);
-printf("readnum, v-i is %12s\n",readnum);
+//printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[1]);
-printf("the value saved is  %12.7f\n",A[0].BOX[allocated_xa].C[0].D[1]);
+//printf("the value saved is  %12.7f\n",A[0].BOX[allocated_xa].C[0].D[1]);
 
 	for(scan_tst=0;scan_tst<13;scan_tst++) readnum[scan_tst]='\0';
 	scan_tst=fscanf(F.F,"%12c",readnum);
-printf("readnum, v-i is %12s\n",readnum);
+//printf("readnum, v-i is %12s\n",readnum);
 	if(scan_tst!=1){mywhine("add_trajcrds_to_prmtop_assembly: File read error, pass BOX r-v-1.");}
 	scan_tst=sscanf(readnum,"%lf",&A[0].BOX[allocated_xa].C[0].D[2]);
-printf("the value saved is  %12.7f\n",A[0].BOX[allocated_xa].C[0].D[2]);
+//printf("the value saved is  %12.7f\n",A[0].BOX[allocated_xa].C[0].D[2]);
 	}
 //printf("After rst box read and BOX is %12.7f%12.7f%12.7f\n",A[0].BOX[allocated_xa].C[0].D[0],A[0].BOX[allocated_xa].C[0].D[1],A[0].BOX[allocated_xa].C[0].D[2]);
 //for(ai=0;ai<A[0].na;ai++){
