@@ -283,7 +283,7 @@ for(ai=0;ai<A[0].na;ai++){
 	}
 
 
-if( ((ftype=='r')&&(newline!=1)) || ((ftype!='r')&&(newline!=10)) ) { 
+if( ((ftype=='r')&&(newline!=1)) || ((ftype!='r')&&(newline!=0)) ) { 
 	scan_tst=fgetc(F.F);
 //printf("newline is %d, scan_tst is >>>%c<<<\n",newline, scan_tst);
 	if(scan_tst!='\n') {mywhine("2. newline not found during first read-set");}
