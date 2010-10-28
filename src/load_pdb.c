@@ -251,8 +251,9 @@ int findTotalResidue(int start)
 {
   int count=0;int i = start;int thisRes;//int curRes = 0;
   int inList,j;
-  char* temp;
-  int* known = (int*)calloc(count,sizeof(int));
+  char *temp, icode=' ';
+  int  *known = (int*)calloc(count,sizeof(int));
+  char *knownI = (char*)calloc(count,sizeof(char));
 
 //printf(" i is %d, and INWC is %d and ln[i].a-b are %d-%d\n",i,INWC,ln[i].a,ln[i].b);
 
@@ -262,17 +263,20 @@ int findTotalResidue(int start)
   {
     if(isAtom((ln+i)) == 1)
     {
+	//temp = ln[i].f[8].c;
      temp  = (*(ln+i)).f[8].c;
+     icode = ln[i].f[9].c[0];  // we know this is only one character
      sscanf(temp,"%d",&thisRes);
      inList = 0;
      //The New Way
      for(j = 0; j < count; j++){
-      if(known[j]==thisRes){inList=1; break;}
+      if((known[j]==thisRes)&&(knownI[j]==icode)){inList=1; break;}
      }
      if(!inList){
       count++;
       known = (int*)realloc(known,count*sizeof(int));
       known[count-1] = thisRes;
+      knownI[count-1] = icode;
      }
     }
    i++;
@@ -327,6 +331,7 @@ int resNum,j;int i = start;
 int count = 0, current_status=0;
 residue* curRes = (res+0);
 char name [10];char* temp;char* resName = name;
+char IC=' ';
 
 //printf("**1.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
 
@@ -348,10 +353,11 @@ i--; /* still here? decrement the counter to undo the while loop above */
 while( (i != INWC)  && (endOfMol((ln+i)) == 0) ){ 
 	if(isAtom(ln+i) == 1){
 		temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&resNum);
+		IC = ln[i].f[9].c[0];
 //printf("resNum is %d and (*curRes).n is %d\n",resNum,(*curRes).n);
 //printf("**2.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
 		//If this is a different residue than the one in the previous line
-		if(resNum != (*curRes).n){
+		if((resNum != (*curRes).n)&&(IC!=curRes[0].IC[0])){
 			curRes = NULL;
 			for(j = 0; j < count; j++){//Cycle through all of the found residues
 				if((*(res+j)).n == resNum){ /* if already seen... */
@@ -365,6 +371,9 @@ while( (i != INWC)  && (endOfMol((ln+i)) == 0) ){
 //printf("**3.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
 		if((*curRes).n < 0){ /* If this residue has not been found yet */
 			(*curRes).N = strdup(resName);	/* Set the residue name */
+			curRes[0].IC=(char*)calloc(2, sizeof(char));
+			(*curRes).IC[0] = ln[i].f[9].c[0];	/* Set the residue name */
+			(*curRes).IC[1] = '\0';	/* Set the residue name */
 			(*curRes).n = resNum;		/* Set the actual residue number */
 			(*curRes).na = 0;			/* ...and make sure the total # of atoms is 0 */
 			} /* Otherwise we can assume all of these have already been set */
@@ -384,6 +393,7 @@ molecule* getMolecule(void){
   int ntX,j,rI,next_mol_line;
   double dblY;
   char* temp;char name[6] = ""; //char* atmName = name;
+  char icode=' ';
   molecule* mol = (molecule*)calloc(molNum,sizeof(molecule));
   residue* curRes;// residue* res;
   atom* curAtm;// atom* atm;
@@ -406,7 +416,8 @@ molecule* getMolecule(void){
     if(isAtom((ln+i)) == 1)
     {
       temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&ntX);
-      if((*curRes).n != ntX)//If the residue numbers do not match
+      icode  = (*(ln+i)).f[9].c[0]; 
+      if(((*curRes).n != ntX)&&(icode!=curRes[0].IC[0]))//If the residue numbers do not match
       {//Seach through all of the resiudes until one is found that matches
        for(j = 0; j < (*mol).nr; j++){//then assign it to curRes
         if(mol[0].r[j].n == ntX){rI = j; break;}
