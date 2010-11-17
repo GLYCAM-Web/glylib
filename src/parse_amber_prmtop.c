@@ -4,20 +4,73 @@
  * 	Also adds the prmtop P to the assembly's void pointer
  */
 #include "AMBER/amber_prmtop.h"
+#include "gly_codeutils.h"
 
 assembly parse_amber_prmtop(amber_prmtop *P){
 assembly A;
 int *ICO,nICO;
 int pa=0,pb=0,pc=0,pd=0,pA1=0,pA2=0,pA3,pA4,pI1=0;
 int NextRes=0,nummol=0,*resi; // more utility integers
-int sa=0,sr=0,sm=0,ta=0,tr=0,tm=0;
+int sa=0,sr=0,sm=0,ta=0,tr=0,tm=0,ntrue=0,nwhitemid=0;
 int IPTRES=0,NSPM=0,NSPSOL=0,*NSP; // solvent/solute info & #atoms per molecule
 molbond *MB,*MBTMP;
 angle_index *MANG;
 torsion_index *MTOR;
 molindex *MOLI,*MOLBNDI; // MOLI for here, MOLBNDI for assigning molecules
-char **ATNAME,**TREECLASS,*RADTYPE,tmp[80];
+char **ATNAME,**TREECLASS,*RADTYPE,tmp[80],*PRUNED;
 double *R,*SC,*MASS; // radii and screening constants for IS, atom masses
+
+int compare_array_ws(int ai, char **a, char *flag, int bi){ // Function which checks for whitespace in an array and removes it to compare the length to its expected(true) length 
+/*	printf("ai is %d\n",ai);
+	printf("a[0] is %s\n",a[0]);
+	printf("flag is %s\n",flag);
+	printf("bi is %d\n",bi);
+*/
+	int ntrue=0,nwhitemid=0,i=0;// ntrue is the number of non-whitespace fields, nwhitemid is the number of non-terminal whitespace residues (>0 will cause error)
+	for(i=0;i<ai;i++){
+		PRUNED=strdup(prune_string_whitespace(a[i])); // Remove whitespace from array elements
+		if(PRUNED[0]!='\0'){ // Check for only a string terminator
+			if(ntrue==bi){ // Check that ntrue never exceeds the expected number of elements (otherwise exit with an error)
+	                        printf("ERROR: The declared number of components, %d, in FLAG %s does not equal the number found, %d!\n",(ntrue+1),flag,bi);
+				mywhine("\tExiting for an unequal number of elements between expected and found.\n");
+				}
+			if(i>(ntrue+nwhitemid)){ nwhitemid++; } // Increment the non-terminal whitespace index (note that consecutive non-terminal whitespaces are counted as 1)
+			ntrue++;
+			}
+		free(PRUNED);
+		}
+	if(ntrue!=ai){ // Test if the expected (ai) value does not equal the whitespace-removed value
+		printf("WARNING: Found whitespace at flag %s\n",flag);
+		printf("\tFound %d total",(ai-ntrue));
+			if(nwhitemid>0){
+				printf(" and at least %d non-terminal whitespace(s).\nFATAL WARNING: Non-terminal whitespace(s) can allow for mis-assignment of topology components!\n\tCheck that your topology file is correctly built.\n",nwhitemid);
+				mywhine("\tExiting because non-terminal whitespace found.\n");
+				}
+			else{ printf(" terminal whitespace(s).\n\tIgnoring whitespace(s).\n");}
+		}
+	return(ntrue);
+	}
+
+int count_array_nws(int ai, char **a, char *flag){ // Function to return the number of non-whitespace elements in an array - no comparison to other numbers
+        int ntrue=0,nwhitemid=0,i=0;// ntrue is the number of non-whitespace fields, nwhitemid is the number of non-terminal whitespace residues (>0 will cause error)
+        for(i=0;i<ai;i++){
+                PRUNED=strdup(prune_string_whitespace(a[i])); // Removing whitespace from the read-in data at position pb 
+                if(PRUNED[0]!='\0'){ // Not whitespace
+                        if(i>(ntrue+nwhitemid)){ nwhitemid++; } // Increment the number of non-terminal whitespaces
+                        ntrue++;
+                        }
+                free(PRUNED);
+                }
+        if(ntrue!=ai){
+                printf("WARNING: Found whitespace at flag %s\n",flag);
+                printf("\tFound %d total",(ai-ntrue));
+                        if(nwhitemid>0){printf(" and at least %d non-terminal whitespace(s).\nFATAL WARNING: Non-terminal whitespace(s) can allow for mis-assignment of topology components!\n\tCheck that your topology file is correctly built.\n",nwhitemid);}
+                        else{printf(" terminal whitespace(s).\n");}
+                printf("\tIgnoring whitespace(s).\n");
+                }
+	return(ntrue);
+	}
+
 //fileset F;
 //amber_prmtop *aprm;
 
@@ -170,7 +223,7 @@ for(pa=0;pa<P[0].nS;pa++){// Loop through each of the sections
 	//
 
 //FORMAT(20a4)  (ITITL(i), i=1,20)
-if(strcmp(P[0].S[pa].N,"TITLE")==0){ // place in the Assembly description
+if(strcmp(P[0].S[pa].N,"TITLE")==0){ // place in the Assembly description, NOTE: can be whitespace
         P[0].ITITL = pa; // the title section 
 	P[0].S[pa].is_standard=0; // set as a standard section
 	// copy the title into the assembly's description
@@ -178,7 +231,7 @@ if(strcmp(P[0].S[pa].N,"TITLE")==0){ // place in the Assembly description
 	for(pb=0;pb<P[0].S[pa].nt;pb++){strcat(A.D,P[0].S[pa].D[pb]);}
 }
 //FORMAT(12i6) 
-if(strcmp(P[0].S[pa].N,"POINTERS")==0){ // these are already added
+if(strcmp(P[0].S[pa].N,"POINTERS")==0){ // these are already added, no whitespace check 
 	P[0].POINTERS=pa; // pointer to the section containing the original char-strings
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
@@ -187,11 +240,12 @@ if(strcmp(P[0].S[pa].N,"ATOM_NAME")==0){ // these eventually go into the molecul
   	P[0].IGRAPH=pa; // IGRAPH : the user atoms names 
 	P[0].S[pa].is_standard=0; // set as a standard section
 	// for now, add these to the straight list of Assembly atoms
-	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in ATOM_NAME in parse_amber_prmtop");}
+	compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
 	for(pb=0;pb<A.na;pb++){
 		sscanf(P[0].S[pa].D[pb],"%s",tmp);
 		A.a[pb][0].N=(char*)calloc((strlen(tmp)+1),sizeof(char));
 		strcpy(A.a[pb][0].N,tmp); 
+//	        printf("\tP[0].S[pa].D[pb] = %s\n",P[0].S[pa].D[pb]);
 		}
 }
 // FORMAT(5E16.8)  (CHRG(i), i=1,NATOM)
@@ -199,7 +253,7 @@ if(strcmp(P[0].S[pa].N,"ATOM_NAME")==0){ // these eventually go into the molecul
 if(strcmp(P[0].S[pa].N,"CHARGE")==0){ // these go with each atom
   	P[0].CHRG   =pa; // CHRG   : the atom charges.  
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in CHARGE in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
 	for(pb=0;pb<A.na;pb++){
 		A.a[pb][0].nch=1;
 		A.a[pb][0].ch=(double*)calloc(1,sizeof(double));
@@ -211,7 +265,7 @@ if(strcmp(P[0].S[pa].N,"CHARGE")==0){ // these go with each atom
 if(strcmp(P[0].S[pa].N,"MASS")==0){ // with each atom
   	P[0].AMASS  =pa; // AMASS  : the atom masses 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in AMASS in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
 	MASS=(double*)calloc(A.na,sizeof(double));
 	for(pb=0;pb<A.na;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&A.a[pb][0].m); }
 	// for(pb=0;pb<A.na;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&MASS[pb]); } // before m in atom struct
@@ -221,7 +275,7 @@ if(strcmp(P[0].S[pa].N,"MASS")==0){ // with each atom
 if(strcmp(P[0].S[pa].N,"ATOM_TYPE_INDEX")==0){ // into the atype structure
   	P[0].IAC    =pa; // IAC    : index for the atom types involved in Lennard Jones (6-12) 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in ATOM_TYPE_INDEX in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
 	for(pb=0;pb<A.na;pb++){
 		sscanf(P[0].S[pa].D[pb],"%d",&A.a[pb][0].t);
 		A.a[pb][0].t--;
@@ -231,7 +285,7 @@ if(strcmp(P[0].S[pa].N,"ATOM_TYPE_INDEX")==0){ // into the atype structure
 }
            	// interactions.  See ICO below.  
 // FORMAT(12I6)  (NUMEX(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"NUMBER_EXCLUDED_ATOMS")==0){ // unused for now (20080612)
+if(strcmp(P[0].S[pa].N,"NUMBER_EXCLUDED_ATOMS")==0){ // unused for now (20080612), no whitespace check since unused
   	P[0].NUMEX  =pa; // NUMEX  : total number of excluded atoms for atom "i".  See
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
@@ -241,7 +295,7 @@ if(strcmp(P[0].S[pa].N,"NUMBER_EXCLUDED_ATOMS")==0){ // unused for now (20080612
 if(strcmp(P[0].S[pa].N,"NONBONDED_PARM_INDEX")==0){ // 
   	P[0].ICO    =pa; // ICO    : provides the index to the nonbon parameter
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=nICO){mywhine("P[0].S[pa].nt!=nICO in parse_amber_prmtop.");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,nICO);
 	for(pb=0;pb<nICO;pb++){sscanf(P[0].S[pa].D[pb],"%d",&ICO[pb]);}
            	// arrays CN1, CN2 and ASOL, BSOL.  All possible 6-12
            	// or 10-12 atoms type interactions are represented.
@@ -257,20 +311,37 @@ if(strcmp(P[0].S[pa].N,"NONBONDED_PARM_INDEX")==0){ //
 if(strcmp(P[0].S[pa].N,"RESIDUE_LABEL")==0){ // names of residues
   	P[0].LABRES =pa; // LABRES : the residue labels 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.nr){
-		printf("P[0].S[pa].nt is %d and A.nr is %d\n",P[0].S[pa].nt,A.nr);
-		mywhine("P[0].S[pa].nt!=A.nr in RESIDUE_LABEL in parse_amber_prmtop");}
-	for(pb=0;pb<A.nr;pb++){
-		A.r[pb][0].N=(char*)calloc((P[0].S[pa].nc+1),sizeof(char));
-		sscanf(P[0].S[pa].D[pb],"%s",A.r[pb][0].N);
-		A.r[pb][0].N=(char*)realloc(A.r[pb][0].N,strlen(A.r[pb][0].N+1));
+	nwhitemid=0; // Total non-terminal whitespace residues
+	ntrue=0; // Number of actual (non-whitespace) residues found
+	for(pb=0;pb<P[0].S[pa].nt;pb++){
+                PRUNED=strdup(prune_string_whitespace(P[0].S[pa].D[pb])); // Removing whitespace from the read-in data at position pb 
+//printf("pb eq %d string eq >>%s<< pruned eq >>%s<<\n",pb,P[0].S[pa].D[pb],PRUNED);
+                if(PRUNED[0]!='\0'){ // Not whitespace
+			if(ntrue==A.nr){ // If the true number of residues equals the total residues in the assembly
+//printf("ntrue eq %d and A.nr eq %d\n",ntrue,A.nr);
+				mywhine("The declared number of residues does not equal the number found! :-(");
+				}
+			if(pb>(ntrue+nwhitemid)){ nwhitemid++; } // Increment the number of non-terminal whitespaces, shouldn't this be a "while" loop?
+			A.r[ntrue][0].N=(char*)calloc((P[0].S[pa].nc+1),sizeof(char)); // Adjusted for data size, need type-specific functionality
+			sscanf(P[0].S[pa].D[pb],"%s",A.r[ntrue][0].N);
+			A.r[ntrue][0].N[P[0].S[pa].nc]='\0'; // Adding the 'end of line' character to the end of the string
+			ntrue++;
+			}
+		free(PRUNED);
+		}
+	if(ntrue!=P[0].S[pa].nt){
+		printf("WARNING: Found whitespace at flag %s\n",P[0].S[pa].N);
+		printf("\tFound %d total",(P[0].S[pa].nt-ntrue));
+			if(nwhitemid>0){printf(" and at least %d non-terminal whitespace(s).\nFATAL WARNING: Non-terminal whitespace(s) can allow for mis-assignment of topology components!\n\tCheck that your topology file is correctly built.\n",nwhitemid);}
+			else{printf(" terminal whitespace(s).\n");}
+		printf("\tIgnoring whitespace(s).\n");
 		}
 }
 // FORMAT(10a8)
 if(strcmp(P[0].S[pa].N,"RESIDUE_ID")==0){// ?? Presumably residue numbers, will store there
 	P[0].IRES =pa; // START HERE -- this is probably the wrong name!!!!!
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.nr){mywhine("P[0].S[pa].nt!=A.nr in RESIDUE_ID in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.nr);
 	for(pb=0;pb<A.nr;pb++){sscanf(P[0].S[pa].D[pb],"%d",&A.r[pb][0].n);}
 }
 // FORMAT(12I6)  (IPRES(i), i=1,NRES)
@@ -278,7 +349,7 @@ if(strcmp(P[0].S[pa].N,"RESIDUE_POINTER")==0){ // for adding atoms to residues
   	P[0].IPRES  =pa; // IPRES  : atoms in each residue are listed for atom "i" in
 	P[0].S[pa].is_standard=0; // set as a standard section
 	pc=0;
-	if(P[0].S[pa].nt!=A.nr){mywhine("P[0].S[pa].nt!=A.nr in RESIDUE_POINTER in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.nr);
 	for(pb=0;pb<(A.nr-1);pb++){
 		sscanf(P[0].S[pa].D[pb+1],"%d",&NextRes);
 		NextRes-=1;
@@ -316,7 +387,7 @@ if(strcmp(P[0].S[pa].N,"RESIDUE_POINTER")==0){ // for adding atoms to residues
 if(strcmp(P[0].S[pa].N,"BOND_FORCE_CONSTANT")==0){ // 
   	P[0].RK     =pa; // RK     : force constant for the bonds of each type, kcal/mol 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0][0].nBT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nBT in BOND_FORCE_CONSTANT in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nBT);
 	for(pb=0;pb<A.PRM[0][0].nBT;pb++){
 		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].BT[pb].k);
 		}
@@ -325,28 +396,28 @@ if(strcmp(P[0].S[pa].N,"BOND_FORCE_CONSTANT")==0){ //
 if(strcmp(P[0].S[pa].N,"BOND_EQUIL_VALUE")==0){
   	P[0].REQ    =pa; // REQ    : the equilibrium bond length for the bonds of each type, angstroms 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0][0].nBT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nBT in BOND_EQUIL_VALUE in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nBT);
 	for(pb=0;pb<A.PRM[0][0].nBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].BT[pb].l);}
 }
 // FORMAT(5E16.8)  (TK(i), i=1,NUMANG)
 if(strcmp(P[0].S[pa].N,"ANGLE_FORCE_CONSTANT")==0){
   	P[0].TK     =pa; // TK     : force constant for the angles of each type, kcal/mol A**2 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0][0].nANT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nANT in ANGLE_FORCE_CONSTANT in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nANT);
 	for(pb=0;pb<A.PRM[0][0].nANT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].ANT[pb].k);}
 }
 // FORMAT(5E16.8)  (TEQ(i), i=1,NUMANG)
 if(strcmp(P[0].S[pa].N,"ANGLE_EQUIL_VALUE")==0){
   	P[0].TEQ    =pa; // TEQ    : the equilibrium angle for the angles of each type, radians 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0][0].nANT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nANT in ANGLE_EQUIL_VALUE in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nANT);
 	for(pb=0;pb<A.PRM[0][0].nANT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].ANT[pb].l);}
 }
 // FORMAT(5E16.8)  (PK(i), i=1,NPTRA)
 if(strcmp(P[0].S[pa].N,"DIHEDRAL_FORCE_CONSTANT")==0){
   	P[0].PK     =pa; // PK     : force constant for the dihedrals of each type, kcal/mol 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0][0].nTRT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nTRT in DIHEDRAL_FORCE_CONSTANT in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nTRT);
 	for(pb=0;pb<A.PRM[0][0].nTRT;pb++){
 		if(A.PRM[0][0].TRT[pb].n>1){mywhine("A.PRM[0][0].TRT[pb].n>1 in parse_amber_prmtop!");}
 		A.PRM[0][0].TRT[pb].n=1;
@@ -358,7 +429,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRAL_FORCE_CONSTANT")==0){
 if(strcmp(P[0].S[pa].N,"DIHEDRAL_PERIODICITY")==0){
   	P[0].PN     =pa; // PN     : periodicity of the dihedral of a given type 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0][0].nTRT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nTRT in DIHEDRAL_PERIODICITY in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nTRT);
 	for(pb=0;pb<A.PRM[0][0].nTRT;pb++){
 		if(A.PRM[0][0].TRT[pb].n>1){mywhine("A.PRM[0][0].TRT[pb].n>1 in parse_amber_prmtop!");}
 		A.PRM[0][0].TRT[pb].n=1;
@@ -370,7 +441,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRAL_PERIODICITY")==0){
 if(strcmp(P[0].S[pa].N,"DIHEDRAL_PHASE")==0){
   	P[0].PHASE  =pa; // PHASE  : phase of the dihedral of a given type, radians 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0][0].nTRT){mywhine("P[0].S[pa].nt!=A.PRM[0][0].nTRT in DIHEDRAL_PHASE in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nTRT);
 	for(pb=0;pb<A.PRM[0][0].nTRT;pb++){
 		if(A.PRM[0][0].TRT[pb].n>1){mywhine("A.PRM[0][0].TRT[pb].n>1 in parse_amber_prmtop!");}
 		A.PRM[0][0].TRT[pb].n=1;
@@ -379,7 +450,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRAL_PHASE")==0){
 		}
 }
 // FORMAT(5E16.8)  (SOLTY(i), i=1,NATYP)
-if(strcmp(P[0].S[pa].N,"SOLTY")==0){ // not much to do here at the moment
+if(strcmp(P[0].S[pa].N,"SOLTY")==0){ // not much to do here at the moment, no whitespace check
   	P[0].SOLTY  =pa; // SOLTY  : currently unused (reserved for future use) 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
@@ -387,10 +458,7 @@ if(strcmp(P[0].S[pa].N,"SOLTY")==0){ // not much to do here at the moment
 if(strcmp(P[0].S[pa].N,"LENNARD_JONES_ACOEF")==0){
  	P[0].CN1    =pa; // CN1    : Lennard Jones r**12 terms for all possible atom type
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0][0].nNBT){
-		fprintf(stdout,"P[0].S[pa].nt (%d) !=A.PRM[0][0].nNBT (%d) in LENNARD_JONES_ACOEF in parse_amber_prmtop\n",P[0].S[pa].nt,A.PRM[0][0].nNBT);
-		//mywhine("P[0].S[pa].nt!=A.PRM[0][0].nNBT in LENNARD_JONES_ACOEF in parse_amber_prmtop");
-		} 
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nNBT);
 	// record the LJ parameters to the bond type info
 	for(pb=0;pb<A.PRM[0][0].nNBT;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].NBT[pb].LJ12_612); }
            	// interactions, indexed by ICO and IAC; for atom i and j
@@ -402,10 +470,7 @@ if(strcmp(P[0].S[pa].N,"LENNARD_JONES_ACOEF")==0){
 if(strcmp(P[0].S[pa].N,"LENNARD_JONES_BCOEF")==0){
   	P[0].CN2    =pa; // CN2    : Lennard Jones r**6 terms for all possible atom type
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.PRM[0][0].nNBT){
-		fprintf(stdout,"P[0].S[pa].nt (%d) !=A.PRM[0][0].nNBT (%d) in LENNARD_JONES_BCOEF in parse_amber_prmtop\n",P[0].S[pa].nt,A.PRM[0][0].nNBT);
-		//mywhine("P[0].S[pa].nt!=A.PRM[0][0].nNBT in LENNARD_JONES_BCOEF in parse_amber_prmtop");
-		}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nNBT);
 	for(pb=0;pb<A.PRM[0][0].nNBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].NBT[pb].LJ6_612);}
            	// interactions.  Indexed like CN1 above.  
 }
@@ -423,7 +488,7 @@ if(strcmp(P[0].S[pa].N,"BONDS_INC_HYDROGEN")==0){
   	P[0].JBH    =pa; // JBH    : atom involved in bond "i", bond contains hydrogen
   	P[0].ICBH   =pa; // ICBH   : index into parameter arrays RK and REQ 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=3*P[0].NBONH){mywhine("P[0].S[pa].nt!=P[0].NBONH in BONDS_INC_HYDROGEN in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(3*P[0].NBONH));
 	for(pb=0;pb<P[0].NBONH;pb++){
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[3*pb],"%d",&pA1);
@@ -455,7 +520,7 @@ if(strcmp(P[0].S[pa].N,"BONDS_WITHOUT_HYDROGEN")==0){
   	P[0].ICB    =pa; // ICB    : index into parameter arrays RK and REQ 
 	P[0].S[pa].is_standard=0; // set as a standard section
 	//for(pb=P[0].NBONH;pb<(P[0].NBONH+P[0].MBONA);pb++) // save this line for use later...
-	if(P[0].S[pa].nt!=3*P[0].MBONA){mywhine("P[0].S[pa].nt!=P[0].MBONA in BONDS_WITHOUT_HYDROGEN in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(3*P[0].MBONA));
 	for(pb=0;pb<P[0].MBONA;pb++){ // save this line for use later...
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[3*pb],"%d",&pA1);
@@ -489,7 +554,7 @@ if(strcmp(P[0].S[pa].N,"ANGLES_INC_HYDROGEN")==0){
   	P[0].KTH    =pa; // KTH    : atom involved in angle "i", angle contains hydrogen
   	P[0].ICTH   =pa; // ICTH   : index into parameter arrays TK and TEQ for angle
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=4*P[0].NTHETH){mywhine("P[0].S[pa].nt!=P[0].NTHETH in ANGLES_INC_HYDROGEN in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(4*P[0].NTHETH));
 	for(pb=0;pb<P[0].NTHETH;pb++){ // angles with hydrogen
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[4*pb],"%d",&pA1);
@@ -525,7 +590,7 @@ if(strcmp(P[0].S[pa].N,"ANGLES_WITHOUT_HYDROGEN")==0){
   	P[0].KT     =pa; // KT     : atom involved in angle "i", angle does not contain hydrogen
   	P[0].ICT    =pa; // ICT    : index into parameter arrays TK and TEQ for angle
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=4*P[0].MTHETA){mywhine("P[0].S[pa].nt!=P[0].MTHETA in ANGLES_WITHOUT_HYDROGEN in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(4*P[0].MTHETA));
 	for(pb=0;pb<P[0].MTHETA;pb++){ // angles without hydrogen
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[4*pb],"%d",&pA1);
@@ -562,7 +627,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRALS_INC_HYDROGEN")==0){
   	P[0].LPH    =pa; // LPH    : atom involved in dihedral "i", dihedral contains hydrogen
   	P[0].ICPH   =pa; // ICPH   : index into parameter arrays PK, PN, and PHASE for
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=5*P[0].NPHIH){mywhine("P[0].S[pa].nt!=P[0].NPHIH in DIHEDRALS_INC_HYDROGEN in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(5*P[0].NPHIH));
 	for(pb=0;pb<P[0].NPHIH;pb++){ // dihedrals with hydrogen
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[5*pb],"%d",&pA1);
@@ -605,7 +670,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRALS_WITHOUT_HYDROGEN")==0){
   	P[0].LP     =pa; // LP     : atom involved in dihedral "i", dihedral does not contain hydrogen
   	P[0].ICP    =pa; // ICP    : index into parameter arrays PK, PN, and PHASE for
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=5*P[0].MPHIA){mywhine("P[0].S[pa].nt!=P[0].MPHIA in DIHEDRALS_WITHOUT_HYDROGEN in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(5*P[0].MPHIA));
 	for(pb=0;pb<P[0].MPHIA;pb++){ // dihedrals with hydrogen
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[5*pb],"%d",&pA1);
@@ -644,8 +709,8 @@ if(strcmp(P[0].S[pa].N,"DIHEDRALS_WITHOUT_HYDROGEN")==0){
            	// in the PK, PN, and PHASE arrays is another term in a
            	// multitermed dihedral.  
 // FORMAT(12I6)  (NATEX(i), i=1,NEXT)
-if(strcmp(P[0].S[pa].N,"EXCLUDED_ATOMS_LIST")==0){
-  	P[0].NATEX  =pa; // NATEX  : the excluded atom list.  To get the excluded list for atom 
+if(strcmp(P[0].S[pa].N,"EXCLUDED_ATOMS_LIST")==0){  // Not currently stored so no whitespace check
+  	P[0].NATEX  =pa; // NATEX  : the excluded atom list.  To get the excluded list for atom
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
            	// "i" you need to traverse the NUMEX list, adding up all
@@ -655,6 +720,7 @@ if(strcmp(P[0].S[pa].N,"EXCLUDED_ATOMS_LIST")==0){
            	// excluded atoms are NATEX(IEXCL) to NATEX(IEXCL+NUMEX(i)).  
 // FORMAT(5E16.8)  (ASOL(i), i=1,NPHB)
 if(strcmp(P[0].S[pa].N,"HBOND_ACOEF")==0){
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,P[0].NPHB);// NOTE: Not sure if these values match - no files to compare to, MBT 2010-10-26
   	P[0].ASOL   =pa; // ASOL   : the value for the r**12 term for hydrogen bonds of all
 	P[0].S[pa].is_standard=0; // set as a standard section
 	if(P[0].NPHB>0){
@@ -669,6 +735,7 @@ if(strcmp(P[0].S[pa].N,"HBOND_ACOEF")==0){
            	// ICO(NTYPES*(IAC(i)-1+IAC(j)).  
 // FORMAT(5E16.8)  (BSOL(i), i=1,NPHB)
 if(strcmp(P[0].S[pa].N,"HBOND_BCOEF")==0){
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,P[0].NPHB);// NOTE: Not sure if these values match - no files to compare to, MBT 2010-10-26
   	P[0].BSOL   =pa; // BSOL   : the value for the r**10 term for hydrogen bonds of all
 	P[0].S[pa].is_standard=0; // set as a standard section
 	if(P[0].NPHB>0){
@@ -679,7 +746,7 @@ if(strcmp(P[0].S[pa].N,"HBOND_BCOEF")==0){
 }
            	// possible types.  Indexed like ASOL.  
 // FORMAT(5E16.8)  (HBCUT(i), i=1,NPHB)
-if(strcmp(P[0].S[pa].N,"HBCUT")==0){
+if(strcmp(P[0].S[pa].N,"HBCUT")==0){ // no whitespace check used
   	P[0].HBCUT  =pa; // HBCUT  : no longer in use 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
@@ -689,7 +756,7 @@ if(strcmp(P[0].S[pa].N,"AMBER_ATOM_TYPE")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
 	// Can't assume we've already read in the type numbers...
 	// read one per each atom, just like it is in the file
-	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in AMBER_ATOM_TYPE in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
 	ATNAME=(char**)calloc(A.na,sizeof(char*));
 	for(pb=0;pb<A.na;pb++){
 		ATNAME[pb]=(char*)calloc(P[0].S[pa].nc+1,sizeof(char));
@@ -700,7 +767,7 @@ if(strcmp(P[0].S[pa].N,"AMBER_ATOM_TYPE")==0){
 if(strcmp(P[0].S[pa].N,"TREE_CHAIN_CLASSIFICATION")==0){
   	P[0].ITREE  =pa; // ITREE  : the list of tree joining information, classified into five
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in TREE_CHAIN_CLASSIFICATION in parse_amber_prmtop");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
 	TREECLASS=(char**)calloc(A.na,sizeof(char*));
 	for(pb=0;pb<A.na;pb++){
 		TREECLASS[pb]=(char*)calloc(P[0].S[pa].nc+1,sizeof(char));
@@ -710,13 +777,13 @@ if(strcmp(P[0].S[pa].N,"TREE_CHAIN_CLASSIFICATION")==0){
            	// types.  M -- main chain, S -- side chain, B -- branch point, 
            	// 3 -- branch into three chains, E -- end of the chain 
 // FORMAT(12I6)  (JOIN(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"JOIN_ARRAY")==0){
+if(strcmp(P[0].S[pa].N,"JOIN_ARRAY")==0){ // no whitespace check used
   	P[0].JOIN   =pa; // JOIN   : tree joining information, potentially used in ancient
            	// analysis programs.  Currently unused in sander or gibbs.  
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(12I6)  (IROTAT(i), i = 1, NATOM)
-if(strcmp(P[0].S[pa].N,"IROTAT")==0){
+if(strcmp(P[0].S[pa].N,"IROTAT")==0){ //no whitespace check used
   	P[0].IROTAT =pa; // IROTAT : apparently the last atom that would move if atom i was
            	// rotated, however the meaning has been lost over time.
            	// Currently unused in sander or gibbs.
@@ -729,14 +796,17 @@ if(strcmp(P[0].S[pa].N,"SOLVENT_POINTERS")==0){
   	P[0].NSPM   =pa; // NSPM   : total number of molecules
   	P[0].NSPSOL =pa; // NSPSOL : the first solvent "molecule" 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt==3){
+        ntrue=count_array_nws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N);
+	if(ntrue==3){
 		sscanf(P[0].S[pa].D[0],"%d",&IPTRES);
 		sscanf(P[0].S[pa].D[1],"%d",&NSPM);
 		sscanf(P[0].S[pa].D[2],"%d",&NSPSOL);
 		}
+	else{printf("WARNING: Non-standard or non-existent solvent pointer information\n\tIgnoring this section...\n");}
 }
 // FORMAT(12I6)  (NSP(i), i=1,NSPM)
-if(strcmp(P[0].S[pa].N,"ATOMS_PER_MOLECULE")==0){
+if(strcmp(P[0].S[pa].N,"ATOMS_PER_MOLECULE")==0){ // Need to add a comparison to A.m[i][0].na (if not set, then add all the A.m[i][0].r[j].na's up) and WHITESPACE CHECK
+// Note that a check for this is not currently available until AFTER the A.nm value is defined (near the end of this program)
   	P[0].NSP    =pa; // NSP    : the total number of atoms in each molecule,
            	// necessary to correctly perform the pressure scaling.  
 	P[0].S[pa].is_standard=0; // set as a standard section
@@ -748,22 +818,27 @@ if(strcmp(P[0].S[pa].N,"BOX_DIMENSIONS")==0){
   	P[0].BETA   =pa; // BETA   : periodic box, angle between the XY and YZ planes in degrees.
   	P[0].BOX    =pa; // BOX    : the periodic box lengths in the X, Y, and Z directions 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt==4){
-		sscanf(P[0].S[pa].D[0],"%lf",&A.BOX[0].C[0].D[0]); ///< Record value of BETA
-		sscanf(P[0].S[pa].D[1],"%lf",&A.BOX[0].C[1].D[0]); ///< Record BOX X
-		sscanf(P[0].S[pa].D[2],"%lf",&A.BOX[0].C[1].D[1]); ///< Record BOX Y
-		sscanf(P[0].S[pa].D[3],"%lf",&A.BOX[0].C[1].D[2]); ///< Record BOX Z
+	ntrue=count_array_nws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N); // Non-comparative whitespace check
+// Checks for box definitions
+	if(P[0].IFBOX==1 && ntrue==4){ // Cubic box definition from the header
+                sscanf(P[0].S[pa].D[0],"%lf",&A.BOX[0].C[0].D[0]); ///< Record value of BETA
+                sscanf(P[0].S[pa].D[1],"%lf",&A.BOX[0].C[1].D[0]); ///< Record BOX X
+                sscanf(P[0].S[pa].D[2],"%lf",&A.BOX[0].C[1].D[1]); ///< Record BOX Y
+                sscanf(P[0].S[pa].D[3],"%lf",&A.BOX[0].C[1].D[2]); ///< Record BOX Z
 		}
-	else{fprintf(stderr,"\nIn parse_amber_prmtop.c : unexpected number of entries in section BOX_DIMENSIONS.  Ignoring contents.\n\n");}
+	else if(P[0].IFBOX==2){ //Octahedral box definition from the header ADD an ntrue comparison for octahedral box definitions
+		fprintf(stderr,"\nWARNING: Octahedral box definitions are not currently stored in the assembly.\n\tPlease include a parsing function. Ignoring any contents in this section.\nALERT: Any call to A.BOX or A.nBOX variables may cause memory issues without a segmentation fault.\n");
+		}
+	else{fprintf(stderr,"\nIn parse_amber_prmtop.c : unexpected number of entries in section BOX_DIMENSIONS.  Ignoring contents.\nALERT: Any call to A.BOX or A.nBOX variables may cause memory issues without a segmentation fault.\n\n");}
 }
 // The following are only present if IFCAP .gt. 0 
 // FORMAT(12I6)  NATCAP
-if(strcmp(P[0].S[pa].N,"CAP_INFO")==0){
+if(strcmp(P[0].S[pa].N,"CAP_INFO")==0){ // no whitespace check
   	P[0].NATCAP =pa; // NATCAP : last atom before the start of the cap of waters placed by edit 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(5E16.8)  CUTCAP, XCAP, YCAP, ZCAP
-if(strcmp(P[0].S[pa].N,"CAP_INFO2")==0){ // not putting this in quite yet
+if(strcmp(P[0].S[pa].N,"CAP_INFO2")==0){ // not putting this in quite yet, no whitespace check
   	P[0].CUTCAP =pa; // CUTCAP : the distance from the center of the cap to the outside
   	P[0].XCAP   =pa; // XCAP   : X coordinate for the center of the cap
   	P[0].YCAP   =pa; // YCAP   : Y coordinate for the center of the cap
@@ -772,33 +847,34 @@ if(strcmp(P[0].S[pa].N,"CAP_INFO2")==0){ // not putting this in quite yet
 }
 if(strcmp(P[0].S[pa].N,"RADIUS_SET")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt>0){RADTYPE=strdup(P[0].S[pa].D[0]);}
+	ntrue=count_array_nws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N); // Non-comparative whitespace check
+	if(ntrue>0){RADTYPE=strdup(P[0].S[pa].D[0]);}
 }
 if(strcmp(P[0].S[pa].N,"RADII")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in RADII in parse_amber_prmtop.");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
 	R=(double*)calloc(A.na,sizeof(double));
 	for(pb=0;pb<A.na;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&R[pb]);}
 }
 if(strcmp(P[0].S[pa].N,"SCREEN")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
-	if(P[0].S[pa].nt!=A.na){mywhine("P[0].S[pa].nt!=A.na in SCREEN in parse_amber_prmtop.");}
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
 	SC=(double*)calloc(A.na,sizeof(double));
 	for(pb=0;pb<A.na;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&SC[pb]);}
 }
-if(strcmp(P[0].S[pa].N,"LES_NTYP")==0){ // leave these out for now
+if(strcmp(P[0].S[pa].N,"LES_NTYP")==0){ // leave these out for now, no whitespace check
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
-if(strcmp(P[0].S[pa].N,"LES_TYPE")==0){
+if(strcmp(P[0].S[pa].N,"LES_TYPE")==0){ // no whitespace check
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
-if(strcmp(P[0].S[pa].N,"LES_FAC")==0){
+if(strcmp(P[0].S[pa].N,"LES_FAC")==0){ // no whitespace check
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
-if(strcmp(P[0].S[pa].N,"LES_CNUM")==0){
+if(strcmp(P[0].S[pa].N,"LES_CNUM")==0){ // no whitespace check
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
-if(strcmp(P[0].S[pa].N,"LES_ID")==0){
+if(strcmp(P[0].S[pa].N,"LES_ID")==0){ // no whitespace check
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // The following is only present if IFPERT .gt. 0
@@ -806,35 +882,35 @@ if(strcmp(P[0].S[pa].N,"LES_ID")==0){
 	is represented by lambda=1 and the perturbed state, or final state 
 	specified in parm, is the lambda=0 state. */ 
 // FORMAT(12I6)  (IBPER(i), JBPER(i), i=1,NBPER)
-if(strcmp(P[0].S[pa].N,"PERT_BOND_ATOMS")==0){
+if(strcmp(P[0].S[pa].N,"PERT_BOND_ATOMS")==0){ // no whitespace check
 // The following are only present if IFBOX .gt. 0 
   	P[0].IBPER  =pa; // IBPER  : atoms involved in perturbed bonds
   	P[0].JBPER  =pa; // JBPER  : atoms involved in perturbed bonds 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(12I6)  (ICBPER(i), i=1,2*NBPER)
-if(strcmp(P[0].S[pa].N,"PERT_BOND_PARAMS")==0){
+if(strcmp(P[0].S[pa].N,"PERT_BOND_PARAMS")==0){ // no whitespace check
   	P[0].ICBPER =pa; // ICBPER : pointer into the bond parameter arrays RK and REQ for the
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
            	// perturbed bonds.  ICBPER(i) represents lambda=1 and 
            	// ICBPER(i+NBPER) represents lambda=0.  
 // FORMAT(12I6)  (ITPER(i), JTPER(i), KTPER(i), i=1,NGPER)
-if(strcmp(P[0].S[pa].N,"PERT_ANGLE_ATOMS")==0){
+if(strcmp(P[0].S[pa].N,"PERT_ANGLE_ATOMS")==0){ // no whitespace check
   	P[0].IPTER  =pa; // IPTER  : atoms involved in perturbed angles
   	P[0].JTPER  =pa; // JTPER  : atoms involved in perturbed angles
   	P[0].KTPER  =pa; // KTPER  : atoms involved in perturbed angles 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(12I6)  (ICTPER(i), i=1,2*NGPER)
-if(strcmp(P[0].S[pa].N,"PERT_ANGLE_PARAMS")==0){
+if(strcmp(P[0].S[pa].N,"PERT_ANGLE_PARAMS")==0){ // no whitespace check
   	P[0].ICTPER =pa; // ICTPER : pointer into the angle parameter arrays TK and TEQ for 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
            	// the perturbed angles.  ICTPER(i) represents lambda=0 and 
            	// ICTPER(i+NGPER) represents lambda=1.  
 // FORMAT(12I6)  (IPPER(i), JPPER(i), KPPER(i), LPPER(i), i=1,NDPER)
-if(strcmp(P[0].S[pa].N,"PERT_DIHEDRAL_ATOMS")==0){
+if(strcmp(P[0].S[pa].N,"PERT_DIHEDRAL_ATOMS")==0){ // no whitespace checkf
   	P[0].IPPER  =pa; // IPPER  : atoms involved in perturbed dihedrals
   	P[0].JPPER  =pa; // JPPER  : atoms involved in perturbed dihedrals
   	P[0].KPPER  =pa; // KPPER  : atoms involved in perturbed dihedrals
@@ -842,57 +918,57 @@ if(strcmp(P[0].S[pa].N,"PERT_DIHEDRAL_ATOMS")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(12I6)  (ICPPER(i), i=1,2*NDPER)
-if(strcmp(P[0].S[pa].N,"PERT_DIHEDRAL_PARAMS")==0){
+if(strcmp(P[0].S[pa].N,"PERT_DIHEDRAL_PARAMS")==0){ // no whitespace check
   	P[0].ICPPER =pa; // ICPPER : pointer into the dihedral parameter arrays PK, PN and
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
            	// PHASE for the perturbed dihedrals.  ICPPER(i) represents 
            	// lambda=1 and ICPPER(i+NGPER) represents lambda=0.  
 // FORMAT(20A4)  (LABRES(i), i=1,NRES)
-if(strcmp(P[0].S[pa].N,"PERT_RESIDUE_NAME")==0){
+if(strcmp(P[0].S[pa].N,"PERT_RESIDUE_NAME")==0){ // no whitespace check
   	P[0].LABRES =pa; // LABRES : residue names at lambda=0 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(20A4)  (IGRPER(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"PERT_ATOM_NAME")==0){
+if(strcmp(P[0].S[pa].N,"PERT_ATOM_NAME")==0){ // no whitespace check
   	P[0].IGRPER =pa; // IGRPER : atomic names at lambda=0 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(20A4)  (ISMPER(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"PERT_ATOM_SYMBOL")==0){
+if(strcmp(P[0].S[pa].N,"PERT_ATOM_SYMBOL")==0){ // no whitespace check
   	P[0].ISMPER =pa; // ISMPER : atomic symbols at lambda=0 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(5E16.8)  (ALMPER(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"ALMPER")==0){
+if(strcmp(P[0].S[pa].N,"ALMPER")==0){ // no whitespace check
   	P[0].ALMPER =pa; // ALMPER : unused currently in gibbs 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(12I6)  (IAPER(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"IAPER")==0){
+if(strcmp(P[0].S[pa].N,"IAPER")==0){ // no whitespace check
   	P[0].IAPER  =pa; // IAPER  : IAPER(i) = 1 if the atom is being perturbed 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // FORMAT(12I6)  (IACPER(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"PERT_ATOM_TYPE_INDEX")==0){
+if(strcmp(P[0].S[pa].N,"PERT_ATOM_TYPE_INDEX")==0){ // no whitespace check
   	P[0].IACPER =pa; // IACPER : index for the atom types involved in Lennard Jones
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
            	// interactions at lambda=0.  Similar to IAC above.  See ICO above.  
 // FORMAT(5E16.8)  (CGPER(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"PERT_CHARGE")==0){
+if(strcmp(P[0].S[pa].N,"PERT_CHARGE")==0){ // no whitespace check
   	P[0].CGPER  =pa; // CGPER  : atomic charges at lambda=0 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // The following is only present if IPOL .eq. 1 
 // FORMAT(5E18.8) (ATPOL(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"POLARIZABILITY")==0){ // leave out for now
+if(strcmp(P[0].S[pa].N,"POLARIZABILITY")==0){ // leave out for now, // no whitespace check
   	P[0].ATPOL  =pa; // ATPOL  : atomic polarizabilities 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
 // The following is only present if IPOL .eq. 1 .and. IFPERT .eq. 1 
 // FORMAT(5E18.8) (ATPOL1(i), i=1,NATOM)
-if(strcmp(P[0].S[pa].N,"PERT_POLARIZABILITY")==0){
+if(strcmp(P[0].S[pa].N,"PERT_POLARIZABILITY")==0){ // no whitespace check
   	P[0].ATPOL1 =pa; // ATPOL1 : atomic polarizabilities at lambda = 1 (above is at lambda = 0) 
 	P[0].S[pa].is_standard=0; // set as a standard section
 }
