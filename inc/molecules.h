@@ -176,6 +176,7 @@ typedef struct {
 /********** structure residue *************/
 typedef struct {
 	int n; ///< residue number given in input file
+	char *IC; ///< insertion code
 	char *N; ///< residue name 
 	char *T; ///< residue type
 	char *D; ///< free-form description for residue
@@ -214,6 +215,7 @@ typedef struct {
 typedef struct {
 	int n; ///< molecule number given in an input file
 	int i; ///< index
+	char *Des; ///< Chain or other designation
 	char *N; ///< free-form name for molecule
 	char *T; ///< free-form type for molecule
 	char *D; ///< free-form description for residue
