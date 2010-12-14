@@ -95,7 +95,9 @@ return;
 
 void dXprint_residue(residue *r,int i){
 	int pa=0;
-	printf("residue \tn=%d ; N=>>%s<< ; na=%d ; nbs=%d ; nring=%d \n",r[0].n,r[0].N,\
+	if(r[0].IC==NULL){printf("residue \tn=%d (no IC);",r[0].n);}
+	else{printf("residue \tn=%d IC=%s;",r[0].n,r[0].IC);}
+	printf(" N=>>%s<< ; na=%d ; nbs=%d ; nring=%d \n",r[0].N,\
 		r[0].na,r[0].nbs,r[0].nring); 
 	if(i>0){
 		for(pa=0;((pa<i)&&(pa<r[0].na));pa++){
