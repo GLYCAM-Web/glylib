@@ -89,21 +89,22 @@ typedef struct {
 } bondset; // set of consecutive bonds
 
 typedef struct {
-	char isorigin; ///< Y/y/N/n -- is this the first atom in the tree?
-	int ni; ///< number incoming bonds
-	ensindex *i; ///< atoms making incoming bonds
-	int ii; ///< index of reference incoming (outgoing if origin) bond (0 to ni-1, default=0)
-	int no; ///< number outgoing bonds
-	int ic; ///< index of outgoing atom used to use to set chirality
-	ensindex *o; ///< atoms (no of them) making outgoing bonds
-	bonded_position_set *op; ///< position information for the no outgoing bonds
-	ensindex tref; ///< index of grandparent incoming atom to use to set torsion
-	double tors; ///< torsion to set with respect to indexed grandparent (and ii and ic)
-	int nOV; ///< number of open valences
-	bonded_position_set *OV; ///< coordinate info for open valences
-	int nEC; ///< number of extra coordinates (e.g., lone pairs) defined
-	bonded_position_set *EC; ///< coordinate info for the extra locations
-} connection_tree; ///< for non-redundant bonding descriptions. See documentation for information.
+	char isorigin; /**< Y if yes, N if no */
+	ensindex ensi; /**< whoami? -- here, i gives location in aT */
+	int rbi; /**< index of bond used to set geometry (default=first incoming, -1=unseen)  */
+	int ni; /**< number incoming bonds */
+	ensindex *i; /**< atoms making incoming bonds -- i gives locations in aT */
+	int no; /**< number outgoing bonds */
+	int ic; /**< index of outgoing atom used to use to set chirality */
+	ensindex *o; /**< atoms (no of them) making outgoing bonds -- i gives locations in aT */
+	bonded_position_set *op; /**< position information for the no outgoing bonds */
+	ensindex tref; /**< index of grandparent atom to use to set torsion -- i gives locations in aT */
+	double tors; /**< torsion to set with respect to indexed grandparent (and rbi and ic) */
+	int nOV; /**< number of open valences */
+	bonded_position_set *OV; /**< coordinate info for open valences */
+	int nEC; /**< number of extra coordinates (e.g., lone pairs) defined */
+	bonded_position_set *EC; /**< coordinate info for the extra locations */
+} connection_tree; /**< for non-redundant bonding descriptions. See documentation for information. */
 
 typedef struct {
 	molindex s; ///< source atom in the bond
@@ -149,6 +150,8 @@ typedef struct {
 	bond *b; ///< bond structures (nb of these)
 	int nmb; ///< number of bonds to other residues or molecules
 	molbond *mb; ///< nmb of these (pointers to the structures)
+	int mTi; ///< Index into the molecule's connection tree for this atom (m.aT)
+	int rTi; ///< Index into the residue's connection tree for this atom (r.aT) 
 	coord_3D x; ///< atom's main coordinates 
 	coord_3D xv; ///< atom's main velocity
 	int nalt; ///< number of alternate coordinate sets
