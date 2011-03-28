@@ -10,6 +10,7 @@ begun by BLFoley on 20080606
 #if !defined(GLYLIB_GEOMETRIES)
 #define GLYLIB_GEOMETRIES
 
+
 #define PI 3.1415926535897932384626433832795028
 
 /**************************************************************//**
@@ -98,5 +99,7 @@ vectormag_3D coord_to_vec(coord_3D); // turns a coordinate set into a vector
 void initialize_coord_3D(coord_3D *c);
 void initialize_vectormag_3D(vectormag_3D *v);
 void initialize_plane(plane *p);
+
+#include "geometry.h"
 
 #endif

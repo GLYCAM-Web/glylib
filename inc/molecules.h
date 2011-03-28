@@ -496,4 +496,7 @@ void add_assembly_to_ensemble(
         ensemble *E ///< pointer to the ensemble being grown
         );
 
+/* sort out dependencies and move this over to geometry.h */
+coord **atoms_to_coord_list(atom **atoms, int num_atoms);
+
 #endif

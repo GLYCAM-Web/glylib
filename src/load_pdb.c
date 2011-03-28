@@ -115,7 +115,7 @@ int howManyMolecules()
 	check_status = isAtom((ln+i)); /* is this an atom? (ATOM or HETATM) */
 	if(in_molecule_switch == 'n' && check_status == 1){
 		in_molecule_switch = 'y'; /* we have entered a molecule */
-		counter ++;
+		counter++;
 		}
 	check_status = endOfMol((ln+i)); /* If a card that usually ends a 
 		molecule: TER, LINK, CONECT, END, ENDMDL, MASTER */
