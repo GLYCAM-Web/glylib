@@ -10,8 +10,11 @@ begun by BLFoley on 20080606
 #if !defined(GLYLIB_GEOMETRIES)
 #define GLYLIB_GEOMETRIES
 
+#if !defined(PI)
+	#define PI 3.1415926535897932384626433832795028
+#endif
 
-#define PI 3.1415926535897932384626433832795028
+#define get_vector_from_coords(a,b) coord_to_vec(subtract_coord(b,a))
 
 /**************************************************************//**
 			Coordinates 
@@ -100,6 +103,65 @@ void initialize_coord_3D(coord_3D *c);
 void initialize_vectormag_3D(vectormag_3D *v);
 void initialize_plane(plane *p);
 
-#include "geometry.h"
+/** Get angle between two vectors
+ */
+double get_angle_between_vectors(vectormag_3D a, vectormag_3D b);
+
+/** Get angle abc
+ */
+double get_angle_ABC_points(coord_3D a, coord_3D b, coord_3D c);
+
+/** Get the dihedral angle between planes abc and bcd
+ */
+double get_dihedral_ABCD_points(coord_3D a, coord_3D b, coord_3D c, coord_3D d);
+
+/** Euclidean distance from x to y
+ */
+double get_distance_AB_points(coord_3D a, coord_3D b);
+
+/** Translate a list of coordinates
+ */
+void translate_coords_dp_list(coord_3D **coords, int num_coords, coord_3D shift);
+
+/** Create a rotation matrix for a rotation of theta degrees
+ * about an axis through the given point in the given direction
+ */
+double *create_rotation_matrix(coord_3D point, vectormag_3D direction, 
+                               double theta);
+/** Deallocate the rotation matrix
+ */
+void destroy_rotation_matrix(double *matrix);
+
+/** Apply the rotation matrix to the given coordinate
+ */
+void apply_rotation_matrix_to_coord_p(coord_3D *c, double *matrix);
+
+/** Rotate a list of coordinates theta degrees about an axis through 
+ * the given coordinate in the given direction
+ */
+void rotate_coords_about_axis_dp_list(coord_3D **coords, int num_coords, coord_3D point,
+                   vectormag_3D direction, double theta);
+
+/** Calculate coordinate d, where 
+ * (1) d is distance units from c
+ * (2) angle bcd is theta
+ * (3) dihedral between planes abc and bcd is phi
+ *
+ * Link to derivation: 
+ *
+ * Note: should probably change the name of this
+ */
+coord_3D get_cartesian_point_from_internal_coords(coord_3D a, coord_3D b, coord_3D c,
+                            double theta, double phi, double distance);
+
+/** Note: change name/parameter names 
+ */
+void orient_coords2_to_coords1_dp_list(coord_3D **coords, int num_coords,
+          const coord_3D *bond_atom_a, coord_3D *bond_atom_b, double distance,
+          const coord_3D *angle_atom_a, double theta,
+          coord_3D *angle_atom_b, double rho,
+          const coord_3D *dih_atom_a, coord_3D *dih_atom_b, double tau,
+          const coord_3D *tor_atom_a, const coord_3D *ref_angle_a, double phi,
+          coord_3D *tor_atom_b, coord_3D *ref_atom_b, double omega);
 
 #endif
