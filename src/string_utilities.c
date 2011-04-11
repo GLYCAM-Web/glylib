@@ -108,7 +108,7 @@ int i,k;
 k=w-strlen(x); // difference between outgoing and incoming lengths
 /// If the incoming string (x) is longer than outgoing size (w),
 /// 	write something to stderr and print what fits
-if(k<0){ fprintf(stderr,"\nget_char_string: incoming string is longer than requested outgoing size.  Doing the best we can.\n\n"); }
+if(k<0){ fprintf(stderr,"\nget_char_string: incoming string is longer than requested outgoing size.\n\t  Doing the best we can.\n\n"); }
 s=(char*)calloc(w+1,sizeof(char)); ///< Allocate memory for new string
 // Since clear allocating, we don't need to worry about the final '\0', but might anyway
 

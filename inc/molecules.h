@@ -165,7 +165,7 @@ typedef struct {
 	double *d; ///< other parameters, as needed (nd of these) 
 	int nensi; ///< number of ensemble indices
 	ensindex *ensi; ///< list of ensemble indices
-	char *sres; ///< name of some other/original residue to which this atom belonged
+	char *sres; ///< name of some other/original residue to which this atom belongs
 	int nOD; ///< number of other descriptors
 	char **OD; ///< the nOD descriptors
 	int nVP; ///< number of void structures
@@ -176,6 +176,7 @@ typedef struct {
 /********** structure residue *************/
 typedef struct {
 	int n; ///< residue number given in input file
+	char *cID; /**< Chain identifier */
 	char *IC; ///< insertion code
 	char *N; ///< residue name 
 	char *T; ///< residue type
@@ -205,6 +206,7 @@ typedef struct {
 	double *d; ///< other parameters, as needed (nd of these)
 	int nensi; ///< number of ensemble indices
 	ensindex *ensi; ///< list of ensemble indices
+	char *altname; ///< name of some other/original name for this residue 
 	int nOD; ///< number of other descriptors
 	char **OD; ///< the nOD descriptors
 	int nVP; ///< number of void structures
@@ -220,6 +222,7 @@ typedef struct {
 	char *T; ///< free-form type for molecule
 	char *D; ///< free-form description for residue
 	double m; ///< molecular weight
+	char *cID; /**< Chain identifier */
 	int mi; ///< number corresponding to the index in the parent ensemble
 	int Ei; ///< number corresponding to parent ensemble
 	int t; ///< type number
@@ -433,11 +436,6 @@ void rotate_vector_to_Z_M(molecule*,int,int,int,int,vectormag_3D);
 	// int#2 location of rotated coordinates (-1=x, 0,1,2,etc=xa[xs]
 	// int#3 location of source vectors (-1=do not calc, 0,1,2,etc=v[xs]
 	// int#4 location of rotated vectors (-1=do not calc, 0,1,2,etc=v[xs]
-//void rotate_vector_to_Y_M(molecule*,int,vectormag_3D); // int is xl
-//void rotate_vector_to_X_M(molecule*,int,vectormag_3D); // int is xl
-/* in these, the firt vector is rotated onto the second vector */
-//void rotate_vector_to_V_M(molecule*,int,vectormag_3D,vectormag_3D); // int is xl
-
 void normalize_molecule_vectors(molecule *m,int vs,int vd);
 void normalize_ensemble_vectors(ensemble *e,int vs,int vd);
 	// int #1 -- location of source vector
@@ -451,9 +449,60 @@ void yawMolecule(molecule*,double);  //Rotates about z-axis using radians
 void rollAssembly(assembly*,double); //Rotates about x-axis using radians
 void pitchAssembly(assembly*,double);//Rotates about y-axis using radians
 void yawAssembly(assembly*,double);  //Rotates about z-axis using radians
-void outputMolPDB(molecule*,char*);  //Writes a pdb using a given molecule
-void outputAsmblPDB(assembly*,char*);//Writes a pdb using a given assembly
-char* spacing(int,int); //Used by output functions to determine spacing
+
+/*
+    PDB Writing Utilities
+
+    In the following:
+
+        isource = 'n' to use values stored in r.n and a.n
+                  'i' to assign numbers automatically
+        ai = the index to use for a current atom (serial)
+        ri = the index to use for a current residue (resSeq)
+        ainit = the atom number (serial) to start a list with
+                if -1 then the value saved in a.n will be used
+        rinit = the residue number (resSeq) to start a list with
+                if -1 then the value saved in r.n will be used
+        isave = common setting for asave and rsave
+        asave = the index in a.i where the assigned serial should be saved
+                this is used for setting CONECT and LINK cards 
+                if -1, will not be saved
+        rsave = the index in r.i where the assigned resSeq should be saved
+                this is used for setting CONECT and LINK cards 
+                if -1, will not be saved 
+        raltname = if 'y', use the residue name stored in r.altname
+                   instead of r.N -- if used with oneres='y', set them
+                   all to be the same
+        oneres = 'y' to make the whole molecule one residue
+                 'n' to leave it as separate residues
+        
+*/
+
+fileslurp
+  get_ensemble_PDB_ATOM_lines(assembly *ensbl,int isource,
+    int savei,char raltname); 
+
+fileslurp
+  get_assembly_PDB_ATOM_lines(assembly *asmbl,int isource,
+    int savei,char raltname);
+
+const char
+  *get_PDB_line_for_ATOM(atom *a, residue *r,int ai, int ri, 
+    int asave, char raltname);
+
+void make_ATOM_HETATM(char *pdbline);
+
+fileslurp
+  get_residue_PDB_ATOM_lines(residue *r,int ri,int ainit,
+    int rsave, int asave,char raltname);
+
+fileslurp
+  get_molecule_PDB_ATOM_lines(molecule *mol,int rinit,int ainit,
+    int rsave,int asave, char oneres, char raltname);
+
+void outputMolPDB(molecule*,char*);  /* Writes a pdb using a given molecule -- deprecated */
+void outputAsmblPDB(assembly*,char*);/* Writes a pdb using a given assembly -- deprecated */
+
 
 // RMS between coordinate sets xs and xt
 double get_alt_rms_res(residue *r, int xs, int xt); // per residue
