@@ -113,4 +113,9 @@ In fact, this function merely slurps in your file and then calls get_keysvals_fr
 gly_keysvals get_keysvals_from_file(fileset F, const char *SEP, int newline_sep, int ignore_hash);
 /*@}*/
 
+/*
+   Deallocation routines
+*/
+void deallocateFileslurp(fileslurp *F);
+
 #endif

@@ -102,7 +102,7 @@ ways to do this, and anyone who wants to code them is very welcome to do so.
 
 /************* get_char_string() ***************/
 const char * get_char_string(const char *x, char j, int w){
-char *s,*t;
+char *s=NULL,*t=NULL;
 int i,k;
 
 k=w-strlen(x); // difference between outgoing and incoming lengths
@@ -141,14 +141,14 @@ switch (j) {
 		mywhine("get_char_string: unrecognized justification specification");
 		break;
 	}
-free(t);
+if(t!=NULL){free(t);}
 s[w]='\0'; // for safety
 return s;
 }
 
 /************* get_float_string() ***************/
 const char * get_float_string(double x, char j, int w, int d){
-char *s,*t,*xs,num[151],cdig[2];
+char *s=NULL,*t=NULL,*xs,num[151],cdig[2];
 int i=0,k=0,tst=0,len=0,start=0,end=0,digit=0,checkpt=0,first_non_nine=0;
 
 if(w>150){mywhine("In get_float_string: Cannot have total width greater than 150 characters.");}
@@ -157,12 +157,14 @@ cdig[0]=cdig[1]='\0';
 
 if(x>=0){
 	tst=(int)(log10(x))+1;
-//printf("int(log10(x)) is %d and tst is %d\n",(int)(log10(x)),tst);
+/*printf("int(log10(x)) is %d and tst is %d\n",(int)(log10(x)),tst);*/
 	}
 if(x<0){
 	tst=(int)(log10(-x))+1;
-//printf("int(log10(-x)) is %d and tst is %d\n",(int)(log10(-x)),tst);
+/*printf("int(log10(-x)) is %d and tst is %d\n",(int)(log10(-x)),tst);*/
 	}
+/* set for case where fabs(x)<1 */
+if(fabs(x)<1.0){tst=1;} 
 if(x==0){tst=1;}
 k=w-tst; // difference between outgoing length and length of integer part of float value
 /// If the incoming string (x) is longer than outgoing size (w),
@@ -187,8 +189,6 @@ if(w<len){ //< print a statement if we have to give back fewer decimal places to
 	len=w;}
 
 start=75-tst-1; ///< the starting point in the big number 
-//printf("start is >>%d<< num[start] is >>%c<<\n",start,num[start]);
-//printf("start+1 is >>%d<< num[start+1] is >>%c<<\n",start+1,num[start+1]);
 
 if(start<0){fprintf(stderr,"get_float_string: WARNING!! Incoming number too large to round up.\n");
 	fprintf(stderr,"\tReturning non-numeric string.\n\n");
@@ -211,6 +211,7 @@ xs=(char*)calloc((len+1),sizeof(char)); ///< Allocate memory for new string
 
 cdig[0]=num[checkpt];
 digit=atoi(cdig); 
+/*printf("num[checkpt] (init) is %c, num[end] is %c\n",num[checkpt],num[end]);*/
 /// See if we have a "9X' situation where we have to round up
 if((num[end]=='9')&&(digit>4)){
 		// Check to the left until a non-nine digit is found
@@ -269,6 +270,7 @@ if((num[end]=='9')&&(digit>4)){
 			}
 	}
 else{ ///< if that situation isn't present
+/*printf("num[checkpt] (else) is %c\n",num[checkpt]);*/
 	switch(num[checkpt]){
 		case '9':	
 		case '8':
@@ -300,7 +302,7 @@ else{ ///< if that situation isn't present
 s=(char*)calloc(w,sizeof(char)); ///< Allocate memory for new string
 
 k=w-len; ///< Calculated the padding needed (if any)
-//printf("len is %d and strlen(xs) is %d [w=%d ; d=%d]\n",len,strlen(xs),w,d);
+/*printf("len is %d and strlen(xs) is %d [w=%d ; d=%d]\n",len,strlen(xs),w,d);*/
 if(k<0){mywhine("get_float_string: w less than len, but it shouldn't be.");}
 switch (j) {
 	case 'L':

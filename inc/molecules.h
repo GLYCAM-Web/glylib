@@ -169,7 +169,7 @@ typedef struct {
 	int nOD; ///< number of other descriptors
 	char **OD; ///< the nOD descriptors
 	int nVP; ///< number of void structures
-	char cID; ///< chain identifier
+	char *cID; ///< chain identifier
 	void *VP; ///< nVP of these, whatever they may be
 } atom; ///< an actual atom in a residue/molecule
 
@@ -478,30 +478,20 @@ void yawAssembly(assembly*,double);  //Rotates about z-axis using radians
         
 */
 
-fileslurp
-  get_ensemble_PDB_ATOM_lines(assembly *ensbl,int isource,
-    int savei,char raltname); 
+//fileslurp get_ensemble_PDB_ATOM_lines(assembly *ensbl,int isource, int savei,char raltname); 
 
-fileslurp
-  get_assembly_PDB_ATOM_lines(assembly *asmbl,int isource,
-    int savei,char raltname);
+//fileslurp get_assembly_PDB_ATOM_lines(assembly *asmbl,int isource, int savei,char raltname);
 
-const char
-  *get_PDB_line_for_ATOM(atom *a, residue *r,int ai, int ri, 
-    int asave, char raltname);
+//const char *get_PDB_line_for_ATOM(atom *a, residue *r,int ai, int ri, int asave, char raltname);
 
-void make_ATOM_HETATM(char *pdbline);
+//void make_ATOM_HETATM(char *pdbline);
 
-fileslurp
-  get_residue_PDB_ATOM_lines(residue *r,int ri,int ainit,
-    int rsave, int asave,char raltname);
+//fileslurp get_residue_PDB_ATOM_lines(residue *r,int ri,int ainit, int rsave, int asave,char raltname);
 
-fileslurp
-  get_molecule_PDB_ATOM_lines(molecule *mol,int rinit,int ainit,
-    int rsave,int asave, char oneres, char raltname);
+//fileslurp get_molecule_PDB_ATOM_lines(molecule *mol,int rinit,int ainit, int rsave,int asave, char oneres, char raltname);
 
-void outputMolPDB(molecule*,char*);  /* Writes a pdb using a given molecule -- deprecated */
-void outputAsmblPDB(assembly*,char*);/* Writes a pdb using a given assembly -- deprecated */
+//void outputMolPDB(molecule*,char*);  /* Writes a pdb using a given molecule -- deprecated */
+//void outputAsmblPDB(assembly*,char*);/* Writes a pdb using a given assembly -- deprecated */
 
 
 // RMS between coordinate sets xs and xt
