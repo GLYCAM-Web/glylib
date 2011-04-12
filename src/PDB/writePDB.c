@@ -6,7 +6,7 @@
 #define TRUE  1
 #define FALSE 0
 
-fileslurp get_assembly_PDB_ATOM_lines(assembly *A,char isource,int savei,char raltname)
+fileslurp get_assembly_PDB_ATOM_lines(assembly *A,char isource,int savei,char raltname,int xs)
 {
 int mi,ri,ai,ainit,rinit,ntot,Li;
 fileslurp FA,*FM; 
@@ -58,7 +58,7 @@ else ainit=rinit=1;
 ntot=0;
 for(mi=0;mi<A[0].nm;mi++)
     {
-    FM[mi]=get_molecule_PDB_ATOM_lines(A[0].m[mi],rinit,ainit,savei,savei,'n',raltname);
+    FM[mi]=get_molecule_PDB_ATOM_lines(A[0].m[mi],rinit,ainit,savei,savei,'n',raltname,xs);
     if(FM[mi].n==0){mywhine("no lines found in FM from get_assembly_PDB_ATOM_lines ");}
     ntot+=FM[mi].n;
     /* 
@@ -97,7 +97,7 @@ free(FM);
 return FA;
 }
 
-fileslurp get_ensemble_PDB_ATOM_lines(ensemble *E,char isource,int savei,char raltname)
+fileslurp get_ensemble_PDB_ATOM_lines(ensemble *E,char isource,int savei,char raltname,int xs)
 {
 int mi,ri,ai,ainit,rinit,ntot,Li;
 fileslurp FE,*FM; 
@@ -148,7 +148,7 @@ if(rinit!=-1) rinit=1;
 ntot=0;
 for(mi=0;mi<E[0].nm;mi++)
     {
-    FM[mi]=get_molecule_PDB_ATOM_lines(&E[0].m[mi],rinit,ainit,savei,savei,'n',raltname);
+    FM[mi]=get_molecule_PDB_ATOM_lines(&E[0].m[mi],rinit,ainit,savei,savei,'n',raltname,xs);
     if(FM[mi].n==0){mywhine("no lines found in FM from get_assembly_PDB_ATOM_lines ");}
     ntot+=FM[mi].n;
     /* 
@@ -191,10 +191,12 @@ return FE;
 
 
 const char *
-get_PDB_line_for_ATOM(atom *a, residue *r, int ai, int ri, int asave, char raltname)
+get_PDB_line_for_ATOM(atom *a, residue *r, int ai, int ri, int asave, char raltname,int xs)
 {
 char *line, tmp[81];
 int i,rhere=0,ahere=0;
+if((xs>=0)&&(a[0].xa==NULL))
+    {mywhine("In get_PDB_line_for_ATOM, set alternate coordinate, but a.xa is NULL.");}
 line=(char*)calloc(82,sizeof(char)); /* 80 cols plus newline and termination */
 /*  
 pdb_a[2].b[1].c[0]	=	6;   RECORD NAME 
@@ -288,15 +290,18 @@ strcat(line," ");
 /*
 pdb_a[2].b[1].c[11]	=	8;   x 
 */
-strcat(line,get_float_string((double)a[0].x.i, 'r', 8, 3));
+if(xs==-1) strcat(line,get_float_string((double)a[0].x.i, 'r', 8, 3));
+else strcat(line,get_float_string((double)a[0].xa[xs].i, 'r', 8, 3));
 /*
 pdb_a[2].b[1].c[12]	=	8;   y 
 */
-strcat(line,get_float_string((double)a[0].x.j, 'r', 8, 3));
+if(xs==-1) strcat(line,get_float_string((double)a[0].x.j, 'r', 8, 3));
+else strcat(line,get_float_string((double)a[0].xa[xs].j, 'r', 8, 3));
 /*
 pdb_a[2].b[1].c[13]	=	8;   z 
 */
-strcat(line,get_float_string((double)a[0].x.k, 'r', 8, 3));
+if(xs==-1) strcat(line,get_float_string((double)a[0].x.k, 'r', 8, 3));
+else strcat(line,get_float_string((double)a[0].xa[xs].k, 'r', 8, 3));
 /*
 pdb_a[2].b[1].c[14]	=	6;   occupancy      
 
@@ -362,7 +367,7 @@ return;
    stored in the structure.  
 */
 fileslurp 
-get_residue_PDB_ATOM_lines(residue *r,int ri,int ainit,int rsave, int asave,char raltname)
+get_residue_PDB_ATOM_lines(residue *r,int ri,int ainit,int rsave, int asave,char raltname, int xs)
 {
 int i,aihere,rihere;
 fileslurp FR;
@@ -379,7 +384,7 @@ if(rsave>=0){r[0].i[rsave]=rihere;}
 for(i=0;i<FR.n;i++){
     if(ainit==-1){aihere=r[0].a[i].n;} 
     /* call get_PDB_line_for_ATOM for each atom */
-    FR.L[i]=strdup(get_PDB_line_for_ATOM(&r[0].a[i], r, aihere, rihere, asave, raltname));
+    FR.L[i]=strdup(get_PDB_line_for_ATOM(&r[0].a[i], r, aihere, rihere, asave, raltname, xs));
     if(ainit>=0){aihere++;}
     }
 return FR;
@@ -387,7 +392,7 @@ return FR;
 
 fileslurp 
 get_molecule_PDB_ATOM_lines(molecule *mol,int rinit,int ainit,int rsave,int asave,
-	char oneres, char raltname)
+	char oneres, char raltname, int xs)
 {
 int i,j,b,aihere,rihere,*resconnects,ntot=0;
 residue *this_r;
@@ -411,7 +416,7 @@ if(tolower(oneres)=='y')
 for(i=0;i<mol[0].nr;i++){
     this_r=&mol[0].r[i];
     if(rinit==-1){rihere=this_r[0].n;} 
-    FR[i]=get_residue_PDB_ATOM_lines(this_r,rihere,aihere,rsave,asave,raltname);
+    FR[i]=get_residue_PDB_ATOM_lines(this_r,rihere,aihere,rsave,asave,raltname,xs);
     ntot+=FR[i].n;
     if(ainit>=0){aihere+=this_r[0].na;}
     for(j=0;j<this_r[0].na;j++){
@@ -487,7 +492,7 @@ void outputMolPDB(molecule* mol, char* filename)
  int i;
  FILE *file;
  fileslurp FM; 
- FM=get_molecule_PDB_ATOM_lines(mol,1,1,-1,-1,'n','n');
+ FM=get_molecule_PDB_ATOM_lines(mol,1,1,-1,-1,'n','n',-1);
  if(FM.n==0){mywhine("no lines found in FM from outputMolPDB");}
  file = myfopen(filename,"w");
  for(i=0;i<FM.n;i++)
@@ -512,7 +517,7 @@ void outputAsmblPDB(assembly* asmbl, char* filename)
  rinit=ainit=1;
  for(mi=0;mi<asmbl[0].nm;mi++)
   {
-  FM[mi]=get_molecule_PDB_ATOM_lines(asmbl[0].m[mi],rinit,ainit,-1,-1,'n','n');
+  FM[mi]=get_molecule_PDB_ATOM_lines(asmbl[0].m[mi],rinit,ainit,-1,-1,'n','n',-1);
   if(FM[mi].n==0){mywhine("no lines found in FM from outputAsmblPDB");}
   /* 
     get new values for rinit and ainit 
