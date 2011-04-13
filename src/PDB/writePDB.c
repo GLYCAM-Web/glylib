@@ -8,7 +8,7 @@
 
 fileslurp get_assembly_PDB_ATOM_lines(assembly *A,char isource,int savei,char raltname,int xs)
 {
-int mi,ri,ai,ainit,rinit,ntot,Li;
+int mi,ri,ai,ainit,rinit,ntot,Li,nModels,Mi,this_x,nAlt,iFM;
 fileslurp FA,*FM; 
 char *aptr,*rptr,*tmp;
 /* allocate savei space if not -1 and if not already allocated */
@@ -44,54 +44,125 @@ if(savei!=-1)
                     }
         } } }
     }
-/* check the first residue's altname if requested, just to be polite */
+
+/* 
+    As a quick error check, see if the first residue's altname exists, if requested. 
+*/
 if((tolower(raltname)=='y')&&(A[0].m[0][0].r[0].altname==NULL))
     {
     printf("\nYou requested an assembly PDB print using alternate residue names.\n");
-    printf("But the first one has not been set.  This might cause trouble.\n");
+    printf("But the first one has not been set.  Not checking others.\n");
+    printf("This might cause trouble. (in get_assembly_ATOM_lines)\n");
     }
 
-FM=(fileslurp*)calloc(A[0].nm,sizeof(fileslurp));
+/* 
+  Figure out how many slurps we will need based on the coords to be printed.
+*/
+if(xs==-3)  /* print main plus all alternates */  
+  { 
+  nAlt=A[0].m[0][0].r[0].a[0].nalt; /* for error-checking, grab number alts for first atom */
+  nModels=nAlt+1; 
+  this_x=-1;
+  }
+else if (xs==-2) /* print only all alternates */
+  {
+  nAlt=A[0].m[0][0].r[0].a[0].nalt; /* for error-checking, grab number alts for first atom */
+  nModels=nAlt; 
+  this_x=0; 
+  }
+else if (xs==-1) /* print only the main set of coordinates */
+  {
+  nAlt=0; 
+  nModels=1; 
+  this_x=-1; 
+  }
+else /* print only one alternate set */
+  {
+  nAlt=xs+1; 
+  nModels=1; 
+  this_x=xs; 
+  }
+
+FM=(fileslurp*)calloc((nModels*A[0].nm),sizeof(fileslurp));
 if(tolower(isource)=='n') ainit=rinit=-1;
 else ainit=rinit=1;
 
-ntot=0;
+ntot=0; /* the total number of lines returned by get_molecule_PDB_ATOM_lines */
+
+for(Mi=0;Mi<nModels;Mi++)
+    {
+    iFM=Mi*A[0].nm;
 for(mi=0;mi<A[0].nm;mi++)
     {
-    FM[mi]=get_molecule_PDB_ATOM_lines(A[0].m[mi],rinit,ainit,savei,savei,'n',raltname,xs);
-    if(FM[mi].n==0){mywhine("no lines found in FM from get_assembly_PDB_ATOM_lines ");}
-    ntot+=FM[mi].n;
+    /*
+        Make a little sanity check for presence of coordinates, if needed
+    */
+    if(nAlt>0)
+        {
+        if(A[0].m[mi][0].r[0].a[0].nalt<nAlt) /* if the first atom doesn't have enough alt coords */
+            {mywhine("In get_assembly_PDB_ATOM_lines, requested coordinates do not appear to exist.");}
+        } 
+    /*
+        Grab the ATOM lines for each molecule
+    */
+    FM[iFM]=get_molecule_PDB_ATOM_lines(A[0].m[mi],rinit,ainit,savei,savei,'n',raltname,this_x);
+    if(FM[iFM].n==0){mywhine("no lines found in FM from get_assembly_PDB_ATOM_lines ");}
+    ntot+=FM[iFM].n;
     /* 
       get new values for rinit and ainit if not using 'n'
          must use L[n-2] because the last one is always "TER"
     */
     if(ainit!=-1){
-        aptr=&FM[mi].L[FM[mi].n-2][6]; /* serial begins index 6 (column 7) */
+        aptr=&FM[iFM].L[FM[iFM].n-2][6]; /* serial begins index 6 (column 7) */
          tmp=strdup(aptr); /* 5 chars */
          tmp[6]='\0';
          sscanf(tmp,"%d",&ainit);
-         free(tmp);
+         tmp=NULL;
          ainit++;
-        rptr=&FM[mi].L[FM[mi].n-2][22]; /* resSeq begins index 22 (column 23) */
+        rptr=&FM[iFM].L[FM[iFM].n-2][22]; /* resSeq begins index 22 (column 23) */
          tmp=strdup(rptr);
          tmp[5]='\0';
          sscanf(tmp,"%d",&rinit);
-         free(tmp);
+         tmp=NULL;
          rinit++;
         }
-    }
+    iFM++;
+    } /* close loop over number of molecules */
+    this_x++;
+    } /* close loop over number of models */
+/*
+    Set up the space for the whole assembly's collected lines 
+*/
+if(nModels>1) {ntot += nModels*2;} /* for MODEL and ENDMDL lines */
 FA.n=ntot;
 FA.L=(char**)calloc(FA.n,sizeof(char*));
 Li=0; /* used here to be the total number of lines */
-for(mi=0;mi<A[0].nm;mi++)
+for(Mi=0;Mi<nModels;Mi++)
     {
-    for(ai=0;ai<FM[mi].n;ai++)
-        {
-        FA.L[Li]=strdup(FM[mi].L[ai]);
+    iFM=Mi*A[0].nm;
+    if(nModels>1) 
+        { 
+        FA.L[Li]=(char*)calloc(16,sizeof(char));
+        sprintf(FA.L[Li],"MODEL     %4d\n",Mi+1);
         Li++;
         }
-    deallocateFileslurp(&FM[mi]);
+for(mi=0;mi<A[0].nm;mi++)
+    {
+    for(ai=0;ai<FM[iFM].n;ai++)
+        {
+        FA.L[Li]=strdup(FM[iFM].L[ai]);
+        Li++;
+        }
+    deallocateFileslurp(&FM[iFM]);
+    iFM++;
     } 
+    if(nModels>1) 
+        { 
+        FA.L[Li]=(char*)calloc(8,sizeof(char));
+        sprintf(FA.L[Li],"ENDMDL\n");
+        Li++;
+        }
+    } /* close loop over number of models */
 free(FM);
 
 return FA;
@@ -99,7 +170,7 @@ return FA;
 
 fileslurp get_ensemble_PDB_ATOM_lines(ensemble *E,char isource,int savei,char raltname,int xs)
 {
-int mi,ri,ai,ainit,rinit,ntot,Li;
+int mi,ri,ai,ainit,rinit,ntot,Li,nModels,Mi,this_x,nAlt,iFM;
 fileslurp FE,*FM; 
 char *aptr,*rptr,*tmp;
 /* allocate savei space if not -1 and if not already allocated */
@@ -135,55 +206,127 @@ if(savei!=-1)
                     }
         } } }
     }
-/* check the first residue's altname if requested, just to be polite */
+/* 
+    As a quick error check, see if the first residue's altname exists, if requested. 
+*/
 if((tolower(raltname)=='y')&&(E[0].m[0].r[0].altname==NULL))
     {
     printf("\nYou requested an assembly PDB print using alternate residue names.\n");
-    printf("But the first one has not been set.  This might cause trouble.\n");
+    printf("But the first one has not been set.  Not checking others.\n");
+    printf("This might cause trouble. (in get_ensemble_ATOM_lines)\n");
     }
 
-FM=(fileslurp*)calloc(E[0].nm,sizeof(fileslurp));
-if(ainit!=-1) ainit=1;
-if(rinit!=-1) rinit=1;
-ntot=0;
+/* 
+  Figure out how many slurps we will need based on the coords to be printed.
+*/
+if(xs==-3)  /* print main plus all alternates */  
+  { 
+  nAlt=E[0].m[0].r[0].a[0].nalt; /* for error-checking, grab number alts for first atom */
+  nModels=nAlt+1; 
+  this_x=-1;
+  }
+else if (xs==-2) /* print only all alternates */
+  {
+  nAlt=E[0].m[0].r[0].a[0].nalt; /* for error-checking, grab number alts for first atom */
+  nModels=nAlt; 
+  this_x=0; 
+  }
+else if (xs==-1) /* print only the main set of coordinates */
+  {
+  nAlt=0; 
+  nModels=1; 
+  this_x=-1; 
+  }
+else /* print only one alternate set */
+  {
+  nAlt=xs+1; 
+  nModels=1; 
+  this_x=xs; 
+  }
+
+FM=(fileslurp*)calloc((nModels*E[0].nm),sizeof(fileslurp));
+if(tolower(isource)=='n') ainit=rinit=-1;
+else ainit=rinit=1;
+
+ntot=0; /* the total number of lines returned by get_molecule_PDB_ATOM_lines */
+
+for(Mi=0;Mi<nModels;Mi++)
+    {
+    iFM=Mi*E[0].nm;
 for(mi=0;mi<E[0].nm;mi++)
     {
-    FM[mi]=get_molecule_PDB_ATOM_lines(&E[0].m[mi],rinit,ainit,savei,savei,'n',raltname,xs);
-    if(FM[mi].n==0){mywhine("no lines found in FM from get_assembly_PDB_ATOM_lines ");}
-    ntot+=FM[mi].n;
+    /*
+        Make a little sanity check for presence of coordinates, if needed
+    */
+    if(nAlt>0)
+        {
+        if(E[0].m[mi].r[0].a[0].nalt<nAlt) /* if the first atom doesn't have enough alt coords */
+            {mywhine("In get_assembly_PDB_ATOM_lines, requested coordinates do not appear to exist.");}
+        } 
+    /*
+        Grab the ATOM lines for each molecule
+    */
+    FM[iFM]=get_molecule_PDB_ATOM_lines(&E[0].m[mi],rinit,ainit,savei,savei,'n',raltname,this_x);
+    if(FM[iFM].n==0){mywhine("no lines found in FM from get_ensemble_PDB_ATOM_lines ");}
+    ntot+=FM[iFM].n;
     /* 
       get new values for rinit and ainit if not using 'n'
          must use L[n-2] because the last one is always "TER"
     */
     if(ainit!=-1){
-        aptr=&FM[mi].L[FM[mi].n-2][6]; /* serial begins index 6 (column 7) */
+        aptr=&FM[iFM].L[FM[iFM].n-2][6]; /* serial begins index 6 (column 7) */
          tmp=strdup(aptr);
          tmp[6]='\0';
          sscanf(tmp,"%d",&ainit);
-         free(tmp);
+         tmp=NULL;
          ainit++;
         }
     if(rinit!=-1){
-        rptr=&FM[mi].L[FM[mi].n-2][22]; /* resSeq begins index 22 (column 23) */
+        rptr=&FM[iFM].L[FM[iFM].n-2][22]; /* resSeq begins index 22 (column 23) */
          tmp=strdup(rptr);
          tmp[5]='\0';
          sscanf(tmp,"%d",&rinit);
-         free(tmp);
+         tmp=NULL;
          rinit++;
         }
-    }
+    iFM++;
+    } /* close loop over number of molecules */
+    this_x++;
+    } /* close loop over number of models */
+/*
+    Set up the space for the whole assembly's collected lines 
+*/
+if(nModels>1) {ntot += nModels*2;} /* for MODEL and ENDMDL lines */
 FE.n=ntot;
+printf("ntot is %d\n",ntot);
 FE.L=(char**)calloc(FE.n,sizeof(char*));
 Li=0; /* used here to be the total number of lines */
-for(mi=0;mi<E[0].nm;mi++)
+for(Mi=0;Mi<nModels;Mi++)
     {
-    for(ai=0;ai<FM[mi].n;ai++)
-        {
-        FE.L[Li]=strdup(FM[mi].L[ai]);
+    iFM=Mi*E[0].nm;
+    if(nModels>1) 
+        { 
+        FE.L[Li]=(char*)calloc(16,sizeof(char));
+        sprintf(FE.L[Li],"MODEL     %4d\n",Mi+1);
         Li++;
         }
-    deallocateFileslurp(&FM[mi]);
+for(mi=0;mi<E[0].nm;mi++)
+    {
+    for(ai=0;ai<FM[iFM].n;ai++)
+        {
+        FE.L[Li]=strdup(FM[iFM].L[ai]);
+        Li++;
+        }
+    deallocateFileslurp(&FM[iFM]);
+    iFM++;
     } 
+    if(nModels>1) 
+        { 
+        FE.L[Li]=(char*)calloc(8,sizeof(char));
+        sprintf(FE.L[Li],"ENDMDL\n");
+        Li++;
+        }
+    } /* close loop over number of models */
 free(FM);
 
 return FE;
