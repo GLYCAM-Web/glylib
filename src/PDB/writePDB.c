@@ -447,7 +447,7 @@ for(i=1;i<mol[0].nr;i++)
     { if(resconnects[i]>2){ b++; } }
 b++; /* for the final TER card */
 FM.n=ntot+b;
-FM.L=(char**)calloc(FM.n,sizeof(FM.n));
+FM.L=(char**)calloc(FM.n,sizeof(char*));
 b=0; /* now, it's the total number of lines */
 for(i=0;i<mol[0].nr;i++)
     {
