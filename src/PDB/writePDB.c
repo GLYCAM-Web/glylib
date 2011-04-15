@@ -429,7 +429,7 @@ else{strncat(line,r[0].IC,1);}
 /*
 pdb_a[2].b[1].c[10]	=	3;   N/A 
 */
-strcat(line," ");
+strcat(line,"   ");
 /*
 pdb_a[2].b[1].c[11]	=	8;   x 
 */
