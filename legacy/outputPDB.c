@@ -1,15 +1,13 @@
-/* Author: Michael Tessier*/
+/* Author: Michael Tessier
+	Extended and updated by BLFoley */
 #include <molecules.h>
 #include <mylib.h>
-//#include "../inc/molecules.h"
-//#include "../inc/mylib.h"
-//
 #define TRUE  1
 #define FALSE 0
 
 void outputMolPDB(molecule* mol, char* file_name)
 {
- //Tells the user what's going on
+ /* Tells the user what's going on */
  printf("Writting file: %s...\n",file_name);
  FILE* file;
  char current_line[80] = ""; char temporary[40] = "";

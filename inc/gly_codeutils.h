@@ -79,4 +79,7 @@ width of w characters, d of which will be integers appearing to the right of
 the decimal point.   The number will be justified as per the character in j 
 (l or L or r or R for left or right). */
 const char * get_exp_string(double x, char j, int w, int d);
+
+
+
 #endif

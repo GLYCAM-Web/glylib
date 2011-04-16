@@ -24,7 +24,7 @@ assembly* load_pdb(char* file_name)
   printf("Reading in %s...\n",file_name);
   for(ma=0;ma<INWC;ma++){
   if(DEBUG>=1){printf("made it to here main line loop %d ...\n", ma);} 
-  	rwm_line(ma+1); 
+	rwm_line(ma+1); 
 	}
 
   //Determine the number of molecules in the pdb
@@ -115,7 +115,7 @@ int howManyMolecules()
 	check_status = isAtom((ln+i)); /* is this an atom? (ATOM or HETATM) */
 	if(in_molecule_switch == 'n' && check_status == 1){
 		in_molecule_switch = 'y'; /* we have entered a molecule */
-		counter ++;
+		counter++;
 		}
 	check_status = endOfMol((ln+i)); /* If a card that usually ends a 
 		molecule: TER, LINK, CONECT, END, ENDMDL, MASTER */
@@ -460,7 +460,8 @@ printf("Got atom number %d and name %s in get Molecule\n",(*curAtm).n,(*curAtm).
 printf("in load_pdb_from_slurp: Atom number %d of residue number %d (%s) has the name %s\n",mol[0].r[5].a[21].n,mol[0].r[5].n,mol[0].r[5].N,mol[0].r[5].a[21].N);
 */
       //Getting the chain identifier
-      (*curAtm).cID = (*(ln+i)).f[7].c[0];
+      (*curAtm).cID = (char*)calloc(2,sizeof(char));
+      (*curAtm).cID[0] = (*(ln+i)).f[7].c[0];
 
       //Getting the X coordinate
       temp  = (*(ln+i)).f[11].c; sscanf(temp,"%lf",&dblY); (*curAtm).x.i = dblY;

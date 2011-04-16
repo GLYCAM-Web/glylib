@@ -22,6 +22,7 @@ that only one header file be loaded to get most of the glylib functionality.
 /**************************************************************//**
 	Structures and functions related to PDB files
 ******************************************************************/
+#include <PDB.h>  /**< mostly for writing pdb's */
 #include <load_pdb.h> ///< Specific to pdb files
 
 /**************************************************************//**

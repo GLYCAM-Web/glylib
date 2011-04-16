@@ -29,44 +29,44 @@ if((xs==-1)&&(xt==-1)){
 			c=scalarmult_coord(vec_to_coord(m[0].r[ta].a[tb].v[vr]),scale);
 			m[0].r[ta].a[tb].x=add_coord(m[0].r[ta].a[tb].x,c);
 			}
-        	}
+		}
 	}
 if((xs!=-1)&&(xt==-1)){
 	for(ta=0;ta<m[0].nr;ta++){ 
 		for(tb=0;tb<m[0].r[ta].na;tb++){ 
 			tuse=malloc_usable_size(m[0].r[ta].a[tb].xa);
-                	tsz=sizeof(coord_3D);
-                	tbins=tuse/tsz; 
+			tsz=sizeof(coord_3D);
+			tbins=tuse/tsz; 
 			if(tbins<(xs+1)){mywhine("memory issue: source coords (1) not allocated in shift_molecule_atoms_by_vector_scale");}
 			c=scalarmult_coord(vec_to_coord(m[0].r[ta].a[tb].v[vr]),scale);
 			m[0].r[ta].a[tb].x=add_coord(m[0].r[ta].a[tb].xa[xs],c);
 			}
-        	}
+		}
 	}
 if((xs==-1)&&(xt!=-1)){
 	for(ta=0;ta<m[0].nr;ta++){ 
 		for(tb=0;tb<m[0].r[ta].na;tb++){ 
 			tuse=malloc_usable_size(m[0].r[ta].a[tb].xa);
-                	tsz=sizeof(coord_3D);
-                	tbins=tuse/tsz; 
+			tsz=sizeof(coord_3D);
+			tbins=tuse/tsz; 
 			if(tbins<(xt+1)){mywhine("memory issue: translated coords (1) not allocated in shift_molecule_atoms_by_vector_scale");}
 			c=scalarmult_coord(vec_to_coord(m[0].r[ta].a[tb].v[vr]),scale);
 			m[0].r[ta].a[tb].xa[xt]=add_coord(m[0].r[ta].a[tb].x,c);
 			}
-        	}
+		}
 	}
 if((xs!=-1)&&(xt!=-1)){
 	for(ta=0;ta<m[0].nr;ta++){ 
 		for(tb=0;tb<m[0].r[ta].na;tb++){ 
 			tuse=malloc_usable_size(m[0].r[ta].a[tb].xa);
-                	tsz=sizeof(coord_3D); 
-                	tbins=tuse/tsz; 
+			tsz=sizeof(coord_3D); 
+			tbins=tuse/tsz; 
 			if(tbins<(xs+1)){mywhine("memory issue: source coords (2) not allocated in shift_molecule_atoms_by_vector_scale");}
 			if(tbins<(xt+1)){mywhine("memory issue: translated coords (2) not allocated in shift_molecule_atoms_by_vector_scale");}
 			c=scalarmult_coord(vec_to_coord(m[0].r[ta].a[tb].v[vr]),scale);
 			m[0].r[ta].a[tb].xa[xt]=add_coord(m[0].r[ta].a[tb].xa[xs],c);
 			}
-        	}
+		}
 	}
 return;
 }
