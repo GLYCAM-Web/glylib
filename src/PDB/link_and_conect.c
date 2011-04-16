@@ -4,7 +4,8 @@
 #include <PDB.h>
 #include <gly_codeutils.h>
 
-/
+fileslurp get_molecule_PDB_CONECT_lines(molecule *m,int rsave,int asave);
+
 fileslurp 
 get_molecule_PDB_CONECT_lines(molecule *m,int rsave,int asave)
 {
