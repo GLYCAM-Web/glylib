@@ -91,8 +91,17 @@ typedef struct {
 typedef struct {
 	double d; /**< a distance, =-1 if these values not set */
 	double a; /**< a relevant angle */
-	double t; /**< a reference torsion angle (sets chirality in the connection tree) */
+	double t; /**< a reference torsion angle (sets chirality at a node) */
 } position_set; /**< structure for info about a particular atom in terms of internal coordinates */
+typedef struct {
+	char isorigin; /**< Y if yes, N if no */
+	int nmbi; /**< number incoming bonds */
+	molbond **mbi; /**< nOV open valences */
+	int nmbo; /**< number outgoing bonds */
+	molbond **mbo; /**< nOV open valences */
+	int nOV; /**< number of open valences */
+	ensindex **OV; /**< nOV open valences */
+} residue_node;
 typedef struct {
 	char isorigin; /**< Y if yes, N if no */
 	ensindex ID; /**< whoami? -- here, i gives location in aT (or rT etc.) */
@@ -109,7 +118,7 @@ typedef struct {
 	position_set *ps; /**< nps chirality ordered positions */
 	ensindex *tref; /**< grandparent atom to set torsion -- i gives location in aT */
 	double tors; /**< torsion to set with respect to grandparent */
-} connection_tree; /**< for non-redundant bonding descriptions. See documentation. */
+} atom_node; /**< for non-redundant bonding descriptions. See documentation. */
 
 typedef struct {
 	molindex s; ///< source atom in the bond
@@ -197,6 +206,9 @@ typedef struct {
 	connection_tree *aT; ///< na of these (one per atom)
 	double m; ///< molecular weight
 	coord_3D COM; ///< center of mass for residue
+	int nrb; ///< number of bonds between residues
+	molbond *rb; ///< nrb of these descriptions of bonds 
+	int mTi; ///< Index into the molecule's connection tree for this residue (m.rT)
 	int nbs; ///< number of bond sets 
 	molbondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
 	int nring; ///< number of simple rings (no cage structures, etc.)
@@ -238,12 +250,10 @@ typedef struct {
 	coord_3D COM; ///< center of mass for molecule
 	int na; ///< total number of atoms in molecule
 	atom **a; ///< na of these, but should point into residues
-	connection_tree *aT; ///< nat of these
+	atom_node *aT; ///< nat of these
 	int nr; ///< number of residues
         residue *r; ///< pointers to residues
-	connection_tree *rT; ///< nr of these residue-level connection trees
-	int nrb; ///< number of bonds between residues
-	molbond *rb; ///< nrb of these descriptions of bonds 
+	residue_node *rT; ///< nr of these residue-level connection trees
 	int nrbs; ///< number of sets of bonds between residues (for example, linear chains)
 	molbondset *rbs; ///< nrbs of these sets
 	int nrc; ///< number of additional reference (ring centers, for example)
