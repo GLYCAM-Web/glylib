@@ -65,11 +65,6 @@ typedef struct {
 	int nCD; ///< Number of descriptions defined
 	char **CD; ///< nCD descriptions of the coordinate relevances (e.g, "lower corner" or "A in z=f(A)"). 
 } boxinfo; ///< structure for holding (periodic or not) box information
-typedef struct {
-	double d; ///< a distance
-	double a; ///< a relevant angle
-	double t; ///< a reference torsion angle (sets chirality in the connection tree)
-} bonded_position_set; ///< structure for info about a particular atom in terms of internal coordinates
 
 
 /**************************************************************//**

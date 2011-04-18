@@ -89,22 +89,27 @@ typedef struct {
 } bondset; // set of consecutive bonds
 
 typedef struct {
+	double d; /**< a distance, =-1 if these values not set */
+	double a; /**< a relevant angle */
+	double t; /**< a reference torsion angle (sets chirality in the connection tree) */
+} position_set; /**< structure for info about a particular atom in terms of internal coordinates */
+typedef struct {
 	char isorigin; /**< Y if yes, N if no */
-	ensindex ensi; /**< whoami? -- here, i gives location in aT */
-	int rbi; /**< index of bond used to set geometry (default=first incoming, -1=unseen)  */
+	ensindex ID; /**< whoami? -- here, i gives location in aT (or rT etc.) */
 	int ni; /**< number incoming bonds */
-	ensindex *i; /**< atoms making incoming bonds -- i gives locations in aT */
+	ensindex **i; /**< ni atoms making incoming bonds -- i gives locations in aT */
 	int no; /**< number outgoing bonds */
-	int ic; /**< index of outgoing atom used to use to set chirality */
-	ensindex *o; /**< atoms (no of them) making outgoing bonds -- i gives locations in aT */
-	bonded_position_set *op; /**< position information for the no outgoing bonds */
-	ensindex tref; /**< index of grandparent atom to use to set torsion -- i gives locations in aT */
-	double tors; /**< torsion to set with respect to indexed grandparent (and rbi and ic) */
+	ensindex **o; /**< no atoms making outgoing bonds -- i gives locations in aT */
 	int nOV; /**< number of open valences */
-	bonded_position_set *OV; /**< coordinate info for open valences */
+	ensindex **OV; /**< nOV open valences */
 	int nEC; /**< number of extra coordinates (e.g., lone pairs) defined */
-	bonded_position_set *EC; /**< coordinate info for the extra locations */
-} connection_tree; /**< for non-redundant bonding descriptions. See documentation for information. */
+	ensindex **EC; /** nEC extra coordinates */
+	int nps; /**< total number of position sets */
+	ensindex **psi; /**< nps chirality ordered indices; others point into here if defined */
+	position_set *ps; /**< nps chirality ordered positions */
+	ensindex *tref; /**< grandparent atom to set torsion -- i gives location in aT */
+	double tors; /**< torsion to set with respect to grandparent */
+} connection_tree; /**< for non-redundant bonding descriptions. See documentation. */
 
 typedef struct {
 	molindex s; ///< source atom in the bond
