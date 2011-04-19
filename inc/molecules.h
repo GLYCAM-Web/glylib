@@ -87,6 +87,19 @@ typedef struct {
 	int n; // number of bonds
 	bond *b; // n of these
 } bondset; // set of consecutive bonds
+typedef struct {
+	molindex s; ///< source atom in the bond
+	molindex t; ///< target atom in the bond
+	double o; ///< order 
+	bond_type *typ; ///< pointer to type of bond
+	int i; ///< index -- for example as alternative to *typ
+	char *D; ///< free-form description
+} molbond; ///< a bond within a molecule
+typedef struct {
+	int n;  // number of these
+	molbond *b; // n of them
+	char *D; // free-form description
+} molbondset; // set of consecutive molbonds
 
 typedef struct {
 	double d; /**< a distance, =-1 if these values not set */
@@ -120,19 +133,6 @@ typedef struct {
 	double tors; /**< torsion to set with respect to grandparent */
 } atom_node; /**< for non-redundant bonding descriptions. See documentation. */
 
-typedef struct {
-	molindex s; ///< source atom in the bond
-	molindex t; ///< target atom in the bond
-	double o; ///< order 
-	bond_type *typ; ///< pointer to type of bond
-	int i; ///< index -- for example as alternative to *typ
-	char *D; ///< free-form description
-} molbond; ///< a bond within a molecule
-typedef struct {
-	int n;  // number of these
-	molbond *b; // n of them
-	char *D; // free-form description
-} molbondset; // set of consecutive molbonds
 
 typedef struct {
 	molindex a,b,c; // three atoms in the angle
@@ -203,7 +203,7 @@ typedef struct {
 	molindex moli; ///< the molecule index for this residue (address -- set .a to -1 or 0) 
 	int na; ///< number of atoms in residue
 	atom *a; ///< atom structures (na of these)
-	connection_tree *aT; ///< na of these (one per atom)
+	atom_node *aT; ///< na of these (one per atom)
 	double m; ///< molecular weight
 	coord_3D COM; ///< center of mass for residue
 	int nrb; ///< number of bonds between residues
@@ -308,16 +308,16 @@ typedef struct {
 	coord_3D COM; ///< center of mass 
 	int nm; ///< number of molecule structures
 	molecule **m; ///< nm of these
-	connection_tree *mT; ///< nm of these
+	atom_node *mT; ///< nm of these
 	//int nmb; // number of bonds/connections between molecules (H-bonds, for example)
 	//molbond *mb; // nmb of these descriptions of connection 
 	int nr; ///< number of residues
 	residue **r; ///< nr of these -- probably best to point into molecules...
-	connection_tree *rT; ///< nr of these
+	residue_node *rT; ///< nr of these
 	int na; ///< number of atoms
 	atom **a; ///< na of these -- probably best to point into mol/res combos
 	//int naT; ///< naT connection trees defined. // WHY naT???
-	connection_tree *aT; ///< na of these
+	atom_node *aT; ///< na of these
 	int nb; ///< total number of bonds
 	molbond *b; ///< the bonds
 	int nANG; ///< # of angles
@@ -537,10 +537,13 @@ void initialize_dockinfo(dockinfo *di);
 void initialize_assembly(assembly *A);
 void initialize_ensemble(ensemble *E);
 
-//Functions that recursively free memory in themselves, with the exception of parameters
+/* Functions that recursively free memory in themselves, with the exception of parameters */
 void deallocateBondType(bond_type *btp);
 void deallocateMolbond(molbond *mlb);
-void deallocateConnectionTree(connection_tree *con);
+/*
+void deallocateAtomNode(atom_node *an);
+void deallocateResidueNode(residue_node *rn);
+*/
 void deallocateBond(bond *bnd);
 void deallocateBondset(bondset *bst);
 void deallocateAtom(atom *atm);

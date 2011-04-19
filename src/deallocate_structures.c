@@ -40,7 +40,7 @@ Notes regarding these functions:
 void deallocateCoord3D(coord_3D *c){ return ; }
 void deallocateVectormag3D(vectormag_3D *v){ return ; }
 void deallocatePlane(plane *p){ return ; }
-void deallocateBondedPositionSet(bonded_position_set *b){ return ; }
+/* void deallocateBondedPositionSet(bonded_position_set *b){ return ; } */
 // Multi-Dimensional
 void deallocateCoordND(coord_nD *c){ 
 	if(c[0].D != NULL && c[0].D != 0x0){free(c[0].D);} 
@@ -271,8 +271,8 @@ void deallocateBondset(bondset *bst){
   free(bst[0].b);}
  return ; 
 } 
+/*
 void deallocateConnectionTree(connection_tree *ct){
-// all members are simple, no deallocation
  if(ct[0].i != NULL && ct[0].i != 0x0){free(ct[0].i);}
  if(ct[0].o != NULL && ct[0].o != 0x0){free(ct[0].o);}
  if(ct[0].op != NULL && ct[0].op != 0x0){free(ct[0].op);}
@@ -280,6 +280,7 @@ void deallocateConnectionTree(connection_tree *ct){
  if(ct[0].EC != NULL && ct[0].EC != 0x0){free(ct[0].EC);}
  return ;
 }
+*/
 void deallocateMolbond(molbond *mb){
  // the bond_type pointer should point into an array, so just set null
  mb[0].typ = 0x0;
@@ -345,9 +346,11 @@ void deallocateResidue(residue *r){
  if(r[0].a != NULL && r[0].a != 0x0){
  	for(i=0;i<r[0].na;i++){deallocateAtom(&r[0].a[i]);}
  	free(r[0].a);}
+/*
  if(r[0].aT != NULL && r[0].aT != 0x0){
  	for(i=0;i<r[0].na;i++){deallocateConnectionTree(&r[0].aT[i]);}
  	free(r[0].aT);}
+*/
  if(r[0].bs != NULL && r[0].bs != 0x0){
  	for(i=0;i<r[0].nbs;i++){deallocateMolbondset(&r[0].bs[i]);}
  	free(r[0].bs);}
@@ -379,18 +382,22 @@ void deallocateMolecule(molecule *m){
  if(m[0].r != NULL && m[0].r != 0x0){
  	for(i=0;i<m[0].nr;i++){deallocateResidue(&m[0].r[i]);}
  	free(m[0].r);}
+/*
  if(m[0].rb != NULL && m[0].rb != 0x0){
  	for(i=0;i<m[0].nrb;i++){deallocateMolbond(&m[0].rb[i]);}
  	free(m[0].rb);}
+*/
  if(m[0].rbs != NULL && m[0].rbs != 0x0){
  	for(i=0;i<m[0].nrbs;i++){deallocateMolbondset(&m[0].rbs[i]);}
  	free(m[0].rbs);}
+/*
  if(m[0].aT != NULL && m[0].aT != 0x0){
  	for(i=0;i<m[0].na;i++){deallocateConnectionTree(&m[0].aT[i]);}
  	free(m[0].aT);}
  if(m[0].rT != NULL && m[0].rT != 0x0){
  	for(i=0;i<m[0].nr;i++){deallocateConnectionTree(&m[0].rT[i]);}
  	free(m[0].rT);}
+*/
  if(m[0].BOX != NULL && m[0].BOX != 0x0){
  	for(i=0;i<m[0].nBOX;i++){deallocateBoxinfo(&m[0].BOX[i]);}
  	free(m[0].BOX);}
@@ -438,7 +445,8 @@ void deallocateDockinfo(dockinfo *di){
 void deallocateAssembly(assembly *a){
  int i;
  // deallocate each
- if(a[0].mT != NULL && a[0].mT != 0x0){
+/*
+ if(a[0].mT != NULL && a[0].mT != 0x0){ 
  	for(i=0;i<a[0].nm;i++){deallocateConnectionTree(&a[0].mT[i]);}
  	free(a[0].mT);}
  if(a[0].rT != NULL && a[0].rT != 0x0){
@@ -447,6 +455,7 @@ void deallocateAssembly(assembly *a){
  if(a[0].aT != NULL && a[0].aT != 0x0){
  	for(i=0;i<a[0].na;i++){deallocateConnectionTree(&a[0].aT[i]);}
  	free(a[0].aT);}
+*/
  if(a[0].b != NULL && a[0].b != 0x0){
  	for(i=0;i<a[0].nb;i++){deallocateMolbond(&a[0].b[i]);}
  	free(a[0].b);}

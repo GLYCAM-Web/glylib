@@ -173,8 +173,10 @@ m[0].COM.i=m[0].COM.j=m[0].COM.k=0; // center of mass for molecule
 m[0].na=0; // total number of atoms in molecule
 m[0].nr=0; // number of residues
 m[0].r=(residue*)calloc(1,sizeof(residue)); // pointers to residues
+/*
 m[0].nrb=0; // number of bonds between residues
 m[0].rb=(molbond*)calloc(1,sizeof(molbond)); // nrb of these descriptions of bonds 
+*/
 m[0].nrbs=0; // number of sets of bonds between residues (for example, linear chains)
 m[0].rbs=(molbondset*)calloc(1,sizeof(molbondset)); // nrbs of these sets
 m[0].nrc=0; // number of additional reference coordinates (rings, for example)
