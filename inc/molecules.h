@@ -108,10 +108,11 @@ typedef struct {
 } position_set; /**< structure for info about a particular atom in terms of internal coordinates */
 typedef struct {
 	char isorigin; /**< Y if yes, N if no */
+	ensindex ID; /**< whoami? -- here, i gives location in rT. */
 	int nmbi; /**< number incoming bonds */
-	molbond **mbi; /**< nOV open valences */
+	molbond **mbi; /**< nmbi incoming bonds */
 	int nmbo; /**< number outgoing bonds */
-	molbond **mbo; /**< nOV open valences */
+	molbond **mbo; /**< outgoing bonds */
 	int nOV; /**< number of open valences */
 	ensindex **OV; /**< nOV open valences */
 } residue_node;
@@ -127,7 +128,7 @@ typedef struct {
 	int nEC; /**< number of extra coordinates (e.g., lone pairs) defined */
 	ensindex **EC; /** nEC extra coordinates */
 	int nps; /**< total number of position sets */
-	ensindex **psi; /**< nps chirality ordered indices; others point into here if defined */
+	ensindex *psi; /**< nps chirality ordered indices; others point into here if defined */
 	position_set *ps; /**< nps chirality ordered positions */
 	ensindex *tref; /**< grandparent atom to set torsion -- i gives location in aT */
 	double tors; /**< torsion to set with respect to grandparent */
@@ -497,17 +498,17 @@ void yawAssembly(assembly*,double);  //Rotates about z-axis using radians
 */
 
 void set_molecule_atom_nodes_from_bonds(molecule *m);
-void follow_molecule_atom_nodes_from_bonds(molecule *m, int iTree, atom *a);
+int follow_molecule_atom_nodes_from_bonds(molecule *m, int iTree, atom *a);
 void set_residue_atom_nodes_from_bonds(residue *r);
-void follow_residue_atom_nodes_from_bonds(residue *r, int iTree, atom *a);
+int follow_residue_atom_nodes_from_bonds(residue *r, int iTree, atom *a);
 void set_molecule_residue_molbonds(molecule *m);
 void set_molecule_residue_nodes_from_bonds(molecule *m);
-void follow_molecule_residue_nodes_from_bonds(molecule *m, int iTree, residue *r);
+int follow_molecule_residue_nodes_from_bonds(molecule *m, int iTree, residue *r);
 ensindex copy_moli_to_ensi(molindex moli);
 char is_consistent_ensi_moli(ensindex ensi, molindex moli);
 char is_consistent_moli_moli(molindex mone, molindex mtwo);
 char is_consistent_molbond_molbond(molbond mb1, molbond mb2);
-
+char is_consistent_ensi_ensi(ensindex eone, ensindex etwo);
 
 // RMS between coordinate sets xs and xt
 double get_alt_rms_res(residue *r, int xs, int xt); // per residue
@@ -533,6 +534,12 @@ void initialize_molecule(molecule *m);
 void initialize_dockinfo(dockinfo *di);
 void initialize_assembly(assembly *A);
 void initialize_ensemble(ensemble *E);
+
+void set_ensemble_molindexes(ensemble *E);
+void set_assembly_molindexes(assembly *A);
+void set_molecule_molindexes(molecule *m, int mi);
+void set_residue_molindexes(residue *r, int mi, int ri);
+
 
 /* Functions that recursively free memory in themselves, with the exception of parameters */
 void deallocateBondType(bond_type *btp);
