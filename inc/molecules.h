@@ -496,20 +496,17 @@ void yawAssembly(assembly*,double);  //Rotates about z-axis using radians
         
 */
 
-//fileslurp get_ensemble_PDB_ATOM_lines(assembly *ensbl,int isource, int savei,char raltname); 
-
-//fileslurp get_assembly_PDB_ATOM_lines(assembly *asmbl,int isource, int savei,char raltname);
-
-//const char *get_PDB_line_for_ATOM(atom *a, residue *r,int ai, int ri, int asave, char raltname);
-
-//void make_ATOM_HETATM(char *pdbline);
-
-//fileslurp get_residue_PDB_ATOM_lines(residue *r,int ri,int ainit, int rsave, int asave,char raltname);
-
-//fileslurp get_molecule_PDB_ATOM_lines(molecule *mol,int rinit,int ainit, int rsave,int asave, char oneres, char raltname);
-
-//void outputMolPDB(molecule*,char*);  /* Writes a pdb using a given molecule -- deprecated */
-//void outputAsmblPDB(assembly*,char*);/* Writes a pdb using a given assembly -- deprecated */
+void set_molecule_atom_nodes_from_bonds(molecule *m);
+void follow_molecule_atom_nodes_from_bonds(molecule *m, int iTree, atom *a);
+void set_residue_atom_nodes_from_bonds(residue *r);
+void follow_residue_atom_nodes_from_bonds(residue *r, int iTree, atom *a);
+void set_molecule_residue_molbonds(molecule *m);
+void set_molecule_residue_nodes_from_bonds(molecule *m);
+void follow_molecule_residue_nodes_from_bonds(molecule *m, int iTree, residue *r);
+ensindex copy_moli_to_ensi(molindex moli);
+char is_consistent_ensi_moli(ensindex ensi, molindex moli);
+char is_consistent_moli_moli(molindex mone, molindex mtwo);
+char is_consistent_molbond_molbond(molbond mb1, molbond mb2);
 
 
 // RMS between coordinate sets xs and xt

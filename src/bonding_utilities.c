@@ -99,6 +99,19 @@ for(ri=0;ri<m[0].nr;ri++)
 return;
 }
 
+void set_molecule_residue_nodes_from_bonds(molecule *m)
+{
+int ri;
+m[0].rT=(residue_node*)calloc(m[0].nr,sizeof(residue_node));
+for(ri=0;ri<m[0].nr;ri++) { m[0].r[ri].mTi=-ri-1; }
+if(m[0].nr==1) 
+    {
+    m[0].r[ri].mTi=0;
+    return;
+    }
+follow_molecule_residue_nodes_from_bonds(m, 0, &m[0].r[0]);
+return;
+}
 void follow_molecule_residue_nodes_from_bonds(molecule *m, int iTree, residue *r)
 {
 char is_incoming='n';
@@ -110,10 +123,25 @@ residue *rt;
 if(r[0].mTi>=0){mywhine("unexpected init of r[0].mTi in follow_molecule_residue_nodes_from_bonds.");}
 
 /* 
-0.  Declare space for outgoing bonds 
+0.  If this is not the end of a list, declare space for outgoing bonds 
 */
 if(m[0].rT[iTree].nmbi<0){mywhine("Unexpected init of rT[].nmbi in follow_molecule_residue_nodes_from_bonds.");}
 m[0].rT[iTree].nmbo=r[0].nrb-m[0].rT[iTree].nmbi;
+/* 
+    If this is the end of a list, go find any unseen or bail.
+*/
+if(m[0].rT[iTree].nmbo==0)
+    {
+    r[0].mTi=-(r[0].mTi+1);
+    for(ni=0;ni<m[0].nr;ni++)
+        {
+        if(m[0].r[ni].mTi<0) 
+           { 
+           follow_molecule_residue_nodes_from_bonds(m,ni,&m[0].r[ni]);
+           }
+        }
+    return;
+    }
 m[0].rT[iTree].mbo=(molbond**)calloc(m[0].rT[iTree].nmbo,sizeof(molbond*));
 for(oi=0;oi<m[0].rT[iTree].nmbo;oi++)
     {
@@ -149,6 +177,7 @@ for(bi=0;bi<r[0].nrb;bi++)
     */
     if(is_incoming=='n') 
         {
+printf("m[0].rT[iTree].nmbo = %d\n",m[0].rT[iTree].nmbo);
         m[0].rT[iTree].mbo[oi][0]=r[0].rb[bi];
         oi++;
         }
@@ -169,6 +198,7 @@ for(oi=0;oi<m[0].rT[iTree].nmbo;oi++)
     get target residue
     */
     rt=&m[0].r[m[0].rT[iTree].mbo[oi][0].t.r]; 
+printf("oi is %d ; target r=%d \n",oi, m[0].rT[iTree].mbo[oi][0].t.r);
     /* 
     record location in contree 
     */
@@ -178,11 +208,12 @@ for(oi=0;oi<m[0].rT[iTree].nmbo;oi++)
         printf("This might be a problem.\n");
         bi=rt[0].mTi;
         } 
-    else{bi=-rt[0].mTi+1;}
+    else{bi=-(rt[0].mTi+1);}
     /* 
     identify current residue as incoming to the target atom
     */
     m[0].rT[bi].nmbi++; 
+printf("rt[0].mTi is %d ; bi is %d ; m[0].rT[bi].nmbi is %d\n",rt[0].mTi,bi,m[0].rT[bi].nmbi);
     if(m[0].rT[bi].nmbi==1) { m[0].rT[bi].mbi=(molbond**)calloc(1,sizeof(molbond*)); }
     else { m[0].rT[bi].mbi=(molbond**)realloc(m[0].rT[bi].mbi,m[0].rT[bi].nmbi*sizeof(molbond*));}
     m[0].rT[bi].mbi[m[0].rT[bi].nmbi-1]=(molbond*)calloc(1,sizeof(molbond));
@@ -202,7 +233,7 @@ for(oi=0;oi<m[0].rT[iTree].nmbo;oi++)
     record location in contree 
     */
     if(rt[0].mTi>=0) { bi=rt[0].mTi; } 
-    else{bi=-rt[0].mTi+1;}
+    else{bi=-(rt[0].mTi+1);}
     follow_molecule_residue_nodes_from_bonds(m, bi, rt);
     }
 
@@ -286,7 +317,7 @@ for(oi=0;oi<r[0].aT[iTree].no;oi++)
         printf("This might be a problem.\n");
         bi=at[0].rTi;
         } 
-    else{bi=-at[0].rTi+1;}
+    else{bi=-(at[0].rTi+1);}
     /* 
     identify current atom as incoming to the target atom
     */
@@ -312,7 +343,7 @@ for(oi=0;oi<r[0].aT[iTree].no;oi++)
     record location in contree 
     */
     if(at[0].rTi>=0) { bi=at[0].rTi; } 
-    else{bi=-at[0].rTi+1;}
+    else{bi=-(at[0].rTi+1);}
     follow_residue_atom_nodes_from_bonds(r, bi, at);
     }
 
@@ -399,7 +430,7 @@ for(oi=0;oi<m[0].aT[iTree].no;oi++)
         printf("This might be a problem.\n");
         bi=at[0].mTi;
         } 
-    else{bi=-at[0].mTi+1;}
+    else{bi=-(at[0].mTi+1);}
     /* 
     identify current atom as incoming to the target atom
     */
@@ -426,7 +457,7 @@ for(oi=0;oi<m[0].aT[iTree].no;oi++)
     record location in contree 
     */
     if(at[0].mTi>=0) { bi=at[0].mTi; } 
-    else{bi=-at[0].mTi+1;}
+    else{bi=-(at[0].mTi+1);}
     follow_molecule_atom_nodes_from_bonds(m, bi, at);
     }
 
