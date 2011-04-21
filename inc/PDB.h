@@ -9,6 +9,38 @@
 #include <gly_fileutils.h>
 #include <structures.h>
 
+/*
+    PDB Writing Utilities
+
+    In the following:
+
+        isource = 'n' to use values stored in r.n and a.n
+                  'i' to assign numbers automatically
+        ai = the index to use for a current atom (serial)
+        ri = the index to use for a current residue (resSeq)
+        ainit = the atom number (serial) to start a list with
+                if -1 then the value saved in a.n will be used
+        rinit = the residue number (resSeq) to start a list with
+                if -1 then the value saved in r.n will be used
+        isave = common setting for asave and rsave
+        asave = the index in a.i where the assigned serial should be saved
+                this is used for setting CONECT and LINK cards 
+                if -1, will not be saved
+        rsave = the index in r.i where the assigned resSeq should be saved
+                this is used for setting CONECT and LINK cards 
+                if -1, will not be saved 
+        raltname = if 'y', use the residue name stored in r.altname
+                   instead of r.N -- if used with oneres='y', set them
+                   all to be the same
+        oneres = 'y' to make the whole molecule one residue
+                 'n' to leave it as separate residues
+        
+*/
+int NUMAT;  /* Would like to get rid of this eventually */
+
+/** \addtogroup PDB
+ * @{
+ */
 fileslurp get_ensemble_PDB_ATOM_lines(ensemble *E,char isource, int savei,char raltname, int xs);
 
 fileslurp get_assembly_PDB_ATOM_lines(assembly *A,char isource, int savei,char raltname, int xs);
@@ -23,5 +55,6 @@ fileslurp get_molecule_PDB_ATOM_lines(molecule *mol,int rinit,int ainit, int rsa
 
 void outputMolPDB(molecule*,char*);  /* Writes a pdb using a given molecule -- deprecated */
 void outputAsmblPDB(assembly*,char*);/* Writes a pdb using a given assembly -- deprecated */
+/** @}*/
 
 #endif

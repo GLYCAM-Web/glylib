@@ -1,5 +1,4 @@
 /** \file  modes.h
-\addtogroup ANALYSIS
 \brief  Header file for vibrational modes.
 
 Begun 20070519 by Lachele Foley
@@ -15,6 +14,9 @@ definitions might be more subtle. */
 #define GLYLIB_MODES
 //#include "molecules.h"
 
+/** \addtogroup VIBRATIONS
+ * @{
+ */
 typedef struct {
 	int i; ///< array index
 	int j; ///< internal index 
@@ -228,4 +230,5 @@ typedef struct { // info tied to atom number
 } atommode;
 
 void get_transition_intensity(molecule *M, int xl, int vl, vibmode *v, atype *ATYPE, FILE *F);
+/** @}*/
 #endif

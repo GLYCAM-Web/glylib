@@ -1,5 +1,4 @@
 /* \file geometries.h 
-\addtogroup MAIN
 \brief Purpose: structures related to geometries of molecules,
 	residues, atoms, etc.  Loaded when molecules.h is included.
 
@@ -10,6 +9,9 @@ begun by BLFoley on 20080606
 #if !defined(GLYLIB_GEOMETRIES)
 #define GLYLIB_GEOMETRIES
 
+/** \addtogroup  GEOMETRY
+ * @{
+ */
 #if !defined(PI)
 	#define PI 3.1415926535897932384626433832795028
 #endif
@@ -158,5 +160,6 @@ void orient_coords2_to_coords1_dp_list(coord_3D **coords, int num_coords,
           const coord_3D *dih_atom_a, coord_3D *dih_atom_b, double tau,
           const coord_3D *tor_atom_a, const coord_3D *ref_angle_a, double phi,
           coord_3D *tor_atom_b, coord_3D *ref_atom_b, double omega);
+/** @}*/
 
 #endif

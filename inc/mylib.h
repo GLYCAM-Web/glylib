@@ -1,5 +1,4 @@
 /** \file  mylib.h
-\addtogroup CODE_UTILS
 \brief generic header file that loads utilities often needed by programmers
 
 The header files included here are basic C library headers
@@ -11,6 +10,9 @@ in this file.
 */
 #if !defined(GLYLIB_MYLIB)
 #define GLYLIB_MYLIB
+/** \addtogroup CODE_UTILS
+ * @{
+ */
 /** 
 Some libraries that are often needed 
 */
@@ -32,7 +34,6 @@ Defines that are are only needed for some specialized circumstances
 */
 #define _GNU_SOURCE
 
-/** Determines the current working directory. */
-const char *gly_get_current_working_directory(void);
+/** @}*/
 
 #endif

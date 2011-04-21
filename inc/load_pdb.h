@@ -1,5 +1,4 @@
 /** \file  load_pdb.h
-\addtogroup PDB
 \brief  Header file for loading pdb files into structures.
 
 Begun at some point in the past by BLFoley and possibly modified at some
@@ -12,7 +11,9 @@ point by Mike Tessier.  See also the load_pdb functions.*/
 #include <mylib.h>
 
 #define LA (int)0
-
+/** \addtogroup PDB
+ * @{
+ */
 assembly* load_pdb(char* file_name);
 int howManyMolecules();
 assembly* getAssembly();
@@ -43,4 +44,5 @@ int UNCUT,UNx,UNy,UNz; /* flags for uncutting the box */
 int LASTRES,LASTOKX,LASTOKY,LASTOKZ;
 float UNCTOL,CRYX,CRYY,CRYZ,LASTX,LASTY,LASTZ;
 int DEBUG;
+/** @}*/
 #endif

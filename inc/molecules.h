@@ -1,5 +1,4 @@
 /** \file molecules.h
-\addtogroup MAIN
 \brief  Header file for molecule structures 
 
 File begun May 2007 by Lachele Foley and modified continually ever since
@@ -10,19 +9,11 @@ File begun May 2007 by Lachele Foley and modified continually ever since
 #include <geometries.h>
 #include <parameter_sets.h>
 
+/** \addtogroup MAIN_STRUCTURES
+ * @{
+ */
 char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; ///< locations of type databases,
 	// to be set by the program, but globally visible
-
-// these now in geometries.h
-// coord_3D; // cartesian, polar, direction cosines, etc.
-// vectormag_3D; // same as "plane" but with easier naming
-// plane; // standard plane, Ax+By+Cz+D=0
-
-// these now in parameter_sets.h, and greatly expanded
-// atype; // atom types, with other info
-// rtype; // residue types, with other info
-// mtype; // molecule types, with oter info
-// types; // superstructure for typing information
 
 typedef struct {
 	int i; ///< general index
@@ -366,7 +357,13 @@ typedef struct {
 	int nVP; ///< number of void pointers
 	void *VP; ///< void pointers
 } ensemble;///< structure for an entire system of molecules
+/** @}*/
 
+/*int NUMAT;  trying a move to PDB.h, which is where this belongs.  Would like to get rid of it soon */
+
+/** \addtogroup DEBUGGING
+ * @{
+ */
 /* The following is a set of functions intended primarily to facilitate 
 debugging.  But, they could easily be used for verbose data output within
 the program.  They all follow the same basic format:
@@ -384,7 +381,6 @@ where 	X = one of the structures defined above (e.g., molecule, residue,
 		the depth available -- the function will stop when it runs
 		out of structures to print.  
 */
-int NUMAT; 
 void print_molecule(molecule*,int),print_residue(residue*,int);
 void print_bondset(bondset*,int),print_atom(atom*,int),print_bond(bond*);
 void print_atype(atype*,int),print_plane(plane*);
@@ -402,7 +398,12 @@ void dXprint_bondset(bondset*,int),dXprint_atom(atom*,int),dXprint_bond(bond*);
 void dXprint_molbondset(molbondset*,int);
 void dXprint_atype(atype*,int),dXprint_plane(plane*);
 void dXprint_vectormag_3D(vectormag_3D*),dXprint_coord_3D(coord_3D*);
+/** @}*/
 
+
+/** \addtogroup GEOMETRY
+ * @{
+ */
 /* the following are geometric operations for the structures defined above 
 	where int is xl ("x" (coordinate) location):
 		xl refers to position in the atom structure
@@ -432,20 +433,8 @@ void translate_molecule_by_XYZ(molecule *m,int xs,int xd,coord_3D);
 void translate_ensemble_by_XYZ(ensemble *e,int xs,int xd,coord_3D); 
 void translate_zero_to_coord_M(molecule *m,int xs,int xd,coord_3D); 
 	// int#1 is xs, the location of the source coords
-	// int#2 is xd, the destination location of the translated coords
-//void assign_residue_COM(residue *r,atype *ATYPE);
-//void assign_molecule_COM(molecule *m,atype *ATYPE);
-//void assign_assembly_COM(assembly *a,atype *ATYPE);
-//void assign_ensemble_COM(ensemble *e,atype *ATYPE);
-void set_residue_COM(residue *r,atype *ATYPE,int xs);
-void set_molecule_COM(molecule *m,atype *ATYPE,int xs);
-void set_assembly_molecule_COM(assembly *a,atype *ATYPE,int xs);
-void set_ensemble_COM(ensemble *e,atype *ATYPE,int xs);
-coord_3D get_residue_COM(residue *r,atype *ATYPE,int xs);
-coord_3D get_molecule_COM(molecule *m,atype *ATYPE,int xs);
-coord_3D get_assembly_molecule_COM(assembly *a,atype *ATYPE,int xs);
-coord_3D get_ensemble_COM(ensemble *e,atype *ATYPE,int xs);
-
+	// int#2 is xd, the destination location of the translated coords 
+coord_3D **atoms_to_coord_list(atom **atoms, int num_atoms); 
 /* the following functions rotate the coordinate list such that the
 vector given by vectormag_3D points along the Z (Y, X, other) axis.
 The orientation of the orthogonal axes is arbitrary. */
@@ -468,35 +457,43 @@ void yawMolecule(molecule*,double);  //Rotates about z-axis using radians
 void rollAssembly(assembly*,double); //Rotates about x-axis using radians
 void pitchAssembly(assembly*,double);//Rotates about y-axis using radians
 void yawAssembly(assembly*,double);  //Rotates about z-axis using radians
+/** @}*/
 
-/*
-    PDB Writing Utilities
+/** \addtogroup ANALYSIS
+ * @{
+ */
+// int#1 is xs, the location of the source coords
+void set_residue_COM(residue *r,atype *ATYPE,int xs);
+void set_molecule_COM(molecule *m,atype *ATYPE,int xs);
+void set_assembly_molecule_COM(assembly *a,atype *ATYPE,int xs);
+void set_ensemble_COM(ensemble *e,atype *ATYPE,int xs);
+coord_3D get_residue_COM(residue *r,atype *ATYPE,int xs);
+coord_3D get_molecule_COM(molecule *m,atype *ATYPE,int xs);
+coord_3D get_assembly_molecule_COM(assembly *a,atype *ATYPE,int xs);
+coord_3D get_ensemble_COM(ensemble *e,atype *ATYPE,int xs);
+// RMS between coordinate sets xs and xt
+double get_alt_rms_res(residue *r, int xs, int xt); // per residue
+double get_alt_rms_mol(molecule *m, int xs, int xt); // per molecule
+/** @}*/
 
-    In the following:
+/** \addtogroup INDEX_UTILS
+ * @{
+ */
+ensindex copy_moli_to_ensi(molindex moli);
+char is_consistent_ensi_moli(ensindex ensi, molindex moli);
+char is_consistent_moli_moli(molindex mone, molindex mtwo);
+char is_consistent_molbond_molbond(molbond mb1, molbond mb2);
+char is_consistent_ensi_ensi(ensindex eone, ensindex etwo);
+void set_ensemble_molindexes(ensemble *E);
+void set_assembly_molindexes(assembly *A);
+void set_molecule_molindexes(molecule *m, int mi);
+void set_residue_molindexes(residue *r, int mi, int ri);
+/** @}*/
 
-        isource = 'n' to use values stored in r.n and a.n
-                  'i' to assign numbers automatically
-        ai = the index to use for a current atom (serial)
-        ri = the index to use for a current residue (resSeq)
-        ainit = the atom number (serial) to start a list with
-                if -1 then the value saved in a.n will be used
-        rinit = the residue number (resSeq) to start a list with
-                if -1 then the value saved in r.n will be used
-        isave = common setting for asave and rsave
-        asave = the index in a.i where the assigned serial should be saved
-                this is used for setting CONECT and LINK cards 
-                if -1, will not be saved
-        rsave = the index in r.i where the assigned resSeq should be saved
-                this is used for setting CONECT and LINK cards 
-                if -1, will not be saved 
-        raltname = if 'y', use the residue name stored in r.altname
-                   instead of r.N -- if used with oneres='y', set them
-                   all to be the same
-        oneres = 'y' to make the whole molecule one residue
-                 'n' to leave it as separate residues
-        
-*/
 
+/** \addtogroup BONDING
+ * @{
+ */
 void set_molecule_atom_nodes_from_bonds(molecule *m);
 int follow_molecule_atom_nodes_from_bonds(molecule *m, int iTree, atom *a);
 void set_residue_atom_nodes_from_bonds(residue *r);
@@ -504,19 +501,13 @@ int follow_residue_atom_nodes_from_bonds(residue *r, int iTree, atom *a);
 void set_molecule_residue_molbonds(molecule *m);
 void set_molecule_residue_nodes_from_bonds(molecule *m);
 int follow_molecule_residue_nodes_from_bonds(molecule *m, int iTree, residue *r);
-ensindex copy_moli_to_ensi(molindex moli);
-char is_consistent_ensi_moli(ensindex ensi, molindex moli);
-char is_consistent_moli_moli(molindex mone, molindex mtwo);
-char is_consistent_molbond_molbond(molbond mb1, molbond mb2);
-char is_consistent_ensi_ensi(ensindex eone, ensindex etwo);
+/** @}*/
 
-// RMS between coordinate sets xs and xt
-double get_alt_rms_res(residue *r, int xs, int xt); // per residue
-double get_alt_rms_mol(molecule *m, int xs, int xt); // per molecule
 
+/** \addtogroup INITIALIZATION
+ * @{
+ */
 atype *ATYPE_init(); // initialize atom types -- for a few old programs only
-// use void load_atypes(fileset FT, types *T); instead (declarations.h)
-//dockinfo *load_dlg_mol(fileset F,atype *AT); also in declarations.h
 
 void initialize_atype(atype *at);
 void initialize_rtype(rtype *rt);
@@ -534,13 +525,12 @@ void initialize_molecule(molecule *m);
 void initialize_dockinfo(dockinfo *di);
 void initialize_assembly(assembly *A);
 void initialize_ensemble(ensemble *E);
-
-void set_ensemble_molindexes(ensemble *E);
-void set_assembly_molindexes(assembly *A);
-void set_molecule_molindexes(molecule *m, int mi);
-void set_residue_molindexes(residue *r, int mi, int ri);
+/** @}*/
 
 
+/** \addtogroup MEMORY_MANAGEMENT
+ * @{
+ */
 /* Functions that recursively free memory in themselves, with the exception of parameters */
 void deallocateBondType(bond_type *btp);
 void deallocateMolbond(molbond *mlb);
@@ -553,13 +543,16 @@ void deallocateBondset(bondset *bst);
 void deallocateAtom(atom *atm);
 void deallocateResidue(residue *res);
 void deallocateMolecule(molecule *mol);
+/** @}*/
 
+/** \addtogroup STRUCTURE_UTILS
+ * @{
+ */
 //Functions that add or remove structures from other structures
 void add_assembly_to_ensemble(
         assembly *A, ///< pointer to the assembly being added (SEE DOCS)
         ensemble *E ///< pointer to the ensemble being grown
         );
-
-coord_3D **atoms_to_coord_list(atom **atoms, int num_atoms);
+/** @}*/
 
 #endif

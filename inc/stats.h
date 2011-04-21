@@ -1,5 +1,4 @@
 /** \file  stats.h  
-\addtogroup ANALYSIS
 \brief Statistics utilities for glylib.
 
 Begun in the spring of 2008 by BLFoley and modified by heaven only
@@ -8,6 +7,9 @@ knows who since then. */
 #if !defined(GLYLIB_STATS)
 #define GLYLIB_STATS
 
+/** \addtogroup ANALYSIS
+ * @{
+ */
 typedef struct {
   char t; // type, population (p) or sample (s)
   int n; // number in sample/population
@@ -34,5 +36,6 @@ statsarray init_statsarray(); // for dynamic allocations
 autocorr zero_autocorr(); // if only one allocation
 autocorr init_autocorr(); // for dynamic allocations
 autocorr get_autocorr_est_array(statsarray S,meanvar M);
+/** @}*/
 
 #endif

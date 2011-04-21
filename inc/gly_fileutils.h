@@ -1,5 +1,4 @@
 /** \file  gly_fileutils.h
-\addtogroup FILE_UTILS
 \brief header file that loads utilities related to file I/O
 */
 #if !defined(GLYLIB_FILE_UTILITIES)
@@ -9,8 +8,8 @@
 #include <dirent.h> ///< Required for directory manipulations
 #include <unistd.h> ///< Required to get the current working directory
 
-/** \addtogroup FILE_UTILS */
-/*@{*/
+/** \addtogroup FILE_UTILS 
+ * @{*/
 
 /****************  STRUCTURES *********************/
 /** A structure to hold sets of keywords and values that have been,
@@ -21,11 +20,11 @@ typedef struct {
         char **V; ///< An array of n values
 } gly_keysvals;
 
-/** A structure for ease in passing sets of file info between functions */
 typedef struct {
 	char *N; /// the name of the file -- use strdup to allocate/copy
 	FILE *F; /// the file pointer
 } fileset;
+/**< A structure for ease in passing sets of file info between functions */
 
 /// A structure for a function similar to the perl notion of "slurping" a file
 typedef struct {

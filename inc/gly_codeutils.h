@@ -1,11 +1,12 @@
 /** \file  gly_codeutils.h
-\addtogroup CODE_UTILS
 \brief Header file that loads utilities to facilitate programming
-
 */
 #if !defined(GLYLIB_CODING_UTILITIES)
 #define GLYLIB_CODING_UTILITIES
 
+/** \addtogroup CODE_UTILS
+ * @{
+ */
 /******************** STRUCTURES ******************/
 
 /** An array of characters for times when a 2D char array might be confusing */
@@ -80,6 +81,6 @@ the decimal point.   The number will be justified as per the character in j
 (l or L or r or R for left or right). */
 const char * get_exp_string(double x, char j, int w, int d);
 
-
+/** @}*/
 
 #endif

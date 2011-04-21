@@ -1,5 +1,4 @@
 /** \file structures.h 
-\addtogroup PDB
 \brief Very poorly named file containing structures
 pertinent to the loading of pdb files.  Recommend name change.
 
@@ -9,6 +8,9 @@ then, the person who did so was likely Mike Tessier. */
 #if !defined(GLYLIB_PDB_STRUCTURES)
 #define GLYLIB_PDB_STRUCTURES
 
+/** \addtogroup PDB
+ * @{
+ */
 typedef struct {
 	int a; /* integer describing the class for this record name */
 	int b; /* integer describing record type in class */
@@ -73,5 +75,6 @@ pdb_line umod_a[6];
 /* Declare a pointer to a linedef.  This will be allocated in init_struct */
 linedef *ln;
 queery_set QS; //only one allowed currently
+/** @}*/
 
 #endif

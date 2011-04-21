@@ -1,10 +1,12 @@
 /** \file bonding_utilities.c
+* \addtogroup BONDING
 *   Purpose:  Functions associated with bonding. 
 *   Begin 20110417 BLFoley
 *
 *   Return values for follow functions:
 *        0 : Made it all the way to the end.  All ok.
 *       -1 : Made it to an appropriate end in the middle.  Don't continue.
+*       -2 : Something else happened, but probably is ok.
 * 
 */
 #include <mylib.h>
@@ -154,8 +156,6 @@ for(bi=0;bi<r[0].nrb;bi++)
     */
     if(is_incoming=='n') 
         {
-/*printf("m[0].rT[iTree].nmbo = %d\n",m[0].rT[iTree].nmbo);
-*/
         m[0].rT[iTree].mbo[oi][0]=r[0].rb[bi];
         oi++;
         }
@@ -347,8 +347,6 @@ for(oi=0;oi<r[0].aT[iTree].no;oi++)
     else { r[0].aT[bi].i=(ensindex**)realloc(r[0].aT[bi].i,r[0].aT[bi].ni*sizeof(ensindex*));}
     r[0].aT[bi].i[r[0].aT[bi].ni-1]=(ensindex*)calloc(1,sizeof(ensindex));
     r[0].aT[bi].i[r[0].aT[bi].ni-1][0]=r[0].aT[iTree].ID;
-    /*
-    */
     }
 
 /* 
@@ -389,8 +387,8 @@ m[0].na=na;
 m[0].aT=(atom_node*)calloc(m[0].na,sizeof(atom_node));
 aai=0;
 for(ri=0;ri<m[0].nr;ri++) 
-for(ai=0;ai<m[0].r[ri].na;ai++) 
     { 
+for(ai=0;ai<m[0].r[ri].na;ai++) 
     { 
     m[0].r[ri].a[ai].mTi=-ai-1;
     m[0].aT[aai].isorigin='N';
@@ -422,9 +420,11 @@ int  follow_molecule_atom_nodes_from_bonds(molecule *m, int iTree, atom *a)
 char is_incoming='n';
 int bi,ni,oi,finished=0;
 atom *at;
-/* This function doesn't choose where to start.  It just follows. */
+/* 
+    This function doesn't choose where to start.  It just follows. 
 
-/* At this point, the value of rTi should be negative */
+    At this point, the value of rTi should be negative 
+*/
 if(a[0].mTi>=0){mywhine("unexpected init of a[0].rTi in follow_molecule_atom_nodes_from_bonds.");}
 
 /* 
@@ -494,7 +494,7 @@ for(bi=0;bi<a[0].nmb;bi++)
 /* 
 2.  Set the current atom's state as seen.  Assumes a.rTi is initialized negative. 
 */
-a[0].rTi = -(a[0].mTi + 1); /* make positive and add one*/
+a[0].mTi = -(a[0].mTi + 1); /* make positive and add one*/
 
 /*
 3.  Identify the current atom as incoming to each outgoing atom. 
@@ -518,8 +518,6 @@ for(oi=0;oi<m[0].aT[iTree].no;oi++)
     else { m[0].aT[bi].i=(ensindex**)realloc(m[0].aT[bi].i,m[0].aT[bi].ni*sizeof(ensindex*));}
     m[0].aT[bi].i[m[0].aT[bi].ni-1]=(ensindex*)calloc(1,sizeof(ensindex));
     m[0].aT[bi].i[m[0].aT[bi].ni-1][0]=m[0].aT[iTree].ID;
-    /*
-    */
     }
 
 /* 
@@ -540,4 +538,4 @@ for(oi=0;oi<m[0].aT[iTree].no;oi++)
     }
 
 return finished;
-} 
+}

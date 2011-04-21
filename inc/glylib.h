@@ -1,5 +1,4 @@
 /** \file  glylib.h
-\addtogroup MAIN
 \brief  A grand header file designed to simplify use of glylib by requiring 
 that only one header file be loaded to get most of the glylib functionality.
 
@@ -10,6 +9,9 @@ that only one header file be loaded to get most of the glylib functionality.
 #if !defined(GLYLIB_MAIN_HEADERS)
 #define GLYLIB_MAIN_HEADERS
 
+/** \addtogroup MAIN
+ * @{
+ */
 /**************************************************************//**
 	Standard GLYLIB structures and functions
 ******************************************************************/
@@ -29,5 +31,6 @@ that only one header file be loaded to get most of the glylib functionality.
 	Structures and functions related to AMBER
 ******************************************************************/
 #include <AMBER/amber.h> ///< Specific to AMBER
+/** @}*/
 
 #endif

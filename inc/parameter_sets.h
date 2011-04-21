@@ -1,5 +1,4 @@
 /** \file parameter_sets.h 
-\addtogroup MAIN
 \brief Structures for adding parameters to ensembles and assemblies.
 
 Begun on 20080606 by BLFoley
@@ -17,6 +16,9 @@ likely to be one whopping big structure, hence the separate file. */
 #if !defined(GLYLIB_PARAMETERS)
 #define GLYLIB_PARAMETERS
 
+/** \addtogroup PARAMETERS
+ * @{
+ */
 /************ structures for descriptions of molecules ***********************/
 typedef struct {
 	char RS,DL,pm; ///< for R/S & D/L type chirality & p/m type optical activity
@@ -150,5 +152,6 @@ typedef struct {
 	int nTRT;
 	torsion_type *TRT;
 } parameter_set;
+/** @}*/
 
 #endif
