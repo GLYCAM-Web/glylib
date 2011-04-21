@@ -457,6 +457,9 @@ void yawMolecule(molecule*,double);  //Rotates about z-axis using radians
 void rollAssembly(assembly*,double); //Rotates about x-axis using radians
 void pitchAssembly(assembly*,double);//Rotates about y-axis using radians
 void yawAssembly(assembly*,double);  //Rotates about z-axis using radians
+
+double get_distance_from_point_to_plane(plane p, coord_3D pt, int absl); 
+double get_angle_between_plane_and_vector(plane p, coord_3D pt1, coord_3D pt2);
 /** @}*/
 
 /** \addtogroup ANALYSIS
@@ -474,6 +477,8 @@ coord_3D get_ensemble_COM(ensemble *e,atype *ATYPE,int xs);
 // RMS between coordinate sets xs and xt
 double get_alt_rms_res(residue *r, int xs, int xt); // per residue
 double get_alt_rms_mol(molecule *m, int xs, int xt); // per molecule
+
+void find_vdw_clashes_pairwize_between_Assemblies(assembly *A, int xsA, assembly *B, int xsB);
 /** @}*/
 
 /** \addtogroup INDEX_UTILS
@@ -501,6 +506,8 @@ int follow_residue_atom_nodes_from_bonds(residue *r, int iTree, atom *a);
 void set_molecule_residue_molbonds(molecule *m);
 void set_molecule_residue_nodes_from_bonds(molecule *m);
 int follow_molecule_residue_nodes_from_bonds(molecule *m, int iTree, residue *r);
+
+void set_nbonds_for_atoms_in_assembly(assembly *A);
 /** @}*/
 
 
