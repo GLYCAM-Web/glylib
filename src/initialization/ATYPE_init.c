@@ -3,6 +3,7 @@
  * commonly-used atom types */
 #include <mylib.h>
 #include <molecules.h>
+#include <PDB.h>
 //#include "../inc/mylib.h" 
 //#include "../inc/molecules.h" 
 //#define NUMAT 15 // change this if you add more types
