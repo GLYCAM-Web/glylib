@@ -12,36 +12,31 @@ File begun May 2007 by Lachele Foley and modified continually ever since
 /** \addtogroup MAIN_STRUCTURES
  * @{
  */
-char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; ///< locations of type databases,
-	// to be set by the program, but globally visible
+char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; /**< locations of type databases, */
+	/* to be set internally by programs, but globally visible */
 
 typedef struct {
-	int i; ///< general index
-	int m; ///< molecule index
-	int r; ///< residue index
-	int a; ///< atom index
-} molindex; ///< Index to describe position in a molecule
+	int i; /**< general index */
+	int m; /**< molecule index */
+	int r; /**< residue index */
+	int a; /**< atom index */
+} molindex; /**< Index to describe position in a molecule */
 typedef struct {
-	int i; ///< general index
-	int E; ///< ensemble index
-	int A; ///< assembly index
-	int m; ///< molecule index
-	int r; ///< residue index
-	int a; ///< atom index
-} ensindex; ///< Index to describe position in an ensemble
+	int i; /**< general index */
+	int E; /**< ensemble index */
+	int A; /**< assembly index */
+	int m; /**< molecule index */
+	int r; /**< residue index */
+	int a; /**< atom index */
+} ensindex; /**< Index to describe position in an ensemble */
 typedef struct {
-	int nP; ///< number of positions in the ring
-	molindex *P; ///< the nP relevant positions
-	int nin,*in; ///< reference integers in *P for other ring members with incoming bonds
-	int nout,*out; ///< reference integers in *P for other ring members with outgoing bonds
-} ring_molindex; ///< Structure holding ensemble indices for a ring, plus maybe other info
-typedef struct {
-	int nP; ///< number of positions in the ring
-	ensindex *P; ///< the nP relevant positions
-	int nin,*in; ///< reference integers in *P for other ring members with incoming bonds
-	int nout,*out; ///< reference integers in *P for other ring members with outgoing bonds
-} ring_ensindex; ///< Structure holding ensemble indices for a ring, plus maybe other info
+	int nP; /**< number of positions in the ring */
+	molindex *P; ///< the nP relevant positions */
+} molindex_set; /**< Structure holding molecule indices (for rings and such) */
 
+/* 
+Structures for making selections.
+*/
 typedef struct { 
 	int na, *ai; ///< na atom indices and the na indices 
 } residue_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
@@ -53,7 +48,6 @@ typedef struct {
 	int nm, *mi; ///< nm molecule indices and the nm indices
 	molecule_tree_index *m; ///< nm molecule_tree_index structures
 } ensemble_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
-
 typedef struct {
 	int posneg; ///< Is this a positive (1), negative (-1) or brand new (0) selection set?
 	int nmN,nmi,nmn,*mn,*mi; ///< # of molecule names, numbers & indicies, nmn numbers and nmi indices
@@ -64,8 +58,7 @@ typedef struct {
 	char **aN; ///< naN names
 } moiety_selection; 
 
-/* 20100127 BLFoley: I'm changing the bond structure.  With luck, this will 
-only break the vibrations program I'm rewriting... */
+
 typedef struct { 
 	ensindex s; ///< "source" -- index to first atom in bond
 	ensindex t; ///< "target" -- index to the other atom in the bond
@@ -204,9 +197,9 @@ typedef struct {
 	int nbs; ///< number of bond sets 
 	molbondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
 	int nring; ///< number of simple rings (no cage structures, etc.)
-	ring_molindex *ring; ///< molecule indices for the nring rings
-	int nrbs; ///< number of ring bondsets defined
-	molbondset *rbs; ///< bondsets for rings
+	molindex_set *ring; ///< molecule indices for the nring rings
+//	int nrbs; ///< number of ring bondsets defined
+//	molbondset *rbs; ///< bondsets for rings
 	int nrc; // number of ring/reference coordinate sets defined
 	coord_3D *rc; ///< coordinates for ring/reference centers
 	int nrp; ///< number of ring planes defined
