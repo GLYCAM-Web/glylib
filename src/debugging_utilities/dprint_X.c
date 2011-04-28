@@ -135,15 +135,7 @@ void dprint_residue(residue *r,int i){
 		for(pa=0;((pa<i)&&(pa<r[0].nbs)&&(pa<pbins));pa++){
 			printf("\tconsec. lin, bondset set %d\n",pa);
 			dprint_molbondset(&(r[0].bs[pa]),i); 
-			}
-		puse=malloc_usable_size(r[0].rbs);
-		psz=sizeof(molbondset);
-		pbins=puse/psz; 
-		printf("\t%d consecutive ring bonds have been allocated: \n",pbins);
-		for(pa=0;((pa<i)&&(pa<r[0].nrbs)&&(pa<pbins));pa++){
-			printf("\tconsec. ring bondset set %d\n",pa);
-			dprint_molbondset(&(r[0].rbs[pa]),i); 
-			}
+			} 
 		puse=malloc_usable_size(r[0].rc);
 		psz=sizeof(coord_3D);
 		pbins=puse/psz; 

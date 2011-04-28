@@ -108,10 +108,6 @@ void dXprint_residue(residue *r,int i){
 			printf("\tconsec. lin, bondset set %d\n",pa);
 			dXprint_molbondset(&(r[0].bs[pa]),i); 
 			}
-		for(pa=0;((pa<i)&&(pa<r[0].nrbs));pa++){
-			printf("\tconsec. ring bondset set %d\n",pa);
-			dXprint_molbondset(&(r[0].rbs[pa]),i); 
-			}
 		for(pa=0;((pa<i)&&(pa<r[0].nrc));pa++){
 			printf("\tconsec ring coords set %d:  ",pa);
 			dXprint_coord_3D(&(r[0].rc[pa])); 

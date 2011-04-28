@@ -481,6 +481,18 @@ void set_ensemble_molindexes(ensemble *E);
 void set_assembly_molindexes(assembly *A);
 void set_molecule_molindexes(molecule *m, int mi);
 void set_residue_molindexes(residue *r, int mi, int ri);
+/*
+Find atoms/residues named N -- searches for a.N or r.N
+*/
+molindex_set find_residue_atoms_by_N(residue *r, const char *name); /**< searches for a.N */
+molindex_set find_molecule_atoms_by_N(molecule *m, const char *name); /**< searches for a.N */
+molindex_set find_molecule_residues_by_N(molecule *m, const char *name); /**< searches for r.N */
+/*
+Find atoms/residues numbered n -- searches for a.n or r.n
+*/
+molindex_set find_residue_atoms_by_n(residue *r, int number); /**< searches for a.n */
+molindex_set find_molecule_atoms_by_n(molecule *m, int number); /**< searches for a.n */
+molindex_set find_molecule_residues_by_n(molecule *m, int number); /**< searches for r.n */
 /** @}*/
 
 

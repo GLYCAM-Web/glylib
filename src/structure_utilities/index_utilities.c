@@ -1,10 +1,6 @@
-/** \file bonding_utilities.c
-*   Purpose:  Functions associated with bonding. 
+/** \file index_utilities.c
+*   Purpose:  Functions associated with internal addresses. 
 *   Begin 20110417 BLFoley
-*
-*   Return values for follow functions:
-*        0 : Made it all the way to the end.  All ok.
-*       -1 : Made it to an appropriate end in the middle.  Don't continue.
 * 
 */
 #include <mylib.h>

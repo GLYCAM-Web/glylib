@@ -13,7 +13,7 @@ assembly* load_pdb(char* file_name)
   int ma;
 // int mi;
   //molecule* mol;
-  assembly* asmbl;
+  assembly *asmbl;
   IN = myfopen(file_name, "r");
  /*scans pdb file for number of lines
   allocates memory for line structures
@@ -30,6 +30,8 @@ assembly* load_pdb(char* file_name)
   //Determine the number of molecules in the pdb
   printf("There are %d molecule(s)\n",howManyMolecules());
   asmbl = getAssembly();
+  set_assembly_atom_molbonds_from_PDB_CONECT(asmbl, ln);
+  set_assembly_residue_molbonds_from_PDB_LINK(asmbl, ln);
   printf("PDB Information Successfully Read.\n");
   free(ln);
   return asmbl;
@@ -47,6 +49,26 @@ molecule load_pdb_from_slurp(fileslurp in){
  }
  INWC = in.n;
  return (*getMolecule());
+}
+
+void set_assembly_atom_molbonds_from_PDB_CONECT(assembly *asmbl, lindef *ln)
+{
+/*
+    0.  
+*/
+/*
+    
+*/
+/*
+    
+*/
+/*
+    
+*/
+}
+
+void set_assembly_residue_molbonds_from_PDB_LINK(assembly *asmbl, linedef *ln)
+{
 }
 
 fileslurp isolateInputPDB(fileslurp S){
