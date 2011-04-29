@@ -52,6 +52,11 @@ void dprint_atype(atype *t,int i){
 return;
 }
 
+void dprint_molbond(molbond *mb){
+	printf("molbond s (m,r,a=%d,%d,%d) t (m,r,a=%d,%d,%d) o %20.12f\n",\
+		mb[0].s.m,mb[0].s.r,mb[0].s.a,mb[0].t.m,mb[0].t.r,mb[0].t.a,mb[0].o);
+return;
+}
 void dprint_bond(bond *b){
 	printf("bond s (m,r,a=%d,%d,%d) t (m,r,a=%d,%d,%d) o %20.12f\n",\
 		b[0].s.m,b[0].s.r,b[0].s.a,b[0].t.m,b[0].t.r,b[0].t.a,b[0].o);
@@ -64,13 +69,13 @@ void dprint_atom(atom *a,int i){
 		a[0].t,a[0].nb,a[0].nalt,a[0].nvec);
 	printf("\tcoords x y z \t%20.12f \t%20.12f \t%20.12f\n",a[0].x.i,a[0].x.j,a[0].x.k); 
 	if(i>0){
-		puse=malloc_usable_size(a[0].b);
-		psz=sizeof(bond);
+		puse=malloc_usable_size(a[0].mb);
+		psz=sizeof(molbond);
 		pbins=puse/psz; 
-		printf("\t%d bonds have been allocated: \n",pbins);
-		for(pa=0;((pa<i)&&(pa<a[0].nb)&&(pa<pbins));pa++){
-			printf("\tbond set %d:  ",pa);
-			dprint_bond(&(a[0].b[pa])); 
+		printf("\t%d molbonds have been allocated: \n",pbins);
+		for(pa=0;((pa<i)&&(pa<a[0].nmb)&&(pa<pbins));pa++){
+			printf("\tmolbond set %d:  ",pa);
+			dprint_molbond(&(a[0].mb[pa])); 
 			}
 		puse=malloc_usable_size(a[0].xa);
 		psz=sizeof(coord_3D);

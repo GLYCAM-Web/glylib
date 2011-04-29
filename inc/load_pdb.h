@@ -33,8 +33,8 @@ fileslurp isolateDockedPDB(fileslurp S);
 void init_struct_slurp(fileslurp S);
 void rwm_line_char(char* curLine, int rwmln);
 molecule* getMolecule(void);
-void set_assembly_atom_molbonds_from_PDB_CONECT(assembly *asmbl, linedef *ln);
-void set_assembly_residue_molbonds_from_PDB_LINK(assembly *asmbl, linedef *ln);
+void set_assembly_atom_molbonds_from_PDB_CONECT(assembly *asmbl, linedef *ln, const char *file_name, int nlines);
+void set_assembly_residue_molbonds_from_PDB_LINK(assembly *asmbl, linedef *ln, const char *file_name, int nlines);
 
 FILE *IN;
 linedef line[1];

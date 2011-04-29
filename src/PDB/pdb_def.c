@@ -250,7 +250,7 @@ pdb_a[2].b[1].t[15]	=	'f';  /* tempFactor     */
 pdb_a[2].b[1].t[16]	=	's';  /* N/A */
 pdb_a[2].b[1].t[17]	=	's';  /* segID          */
 pdb_a[2].b[1].t[18]	=	's';  /* element        */
-pdb_a[2].b[1].t[19]	=	's';  /* charge         */
+pdb_a[2].b[1].t[19]	=	'i';  /* charge         */
 /* RECORD Name : CISPEP */
 strcpy(pdb_a[2].b[2].typ,"CISPEP");  /*  */
 pdb_a[2].b[2].f		=	2;  /*  */
@@ -260,7 +260,7 @@ pdb_a[2].b[2].t[0]	=	's';  /* RECORD NAME */
 pdb_a[2].b[2].t[1]	=	's';  /* RECORD NAME */
 /* RECORD Name : CONECT */
 strcpy(pdb_a[2].b[3].typ,"CONECT");  /*  */
-pdb_a[2].b[3].f		=	2;  /*  */
+pdb_a[2].b[3].f		=	15;  /*  */
 pdb_a[2].b[3].c[0]	=	6;  /* RECORD NAME */
 pdb_a[2].b[3].c[1]	=	5;  /* Atom serial number 7-11 */
 pdb_a[2].b[3].c[2]	=	5;  /* Bonded atom serial number 12-16 */
@@ -276,6 +276,21 @@ pdb_a[2].b[3].c[11]	=	5;  /* Bonded atom serial number 57-61 */
 pdb_a[2].b[3].c[12]	=	5;  /* Bonded atom serial number 62-66 */
 pdb_a[2].b[3].c[13]	=	5;  /* Bonded atom serial number 67-71 */
 pdb_a[2].b[3].c[14]	=	5;  /* Bonded atom serial number 72-76 */
+pdb_a[2].b[3].t[0]	=	's';  /* RECORD NAME */
+pdb_a[2].b[3].t[1]	=	'i';  /* Atom serial number 7-11 */
+pdb_a[2].b[3].t[2]	=	'i';  /* Bonded atom serial number 12-16 */
+pdb_a[2].b[3].t[3]	=	'i';  /* Bonded atom serial number 17-21 */
+pdb_a[2].b[3].t[4]	=	'i';  /* Bonded atom serial number 22-26 */
+pdb_a[2].b[3].t[5]	=	'i';  /* Bonded atom serial number 27-31 */
+pdb_a[2].b[3].t[6]	=	'i';  /* Bonded atom serial number 32-36 */
+pdb_a[2].b[3].t[7]	=	'i';  /* Bonded atom serial number 37-41 */
+pdb_a[2].b[3].t[8]	=	'i';  /* Bonded atom serial number 42-46 */
+pdb_a[2].b[3].t[9]	=	'i';  /* Bonded atom serial number 47-51 */
+pdb_a[2].b[3].t[10]	=	'i';  /* Bonded atom serial number 52-56 */
+pdb_a[2].b[3].t[11]	=	'i';  /* Bonded atom serial number 57-61 */
+pdb_a[2].b[3].t[12]	=	'i';  /* Bonded atom serial number 62-66 */
+pdb_a[2].b[3].t[13]	=	'i';  /* Bonded atom serial number 67-71 */
+pdb_a[2].b[3].t[14]	=	'i';  /* Bonded atom serial number 72-76 */
 /* RECORD Name : DBREF */
 strcpy(pdb_a[2].b[4].typ,"DBREF");  /*  */
 pdb_a[2].b[4].f		=	2;  /*  */

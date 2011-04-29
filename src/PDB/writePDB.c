@@ -626,8 +626,74 @@ if(b>(FM.n-1)){mywhine("something went wrong in get_molecule_PDB_ATOM_lines");}
 return FM;
 }
 
+fileslurp get_assembly_PDB_CONECT_lines(assembly *A, int savei)
+{
+fileslurp FC;
+int ncurrent=-1,mi,ri,ai,extras=0,na=0;
+char bad_a_order='n',bad_mra_order='n';
+atom *as, *at;
 
+/*
+    0.  Checks:
 
+        If savei >= 0:
+              All atoms are in order and in the top-level atom array.
+        If savei == -1:
+              All atoms are in order through the molecule hierarchy.  
+
+        Complain if not, but try anyway.
+*/
+if(savei>=0)
+ {
+ if(A[0].na==0)
+  {
+  mywhine("For isource=n in get_assembly_PDB_CONECT_lines, top-level atoms must be set, in order.");
+  }
+ na=A[0].na;
+ for(ai=0;ai<A[0].na;ai++)
+  {
+  if((A[0].a[ai][0].i==null)||(A[0].a[ai][0].ni<=savei)) 
+   {
+   mywhine("For isource=n in get_assembly_PDB_CONECT_lines n values must be saved in savei.");
+   }
+  if(A[0].a[ai][0].i[savei]<=ncurrent) { bad_a_order = 'y'; }
+  ncurrent=A[0].a[ai][0].i[savei];
+  A[0].a[ai][0].moli.i=ai;
+  if(A[0].a[ai][0].nmb>13){extras+=(floor(A[0].a[ai][0].nmb/13));}
+  }
+ }
+else if(savei!=-1) {mywhine("Unexpected value for savei in get_assembly_PDB_CONECT_lines,");}
+else
+ {
+ na=0;
+ for(mi=0;mi<A[0].nm;mi++){
+ for(ri=0;ri<A[0].m[mi][0].nr;ri++){
+ for(ai=0;ai<A[0].m[mi][0].r[ri].na;ai++){
+     as=&A[0].m[mi][0].r[ri].a[ai];
+     as[0].moli.i=ai;
+     if(as[0].nmb>13){extras+=(floor(as[0].nmb/13));}
+   }}}
+ }
+if(bad_a_order=='y')
+  {
+  printf("\nAtoms serials (numbers) in file %s are not in increasing order.\n",file_name);
+  printf("This means the resulting file will not be in proper PDB format.\n");
+  }
+
+/* 
+    1.1  If savei >=0 
+*/
+START HERE
+for(ai=0;ai<A[0].na;ai++)
+ {
+ }
+
+/* 
+    1.1  If savei == -1
+*/
+
+return FC;
+} 
 
 void outputMolPDB(molecule* mol, char* filename)
 {

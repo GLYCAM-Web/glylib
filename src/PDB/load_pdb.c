@@ -1,6 +1,5 @@
-/*Author: Michael Tessier*/
+/*Authors: Michael Tessier, BLFoley, probably others*/
 #include <load_pdb.h>
-//#include "../inc/load_pdb.h"
 assembly* load_pdb(char* file_name)
 {
   char* temp;
@@ -9,12 +8,10 @@ assembly* load_pdb(char* file_name)
   temp = sufc; strcpy(temp,"_change.txt"); ACT='0';
   DEBUG=-1;LASTRES=-1;LASTOKX=0;LASTOKY=0;LASTOKZ=0;
   UNCTOL=0;CRYX=0;CRYY=0;CRYZ=0;LASTX=0;LASTY=0;LASTZ=0;
-  //int resNum;
   int ma;
-// int mi;
-  //molecule* mol;
   assembly *asmbl;
   IN = myfopen(file_name, "r");
+  char find_LINK='n',find_CONECT='n';
  /*scans pdb file for number of lines
   allocates memory for line structures
   initializes structures that contain line formats*/
@@ -25,13 +22,17 @@ assembly* load_pdb(char* file_name)
   for(ma=0;ma<INWC;ma++){
   if(DEBUG>=1){printf("made it to here main line loop %d ...\n", ma);} 
 	rwm_line(ma+1); 
+	if(strncmp(ln[ma].f[0].c,"CONECT",6)==0) find_CONECT='y';
+	if(strncmp(ln[ma].f[0].c,"LINK",4)==0) find_LINK='y';
 	}
 
   //Determine the number of molecules in the pdb
   printf("There are %d molecule(s)\n",howManyMolecules());
   asmbl = getAssembly();
-  set_assembly_atom_molbonds_from_PDB_CONECT(asmbl, ln);
-  set_assembly_residue_molbonds_from_PDB_LINK(asmbl, ln);
+  if(find_CONECT=='y')
+    { set_assembly_atom_molbonds_from_PDB_CONECT(asmbl, ln, file_name, INWC); }
+  if(find_LINK=='y')
+    { set_assembly_residue_molbonds_from_PDB_LINK(asmbl, ln, file_name, INWC); }
   printf("PDB Information Successfully Read.\n");
   free(ln);
   return asmbl;
@@ -51,24 +52,131 @@ molecule load_pdb_from_slurp(fileslurp in){
  return (*getMolecule());
 }
 
-void set_assembly_atom_molbonds_from_PDB_CONECT(assembly *asmbl, lindef *ln)
+void set_assembly_atom_molbonds_from_PDB_CONECT(assembly *A, linedef *ln, const char *file_name, int nlines)
 {
+int ai,bi,li,ncurrent=-1,this_n,that_n,list_loc,na=A[0].na;
+char badorder='n';
+molindex_set found_a;
+int this_ai,alist[na],bonds[na],blist[na],llist[na];
+int conect_first=-1,conect_last=-1,tmpi,tmpj;
 /*
-    0.  
+    0.  Check that atoms are all in order.  Complain if not, but try anyway.
 */
+ for(ai=0;ai<A[0].na;ai++){
+  if(A[0].a[ai][0].n<=ncurrent) { badorder = 'y'; }
+/*printf("ncurrent is %d ; n is %d \n",ncurrent,A[0].a[ai][0].n); */
+  ncurrent=A[0].a[ai][0].n;
+  }
+ if(badorder=='y')
+  {
+  printf("\nAtoms serials (numbers) in file %s are not in increasing order.\n",file_name);
+  printf("This might cause bonding problems and is not proper PDB format.\n");
+  }
+for(ai=0;ai<A[0].na;ai++) 
+  { 
+  alist[ai]=-1; 
+  blist[ai]=-1; 
+  llist[ai]=-1; 
+  bonds[ai]=0; 
+  }
 /*
-    
-*/
+    1.  Find numbers for atoms and number of bonds for each.
+*/ 
+ncurrent=0;
+ for(li=0;li<nlines;li++)
+  {
+  if(strcmp(ln[li].f[0].c,"CONECT")==0)
+   { 
+   if(conect_first==-1) conect_first=li;
+   sscanf(ln[li].f[1].c,"%d",&this_n);
+   list_loc=-1;
+   for(ai=0;ai<ncurrent;ai++) { if(alist[ai]==this_n) list_loc=ai; }
+/*printf("this_n is %d ; list_loc is %d \n",this_n,list_loc); */
+   if(list_loc<0)
+    { 
+    list_loc=ncurrent;
+    ncurrent++;
+    alist[list_loc]=this_n;
+    llist[list_loc]=li;
+    }
+/*printf(" ---  list_loc is %d \n",list_loc); */
+   for(bi=2;bi<15;bi++)
+    {
+    if(ln[li].f[bi].c==NULL) break;
+    tmpi=sscanf(ln[li].f[bi].c,"%d",&tmpj); 
+    if(tmpi<=0) { continue; }
+/*printf("\t\ttmpi is %d ; tmpj is %d\n",tmpi,tmpj); */
+    bonds[list_loc]++;
+    }
+/*printf("\t\tbonds[%d] is  %d\n",list_loc,bonds[list_loc]); */
+    conect_last=li;
+   }
+  }
+/*printf("conect first/last are:  %d   %d  \n",conect_first,conect_last); */
 /*
-    
-*/
-/*
-    
-*/
+    2.  Set atom-level connections.
+*/ 
+  for(ai=0;ai<na;ai++) 
+   {
+   for(ncurrent=0;ncurrent<na;ncurrent++) { blist[ncurrent]=-1; }
+   found_a=find_assembly_top_level_atoms_by_n(A,alist[ai]);
+/*printf("found_a.nP is %d and P[0] i-m-r-a is %d-%d-%d-%d \n",found_a.nP,found_a.P[0].i,found_a.P[0].m,found_a.P[0].r,found_a.P[0].a);*/
+   if(found_a.nP==0)
+    {
+    printf("\nBonding specified in file %s for non-existent atom serial number %d\n",file_name,this_n);
+    printf("Skipping this one and hoping for better next time.\n");
+    continue;
+    }
+   if(found_a.nP>1)
+    {
+    printf("\nBonding specified in file %s for duplicated atom serial number %d\n",file_name,this_n);
+    printf("Choosing first in list and moving on.\n");
+    }
+   this_ai=found_a.P[0].i;
+   free(found_a.P);
+   A[0].a[this_ai][0].nmb=bonds[ai];
+   A[0].a[this_ai][0].mb=(molbond*)calloc(bonds[ai],sizeof(molbond));
+   list_loc=0;
+   for(li=conect_first;li<=conect_last;li++)
+    {
+    tmpi=sscanf(ln[li].f[1].c,"%d",&tmpj);
+    if(tmpi<=0) {mywhine("trouble reading ln[li].f[1].c in set_assembly_atom_molbonds_from_PDB_CONECT");} 
+    if(tmpj==alist[ai])
+     {
+     for(bi=2;bi<15;bi++)
+      {
+      if(ln[li].f[bi].c==NULL) break;
+      tmpi=sscanf(ln[li].f[bi].c,"%d",&that_n); 
+      if(tmpi<=0) { continue; }
+      /* If there is an entry in this location */
+      found_a=find_assembly_top_level_atoms_by_n(A,that_n);
+      if(found_a.nP==0)
+       {
+       printf("\nBonding specified in file %s for non-existent atom serial number %d\n",file_name,that_n);
+       printf("Skipping this one and hoping for better next time.\n");
+       continue;
+       }
+      if(found_a.nP>1)
+       {
+        printf("\nBonding specified in file %s for duplicated atom serial number %d\n",file_name,that_n);
+        printf("Choosing first in list and moving on.\n");
+        } 
+       A[0].a[this_ai][0].mb[list_loc].s=A[0].a[this_ai][0].moli;
+       A[0].a[this_ai][0].mb[list_loc].t=found_a.P[0];
+       free(found_a.P);
+       list_loc++;
+       if(list_loc>A[0].a[this_ai][0].nmb){mywhine("list_loc>A[0].a[this_ai][0].nmb in set_assembly_atom_molbonds_from_PDB_CONECT");}
+       }
+     }
+    }
+   if(list_loc<A[0].a[this_ai][0].nmb){mywhine("list_loc<A[0].a[this_ai][0].nmb in set_assembly_atom_molbonds_from_PDB_CONECT");}
+   }
+return;
 }
 
-void set_assembly_residue_molbonds_from_PDB_LINK(assembly *asmbl, linedef *ln)
+void set_assembly_residue_molbonds_from_PDB_LINK(assembly *asmbl, linedef *ln, const char *file_name, int nlines)
 {
+mywhine("The function set_assembly_residue_molbonds_from_PDB_LINK has not been written yet.\n");
 }
 
 fileslurp isolateInputPDB(fileslurp S){
@@ -172,8 +280,8 @@ assembly* getAssembly()
   (*asmbl).na = 0; // initializing 
   (*asmbl).a = (atom**) calloc(1, sizeof(atom*));
   i=0; 
-printf("First allocate of residues and atoms:\n");
-printf("\t molecule %d, init is %d; residue %d -- nm is %d, A.nr is %d, A.na is %d\n",j,init,k,(*asmbl).nm,(*asmbl).nr,(*asmbl).na);
+/*printf("First allocate of residues and atoms:\n"); */
+/*printf("\t molecule %d, init is %d; residue %d -- nm is %d, A.nr is %d, A.na is %d\n",j,init,k,(*asmbl).nm,(*asmbl).nr,(*asmbl).na); */
 /* 
 	i = line number
 	j = molecule number
@@ -185,45 +293,42 @@ printf("\t molecule %d, init is %d; residue %d -- nm is %d, A.nr is %d, A.na is 
 
 in_molecule_switch = 'n';
 for(i = 0; i < INWC; i++) {
-printf("entering the loop, is is %d -- the card is %s; j is %d\n",i,(*(ln+i)).f[0].c,j); 
+/*printf("entering the loop, is is %d -- the card is %s; j is %d\n",i,(*(ln+i)).f[0].c,j);  */
 	if(j==molNum){break;}
 	if(in_molecule_switch == 'n'){ /* If we are not in a molecule. */
 		while( (i<(INWC)) && (isAtom(ln+i)==0) ){ i++; } /* advance to first ATOM/HETATM line */
 		if(i==INWC){break;}
-printf("about to call getResInfo. i is %d -- j is %d\n",i,j);
+/*printf("about to call getResInfo. i is %d -- j is %d\n",i,j); */
 		curMol = &asmbl[0].m[j][0];
 		(*curMol).Des=(char*)calloc(2,sizeof(char));
 		(*curMol).Des[0]=(*(ln+i)).f[7].c[0]; (*curMol).Des[1]='\0';
-printf("nm in the assembly is %d; the current moleucle is %d; nr in that is %d\n",asmbl[0].nm,j,asmbl[0].m[j][0].nr);
+/*printf("nm in the assembly is %d; the current moleucle is %d; nr in that is %d\n",asmbl[0].nm,j,asmbl[0].m[j][0].nr); */
 		(*curMol).nr = findTotalResidue(i);
-printf("\tcurMol nr is %d (which should be the same as: %d)\n",(*curMol).nr,asmbl[0].m[j][0].nr);
+/*printf("\tcurMol nr is %d (which should be the same as: %d)\n",(*curMol).nr,asmbl[0].m[j][0].nr); */
 		(*curMol).r = (residue*) realloc ((*curMol).r, (*curMol).nr*sizeof(residue));
 		initialize_residue(&(*curMol).r[(*curMol).nr-1]);
 		//Initialize the residue numbers to -1 so the program knows they're not used yet
 		for(init = 0; init < (*curMol).nr; init++){(*curMol).r[init].n = -1;}
 		next_mol_line=getResInfo((*curMol).r,i);
-printf("\tcalled getResInfo. (*curMol).r[0].N is %s ; i is %d ; k is %d\n",(*curMol).r[0].N,i,k);
+/*printf("\tcalled getResInfo. (*curMol).r[0].N is %s ; i is %d ; k is %d\n",(*curMol).r[0].N,i,k); */
 		k = 0;l = 0;
 		curRes = &curMol[0].r[k];
 		ka++;
-printf("\tsetting residue pointer -- k=%d ; ka=%d; j=%d\n",k,ka,j);
+/*printf("\tsetting residue pointer -- k=%d ; ka=%d; j=%d\n",k,ka,j); */
 		(*asmbl).r = (residue**) realloc ((*asmbl).r, ka*sizeof(residue*));
 		(*asmbl).r[ka-1] = &curMol[0].r[k]; // set the top-level residues
-printf("allocating residues and atoms:\n");
-printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,(*curRes).na);
+/*printf("allocating residues and atoms:\n"); */
+/*printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,(*curRes).na); */
 		(*curRes).a = (atom*) calloc ((*curRes).na,sizeof(atom));
 		(*curRes).moli.m=j; (*curRes).moli.r=k; (*curRes).moli.a=-1;
 		curAtm = ((*curRes).a+l);
 		in_molecule_switch = 'y';/* At this point, we should be at an ATOM/HETATM entry. */
-		//j++;
 		} 
 	if(i==INWC){ /* If we ran out of lines... */
 		if((*curMol).nr==-1){ /* If this is molecule does not currently contain residues */
 			(*curMol).nr = 0;
 			(*curMol).r = NULL;
 			(*curMol).N = strdup("EMPTY_MOLECULE");
-// change the next line if the j++ above comes back
-			//if(j!=molNum+1){printf("Found %d molecules, but ran out of atoms before molecule %d.\n",molNum,j+1);
 			if(j!=molNum){printf("Found %d molecules, but ran out of atoms before molecule %d.\n",molNum,j+1);
 				printf("This is probably a very, very bad thing, but we're ignoring it for now.\n");}
 			} 
@@ -233,7 +338,6 @@ printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,
 		}
 
 	while( (i<INWC) && (in_molecule_switch=='y') ) 
-	//while( (i<INWC) && (j<molNum) && (in_molecule_switch=='y') ) 
 		{ /* while we are in a molecule */
 		if(endOfMol((ln+i)) == 1){
 			in_molecule_switch='n';
@@ -246,7 +350,7 @@ printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,
 					k++;l = 0;
 					curRes = ((*curMol).r+k);
 					ka++;
-printf("\tsetting residue pointer -- k=%d ; ka=%d; j=%d\n",k,ka,j);
+/*printf("\tsetting residue pointer -- k=%d ; ka=%d; j=%d\n",k,ka,j); */
 					(*asmbl).r = (residue**) realloc ((*asmbl).r, ka*sizeof(residue*));
 					(*asmbl).r[ka-1] = &curMol[0].r[k]; // set the top-level residues
 //printf("allocating atoms only, molecule %d, residue %d and na is %d\n",j,k,(*curRes).na);
@@ -384,10 +488,6 @@ if(i==INWC){ /* if we got to the end with no atoms */
 	} 
 i--; /* still here? decrement the counter to undo the while loop above */
 
-//while(isAtom(ln+i) == 0 && i < INWC) 
-//{
-//i++;
-
 while( (i != INWC)  && (endOfMol((ln+i)) == 0) ){ 
 	if(isAtom(ln+i) == 1){
 		temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&resNum);
@@ -424,7 +524,6 @@ while( (i != INWC)  && (endOfMol((ln+i)) == 0) ){
 		}//End if an atom 
 	i++; //..and then incriment to the next line
 	} //End loop through file
-//} //end loop through file
 return i;
 }
 
@@ -475,12 +574,6 @@ molecule* getMolecule(void){
       //Getting the atom name
       temp  = (*(ln+i)).f[3].c; sscanf(temp,"%s",name);
       (*curAtm).N = strdup(name);
-/*
-These lines cause a seg fault for some reason.  They were removed in a 
-previous commit, so I'm re-removing them...  20090819 BLF.
-printf("Got atom number %d and name %s in get Molecule\n",(*curAtm).n,(*curAtm).N);
-printf("in load_pdb_from_slurp: Atom number %d of residue number %d (%s) has the name %s\n",mol[0].r[5].a[21].n,mol[0].r[5].n,mol[0].r[5].N,mol[0].r[5].a[21].N);
-*/
       //Getting the chain identifier
       (*curAtm).cID = (char*)calloc(2,sizeof(char));
       (*curAtm).cID[0] = (*(ln+i)).f[7].c[0];

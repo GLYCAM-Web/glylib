@@ -382,13 +382,13 @@ void print_vectormag_3D(vectormag_3D*),print_coord_3D(coord_3D*);
 void dprint_molecule(molecule*,int),dprint_residue(residue*,int);
 void dprint_bondset(bondset*,int);
 void dprint_molbondset(molbondset*,int);
-void dprint_atom(atom*,int),dprint_bond(bond*);
+void dprint_atom(atom*,int),dprint_bond(bond*),dprint_molbond(molbond *mb);
 void dprint_atype(atype*,int),dprint_plane(plane*);
 void dprint_vectormag_3D(vectormag_3D*),dprint_coord_3D(coord_3D*);
 //
 void dXprint_molecule(molecule*,int),dXprint_residue(residue*,int);
 void dXprint_bondset(bondset*,int),dXprint_atom(atom*,int),dXprint_bond(bond*);
-void dXprint_molbondset(molbondset*,int);
+void dXprint_molbondset(molbondset*,int),dXprint_molbond(molbond *mb);
 void dXprint_atype(atype*,int),dXprint_plane(plane*);
 void dXprint_vectormag_3D(vectormag_3D*),dXprint_coord_3D(coord_3D*);
 /** @}*/
@@ -487,12 +487,14 @@ Find atoms/residues named N -- searches for a.N or r.N
 molindex_set find_residue_atoms_by_N(residue *r, const char *name); /**< searches for a.N */
 molindex_set find_molecule_atoms_by_N(molecule *m, const char *name); /**< searches for a.N */
 molindex_set find_molecule_residues_by_N(molecule *m, const char *name); /**< searches for r.N */
+molindex_set find_assembly_top_level_atoms_by_N(assembly *a, const char *name); /**< searches for a.N, saves i in A.a[i] to moli.i */
 /*
 Find atoms/residues numbered n -- searches for a.n or r.n
 */
 molindex_set find_residue_atoms_by_n(residue *r, int number); /**< searches for a.n */
 molindex_set find_molecule_atoms_by_n(molecule *m, int number); /**< searches for a.n */
 molindex_set find_molecule_residues_by_n(molecule *m, int number); /**< searches for r.n */
+molindex_set find_assembly_top_level_atoms_by_n(assembly *a, int number); /**< searches for a.n, saves i in A.a[i] to moli.i */
 /** @}*/
 
 
@@ -553,7 +555,7 @@ void deallocateMolecule(molecule *mol);
 /** \addtogroup STRUCTURE_UTILS
  * @{
  */
-//Functions that add or remove structures from other structures
+void set_atom_element_best_guess(atom *a);
 void add_assembly_to_ensemble(
         assembly *A, ///< pointer to the assembly being added (SEE DOCS)
         ensemble *E ///< pointer to the ensemble being grown
