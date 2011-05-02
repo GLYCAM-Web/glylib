@@ -628,70 +628,138 @@ return FM;
 
 fileslurp get_assembly_PDB_CONECT_lines(assembly *A, int savei)
 {
-fileslurp FC;
-int ncurrent=-1,mi,ri,ai,extras=0,na=0;
-char bad_a_order='n',bad_mra_order='n';
+fileslurp FC,Ftmp;
+int ncurrent=-1,mi,ri,ai,extras=0,na=0,*bsort;
+char bad_a_order='n',bad_mra_order='n', use_hierarchy='n';
 atom *as, *at;
 
 /*
     0.  Checks:
 
-        If savei >= 0:
-              All atoms are in order and in the top-level atom array.
-        If savei == -1:
-              All atoms are in order through the molecule hierarchy.  
+        * savei must be >= 0  (die if not)
+        * there appears to be something in i[savei] (die if not)
+        * The values in i[savei] increase, either
+               * Through the hierarchy -or-
+               * via atom **a in the top-level
+               * Complain if not, but try anyway.
 
-        Complain if not, but try anyway.
+    Notes regarding these lines:
+        if(as[0].nmb>13){extras+=(floor(as[0].nmb/13));}
+
+        * Proper PDB format might or might not allow for more than four
+          bonds to be specified on one line.  I can't tell.  For now, I'm
+          writing it to (theoretically) fill up the line.  Not much chance,
+          tho, that any atom is bonded to more than 13 others.
 */
-if(savei>=0)
+if(savei<0) {mywhine("Atom numbers must be saved in i[savei] (savei>=0) in get_assembly_PDB_CONECT_lines.");}
+/*
+  See if the top-level atom pointers have i[savei] in a sane order.
+*/
+if(A[0].na>0)
  {
- if(A[0].na==0)
-  {
-  mywhine("For isource=n in get_assembly_PDB_CONECT_lines, top-level atoms must be set, in order.");
-  }
  na=A[0].na;
  for(ai=0;ai<A[0].na;ai++)
   {
-  if((A[0].a[ai][0].i==null)||(A[0].a[ai][0].ni<=savei)) 
+  as=A[0].a[ai];
+  if((as[0].i==null)||(as[0].ni<=savei)) 
    {
-   mywhine("For isource=n in get_assembly_PDB_CONECT_lines n values must be saved in savei.");
+   mywhine("(as[0].i==null)||(as[0].ni<=savei) in get_assembly_PDB_CONECT_lines.");
    }
-  if(A[0].a[ai][0].i[savei]<=ncurrent) { bad_a_order = 'y'; }
-  ncurrent=A[0].a[ai][0].i[savei];
-  A[0].a[ai][0].moli.i=ai;
-  if(A[0].a[ai][0].nmb>13){extras+=(floor(A[0].a[ai][0].nmb/13));}
+  if(as[0].i[savei]>99999)
+   {
+   printf("\nSerial number for A[0].a[%d][0].i[%d]>99999 (=%d).\n",ai,savei,as[0].i[savei]);
+   printf("There might be a problem in get_assembly_PDB_CONECT_lines.  Trying to write the lines anyway.\n");
+   }
+  if(as[0].i[savei]<=ncurrent) { bad_a_order = 'y'; }
+  ncurrent=as[0].i[savei];
+  as[0].moli.i=ai;
+  if(as[0].nmb>13){extras+=(floor(as[0].nmb/13));}
   }
  }
-else if(savei!=-1) {mywhine("Unexpected value for savei in get_assembly_PDB_CONECT_lines,");}
-else
+else {bad_a_order='y';}
+/*
+  See if the m-r-a hierarchy has i[savei] in a sane order.
+*/
+if((A[0].na>0)||(bad_a_order=='y'))
  {
  na=0;
+ ncurrent=-1;
+ extras=0;
  for(mi=0;mi<A[0].nm;mi++){
  for(ri=0;ri<A[0].m[mi][0].nr;ri++){
+ na+=A[0].m[mi][0].r[ri].na;
  for(ai=0;ai<A[0].m[mi][0].r[ri].na;ai++){
-     as=&A[0].m[mi][0].r[ri].a[ai];
-     as[0].moli.i=ai;
-     if(as[0].nmb>13){extras+=(floor(as[0].nmb/13));}
-   }}}
+    as=&A[0].m[mi][0].r[ri].a[ai];
+    if((as[0].i==null)||(as[0].ni<=savei)) 
+     {
+     mywhine("(as[0].i==null)||(as[0].ni<=savei) in get_assembly_PDB_CONECT_lines.");
+     }
+    if(as[0].i[savei]>99999)
+     {
+     printf("\nSerial number for A[0].m[%d].r[%d].a[%d][0].i[%d]>99999 (=%d).\n",mi,ri,ai,savei,as[0].i[savei]);
+     printf("There might be a problem in get_assembly_PDB_CONECT_lines.  Trying to write the lines anyway.\n");
+     }
+    if(as[0].i[savei]<=ncurrent) { bad_a_order = 'y'; }
+    ncurrent=as[0].i[savei];
+    if(as[0].nmb>13){extras+=(floor(as[0].nmb/13));}
+    }}}
  }
-if(bad_a_order=='y')
+
+/* 
+    1  Decide whether we are using m-r-a or A.a order
+*/
+if((bad_mra_order=='y')&&(bad_a_order=='y'))
   {
-  printf("\nAtoms serials (numbers) in file %s are not in increasing order.\n",file_name);
-  printf("This means the resulting file will not be in proper PDB format.\n");
+  printf("\nThe atom serial numbers in the assembly are not in increasing order.\n");
+  printf("This is the case either through m-r-a hierarchy or via top-level **a.\n");
+  printf("This means the resulting CONECT card lines will not be in proper PDB format.\n");
+  if(A[0].na>0)
+   {
+   printf("The CONECT cards will reflect A.a atom order.\n"); 
+   }
+  else
+   {
+   printf("The CONECT cards will reflect A.m.r.a atom order.\n");
+   use_hierarchy='y';
+   }
+  printf("This warning courtesy of get_assembly_PDB_CONECT_lines.\n");
   }
+if((bad_a_order=='y')&&(bad_mra_order=='n')){use_hierarchy='y';}
 
-/* 
-    1.1  If savei >=0 
+/*
+    2  Allocate space, initialize, etc.
 */
-START HERE
-for(ai=0;ai<A[0].na;ai++)
+FC.n=na+extras;
+FC.L=(char**)calloc(FC.n,sizeof(char*));
+for(mi=0;mi<FC.n;mi++) { FC.L[mi]=(char*)calloc(82,sizeof(char)); }
+/* 
+    2.1  If using m-r-a order (the hierarchy)
+*/
+ncurrent=0;
+if(use_hierarchy=='y')
  {
+ for(mi=0;mi<A[0].nm;mi++){
+  Ftmp=get_molecule_PDB_CONECT_lines(molecule *m, int savei);
+  if((ncurrent+Ftmp.n)>FC.n)mywhine{"ncurrent>FC.n in get_assembly_PDB_CONECT_lines.");}
+  for(ai=0;ai<Ftmp.n;ai++) { FC.L[ai+ncurrent]=strdup(Ftmp.L[ai]); }
+  ncurrent+=Ftmp.n;
+  }
+ if(ncurrent!=Ftmp.n)mywhine{"ncurrent!=FC.n in get_assembly_PDB_CONECT_lines.");} 
+ return FC;
  }
 
 /* 
-    1.1  If savei == -1
+    2.2  If using atom order (A.a order)
 */
+if(use_hierarchy=='n')
+ {
+ for(ai=0;ai<A[0].na;ai++)
+  {
+  }
+ return FC;
+ }
 
+printf("\nWarning: should not have reached the end of get_assembly_PDB_CONECT_lines.");
 return FC;
 } 
 
