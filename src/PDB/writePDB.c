@@ -629,13 +629,14 @@ return FM;
 fileslurp get_assembly_PDB_CONECT_lines(assembly *A, int savei)
 {
 fileslurp FC,Ftmp;
-int ncurrent=-1,mi,ri,ai,extras=0,na=0,*bsort;
+int ncurrent=-1,mi,ri,ai,extras=0,na=0;
 char bad_a_order='n',bad_mra_order='n', use_hierarchy='n';
 atom *as, *at;
 
 /*
     0.  Checks:
 
+        * na>1
         * savei must be >= 0  (die if not)
         * there appears to be something in i[savei] (die if not)
         * The values in i[savei] increase, either
@@ -705,6 +706,12 @@ if((A[0].na>0)||(bad_a_order=='y'))
     }}}
  }
 
+if(na==1)
+ {
+ FC.n=0;
+ return FC;
+ }
+
 /* 
     1  Decide whether we are using m-r-a or A.a order
 */
@@ -720,6 +727,7 @@ if((bad_mra_order=='y')&&(bad_a_order=='y'))
   else
    {
    printf("The CONECT cards will reflect A.m.r.a atom order.\n");
+   printf("If there is molecule-level disorder, you will see more complaints.\n");
    use_hierarchy='y';
    }
   printf("This warning courtesy of get_assembly_PDB_CONECT_lines.\n");
@@ -731,7 +739,7 @@ if((bad_a_order=='y')&&(bad_mra_order=='n')){use_hierarchy='y';}
 */
 FC.n=na+extras;
 FC.L=(char**)calloc(FC.n,sizeof(char*));
-for(mi=0;mi<FC.n;mi++) { FC.L[mi]=(char*)calloc(82,sizeof(char)); }
+
 /* 
     2.1  If using m-r-a order (the hierarchy)
 */
@@ -740,28 +748,84 @@ if(use_hierarchy=='y')
  {
  for(mi=0;mi<A[0].nm;mi++){
   Ftmp=get_molecule_PDB_CONECT_lines(molecule *m, int savei);
-  if((ncurrent+Ftmp.n)>FC.n)mywhine{"ncurrent>FC.n in get_assembly_PDB_CONECT_lines.");}
-  for(ai=0;ai<Ftmp.n;ai++) { FC.L[ai+ncurrent]=strdup(Ftmp.L[ai]); }
+  if((ncurrent+Ftmp.n)>FC.n){mywhine("ncurrent>FC.n in get_assembly_PDB_CONECT_lines.");}
+  for(ai=0;ai<Ftmp.n;ai++) 
+   {
+   FC.L[ai+ncurrent]=strdup(Ftmp.L[ai]);
+   free(Ftmp.L[ai]);
+   }
   ncurrent+=Ftmp.n;
+  free(Ftmp.L);
+  Ftmp.n=0;
   }
- if(ncurrent!=Ftmp.n)mywhine{"ncurrent!=FC.n in get_assembly_PDB_CONECT_lines.");} 
+ if(ncurrent!=Ftmp.n){mywhine("ncurrent!=FC.n in get_assembly_PDB_CONECT_lines.");} 
  return FC;
  }
 
 /* 
     2.2  If using atom order (A.a order)
 */
+
 if(use_hierarchy=='n')
  {
  for(ai=0;ai<A[0].na;ai++)
   {
+  Ftmp=get_atom_PDB_CONECT_lines_assembly(assembly *A, atom *a, int savei);
+  if((ncurrent+Ftmp.n)>FC.n){mywhine("ncurrent>FC.n in get_assembly_PDB_CONECT_lines.");}
+  for(ai=0;ai<Ftmp.n;ai++) 
+   {
+   FC.L[ai+ncurrent]=strdup(Ftmp.L[ai]);
+   free(Ftmp.L[ai]);
+   }
+  ncurrent+=Ftmp.n;
+  free(Ftmp.L);
+  Ftmp.n=0;
   }
+ if(ncurrent!=Ftmp.n){mywhine("ncurrent!=FC.n in get_assembly_PDB_CONECT_lines.");} 
  return FC;
  }
 
 printf("\nWarning: should not have reached the end of get_assembly_PDB_CONECT_lines.");
 return FC;
 } 
+
+fileslurp get_molecule_PDB_CONECT_lines(molecule *m, int savei)
+{
+fileslurp FM;
+return FM;
+}
+
+fileslurp get_atom_PDB_CONECT_lines_assembly(assembly *A, atom *a, int savei)
+{
+fileslurp Fa;
+int **bsort;
+char done='n';
+/*
+  0.  Determine how many lines this atom will need.
+      Allocate space.
+*/
+/*
+  1.  Sort the outgoing bonds by the integer in a.i[savei] for each bonded 
+      atom.  For now, use a stupid bubble sort b/c there should rarely be 
+      more than four items in the list.  Overachievers are welcome to get 
+      fancier with the sort routine.
+*/
+bsort=(int**)calloc(a[0].nmb,sizeof(int*));
+for(i=0;i<a[0].nmb;i++) {
+while(done=='n')
+ {
+ 
+ }
+
+/*
+  2.  Print the first part of each needed line.
+*/
+/*
+  3.  For each bonded atom, print i[savei] to a line.
+*/
+
+return Fa;
+}
 
 void outputMolPDB(molecule* mol, char* filename)
 {
