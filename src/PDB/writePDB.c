@@ -411,8 +411,8 @@ strcat(line," ");
 /*
 pdb_a[2].b[1].c[7]	=	1;   chainID        
 */
-if(a[0].cID!='\0'){strncat(line,a[0].cID,1);}
-else if(r[0].cID!='\0'){strncat(line,r[0].cID,1);}
+if((a[0].cID!='\0')&&(a[0].cID!=NULL)){strncat(line,a[0].cID,1);}
+else if((r[0].cID!='\0')&&(a[0].cID!=NULL)){strncat(line,r[0].cID,1);}
 else{strcat(line," ");}
 /*
 pdb_a[2].b[1].c[8]	=	4;   resSeq         

@@ -117,17 +117,31 @@ return;
 
 void initialize_atom(atom *a) {
 a[0].n=0; // atom number or other identifying index
-a[0].t=0; // type number -- must correspond to assignments of "atype" (see)
+a[0].N=NULL;
+a[0].T=NULL;
+a[0].D=NULL;
+a[0].E=NULL; 
+a[0].cID=NULL; 
+a[0].typ=NULL; 
+a[0].m=0;
+a[0].t=0; // type number -- must correspond to assignments of "atype" (see) 
 initialize_molindex(&a[0].moli);
 a[0].nb=0; // number of actual bonds (not expected bonds)
 a[0].b=(bond*)calloc(1,sizeof(bond)); // bond structures (nb of these)
 a[0].nmb=0; // number of bonds to other residues or molecules
 a[0].mb=(molbond*)calloc(1,sizeof(molbond)); // nmb of these
+a[0].mTi=-1;
+a[0].rTi=-1;
 a[0].x.i=a[0].x.j=a[0].x.k=0; // atom's coordinates 
+a[0].xv.i=a[0].xv.j=a[0].xv.k=0; // atom's coordinates 
 a[0].nalt=0; // number of alternate coordinate sets
 a[0].xa=(coord_3D*)calloc(1,sizeof(coord_3D)); // nalt of alternate coords
+a[0].nxva=0; // number of alternate coordinate sets
+a[0].xva=(coord_3D*)calloc(1,sizeof(coord_3D)); // nalt of alternate coords
 a[0].nvec=0; // number of vector sets
 a[0].v=(vectormag_3D*)calloc(1,sizeof(vectormag_3D)); // vector sets
+a[0].nch=0;
+a[0].ch=(double*)calloc(1,sizeof(double));
 a[0].ni=0; // number of other indices
 a[0].i=(int*)calloc(1,sizeof(int)); // other indices, as needed (ni of these)
 a[0].nd=0; // number of double-precision parameters
@@ -143,11 +157,23 @@ return;
 // START HERE -- UPDATE all of the residue, molecule and higher structures.
 void initialize_residue(residue *r) {
 r[0].n=0; // residue number given in input file
+r[0].cID=NULL;
+r[0].IC=NULL;
+r[0].N=NULL;
+r[0].T=NULL;
+r[0].D=NULL;
+r[0].altname=NULL;
+r[0].typ=NULL;
 r[0].t=0; // index for rtype
+initialize_molindex(&r[0].moli);
 r[0].na=0; // number of atoms in residue
 r[0].m=0; // molecular weight
 r[0].COM.i=r[0].COM.j=r[0].COM.k=0; // center of mass for molecule
 r[0].a=(atom*)calloc(1,sizeof(atom)); // atom structures (na of these)
+r[0].aT=(atom_node*)calloc(1,sizeof(atom_node)); // atom structures (na of these)
+r[0].nrb=0; // number of bonds to other residues or molecules
+r[0].rb=(molbond*)calloc(1,sizeof(molbond)); // nmb of these
+r[0].mTi=-1;
 r[0].nbs=0; // number of bond sets 
 r[0].bs=(molbondset*)calloc(1,sizeof(molbondset)); // (consecutive bonds, use these for plotting, etc.)
 r[0].nring=0; // number of simple rings (no cage structures, etc.)
@@ -161,6 +187,8 @@ r[0].ni=0; // number of other indices
 r[0].i=(int*)calloc(1,sizeof(int)); // other indices, as needed (ni of these)
 r[0].nd=0; // number of double-precision parameters
 r[0].d=(double*)calloc(1,sizeof(double)); // other parameters, as needed (nd of these)
+r[0].nOD=0; // number of double-precision parameters
+r[0].OD=(char**)calloc(1,sizeof(char*)); // other parameters, as needed (nd of these)
 r[0].nVP=0; // number of void structures
 return;
 }

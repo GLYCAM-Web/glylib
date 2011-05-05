@@ -1,6 +1,15 @@
-/*Author: Michael Tessier*/
+/*Author: Michael Tessier with changes by many others 
+	including BLFoley, possibly also Spandana Makeneni,
+	Anita Nivedha, Matthew Tessier */
 #include <load_pdb.h>
 //#include "../inc/load_pdb.h"
+
+/* 
+These are for debugging
+*/
+assembly *This_A;
+int This_mi;
+
 assembly* load_pdb(char* file_name)
 {
   char* temp;
@@ -128,13 +137,15 @@ assembly* getAssembly()
 {
   int molNum = howManyMolecules();
   int i = 0;int j = 0;int k = 0;int ka = 0; int l = 0;int la=0;int atom_num;
-  int init=0, next_mol_line=0;
+  int init=0, next_mol_line=0, ri=0,ai=0,natoms=0;
   char in_molecule_switch = 'n';
   double x,y,z;
   char name[6] = ""; char* atmName = name;
   char atmElem[3];
   assembly* asmbl = (assembly*) calloc (1 , sizeof(assembly));
   (*asmbl).nm = molNum;
+  This_A=&asmbl[0];
+  This_mi=j;
   molecule *curMol=NULL; residue* curRes=NULL; 
   atom* curAtm;// atom* atm;
   /* made further changes for molecule double pointers in assembly
@@ -150,8 +161,8 @@ assembly* getAssembly()
   (*asmbl).na = 0; // initializing 
   (*asmbl).a = (atom**) calloc(1, sizeof(atom*));
   i=0; 
-printf("First allocate of residues and atoms:\n");
-printf("\t molecule %d, init is %d; residue %d -- nm is %d, A.nr is %d, A.na is %d\n",j,init,k,(*asmbl).nm,(*asmbl).nr,(*asmbl).na);
+/*printf("First allocate of residues and atoms:\n");*/
+/*printf("\t molecule %d, init is %d; residue %d -- nm is %d, A.nr is %d, A.na is %d\n",j,init,k,(*asmbl).nm,(*asmbl).nr,(*asmbl).na);*/
 /* 
 	i = line number
 	j = molecule number
@@ -163,45 +174,53 @@ printf("\t molecule %d, init is %d; residue %d -- nm is %d, A.nr is %d, A.na is 
 
 in_molecule_switch = 'n';
 for(i = 0; i < INWC; i++) {
-printf("entering the loop, is is %d -- the card is %s; j is %d\n",i,(*(ln+i)).f[0].c,j); 
 	if(j==molNum){break;}
 	if(in_molecule_switch == 'n'){ /* If we are not in a molecule. */
 		while( (i<(INWC)) && (isAtom(ln+i)==0) ){ i++; } /* advance to first ATOM/HETATM line */
 		if(i==INWC){break;}
-printf("about to call getResInfo. i is %d -- j is %d\n",i,j);
 		curMol = &asmbl[0].m[j][0];
 		(*curMol).Des=(char*)calloc(2,sizeof(char));
 		(*curMol).Des[0]=(*(ln+i)).f[7].c[0]; (*curMol).Des[1]='\0';
-printf("nm in the assembly is %d; the current moleucle is %d; nr in that is %d\n",asmbl[0].nm,j,asmbl[0].m[j][0].nr);
 		(*curMol).nr = findTotalResidue(i);
-printf("\tcurMol nr is %d (which should be the same as: %d)\n",(*curMol).nr,asmbl[0].m[j][0].nr);
-		(*curMol).r = (residue*) realloc ((*curMol).r, (*curMol).nr*sizeof(residue));
-		initialize_residue(&(*curMol).r[(*curMol).nr-1]);
-		//Initialize the residue numbers to -1 so the program knows they're not used yet
-		for(init = 0; init < (*curMol).nr; init++){(*curMol).r[init].n = -1;}
+		(*curMol).r = (residue*) calloc ((*curMol).nr,sizeof(residue));
+		/*Initialize the residue numbers to -1 so the program knows they're not used yet. */
+		for(ri=0;ri<(*curMol).nr;ri++){
+			initialize_residue(&curMol[0].r[ri]);
+			(*curMol).r[ri].n = -1;
+			(*curMol).r[ri].moli.m=j; 
+			(*curMol).r[ri].moli.r=ri; 
+			(*curMol).r[ri].moli.a=-1;
+			}
+		/*Get the total atoms in the molecule while we're here. */
 		next_mol_line=getResInfo((*curMol).r,i);
-printf("\tcalled getResInfo. (*curMol).r[0].N is %s ; i is %d ; k is %d\n",(*curMol).r[0].N,i,k);
-		k = 0;l = 0;
-		curRes = &curMol[0].r[k];
-		ka++;
-printf("\tsetting residue pointer -- k=%d ; ka=%d; j=%d\n",k,ka,j);
-		(*asmbl).r = (residue**) realloc ((*asmbl).r, ka*sizeof(residue*));
-		(*asmbl).r[ka-1] = &curMol[0].r[k]; // set the top-level residues
-printf("allocating residues and atoms:\n");
-printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,(*curRes).na);
-		(*curRes).a = (atom*) calloc ((*curRes).na,sizeof(atom));
-		(*curRes).moli.m=j; (*curRes).moli.r=k; (*curRes).moli.a=-1;
-		curAtm = ((*curRes).a+l);
+		natoms=0;
+		for(ri = 0; ri < (*curMol).nr; ri++){
+			(*curMol).r[ri].a = (atom*) calloc ((*curMol).r[ri].na,sizeof(atom));
+			natoms+=(*curMol).r[ri].na;
+printf("na is %d for residue %d(ka=%d)\n",(*curMol).r[ri].na,ri,ka);
+			}
+		/* Allocate and set the top-level atoms and residues for this molecule */
+		(*asmbl).nr+=(*curMol).nr;
+		(*asmbl).r = (residue**) realloc ((*asmbl).r, (*asmbl).nr*sizeof(residue*));
+		(*asmbl).na+=natoms; 
+		(*asmbl).a = (atom**) realloc ((*asmbl).a, (*asmbl).na*sizeof(atom*));
+		for(ri = 0; ri < (*curMol).nr; ri++){
+			(*asmbl).r[ka+ri] = &curMol[0].r[ri]; // set the top-level residues
+			for(ai=0;ai<(*curMol).r[ri].na;ai++){
+				(*asmbl).a[la+ai] = &curMol[0].r[ri].a[ai];
+				}
+			}
 		in_molecule_switch = 'y';/* At this point, we should be at an ATOM/HETATM entry. */
-		//j++;
+		k = 0;l = 0;
+		curRes = curMol[0].r;
+		curAtm = (*curRes).a;
+		ka++;
 		} 
 	if(i==INWC){ /* If we ran out of lines... */
 		if((*curMol).nr==-1){ /* If this is molecule does not currently contain residues */
 			(*curMol).nr = 0;
 			(*curMol).r = NULL;
 			(*curMol).N = strdup("EMPTY_MOLECULE");
-// change the next line if the j++ above comes back
-			//if(j!=molNum+1){printf("Found %d molecules, but ran out of atoms before molecule %d.\n",molNum,j+1);
 			if(j!=molNum){printf("Found %d molecules, but ran out of atoms before molecule %d.\n",molNum,j+1);
 				printf("This is probably a very, very bad thing, but we're ignoring it for now.\n");}
 			} 
@@ -211,8 +230,8 @@ printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,
 		}
 
 	while( (i<INWC) && (in_molecule_switch=='y') ) 
-	//while( (i<INWC) && (j<molNum) && (in_molecule_switch=='y') ) 
 		{ /* while we are in a molecule */
+printf("line %d: >>%s<<\n",i,(*(ln+i)).f[0].c);
 		if(endOfMol((ln+i)) == 1){
 			in_molecule_switch='n';
 			if(next_mol_line!=i) {printf("i is %d and next_mol_line is %d ... should match.\n",i,next_mol_line);}
@@ -222,14 +241,8 @@ printf("\t molecule %d, residue %d -- nr is %d and na is %d\n",j,k,(*curMol).nr,
 			if(isAtom((ln+i)) == 1) {
 				if(l == (*curRes).na) {
 					k++;l = 0;
-					curRes = ((*curMol).r+k);
 					ka++;
-printf("\tsetting residue pointer -- k=%d ; ka=%d; j=%d\n",k,ka,j);
-					(*asmbl).r = (residue**) realloc ((*asmbl).r, ka*sizeof(residue*));
-					(*asmbl).r[ka-1] = &curMol[0].r[k]; // set the top-level residues
-//printf("allocating atoms only, molecule %d, residue %d and na is %d\n",j,k,(*curRes).na);
-					(*curRes).a = (atom*) calloc ((*curRes).na,sizeof(atom));
-					(*curRes).moli.m=j; (*curRes).moli.r=k; (*curRes).moli.a=-1;
+					curRes = ((*curMol).r+k);
 					}
 				curAtm = ((*curRes).a+l);
 				//Getting the atom # //
@@ -237,28 +250,39 @@ printf("\tsetting residue pointer -- k=%d ; ka=%d; j=%d\n",k,ka,j);
 				//Getting the atom name //temp  = (*(ln+i)).f[3].c;
 				sscanf( (*(ln+i)).f[3].c ,"%s",atmName);
 				sscanf( (*(ln+i)).f[18].c ,"%s",atmElem); 
+printf("\t atmName is >>>%s<<< atmElem is >>>%s<<<\n",atmName,atmElem); 
 				//Getting the X, Y and Z coordinates
 				sscanf( (*(ln+i)).f[11].c ,"%lf",&x);
 				sscanf( (*(ln+i)).f[12].c ,"%lf",&y);
 				sscanf( (*(ln+i)).f[13].c ,"%lf",&z);   
 				(*curAtm).n = atom_num;//set the atom #
-				(*curAtm).N = strdup(atmName);//set the atom name
-				(*curAtm).E = strdup(atmElem);//set the atom element
+				if(atmName!=NULL){(*curAtm).N = strdup(atmName);}//set the atom name
+				else{(*curAtm).N=strdup("    ");}
+				if(atmElem!=NULL){(*curAtm).E = strdup(atmElem);}//set the atom element
+				else{(*curAtm).E=strdup("  ");}
+				//Get the chain identifier
+				(*curAtm).cID = (char*)calloc(2,sizeof(char));
+				if((*(ln+i)).f[7].c!=NULL){
+					(*curAtm).cID[0] = (*(ln+i)).f[7].c[0];
+					(*curAtm).cID[1] = '\0';
+					}
+				else{strcpy((*curAtm).cID," ");}
+/*printf("\t the (*curAtm).cID is >>>%s<<< E is >>>%s<<<\n",(*curAtm).cID,(*curAtm).E); */
 				//set the atom's coordinates
 				(*curAtm).x.i = x; (*curAtm).x.j = y; (*curAtm).x.k = z;
 				(*curAtm).moli.m=j; (*curAtm).moli.r=k; (*curAtm).moli.a=l;
 				l++;
 				la++;
-				(*asmbl).a = (atom**) realloc ((*asmbl).a, la*sizeof(atom*));
-				(*asmbl).a[la-1] = &(*curAtm); // set the top-level atoms
 				}
 			}
 		i++;
 		} /* close while we are in a molecule */
 	j++;
+	This_mi=j;
 	}
-(*asmbl).nr = ka;
-(*asmbl).na = la;
+printf("ka=%d ; (*asmbl).nr=%d ; la=%d ; (*asmbl).na=%d\n",ka,(*asmbl).nr,la,(*asmbl).na);
+if((*asmbl).nr != ka){mywhine("(*asmbl).nr != ka in load_pdb's getAssembly");}
+if((*asmbl).na != la){mywhine("(*asmbl).na != la in load_pdb's getAssembly");}
 return asmbl;
 }
 
@@ -349,7 +373,7 @@ residue* curRes = (res+0);
 char name [10];char* temp;char* resName = name;
 char IC=' ';
 
-//printf("**1.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
+printf("\n**1.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
 
 while( (current_status == 0) && (i<INWC) ){ 
 	current_status = isAtom(ln+i); /* find out if we have an atom line  */
@@ -362,31 +386,30 @@ if(i==INWC){ /* if we got to the end with no atoms */
 	} 
 i--; /* still here? decrement the counter to undo the while loop above */
 
-//while(isAtom(ln+i) == 0 && i < INWC) 
-//{
-//i++;
-
 while( (i != INWC)  && (endOfMol((ln+i)) == 0) ){ 
 	if(isAtom(ln+i) == 1){
 		temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&resNum);
 		temp = (*(ln+i)).f[5].c; sscanf(temp,"%s",resName);
 		IC = ln[i].f[9].c[0];
-//printf("resNum is %d and (*curRes).n is %d\n",resNum,(*curRes).n);
-//printf("**2.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
+printf("resNum is %d and (*curRes).n is %d ; resName is >%s<<\n",resNum,(*curRes).n,resName);
+printf("**2.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
 		//If this is a different residue than the one in the previous line
 		if((resNum != (*curRes).n)||(curRes[0].IC==NULL)||(IC!=curRes[0].IC[0])){
+printf("This residue is different from the previous.  Checking for broken residue.\n");
 			curRes = NULL;
 			for(j = 0; j < count; j++){//Cycle through all of the found residues
 				if(((*(res+j)).n==resNum)&&((*(res+j)).IC[0]==IC)){ /* if already seen... */
 					curRes = (res+j); break;} /* reset residue pointer */
 				} 
 			/* If it is not a known residue, assign it a new slot */
-			if(curRes == NULL || curRes == 0x0){curRes = (res+count); count++;}
+			if(curRes == NULL || curRes == 0x0){ curRes = (res+count); count++; }
 			//temp = (*(ln+i)).f[5].c; sscanf(temp,"%s",resName);
 			//IC = ln[i].f[9].c[0];
 			}
 		if((*curRes).n < 0) { /* If this residue has not been found yet */
-			(*curRes).N = strdup(resName);	/* Set the residue name */
+printf("This residue has not been found yet.  Assigning values\n");
+			if(resName!=NULL){(*curRes).N = strdup(resName);}/* Set the residue name */
+			else{(*curRes).N = strdup("   ");}
 			curRes[0].IC=(char*)calloc(2, sizeof(char));
 			(*curRes).IC[0] = IC;	/* Set the IC */
 			(*curRes).IC[1] = '\0';	/* Set the IC */
@@ -394,15 +417,14 @@ while( (i != INWC)  && (endOfMol((ln+i)) == 0) ){
 			(*curRes).na = 0;			/* ...and make sure the total # of atoms is 0 */
 			} /* Otherwise we can assume all of these have already been set */
 			
-//printf("  -->  resNum is %d and (*curRes).n is %d\n",resNum,(*curRes).n);
-//printf("**3.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
+printf("  -->  resNum is %d and (*curRes).n is %d, (*curRes).na is %d \n",resNum,(*curRes).n,(*curRes).na);
+printf("**3.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
 		(*curRes).na++;
-//printf(" --> (curRes). n=%d, na=%d, N=%s\n",(*curRes).n,(*curRes).na,(*curRes).N);
-//printf("**4.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
+printf(" --> (curRes). n=%d, na=%d, N=%s\n",(*curRes).n,(*curRes).na,(*curRes).N);
+printf("**4.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
 		}//End if an atom 
 	i++; //..and then incriment to the next line
 	} //End loop through file
-//} //end loop through file
 return i;
 }
 
@@ -434,6 +456,7 @@ molecule* getMolecule(void){
   {
     if(isAtom((ln+i)) == 1)
     {
+/*printf("in loop for isAtom\n");*/
       temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&ntX);
       icode  = (*(ln+i)).f[9].c[0]; 
       if(((*curRes).n != ntX)||(icode!=curRes[0].IC[0]))//If the residue numbers do not match
@@ -444,24 +467,27 @@ molecule* getMolecule(void){
        curRes = ((*mol).r+rI);
       }
       curAtm = ((*curRes).a+l[rI]);
+/*printf("\t still in loop for isAtom\n"); */
       //Getting the record name
       temp = (*(ln+i)).f[0].c; sscanf(temp,"%s",name);
-      (*curAtm).D = strdup(name);
+      if(name!=NULL){(*curAtm).D = strdup(name);}
+      else{(*curAtm).D = strdup("");}
       //Getting the atom #
       temp  = (*(ln+i)).f[1].c; sscanf(temp,"%d",&ntX);
       (*curAtm).n = ntX;
       //Getting the atom name
       temp  = (*(ln+i)).f[3].c; sscanf(temp,"%s",name);
-      (*curAtm).N = strdup(name);
-/*
-These lines cause a seg fault for some reason.  They were removed in a 
-previous commit, so I'm re-removing them...  20090819 BLF.
-printf("Got atom number %d and name %s in get Molecule\n",(*curAtm).n,(*curAtm).N);
-printf("in load_pdb_from_slurp: Atom number %d of residue number %d (%s) has the name %s\n",mol[0].r[5].a[21].n,mol[0].r[5].n,mol[0].r[5].N,mol[0].r[5].a[21].N);
-*/
+      if(name!=NULL){(*curAtm).N = strdup(name);}
+      else{(*curAtm).D = strdup("    ");}
+
       //Getting the chain identifier
-      (*curAtm).cID = (char*)calloc(2,sizeof(char));
-      (*curAtm).cID[0] = (*(ln+i)).f[7].c[0];
+      if((*(ln+i)).f[7].c!=NULL){
+        (*curAtm).cID = (char*)calloc(2,sizeof(char));
+        (*curAtm).cID[0] = (*(ln+i)).f[7].c[0];
+        (*curAtm).cID[1] = '\0';
+        }
+      else{(*curAtm).cID = strdup(" ");}
+/*printf("\t the (*curAtm).cID is >>>%s<<<\n",(*curAtm).cID); */
 
       //Getting the X coordinate
       temp  = (*(ln+i)).f[11].c; sscanf(temp,"%lf",&dblY); (*curAtm).x.i = dblY;

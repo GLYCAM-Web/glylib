@@ -170,6 +170,7 @@ for(rwma=1;rwma<pdb_a[rwmlt.a].b[rwmlt.b].f;rwma++){
                 //fprintf(OUTC,"%c",ln[rwmln-1].f[rwma].c[rwmb]);
                 if(ln[rwmln-1].f[rwma].c[rwmb]=='\n'){
                         rwmb=pdb_a[rwmlt.a].b[rwmlt.b].c[rwma];
+START HERE
                         rwma=pdb_a[rwmlt.a].b[rwmlt.b].f;
                         }
                 if(ln[rwmln-1].f[rwma].c[rwmb]==EOF){

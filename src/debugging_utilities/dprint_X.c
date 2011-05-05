@@ -62,6 +62,9 @@ void dprint_atom(atom *a,int i){
 	int pa=0,psz=0,puse=0,pbins=0;
 	printf("atom \tn=%d ; N=>>%s<< ; t=%d ; nb=%d ; nalt=%d ; nvec=%d\n",a[0].n,a[0].N,\
 		a[0].t,a[0].nb,a[0].nalt,a[0].nvec);
+	printf("\tT=>>%s<< ; E=>>%s<< ; cID=>>%s<< ; m=%f \n",a[0].T,a[0].E,\
+		a[0].cID,a[0].m);
+	printf("\tD=>>%s<< \n",a[0].D);
 	printf("\tcoords x y z \t%20.12f \t%20.12f \t%20.12f\n",a[0].x.i,a[0].x.j,a[0].x.k); 
 	if(i>0){
 		puse=malloc_usable_size(a[0].b);
@@ -115,9 +118,10 @@ return;
 void dprint_residue(residue *r,int i){
 	int pa=0,psz=0,puse=0,pbins=0;
 	if(r[0].IC==NULL){printf("residue \tn=%d (no IC);",r[0].n);}
-	else{printf("residue \tn=%d IC=%s;",r[0].n,r[0].IC);}
-	printf(" N=>>%s<< ; na=%d ; nbs=%d ; nring=%d \n",r[0].N,\
-		r[0].na,r[0].nbs,r[0].nring); 
+	else{printf("residue \tn=%d ; N=>>%s<< ; IC=%s;",r[0].n,r[0].N,r[0].IC);}
+	printf("\tT=>>%s<< ; cID=>>%s<< ; m=%f \n",r[0].T,r[0].cID,r[0].m);
+	printf("\tD=>>%s<< \n",r[0].D);
+	printf("\tna=%d ; nbs=%d ; nring=%d \n",r[0].na,r[0].nbs,r[0].nring); 
 	if(i>0){
 		puse=malloc_usable_size(r[0].a);
 		psz=sizeof(atom);
