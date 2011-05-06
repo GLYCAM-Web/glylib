@@ -396,10 +396,10 @@ for(ai=0;ai<m[0].r[ri].na;ai++)
     /*  The following isn't a comprehensive check.  Just a spot-check. */
     if(ai>0)
         {
-        ensisame=is_consistent_ensi_ensi(m[0].r[ri].aT[ai].ID,m[0].r[ri].aT[ai-1].ID);
+        ensisame=is_consistent_ensi_ensi(m[0].aT[ai].ID,m[0].aT[ai-1].ID);
         if(ensisame!='n')
             {
-            mywhine("The atom molindexes are not unique in set_residue_atom_nodes_from_bonds.\n");
+            mywhine("The atom molindexes are not unique in set_molecule_atom_nodes_from_bonds.\n");
             }
         }
     aai++;
