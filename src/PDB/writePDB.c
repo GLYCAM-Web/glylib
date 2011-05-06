@@ -298,7 +298,7 @@ for(mi=0;mi<E[0].nm;mi++)
 */
 if(nModels>1) {ntot += nModels*2;} /* for MODEL and ENDMDL lines */
 FE.n=ntot;
-printf("ntot is %d\n",ntot);
+/*printf("ntot is %d\n",ntot);*/
 FE.L=(char**)calloc(FE.n,sizeof(char*));
 Li=0; /* used here to be the total number of lines */
 for(Mi=0;Mi<nModels;Mi++)
@@ -342,11 +342,11 @@ if((xs>=0)&&(a[0].xa==NULL))
     {mywhine("In get_PDB_line_for_ATOM, set alternate coordinate, but a.xa is NULL.");}
 line=(char*)calloc(82,sizeof(char)); /* 80 cols plus newline and termination */
 /*  
-pdb_a[2].b[1].c[0]	=	6;   RECORD NAME 
+pdb_a[2].b[1].c[0]	=	6;   RECORD NAME	(1-6)
 */
 sprintf(line,"ATOM  ");
 /*
-pdb_a[2].b[1].c[1]	=	5;   serial      
+pdb_a[2].b[1].c[1]	=	5;   serial		(7-11)
 
     This gets saved to a[0].i[asave] as well for LINK and CONECT cards later
     a[0].i[asave] space must be preallocated.
@@ -357,11 +357,11 @@ if(ahere>99999){mywhine("Can not have atom serial > 99999 in pdb write utils.\n"
 strcat(line,get_float_string((double)ahere, 'r', 5, 0));
 if(asave>=0){a[0].i[asave]=ahere;}
 /*
-pdb_a[2].b[1].c[2]	=	1;   N/A 
+pdb_a[2].b[1].c[2]	=	1;   N/A 		(12)
 */
 strcat(line," ");
 /*
-pdb_a[2].b[1].c[3]	=	4;   name           
+pdb_a[2].b[1].c[3]	=	4;   name		(13-16)
 
     If there is an element (a.E) defined, use that to justify 
     else, pad initially with a space unless (a) the name starts with
@@ -373,12 +373,12 @@ pdb_a[2].b[1].c[3]	=	4;   name
     In the meantime, the calling function will have to set the name
     to a pdb-appropriate value if this function can't do it.
 */
-if((strlen(a[0].N)>=4)||(isdigit(a[0].N[0]!=0))){strcpy(tmp,a[0].N);}
+if((strlen(a[0].N)>=4)||(isdigit(a[0].N[0]!=0))){ strcpy(tmp,a[0].N); }
 else 
     {
-    if(a[0].E!=NULL){
+    if(a[0].N!=NULL){
 	for(i=0;i<strlen(a[0].N);i++){ 
-            if(a[0].N[i]==a[0].E[0]){break;} 
+            if(a[0].N[i]==a[0].N[0]){break;} 
             }
 	if(i<strlen(a[0].N)){ /* we have an element name here */
 		if(i==0){sprintf(tmp," %s",a[0].N);}
@@ -388,15 +388,16 @@ else
     else {sprintf(tmp," %s",a[0].N);}
     }
     
+/*printf("\t\ttmp is >>>%s<<<\n",tmp);*/
 strcat(line,get_char_string(tmp,'l',4));
 /*
-pdb_a[2].b[1].c[4]	=	1;   altLoc 
+pdb_a[2].b[1].c[4]	=	1;   altLoc 		(17)
 
     This is currently not supported in the library (20110410)
 */
 strcat(line," ");
 /*
-pdb_a[2].b[1].c[5]	=	3;   resName 
+pdb_a[2].b[1].c[5]	=	3;   resName 		(18-20)
 */
 if(tolower(raltname)=='y')
     {
@@ -405,48 +406,48 @@ if(tolower(raltname)=='y')
     }
 else{strcat(line,get_char_string(r[0].N,'l',3));}
 /*
-pdb_a[2].b[1].c[6]	=	1;   N/A 
+pdb_a[2].b[1].c[6]	=	1;   N/A 		(21)
 */
 strcat(line," "); 
 /*
-pdb_a[2].b[1].c[7]	=	1;   chainID        
+pdb_a[2].b[1].c[7]	=	1;   chainID        	(22)
 */
-if(a[0].cID!='\0'){strncat(line,a[0].cID,1);}
-else if(r[0].cID!='\0'){strncat(line,r[0].cID,1);}
+if((a[0].cID!='\0')&&(a[0].cID!=NULL)){strncat(line,a[0].cID,1);}
+else if((r[0].cID!='\0')&&(a[0].cID!=NULL)){strncat(line,r[0].cID,1);}
 else{strcat(line," ");}
 /*
-pdb_a[2].b[1].c[8]	=	4;   resSeq         
+pdb_a[2].b[1].c[8]	=	4;   resSeq		(23-26)
 */
 if(ri==-1) rhere=r[0].n;
 else rhere=ri;
 if(rhere>9999){mywhine("Can not have residue serial > 9999 in pdb write utils.\n");}
 strcat(line,get_float_string((double)rhere, 'r', 4, 0));
 /*
-pdb_a[2].b[1].c[9]	=	1;   iCode          
+pdb_a[2].b[1].c[9]	=	1;   iCode		(27)
 */
 if(r[0].IC=='\0'){strcat(line," ");}
 else{strncat(line,r[0].IC,1);}
 /*
-pdb_a[2].b[1].c[10]	=	3;   N/A 
+pdb_a[2].b[1].c[10]	=	3;   N/A		(28-30)
 */
 strcat(line,"   ");
 /*
-pdb_a[2].b[1].c[11]	=	8;   x 
+pdb_a[2].b[1].c[11]	=	8;   x			(31-38)
 */
 if(xs==-1) strcat(line,get_float_string((double)a[0].x.i, 'r', 8, 3));
 else strcat(line,get_float_string((double)a[0].xa[xs].i, 'r', 8, 3));
 /*
-pdb_a[2].b[1].c[12]	=	8;   y 
+pdb_a[2].b[1].c[12]	=	8;   y			(39-46)
 */
 if(xs==-1) strcat(line,get_float_string((double)a[0].x.j, 'r', 8, 3));
 else strcat(line,get_float_string((double)a[0].xa[xs].j, 'r', 8, 3));
 /*
-pdb_a[2].b[1].c[13]	=	8;   z 
+pdb_a[2].b[1].c[13]	=	8;   z			(47-54)
 */
 if(xs==-1) strcat(line,get_float_string((double)a[0].x.k, 'r', 8, 3));
 else strcat(line,get_float_string((double)a[0].xa[xs].k, 'r', 8, 3));
 /*
-pdb_a[2].b[1].c[14]	=	6;   occupancy      
+pdb_a[2].b[1].c[14]	=	6;   occupancy		(55-60)
 
     This currently doesn't have a computational equivalent. 
     Perhaps it could represent an rmsd at standard ambient 
@@ -457,36 +458,42 @@ pdb_a[2].b[1].c[14]	=	6;   occupancy
 */
 strcat(line,"  1.00");
 /*
-pdb_a[2].b[1].c[15]	=	6;   tempFactor     
+pdb_a[2].b[1].c[15]	=	6;   tempFactor		(61-66)
 
     This currently doesn't have a computational equivalent. 
     We just set it to zero.
 */
 strcat(line,"  0.00");
 /*
-pdb_a[2].b[1].c[16]	=	6;   N/A 
+pdb_a[2].b[1].c[16]	=	10;   N/A 		(67-76)
 */
-strcat(line," ");
+strcat(line,"          ");
 /*
-pdb_a[2].b[1].c[17]	=	4;   segID          
-
-    Currently unused.
+pdb_a[2].b[1].c[17]	=	2;   element        
 */
-strcat(line,"    ");
-/*
-pdb_a[2].b[1].c[18]	=	2;   element        
-*/
+/*printf("a[0].E is >>>%s<<<\n",a[0].E);*/
 if(a[0].E==NULL){strcat(line,"  ");}
-else{strncat(line,a[0].E,2);}
+else
+  {
+  if(strlen(a[0].E)==1)
+    {
+    strcat(line," ");
+    strcat(line,a[0].E);
+    }
+  else{strncat(line,a[0].E,2);}
+  }
+
 /*
-pdb_a[2].b[1].c[19]	=	2;   charge         
+pdb_a[2].b[1].c[18]	=	2;   charge         
 
     This has little meaning unless writing a "pdbq" (e.g., autodock)
     file, which breaks standard format.  We just leave blank.
 */
+/*printf("the line (%d chars long) is >>>%s<<<\n",strlen(line),line);*/
 strcat(line,"  \n");
 
 if(strlen(line)>81){mywhine("something went wrong in get_PDB_line_for_ATOM");}
+
 
 return (const char *)line;
 }
@@ -585,13 +592,14 @@ for(i=0;i<mol[0].nr;i++){
 */
 if(bondinfocomplete=='n')
     {
-    printf("\nBonding info not complete in write PDB utils.\n");
-    printf("Some information might not be written as expected.\n");
+    printf("\nBonding info not complete or not present in write PDB utils.\n");
+    printf("\tCannot set LINK and CONECT cards or TER cards within molecules:\n");
     }
 /* find the number of TER cards */
 b=0; /* the number of TER cards needed */
 if(resconnects[0]>1){b++;}
-for(i=1;i<mol[0].nr;i++) { if(resconnects[i]!=2) { b++; } }
+for(i=1;i<mol[0].nr;i++)
+    { if(resconnects[i]>2){ b++; } }
 b++; /* for the final TER card */
 FM.n=ntot+b;
 FM.L=(char**)calloc(FM.n,sizeof(char*));
@@ -605,7 +613,7 @@ for(i=0;i<mol[0].nr;i++)
         }
     if(i==0)
         {
-        if(resconnects[0]!=1)
+        if(resconnects[0]>1)
             {
             FM.L[b]=strdup("TER   \n");
             b++;
@@ -613,7 +621,7 @@ for(i=0;i<mol[0].nr;i++)
         }
     else
         {
-        if(resconnects[i]!=2)
+        if(resconnects[i]>2)
             {
             FM.L[b]=strdup("TER   \n");
             b++;
@@ -621,211 +629,13 @@ for(i=0;i<mol[0].nr;i++)
         }
     }
 if(b>(FM.n-1)){mywhine("something went wrong in get_molecule_PDB_ATOM_lines");}
-/*FM.L[b]=strdup("TER   \n"); */
+FM.L[b]=strdup("TER   \n");
 
 return FM;
 }
 
-fileslurp get_assembly_PDB_CONECT_lines(assembly *A, int savei)
-{
-fileslurp FC,Ftmp;
-int ncurrent=-1,mi,ri,ai,extras=0,na=0;
-char bad_a_order='n',bad_mra_order='n', use_hierarchy='n';
-atom *as, *at;
 
-/*
-    0.  Checks:
 
-        * na>1
-        * savei must be >= 0  (die if not)
-        * there appears to be something in i[savei] (die if not)
-        * The values in i[savei] increase, either
-               * Through the hierarchy -or-
-               * via atom **a in the top-level
-               * Complain if not, but try anyway.
-
-    Notes regarding these lines:
-        if(as[0].nmb>13){extras+=(floor(as[0].nmb/13));}
-
-        * Proper PDB format might or might not allow for more than four
-          bonds to be specified on one line.  I can't tell.  For now, I'm
-          writing it to (theoretically) fill up the line.  Not much chance,
-          tho, that any atom is bonded to more than 13 others.
-*/
-if(savei<0) {mywhine("Atom numbers must be saved in i[savei] (savei>=0) in get_assembly_PDB_CONECT_lines.");}
-/*
-  See if the top-level atom pointers have i[savei] in a sane order.
-*/
-if(A[0].na>0)
- {
- na=A[0].na;
- for(ai=0;ai<A[0].na;ai++)
-  {
-  as=A[0].a[ai];
-  if((as[0].i==null)||(as[0].ni<=savei)) 
-   {
-   mywhine("(as[0].i==null)||(as[0].ni<=savei) in get_assembly_PDB_CONECT_lines.");
-   }
-  if(as[0].i[savei]>99999)
-   {
-   printf("\nSerial number for A[0].a[%d][0].i[%d]>99999 (=%d).\n",ai,savei,as[0].i[savei]);
-   printf("There might be a problem in get_assembly_PDB_CONECT_lines.  Trying to write the lines anyway.\n");
-   }
-  if(as[0].i[savei]<=ncurrent) { bad_a_order = 'y'; }
-  ncurrent=as[0].i[savei];
-  as[0].moli.i=ai;
-  if(as[0].nmb>13){extras+=(floor(as[0].nmb/13));}
-  }
- }
-else {bad_a_order='y';}
-/*
-  See if the m-r-a hierarchy has i[savei] in a sane order.
-*/
-if((A[0].na>0)||(bad_a_order=='y'))
- {
- na=0;
- ncurrent=-1;
- extras=0;
- for(mi=0;mi<A[0].nm;mi++){
- for(ri=0;ri<A[0].m[mi][0].nr;ri++){
- na+=A[0].m[mi][0].r[ri].na;
- for(ai=0;ai<A[0].m[mi][0].r[ri].na;ai++){
-    as=&A[0].m[mi][0].r[ri].a[ai];
-    if((as[0].i==null)||(as[0].ni<=savei)) 
-     {
-     mywhine("(as[0].i==null)||(as[0].ni<=savei) in get_assembly_PDB_CONECT_lines.");
-     }
-    if(as[0].i[savei]>99999)
-     {
-     printf("\nSerial number for A[0].m[%d].r[%d].a[%d][0].i[%d]>99999 (=%d).\n",mi,ri,ai,savei,as[0].i[savei]);
-     printf("There might be a problem in get_assembly_PDB_CONECT_lines.  Trying to write the lines anyway.\n");
-     }
-    if(as[0].i[savei]<=ncurrent) { bad_a_order = 'y'; }
-    ncurrent=as[0].i[savei];
-    if(as[0].nmb>13){extras+=(floor(as[0].nmb/13));}
-    }}}
- }
-
-if(na==1)
- {
- FC.n=0;
- return FC;
- }
-
-/* 
-    1  Decide whether we are using m-r-a or A.a order
-*/
-if((bad_mra_order=='y')&&(bad_a_order=='y'))
-  {
-  printf("\nThe atom serial numbers in the assembly are not in increasing order.\n");
-  printf("This is the case either through m-r-a hierarchy or via top-level **a.\n");
-  printf("This means the resulting CONECT card lines will not be in proper PDB format.\n");
-  if(A[0].na>0)
-   {
-   printf("The CONECT cards will reflect A.a atom order.\n"); 
-   }
-  else
-   {
-   printf("The CONECT cards will reflect A.m.r.a atom order.\n");
-   printf("If there is molecule-level disorder, you will see more complaints.\n");
-   use_hierarchy='y';
-   }
-  printf("This warning courtesy of get_assembly_PDB_CONECT_lines.\n");
-  }
-if((bad_a_order=='y')&&(bad_mra_order=='n')){use_hierarchy='y';}
-
-/*
-    2  Allocate space, initialize, etc.
-*/
-FC.n=na+extras;
-FC.L=(char**)calloc(FC.n,sizeof(char*));
-
-/* 
-    2.1  If using m-r-a order (the hierarchy)
-*/
-ncurrent=0;
-if(use_hierarchy=='y')
- {
- for(mi=0;mi<A[0].nm;mi++){
-  Ftmp=get_molecule_PDB_CONECT_lines(molecule *m, int savei);
-  if((ncurrent+Ftmp.n)>FC.n){mywhine("ncurrent>FC.n in get_assembly_PDB_CONECT_lines.");}
-  for(ai=0;ai<Ftmp.n;ai++) 
-   {
-   FC.L[ai+ncurrent]=strdup(Ftmp.L[ai]);
-   free(Ftmp.L[ai]);
-   }
-  ncurrent+=Ftmp.n;
-  free(Ftmp.L);
-  Ftmp.n=0;
-  }
- if(ncurrent!=Ftmp.n){mywhine("ncurrent!=FC.n in get_assembly_PDB_CONECT_lines.");} 
- return FC;
- }
-
-/* 
-    2.2  If using atom order (A.a order)
-*/
-
-if(use_hierarchy=='n')
- {
- for(ai=0;ai<A[0].na;ai++)
-  {
-  Ftmp=get_atom_PDB_CONECT_lines_assembly(assembly *A, atom *a, int savei);
-  if((ncurrent+Ftmp.n)>FC.n){mywhine("ncurrent>FC.n in get_assembly_PDB_CONECT_lines.");}
-  for(ai=0;ai<Ftmp.n;ai++) 
-   {
-   FC.L[ai+ncurrent]=strdup(Ftmp.L[ai]);
-   free(Ftmp.L[ai]);
-   }
-  ncurrent+=Ftmp.n;
-  free(Ftmp.L);
-  Ftmp.n=0;
-  }
- if(ncurrent!=Ftmp.n){mywhine("ncurrent!=FC.n in get_assembly_PDB_CONECT_lines.");} 
- return FC;
- }
-
-printf("\nWarning: should not have reached the end of get_assembly_PDB_CONECT_lines.");
-return FC;
-} 
-
-fileslurp get_molecule_PDB_CONECT_lines(molecule *m, int savei)
-{
-fileslurp FM;
-return FM;
-}
-
-fileslurp get_atom_PDB_CONECT_lines_assembly(assembly *A, atom *a, int savei)
-{
-fileslurp Fa;
-int **bsort;
-char done='n';
-/*
-  0.  Determine how many lines this atom will need.
-      Allocate space.
-*/
-/*
-  1.  Sort the outgoing bonds by the integer in a.i[savei] for each bonded 
-      atom.  For now, use a stupid bubble sort b/c there should rarely be 
-      more than four items in the list.  Overachievers are welcome to get 
-      fancier with the sort routine.
-*/
-bsort=(int**)calloc(a[0].nmb,sizeof(int*));
-for(i=0;i<a[0].nmb;i++) {
-while(done=='n')
- {
- 
- }
-
-/*
-  2.  Print the first part of each needed line.
-*/
-/*
-  3.  For each bonded atom, print i[savei] to a line.
-*/
-
-return Fa;
-}
 
 void outputMolPDB(molecule* mol, char* filename)
 {
@@ -865,13 +675,15 @@ void outputAsmblPDB(assembly* asmbl, char* filename)
   */
   aptr=&FM[mi].L[FM[mi].n-2][6]; /* serial begins index 6 (column 7) */
    tmp=strdup(aptr);
-   tmp[6]='0';
+   tmp[6]='\0';
    sscanf(tmp,"%d",&ainit);
+   ainit++;
    free(tmp);
   rptr=&FM[mi].L[FM[mi].n-2][22]; /* resSeq begins index 22 (column 23) */
    tmp=strdup(rptr);
-   tmp[5]='0';
+   tmp[5]='\0';
    sscanf(tmp,"%d",&rinit);
+   rinit++;
    free(tmp);
   }
  file = myfopen(filename,"w"); 
