@@ -390,16 +390,16 @@ for(ri=0;ri<m[0].nr;ri++)
     { 
 for(ai=0;ai<m[0].r[ri].na;ai++) 
     { 
-    m[0].r[ri].a[ai].mTi=-ai-1;
+    m[0].r[ri].a[ai].mTi=-aai-1;
     m[0].aT[aai].isorigin='N';
     m[0].aT[aai].ID=copy_moli_to_ensi(m[0].r[ri].a[ai].moli);
     /*  The following isn't a comprehensive check.  Just a spot-check. */
-    if(ai>0)
+    if(aai>0)
         {
-        ensisame=is_consistent_ensi_ensi(m[0].r[ri].aT[ai].ID,m[0].r[ri].aT[ai-1].ID);
+        ensisame=is_consistent_ensi_ensi(m[0].aT[aai].ID,m[0].aT[aai-1].ID);
         if(ensisame!='n')
             {
-            mywhine("The atom molindexes are not unique in set_residue_atom_nodes_from_bonds.\n");
+            mywhine("The atom molindexes are not unique in set_molecule_atom_nodes_from_bonds.\n");
             }
         }
     aai++;
@@ -425,7 +425,7 @@ atom *at;
 
     At this point, the value of rTi should be negative 
 */
-if(a[0].mTi>=0){mywhine("unexpected init of a[0].rTi in follow_molecule_atom_nodes_from_bonds.");}
+if(a[0].mTi>=0){mywhine("unexpected init of a[0].mTi in follow_molecule_atom_nodes_from_bonds.");}
 
 /* 
 0.  Declare space for outgoing bonds 
@@ -435,6 +435,7 @@ m[0].aT[iTree].no=a[0].nmb-m[0].aT[iTree].ni;
 /* 
     If this is the end of a list, go find any unseen or bail.
 */
+
 if(m[0].aT[iTree].no<=0)
     {
     a[0].mTi=-(a[0].mTi+1);
@@ -461,6 +462,7 @@ for(oi=0;oi<m[0].aT[iTree].no;oi++)
 /* 
 1.  Set each bond that is not an incoming bond as an outgoing bond 
 */
+
 oi=0;
 for(bi=0;bi<a[0].nmb;bi++)
     {
@@ -531,7 +533,7 @@ for(oi=0;oi<m[0].aT[iTree].no;oi++)
     at=&m[0].r[m[0].aT[iTree].o[oi][0].r].a[m[0].aT[iTree].o[oi][0].a]; 
     /* 
     record location in contree 
-    */
+    */ 
     if(at[0].mTi>=0) { continue; } 
     else{bi=-(at[0].mTi+1);}
     finished = follow_molecule_atom_nodes_from_bonds(m, bi, at);

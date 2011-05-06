@@ -97,7 +97,6 @@ int i;
 m[0].mi=mi;
 for(i=0;i<m[0].nr;i++)
   {
-printf("setting molecule %d residue indexed at %d\n",mi,i);
   set_residue_molindexes(&m[0].r[i],mi,i);
   }
 }
