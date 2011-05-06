@@ -401,44 +401,75 @@ void dXprint_vectormag_3D(vectormag_3D*),dXprint_coord_3D(coord_3D*);
 /** @}*/
 
 
+/** \defgroup GEOMETRY Geometric Manipulations and Calculations
+
+For functions that perform geometric manipulations or calculations on
+the chemical structures (e.g. assembly, molecule, etc.), it is often 
+necessary to indicate which set of coordinates are to be used for the 
+calculation.  In most cases, it is also possible to perform the calculation
+on coordinates in one location, but leave those untouched and save the
+results to another location.  The same applies to velocities and vectors.
+
+Special variable names and meanings:  
+
+	xs, vs, xvs:	
+		These are the source data on which to base the calculation.
+
+	xd, vd, xvd: 	
+		These are the locations to which changed data should be stored.
+		Note that this location can typically be the same as the source.
+
+	xt, vt, xvt:	
+		In these cases, two sets of coordinates are being compared to
+
+The variables above can take on the following values:
+
+	-1
+		This tells the function to use the main coordinate set.  
+		That is, use atom.x or atom.xv.  This value is not relevant
+		to vectors, where there is not a "main" vector.
+
+	0, 1, 2, ...
+		A number greater than or equal to zero indicates the location
+		in an array.  These values apply to atom.xa[i], atom.xva[i]
+		and atom.v[i].
+
+	-2
+		This is not available in all functions.  It indicates that 
+		the entire array should be used.  This applies to atom.xa[i], 
+		atom.xva[i] and atom.v[i].
+
+	-3
+		This is not available in all functions.  It indicates that 
+		the main coordinates and the entire corresponding array should 
+		be used.  This applies to { atom.x + atom.xa[i] } and to 
+		{ atom.xv and atom.xva[i] }.  It does not apply to atom.v[i].
+
+Information about vectors:
+
+	All of the functions that involve vectors will set the magnitude 
+	of the resulting vector without relying on the entry in the input 
+	vector.  So, for example, there is no need to get_magnitude 
+	before normalizing or multiplying by a scalar.
+
+	This also means that the vector manipulation functions here are 
+	inefficient in that they recalculate the magnitude every time they 
+	are called.  If you are doing many vector manipulations in which 
+	the magnitude is not relevant, you might consider making a similar 
+	set that does not recalculate the magnitude.
+*/
 /** \addtogroup GEOMETRY
  * @{
  */
-/* the following are geometric operations for the structures defined above 
-	where int is xl ("x" (coordinate) location):
-		xl refers to position in the atom structure
-			xl=-1 means use the atom.x structure
-			xl=0,1,2,etc means use the atom.xa[xl] or
-				the atom.v[xl] structure
-	where int,int is "xl,vl" it refers to coord and vector location
-		(in that order).
-	where int is n
-		n indicates the number of blocks in the preceding pointer
-
-   All of the following that involve vectors will set the magnitude of 
-	the resulting vector without relying on the entry in the input 
-	vector.  So, for example, there is no need to get_magnitude 
-	before normalizing or multiplying by a scalar.
-*/
-/* this moves all the coords in molecule so that the center of mass
-for the molecule is at the origin (right now, though, it only works
-if the molecule has only one residue...*/
-// deprecated>>> void translate_to_COM(molecule *,atype *,int); // int is xl
-	// this assumes the initial coords are in atom.x
-//void translate_zero_to_COM(molecule *,atype *,int,int); 
-	// int#1 is xs, the location of the source coords
-	// int#2 is xt, the location of the translated coords
 void translate_residue_by_XYZ(residue *r,int xs,int xd,coord_3D); 
 void translate_molecule_by_XYZ(molecule *m,int xs,int xd,coord_3D); 
 void translate_ensemble_by_XYZ(ensemble *e,int xs,int xd,coord_3D); 
 void translate_zero_to_coord_M(molecule *m,int xs,int xd,coord_3D); 
-	// int#1 is xs, the location of the source coords
-	// int#2 is xd, the destination location of the translated coords 
 coord_3D **atoms_to_coord_list(atom **atoms, int num_atoms); 
-/* the following functions rotate the coordinate list such that the
+/** This function rotates the coordinate list such that the
 vector given by vectormag_3D points along the Z (Y, X, other) axis.
 The orientation of the orthogonal axes is arbitrary. */
-void rotate_vector_to_Z_M(molecule*,int,int,int,int,vectormag_3D); 
+void rotate_vector_to_Z_M(molecule* m,int xs,int xd,int vs,int vd,vectormag_3D vec); 
 	// The four integers are:
 	// int#1 location of source coordinates (-1=x, 0,1,2,etc=xa[xs]
 	// int#2 location of rotated coordinates (-1=x, 0,1,2,etc=xa[xs]
@@ -448,16 +479,19 @@ void normalize_molecule_vectors(molecule *m,int vs,int vd);
 void normalize_ensemble_vectors(ensemble *e,int vs,int vd);
 	// int #1 -- location of source vector
 	// int #2 -- where to write vectors normalized to one (made unit vectors) 
-void shift_molecule_atoms_by_vector_scale(molecule *m,int xs,int xt,int vr, double scale);
+void shift_molecule_atoms_by_vector_scale(molecule *m,int xs,int xd,int vr, double scale);
 vectormag_3D get_molecule_point_charge_dipole(molecule *m,int xs,int chgsrc, atype *AT);
 
-void rollMolecule(molecule*,double); //Rotates about x-axis using radians
-void pitchMolecule(molecule*,double);//Rotates about y-axis using radians
-void yawMolecule(molecule*,double);  //Rotates about z-axis using radians
-void rollAssembly(assembly*,double); //Rotates about x-axis using radians
-void pitchAssembly(assembly*,double);//Rotates about y-axis using radians
-void yawAssembly(assembly*,double);  //Rotates about z-axis using radians
+void rollMolecule(molecule* m,double rad); //Rotates about x-axis using radians
+void pitchMolecule(molecule* m,double rad);//Rotates about y-axis using radians
+void yawMolecule(molecule* m,double rad);  //Rotates about z-axis using radians
+void rollAssembly(assembly* a,double rad); //Rotates about x-axis using radians
+void pitchAssembly(assembly* a,double rad);//Rotates about y-axis using radians
+void yawAssembly(assembly* a,double rad);  //Rotates about z-axis using radians
 
+/** This function will return the distance from a point pt to a plane pt.  If
+absl is set to 0, it returns a signed distance ("above" or "below").  If set
+to 1, it returns the absolute value.*/
 double get_distance_from_point_to_plane(plane p, coord_3D pt, int absl); 
 double get_angle_between_plane_and_vector(plane p, coord_3D pt1, coord_3D pt2);
 /** @}*/
