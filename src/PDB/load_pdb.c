@@ -137,7 +137,7 @@ assembly* getAssembly()
 {
   int molNum = howManyMolecules();
   int i = 0;int j = 0;int k = 0;int ka = 0; int la=0;int atom_num;
-  int init=0, next_mol_line=0, ri=0,natoms=0,resNum;
+  int init=0, next_mol_line=0, ri=0,natoms=0,resNum,Kref=0;
   char in_molecule_switch = 'n';
   char is_same_residue = 'y';
   double x,y,z;
@@ -168,7 +168,6 @@ assembly* getAssembly()
 	j = molecule number
 	k = residue number (within the molecule, not absolute)
 	ka = absolute residue number 
-	////  no longer using:  l = atom number 
         (*curRes).ni = current atom to place (set back to zero when done)
 	la = absolute atom number 
 */
@@ -244,8 +243,9 @@ for(i = 0; i < INWC; i++) {
 				if(strcmp((*curRes).N,resName)!=0){ is_same_residue='n';}
 				if((*curRes).IC[0]!=ln[i].f[9].c[0]){ is_same_residue='n';}
 /*printf("Is same residue = %c\n",is_same_residue);*/
-				if(is_same_residue=='n'){
-				for(k=0;k<(*curMol).nr;k++) {
+				if(is_same_residue=='n'){ /* try the rest of the residues */
+				Kref=k+1;
+				for(k=Kref;k<(*curMol).nr;k++) {
 					is_same_residue='y';
 					temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&resNum);
 					temp = (*(ln+i)).f[5].c; sscanf(temp,"%s",resName);
@@ -256,7 +256,20 @@ for(i = 0; i < INWC; i++) {
 /*printf("\tIs same residue (N=%s  n=%d IC=%c) = %c\n",(*curRes).N,(*curRes).n,(*curRes).IC[0],is_same_residue);*/
 					if(is_same_residue=='y') { break; }
 					}}
-				if((*curRes).ni == (*curRes).na) {mywhine("(*curRes).ni == (*curRes).na in getAssembly\n");}
+				if(is_same_residue=='n'){ /* try the first residues */
+				for(k=0;k<Kref;k++) {
+					is_same_residue='y';
+					temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&resNum);
+					temp = (*(ln+i)).f[5].c; sscanf(temp,"%s",resName);
+					curRes = &(*curMol).r[k];
+					if((*curRes).n!=resNum){ is_same_residue='n';}
+					if(strcmp((*curRes).N,resName)!=0){ is_same_residue='n';}
+					if((*curRes).IC[0]!=ln[i].f[9].c[0]){ is_same_residue='n';}
+/*printf("\tIs same residue (N=%s  n=%d IC=%c) = %c\n",(*curRes).N,(*curRes).n,(*curRes).IC[0],is_same_residue);*/
+					if(is_same_residue=='y') { break; }
+					}}
+				if(is_same_residue=='n'){mywhine("Can't find residue in load_pdb's getAssembly.");}
+				if((*curRes).ni==(*curRes).na){mywhine("(*curRes).ni==(*curRes).na in getAssembly\n");}
 				curAtm = &(*curRes).a[(*curRes).ni];
 				asmbl[0].a[la] = &(*curRes).a[(*curRes).ni];
 				//Getting the atom # //

@@ -465,21 +465,11 @@ pdb_a[2].b[1].c[15]	=	6;   tempFactor		(61-66)
 */
 strcat(line,"  0.00");
 /*
-pdb_a[2].b[1].c[16]	=	6;   N/A 		(67)
+pdb_a[2].b[1].c[16]	=	10;   N/A 		(67-76)
 */
-strcat(line," ");
+strcat(line,"          ");
 /*
-pdb_a[2].b[1].c[17]	=	4;   segID		(68-71)
-
-    Currently unused.
-*/
-strcat(line,"    ");
-/*
-pdb_a[2].b[1].c[10]	=	5;   N/A		(72-76)
-*/
-strcat(line,"     ");
-/*
-pdb_a[2].b[1].c[18]	=	2;   element        
+pdb_a[2].b[1].c[17]	=	2;   element        
 */
 /*printf("a[0].E is >>>%s<<<\n",a[0].E);*/
 if(a[0].E==NULL){strcat(line,"  ");}
@@ -494,7 +484,7 @@ else
   }
 
 /*
-pdb_a[2].b[1].c[19]	=	2;   charge         
+pdb_a[2].b[1].c[18]	=	2;   charge         
 
     This has little meaning unless writing a "pdbq" (e.g., autodock)
     file, which breaks standard format.  We just leave blank.
