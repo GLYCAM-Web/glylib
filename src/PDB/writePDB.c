@@ -298,7 +298,7 @@ for(mi=0;mi<E[0].nm;mi++)
 */
 if(nModels>1) {ntot += nModels*2;} /* for MODEL and ENDMDL lines */
 FE.n=ntot;
-printf("ntot is %d\n",ntot);
+/*printf("ntot is %d\n",ntot);*/
 FE.L=(char**)calloc(FE.n,sizeof(char*));
 Li=0; /* used here to be the total number of lines */
 for(Mi=0;Mi<nModels;Mi++)
@@ -342,11 +342,11 @@ if((xs>=0)&&(a[0].xa==NULL))
     {mywhine("In get_PDB_line_for_ATOM, set alternate coordinate, but a.xa is NULL.");}
 line=(char*)calloc(82,sizeof(char)); /* 80 cols plus newline and termination */
 /*  
-pdb_a[2].b[1].c[0]	=	6;   RECORD NAME 
+pdb_a[2].b[1].c[0]	=	6;   RECORD NAME	(1-6)
 */
 sprintf(line,"ATOM  ");
 /*
-pdb_a[2].b[1].c[1]	=	5;   serial      
+pdb_a[2].b[1].c[1]	=	5;   serial		(7-11)
 
     This gets saved to a[0].i[asave] as well for LINK and CONECT cards later
     a[0].i[asave] space must be preallocated.
@@ -357,11 +357,11 @@ if(ahere>99999){mywhine("Can not have atom serial > 99999 in pdb write utils.\n"
 strcat(line,get_float_string((double)ahere, 'r', 5, 0));
 if(asave>=0){a[0].i[asave]=ahere;}
 /*
-pdb_a[2].b[1].c[2]	=	1;   N/A 
+pdb_a[2].b[1].c[2]	=	1;   N/A 		(12)
 */
 strcat(line," ");
 /*
-pdb_a[2].b[1].c[3]	=	4;   name           
+pdb_a[2].b[1].c[3]	=	4;   name		(13-16)
 
     If there is an element (a.E) defined, use that to justify 
     else, pad initially with a space unless (a) the name starts with
@@ -373,12 +373,12 @@ pdb_a[2].b[1].c[3]	=	4;   name
     In the meantime, the calling function will have to set the name
     to a pdb-appropriate value if this function can't do it.
 */
-if((strlen(a[0].N)>=4)||(isdigit(a[0].N[0]!=0))){strcpy(tmp,a[0].N);}
+if((strlen(a[0].N)>=4)||(isdigit(a[0].N[0]!=0))){ strcpy(tmp,a[0].N); }
 else 
     {
-    if(a[0].E!=NULL){
+    if(a[0].N!=NULL){
 	for(i=0;i<strlen(a[0].N);i++){ 
-            if(a[0].N[i]==a[0].E[0]){break;} 
+            if(a[0].N[i]==a[0].N[0]){break;} 
             }
 	if(i<strlen(a[0].N)){ /* we have an element name here */
 		if(i==0){sprintf(tmp," %s",a[0].N);}
@@ -388,15 +388,16 @@ else
     else {sprintf(tmp," %s",a[0].N);}
     }
     
+/*printf("\t\ttmp is >>>%s<<<\n",tmp);*/
 strcat(line,get_char_string(tmp,'l',4));
 /*
-pdb_a[2].b[1].c[4]	=	1;   altLoc 
+pdb_a[2].b[1].c[4]	=	1;   altLoc 		(17)
 
     This is currently not supported in the library (20110410)
 */
 strcat(line," ");
 /*
-pdb_a[2].b[1].c[5]	=	3;   resName 
+pdb_a[2].b[1].c[5]	=	3;   resName 		(18-20)
 */
 if(tolower(raltname)=='y')
     {
@@ -405,48 +406,48 @@ if(tolower(raltname)=='y')
     }
 else{strcat(line,get_char_string(r[0].N,'l',3));}
 /*
-pdb_a[2].b[1].c[6]	=	1;   N/A 
+pdb_a[2].b[1].c[6]	=	1;   N/A 		(21)
 */
 strcat(line," "); 
 /*
-pdb_a[2].b[1].c[7]	=	1;   chainID        
+pdb_a[2].b[1].c[7]	=	1;   chainID        	(22)
 */
 if((a[0].cID!='\0')&&(a[0].cID!=NULL)){strncat(line,a[0].cID,1);}
 else if((r[0].cID!='\0')&&(a[0].cID!=NULL)){strncat(line,r[0].cID,1);}
 else{strcat(line," ");}
 /*
-pdb_a[2].b[1].c[8]	=	4;   resSeq         
+pdb_a[2].b[1].c[8]	=	4;   resSeq		(23-26)
 */
 if(ri==-1) rhere=r[0].n;
 else rhere=ri;
 if(rhere>9999){mywhine("Can not have residue serial > 9999 in pdb write utils.\n");}
 strcat(line,get_float_string((double)rhere, 'r', 4, 0));
 /*
-pdb_a[2].b[1].c[9]	=	1;   iCode          
+pdb_a[2].b[1].c[9]	=	1;   iCode		(27)
 */
 if(r[0].IC=='\0'){strcat(line," ");}
 else{strncat(line,r[0].IC,1);}
 /*
-pdb_a[2].b[1].c[10]	=	3;   N/A 
+pdb_a[2].b[1].c[10]	=	3;   N/A		(28-30)
 */
 strcat(line,"   ");
 /*
-pdb_a[2].b[1].c[11]	=	8;   x 
+pdb_a[2].b[1].c[11]	=	8;   x			(31-38)
 */
 if(xs==-1) strcat(line,get_float_string((double)a[0].x.i, 'r', 8, 3));
 else strcat(line,get_float_string((double)a[0].xa[xs].i, 'r', 8, 3));
 /*
-pdb_a[2].b[1].c[12]	=	8;   y 
+pdb_a[2].b[1].c[12]	=	8;   y			(39-46)
 */
 if(xs==-1) strcat(line,get_float_string((double)a[0].x.j, 'r', 8, 3));
 else strcat(line,get_float_string((double)a[0].xa[xs].j, 'r', 8, 3));
 /*
-pdb_a[2].b[1].c[13]	=	8;   z 
+pdb_a[2].b[1].c[13]	=	8;   z			(47-54)
 */
 if(xs==-1) strcat(line,get_float_string((double)a[0].x.k, 'r', 8, 3));
 else strcat(line,get_float_string((double)a[0].xa[xs].k, 'r', 8, 3));
 /*
-pdb_a[2].b[1].c[14]	=	6;   occupancy      
+pdb_a[2].b[1].c[14]	=	6;   occupancy		(55-60)
 
     This currently doesn't have a computational equivalent. 
     Perhaps it could represent an rmsd at standard ambient 
@@ -457,36 +458,52 @@ pdb_a[2].b[1].c[14]	=	6;   occupancy
 */
 strcat(line,"  1.00");
 /*
-pdb_a[2].b[1].c[15]	=	6;   tempFactor     
+pdb_a[2].b[1].c[15]	=	6;   tempFactor		(61-66)
 
     This currently doesn't have a computational equivalent. 
     We just set it to zero.
 */
 strcat(line,"  0.00");
 /*
-pdb_a[2].b[1].c[16]	=	6;   N/A 
+pdb_a[2].b[1].c[16]	=	6;   N/A 		(67)
 */
 strcat(line," ");
 /*
-pdb_a[2].b[1].c[17]	=	4;   segID          
+pdb_a[2].b[1].c[17]	=	4;   segID		(68-71)
 
     Currently unused.
 */
 strcat(line,"    ");
 /*
+pdb_a[2].b[1].c[10]	=	5;   N/A		(72-76)
+*/
+strcat(line,"     ");
+/*
 pdb_a[2].b[1].c[18]	=	2;   element        
 */
+/*printf("a[0].E is >>>%s<<<\n",a[0].E);*/
 if(a[0].E==NULL){strcat(line,"  ");}
-else{strncat(line,a[0].E,2);}
+else
+  {
+  if(strlen(a[0].E)==1)
+    {
+    strcat(line," ");
+    strcat(line,a[0].E);
+    }
+  else{strncat(line,a[0].E,2);}
+  }
+
 /*
 pdb_a[2].b[1].c[19]	=	2;   charge         
 
     This has little meaning unless writing a "pdbq" (e.g., autodock)
     file, which breaks standard format.  We just leave blank.
 */
+/*printf("the line (%d chars long) is >>>%s<<<\n",strlen(line),line);*/
 strcat(line,"  \n");
 
 if(strlen(line)>81){mywhine("something went wrong in get_PDB_line_for_ATOM");}
+
 
 return (const char *)line;
 }
@@ -585,8 +602,8 @@ for(i=0;i<mol[0].nr;i++){
 */
 if(bondinfocomplete=='n')
     {
-    printf("\nBonding info not complete in write PDB utils.\n");
-    printf("Some information might not be written as expected.\n");
+    printf("\nBonding info not complete or not present in write PDB utils.\n");
+    printf("\tCannot set LINK and CONECT cards or TER cards within molecules:\n");
     }
 /* find the number of TER cards */
 b=0; /* the number of TER cards needed */
@@ -668,13 +685,15 @@ void outputAsmblPDB(assembly* asmbl, char* filename)
   */
   aptr=&FM[mi].L[FM[mi].n-2][6]; /* serial begins index 6 (column 7) */
    tmp=strdup(aptr);
-   tmp[6]='0';
+   tmp[6]='\0';
    sscanf(tmp,"%d",&ainit);
+   ainit++;
    free(tmp);
   rptr=&FM[mi].L[FM[mi].n-2][22]; /* resSeq begins index 22 (column 23) */
    tmp=strdup(rptr);
-   tmp[5]='0';
+   tmp[5]='\0';
    sscanf(tmp,"%d",&rinit);
+   rinit++;
    free(tmp);
   }
  file = myfopen(filename,"w"); 

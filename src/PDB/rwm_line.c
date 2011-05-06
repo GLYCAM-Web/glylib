@@ -106,7 +106,7 @@ return;
 /*This function written by Michael Tessier 20080828*/
 void rwm_line_char(char* curLine, int rwmln){
 int rwmdone=0, rwma=0, rwmb=0, rwmstop=-1, rwmmt=-1, rwmnl=-1;
-int itr;
+int itr,ishorta=0,ishortb=0;
 linetype rwmlt;
 char rwmaCL='I',rwmaRN='I';
 /* Read in first six characters and determine line type */
@@ -169,8 +169,17 @@ for(rwma=1;rwma<pdb_a[rwmlt.a].b[rwmlt.b].f;rwma++){
                 ln[rwmln-1].f[rwma].c[rwmb]=curLine[itr];
                 //fprintf(OUTC,"%c",ln[rwmln-1].f[rwma].c[rwmb]);
                 if(ln[rwmln-1].f[rwma].c[rwmb]=='\n'){
+			if(rwmb<pdb_a[rwmlt.a].b[rwmlt.b].c[rwma]-1){
+				for(ishortb=0;ishortb<pdb_a[rwmlt.a].b[rwmlt.b].c[rwma];ishortb++)
+					{ ln[rwmln-1].f[rwma].c[ishortb]='\0'; }
+				}
+			if(rwma<pdb_a[rwmlt.a].b[rwmlt.b].f-1){
+				for(ishorta=rwma;ishorta<pdb_a[rwmlt.a].b[rwmlt.b].f;ishorta++){
+				for(ishortb=0;ishortb<pdb_a[rwmlt.a].b[rwmlt.b].c[ishorta];ishortb++){
+					ln[rwmln-1].f[ishorta].c[ishortb]='\0';
+					}}
+				}
                         rwmb=pdb_a[rwmlt.a].b[rwmlt.b].c[rwma];
-START HERE
                         rwma=pdb_a[rwmlt.a].b[rwmlt.b].f;
                         }
                 if(ln[rwmln-1].f[rwma].c[rwmb]==EOF){
