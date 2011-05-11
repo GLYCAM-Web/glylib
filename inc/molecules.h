@@ -30,8 +30,9 @@ typedef struct {
 	int a; /**< atom index */
 } ensindex; /**< Index to describe position in an ensemble */
 typedef struct {
-	int nP; /**< number of positions in the ring */
-	molindex *P; ///< the nP relevant positions */
+	int nP; /**< number of positions */
+	molindex *P; /**< the nP relevant positions */
+	double s; /**< size (e.g., total length of chain) */
 } molindex_set; /**< Structure holding molecule indices (for rings and such) */
 
 /* 
@@ -508,9 +509,9 @@ molindex_set find_assembly_top_level_atoms_by_n(assembly *a, int number); /**< s
  */
 void set_molecule_atom_nodes_from_bonds(molecule *m);
 int follow_molecule_atom_nodes_from_bonds(molecule *m, int iTree, atom *a);
+void set_molecule_residue_molbonds(molecule *m);
 void set_residue_atom_nodes_from_bonds(residue *r);
 int follow_residue_atom_nodes_from_bonds(residue *r, int iTree, atom *a);
-void set_molecule_residue_molbonds(molecule *m);
 void set_molecule_residue_nodes_from_bonds(molecule *m);
 int follow_molecule_residue_nodes_from_bonds(molecule *m, int iTree, residue *r);
 

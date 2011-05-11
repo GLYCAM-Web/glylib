@@ -17,7 +17,7 @@ molindex_set find_residue_atoms_by_N(residue *r, const char *name)
   match=(int*)calloc(r[0].na,sizeof (int)); 
   for(i=0;i<r[0].na;i++)
     {
-       if(strcmp(r[0].N,name)==0)
+       if(strcmp(r[0].a[i].N,name)==0)
            {
            match[i]=1;
            matches++;

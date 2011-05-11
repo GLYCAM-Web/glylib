@@ -10,16 +10,20 @@ assembly* load_pdb(char* file_name)
   temp = sufc; strcpy(temp,"_change.txt"); ACT='0';
   DEBUG=-1;LASTRES=-1;LASTOKX=0;LASTOKY=0;LASTOKZ=0;
   UNCTOL=0;CRYX=0;CRYY=0;CRYZ=0;LASTX=0;LASTY=0;LASTZ=0;
-  int ma;
+  int ma,ra;
   assembly* asmbl;
   IN = myfopen(file_name, "r");
   char find_LINK='n',find_CONECT='n';
- /*scans pdb file for number of lines
-  allocates memory for line structures
-  initializes structures that contain line formats*/
+  /*
+  init_struct() scans pdb file for number of lines
+  allocates memory for line structures initializes 
+  structures that contain line formats
+
+  This, among other PDB functions, needs to be made less "global".
+  */
   init_struct();
   rewind(IN);
-  //Read in lines to ln structure
+  /*Read in lines to ln structure */
   printf("Reading in %s...\n",file_name);
   for(ma=0;ma<INWC;ma++){
   if(DEBUG>=1){printf("made it to here main line loop %d ...\n", ma);} 
@@ -28,13 +32,32 @@ assembly* load_pdb(char* file_name)
 	if(strncmp(ln[ma].f[0].c,"LINK",4)==0) find_LINK='y';
 	}
 
-  //Determine the number of molecules in the pdb
+  /*Determine the number of molecules in the pdb */
   printf("There are %d molecule(s)\n",howManyMolecules());
   asmbl = getAssembly();
+  set_assembly_molindexes(asmbl);
   if(find_CONECT=='y')
-    { set_assembly_atom_molbonds_from_PDB_CONECT(asmbl, ln, file_name, INWC); }
-  if(find_LINK=='y')
-    { set_assembly_residue_molbonds_from_PDB_LINK(asmbl, ln, file_name, INWC); }
+    { 
+    set_assembly_atom_molbonds_from_PDB_CONECT(asmbl, ln, file_name, INWC); 
+    for(ma=0;ma<asmbl[0].nm;ma++)
+        {
+        for(ra=0;ra<asmbl[0].m[ma][0].nr;ra++)
+            {
+            set_residue_atom_nodes_from_bonds(&asmbl[0].m[ma][0].r[ra]);
+            }
+        set_molecule_atom_nodes_from_bonds(asmbl[0].m[ma]);
+        /*
+        The atom-level CONECT cards are more trusted than LINK cards,
+        so they are used unless there are no CONECT cards.
+        */
+        set_molecule_residue_molbonds(asmbl[0].m[ma]);
+        set_molecule_residue_nodes_from_bonds(asmbl[0].m[ma]);
+        }
+    }
+  if((find_LINK=='y')&&(find_CONECT=='n'))
+    { 
+    set_assembly_residue_molbonds_from_PDB_LINK(asmbl, ln, file_name, INWC); 
+    }
   printf("PDB Information Successfully Read.\n");
   free(ln);
   return asmbl;
@@ -427,7 +450,6 @@ for(i = 0; i < INWC; i++) {
 		i++;
 		} /* close while we are in a molecule */
 	j++;
-	This_mi=j;
 	}
 /*printf("ka=%d ; (*asmbl).nr=%d ; la=%d ; (*asmbl).na=%d\n",ka,(*asmbl).nr,la,(*asmbl).na);*/
 if((*asmbl).na != la){mywhine("(*asmbl).na != la in load_pdb's getAssembly");}

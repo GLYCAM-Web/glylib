@@ -4,11 +4,9 @@
  *  begin 20110421 BLFoley 
  */
 
-/*  The following function should soon be improved.  At the moment, it is 
- *  only being written for a single ring in a single residue.  The author
- *  pleads overextension.
+/*  The following function finds rings in a residue.
  *
- *  This function will not work properly unless the bonding trees were 
+ *  This function might not work properly unless the bonding trees were 
  *  set according to the internal "from bonds" functions.
  */
 #include <stdlib.h>
@@ -16,15 +14,15 @@
 
 void set_smallest_rings_from_residue_atom_nodes(residue *r)
 {
-int nri=0,ni=0,no=0,ai=0,bi=0,si=0,nrings=0;
-int *label[2],*steps[2],*child[2],*start;
+int nri=0,ni=0,no=0,ai=0,bi=0,si=0,in=0,nrings=0;
+int itmp=0,nr_localmax=0,*start,*nstarts,nrstarts=0,niimax=0;
+molindex_set *RING;
 struct
     {
-    int np;
-    molindex *p;
-    ringset *next;
-    } ringset;
-ringset rings, *rcurrent;
+    int *steps;
+    int *child;
+    } ring_follower;
+ring_follower *rf;
 
 /*
     0.  Check that the nodes are set and seem sane.
@@ -66,59 +64,67 @@ if(r[0].aT[0].isorigin!='Y')
 
 /*
         Check number of rings.  Record start locations.
+        Record lots of other bits of information.
 */
 nrings=0;
-nrings+=r[0].at[0].ni;
-for(ai=1;ai<r[0].na;ai++) { nrings += ( r[0].at[ai].ni-1 ); }
-start=(int*)calloc(nrings,sizeof(int));
-nri=0;
-if(r[0].at[0].ni>0)
-    {
-    start[0]=0;
-    nri++;
-    }
-for(ai=1;ai<r[0].na;ai++)
-    {
-    for(bi=0;bi<r[0].at[ai].ni-1;bi++)
+nstarts=(int*)calloc(r[0].na,sizeof(int));
+for(ai=0;ai<r[0].na;ai++) 
+    { 
+    if(r[0].aT[ai].isorigin=='Y') nstarts[0]= ( r[0].aT[0].ni+1 ) * ( r[0].aT[0].ni ) / 2;
+    else nstarts[ai] = ( r[0].aT[ai].ni-1 ) * ( r[0].aT[ai].ni-2 ) / 2; 
+    if(nstarts[ai]>0)
         {
-        start[nri]=ai;
-        nri++;
+        nrstarts++;
+        nrings += nstarts[ai];
+        if(nstarts[ai]>nr_localmax) nr_localmax=nstarts[ai];
+        if(r[0].aT[0].ni>niimax) niimax=r[0].aT[0].ni;
         }
+    }
+start=(int*)calloc(nrstarts,sizeof(int));
+nri=0;
+for(ai=0;ai<r[0].na;ai++)
+    { 
+    if(nstarts[ai]>0) start[nri]=ai;
+    nri+=nstarts[ai]; /* a quick code check */ 
     }
 if(nri!=nrings){mywhine("nri!=nrings in set_smallest_rings_from_residue_atom_nodes.");}
 
 /*
         Assign accounting spaces.
+
 */
-label[0] = (int*)malloc(r[0].na,sizeof(int));
-steps[0] = (int*)malloc(r[0].na,sizeof(int));
-child[0] = (int*)malloc(r[0].na,sizeof(int));
-label[1] = (int*)malloc(r[0].na,sizeof(int));
-steps[1] = (int*)malloc(r[0].na,sizeof(int));
-child[1] = (int*)malloc(r[0].na,sizeof(int));
+rf = (ring_follower*) calloc(r[0].na, sizeof(ring_follower));
+for(ai=0;ai<r[0].na;ai++)
+    { 
+    rf[ai].steps=(int*)calloc(niimax,sizeof(int));
+    rf[ai].child=(int*)calloc(niimax,sizeof(int));
+    }
+RING = (molindex_set*) calloc(nrings, sizeof(molindex_set));
 
 /*
     1.  For each atom with multiple incoming bonds.
 */
-for(si=0;si<nri;si++)
+for(si=0;si<nrstarts;si++)
     {
 /*  
     1.0  Initialize the accounting spaces.
-*/
-    for(bi=0;bi<2;bi++)
-        {
-        for(ai=0;ai<r[0].na;ai++)
-            {
-            label[bi][ai]=steps[bi][ai]=child[bi][ai]=-1;
-            }
-        }
-
+*/ 
+    for(ai=0;ai<r[0].na;ai++) {
+    for(nii=0;nii<niimax;nii++) {
+        rf[ai].steps[nii] = rf[ai].child[nii] = -1;
+        } } 
 /*
     1.1  Follow each incoming up to the origin.
         Label them all in temporary rings.
-*/
-    
-
+*/ 
+    for(nii=0;nii<nstarts[ai];nii++)
+        {
+        isorigin='n';
+        while(isorigin=='n')
+            {
+            
+            }
+        }
 /*
     1.2  Find where the two incoming sets intersect.
 
