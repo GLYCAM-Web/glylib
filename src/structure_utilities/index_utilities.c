@@ -6,8 +6,6 @@
 #include <mylib.h>
 #include <molecules.h>
 
-/* Move to new file
-*/
 ensindex copy_moli_to_ensi(molindex moli){
   ensindex ensi;
   ensi.E=ensi.A=-1;
@@ -18,8 +16,6 @@ ensindex copy_moli_to_ensi(molindex moli){
   return ensi;
   }
 
-/* Move to new file
-*/
 char is_consistent_moli_moli(molindex mone, molindex mtwo){
   char answer='y';
   if(mone.i!=mtwo.i) answer='i';
@@ -29,8 +25,6 @@ char is_consistent_moli_moli(molindex mone, molindex mtwo){
   return answer;
   }
 
-/* Move to new file
-*/
 char is_consistent_ensi_ensi(ensindex eone, ensindex etwo){
   char answer='y';
   if(eone.E!=etwo.E) answer='E';
@@ -41,12 +35,13 @@ char is_consistent_ensi_ensi(ensindex eone, ensindex etwo){
   if(eone.a!=etwo.a) answer='n';
   return answer;
   }
-/* Move to new file
-*/
+
+
 char is_consistent_molbond_molbond(molbond mb1, molbond mb2){
   char answer='y',type='\0';
 
   answer=is_consistent_moli_moli(mb1.s,mb2.s);
+  if(answer=='n') return answer;
   answer=is_consistent_moli_moli(mb1.t,mb2.t);
   if(answer=='n') return answer;
 
@@ -63,9 +58,30 @@ char is_consistent_molbond_molbond(molbond mb1, molbond mb2){
   
   return answer;
   }
+char is_consistent_molbond_molbond_inverse(molbond mb1, molbond mb2){
+  char answer='y',type='\0';
 
-/* Move to new file
-*/
+  answer=is_consistent_moli_moli(mb1.s,mb2.t);
+  if(answer=='n') return answer;
+  answer=is_consistent_moli_moli(mb1.t,mb2.s);
+  if(answer=='n') return answer;
+
+  if(mb1.i!=mb2.i) answer='i';
+  if(((mb1.typ==NULL)&&(mb2.typ!=NULL))||((mb1.typ!=NULL)&&(mb2.typ==NULL))) type='t';
+  if((mb1.typ!=NULL)&&(mb2.typ!=NULL)) {if((&(mb1.typ[0]))!=(&(mb2.typ[0]))) type='t';}
+  if(mb1.o!=mb2.o) type='t';
+
+  if(type=='t')
+    {
+    if(answer=='i') answer='T';
+    if(answer=='y') answer='t';
+    }
+  
+  return answer;
+  }
+
+
+
 char is_consistent_ensi_moli(ensindex ensi, molindex moli){
 char answer='y';
 if(ensi.i!=moli.i) answer='i';
@@ -74,8 +90,6 @@ if(ensi.r!=moli.r) answer='n';
 if(ensi.a!=moli.a) answer='n';
 return answer;
 }
-/* Move to new file
-*/
 void set_residue_molindexes(residue *r, int mi, int ri){
 int i;
 r[0].moli.i=-1;
@@ -90,8 +104,6 @@ for(i=0;i<r[0].na;i++)
   r[0].a[i].moli.a=i;
   }
 }
-/* Move to new file
-*/
 void set_molecule_molindexes(molecule *m, int mi){
 int i;
 m[0].mi=mi;
@@ -100,8 +112,6 @@ for(i=0;i<m[0].nr;i++)
   set_residue_molindexes(&m[0].r[i],mi,i);
   }
 }
-/* Move to new file
-*/
 void set_assembly_molindexes(assembly *A){
 int i;
 for(i=0;i<A[0].nm;i++)
@@ -109,8 +119,6 @@ for(i=0;i<A[0].nm;i++)
   set_molecule_molindexes(&A[0].m[i][0],i);
   }
 }
-/* Move to new file
-*/
 void set_ensemble_molindexes(ensemble *E){
 int i;
 for(i=0;i<E[0].nm;i++)

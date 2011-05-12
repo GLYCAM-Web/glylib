@@ -482,6 +482,7 @@ ensindex copy_moli_to_ensi(molindex moli);
 char is_consistent_ensi_moli(ensindex ensi, molindex moli);
 char is_consistent_moli_moli(molindex mone, molindex mtwo);
 char is_consistent_molbond_molbond(molbond mb1, molbond mb2);
+char is_consistent_molbond_molbond_inverse(molbond mb1, molbond mb2);
 char is_consistent_ensi_ensi(ensindex eone, ensindex etwo);
 void set_ensemble_molindexes(ensemble *E);
 void set_assembly_molindexes(assembly *A);
