@@ -36,21 +36,21 @@ for(ri=0;ri<m[0].nr;ri++)
     this_b=0;
     for(ai=0;ai<m[0].r[ri].na;ai++)
         {
-printf("This atom is %s\n",m[0].r[ri].a[ai].N);
+/*printf("This atom is %s\n",m[0].r[ri].a[ai].N);*/
         for(bi=0;bi<m[0].r[ri].a[ai].nmb;bi++)
             {
-printf("\tm[0].r[%d].a[%d].mb[%d].s.r = %d\n",ri,ai,bi,m[0].r[ri].a[ai].mb[bi].s.r);
-printf("\tm[0].r[%d].a[%d].mb[%d].t.r = %d\n",ri,ai,bi,m[0].r[ri].a[ai].mb[bi].t.r);
+/*printf("\tm[0].r[%d].a[%d].mb[%d].s.r = %d\n",ri,ai,bi,m[0].r[ri].a[ai].mb[bi].s.r);*/
+/*printf("\tm[0].r[%d].a[%d].mb[%d].t.r = %d\n",ri,ai,bi,m[0].r[ri].a[ai].mb[bi].t.r);*/
             if(m[0].r[ri].a[ai].mb[bi].s.r!=m[0].r[ri].a[ai].mb[bi].t.r)
                 {
                 m[0].r[ri].rb[this_b]=m[0].r[ri].a[ai].mb[bi];
-printf("\t this_b is %d\n",this_b);
-printf("\tfound molbond for %s from %d-%d-%d-%d to %d-%d-%d-%d\n",m[0].r[ri].N,\
+/*printf("\t this_b is %d\n",this_b);*/
+/*printf("\tfound molbond for %s from %d-%d-%d-%d to %d-%d-%d-%d\n",m[0].r[ri].N,\
 m[0].r[ri].a[ai].mb[bi].s.i,m[0].r[ri].a[ai].mb[bi].s.m,m[0].r[ri].a[ai].mb[bi].s.r,m[0].r[ri].a[ai].mb[bi].s.a,\
-m[0].r[ri].a[ai].mb[bi].t.i,m[0].r[ri].a[ai].mb[bi].t.m,m[0].r[ri].a[ai].mb[bi].t.r,m[0].r[ri].a[ai].mb[bi].t.a);
-printf("\tsetting it to residue level as %d-%d-%d-%d to %d-%d-%d-%d\n",\
+m[0].r[ri].a[ai].mb[bi].t.i,m[0].r[ri].a[ai].mb[bi].t.m,m[0].r[ri].a[ai].mb[bi].t.r,m[0].r[ri].a[ai].mb[bi].t.a);*/
+/*printf("\tsetting it to residue level as %d-%d-%d-%d to %d-%d-%d-%d\n",\
 m[0].r[ri].rb[this_b].s.i,m[0].r[ri].rb[this_b].s.m,m[0].r[ri].rb[this_b].s.r,m[0].r[ri].rb[this_b].s.a,\
-m[0].r[ri].rb[this_b].t.i,m[0].r[ri].rb[this_b].t.m,m[0].r[ri].rb[this_b].t.r,m[0].r[ri].rb[this_b].t.a);
+m[0].r[ri].rb[this_b].t.i,m[0].r[ri].rb[this_b].t.m,m[0].r[ri].rb[this_b].t.r,m[0].r[ri].rb[this_b].t.a);*/
                 this_b++;
 
                 }
@@ -113,7 +113,6 @@ if(m[0].rT[iTree].nmbi<0)
   mywhine("Unexpected init of rT[].nmbi in follow_molecule_residue_nodes_from_bonds.");
   }
 m[0].rT[iTree].nmbo=r[0].nrb-m[0].rT[iTree].nmbi;
-printf(" For residue %s, nmbo is %d (nrb=%d - nmbi=%d)\n",r[0].N,m[0].rT[iTree].nmbo,r[0].nrb,m[0].rT[iTree].nmbi);
 /* 
     If this is the end of a list, go find any unseen or bail.
 */
@@ -160,17 +159,7 @@ for(bi=0;bi<r[0].nrb;bi++)
     */
     is_incoming='n';
     for(ni=0;ni<m[0].rT[iTree].nmbi;ni++)
-        {
-
-printf("molbond incoming is  \ts : %d-%d-%d-%d  t : %d-%d-%d-%d \n",\
-m[0].rT[iTree].mbi[ni][0].s.i,m[0].rT[iTree].mbi[ni][0].s.m,\
-m[0].rT[iTree].mbi[ni][0].s.r,m[0].rT[iTree].mbi[ni][0].s.a,\
-m[0].rT[iTree].mbi[ni][0].t.i,m[0].rT[iTree].mbi[ni][0].t.m,\
-m[0].rT[iTree].mbi[ni][0].t.r,m[0].rT[iTree].mbi[ni][0].t.a);
-printf("\t this bond is  \ts : %d-%d-%d-%d  t : %d-%d-%d-%d \n",\
-r[0].rb[bi].s.i,r[0].rb[bi].s.m,r[0].rb[bi].s.r,r[0].rb[bi].s.a,\
-r[0].rb[bi].t.i,r[0].rb[bi].t.m,r[0].rb[bi].t.r,r[0].rb[bi].t.a);
-
+        { 
         if(is_consistent_molbond_molbond_inverse(m[0].rT[iTree].mbi[ni][0],r[0].rb[bi])!='n') is_incoming='y';
         }
     /*
@@ -179,12 +168,6 @@ r[0].rb[bi].t.i,r[0].rb[bi].t.m,r[0].rb[bi].t.r,r[0].rb[bi].t.a);
     if(is_incoming=='n') 
         {
         m[0].rT[iTree].mbo[oi][0]=r[0].rb[bi];
-printf("Setting r[0].N=%s outgoing as:\n",r[0].N);
-printf("\t s: %d-%d-%d-%d  t: %d-%d-%d-%d \n",\
-m[0].rT[iTree].mbo[oi][0].s.i,m[0].rT[iTree].mbo[oi][0].s.m,\
-m[0].rT[iTree].mbo[oi][0].s.r,m[0].rT[iTree].mbo[oi][0].s.a,\
-m[0].rT[iTree].mbo[oi][0].t.i,m[0].rT[iTree].mbo[oi][0].t.m,\
-m[0].rT[iTree].mbo[oi][0].t.r,m[0].rT[iTree].mbo[oi][0].t.a);
         oi++;
         }
     if(oi>m[0].rT[iTree].nmbo){mywhine("overstepped outgoing bonds in follow_molecule_residue_nodes_from_bonds.");}
@@ -236,7 +219,7 @@ for(oi=0;oi<m[0].rT[iTree].nmbo;oi++)
     /* 
     record location in contree 
     */
-    if(rt[0].mTi>=0) { bi=rt[0].mTi; } 
+    if(rt[0].mTi>=0) { continue; } 
     else{bi=-(rt[0].mTi+1);}
     finished = follow_molecule_residue_nodes_from_bonds(m, bi, rt);
     }

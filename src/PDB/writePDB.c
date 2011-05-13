@@ -112,7 +112,8 @@ for(mi=0;mi<A[0].nm;mi++)
       get new values for rinit and ainit if not using 'n'
          must use L[n-2] because the last one is always "TER"
     */
-    if(ainit!=-1){
+    if(ainit!=-1)
+        {
         aptr=&FM[iFM].L[FM[iFM].n-2][6]; /* serial begins index 6 (column 7) */
          tmp=strdup(aptr); /* 5 chars */
          tmp[6]='\0';
@@ -128,6 +129,7 @@ for(mi=0;mi<A[0].nm;mi++)
         }
     iFM++;
     } /* close loop over number of molecules */
+    if(ainit!=-1) { ainit=rinit=1; }
     this_x++;
     } /* close loop over number of models */
 /*
@@ -373,6 +375,7 @@ pdb_a[2].b[1].c[3]	=	4;   name		(13-16)
     In the meantime, the calling function will have to set the name
     to a pdb-appropriate value if this function can't do it.
 */
+tmp[0]='\0';
 if((strlen(a[0].N)>=4)||(isdigit(a[0].N[0]!=0))){ strcpy(tmp,a[0].N); }
 else 
     {
@@ -388,7 +391,6 @@ else
     else {sprintf(tmp," %s",a[0].N);}
     }
     
-/*printf("\t\ttmp is >>>%s<<<\n",tmp);*/
 strcat(line,get_char_string(tmp,'l',4));
 /*
 pdb_a[2].b[1].c[4]	=	1;   altLoc 		(17)

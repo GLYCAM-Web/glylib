@@ -306,6 +306,9 @@ assembly* getAssembly()
   (*asmbl).na = 0; // initializing 
   (*asmbl).a = (atom**) calloc(1, sizeof(atom*));
   i=0; 
+  strcpy(atmName,"");
+  strcpy(resName,"");
+  strcpy(atmElem,"");
 /*printf("First allocate of residues and atoms:\n");*/
 /*printf("\t molecule %d, init is %d; residue %d -- nm is %d, A.nr is %d, A.na is %d\n",j,init,k,(*asmbl).nm,(*asmbl).nr,(*asmbl).na);*/
 /* 
