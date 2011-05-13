@@ -2,14 +2,6 @@
 	including BLFoley, possibly also Spandana Makeneni,
 	Anita Nivedha, Matthew Tessier */
 #include <load_pdb.h>
-//#include "../inc/load_pdb.h"
-
-/* 
-These are for debugging
-*/
-assembly *This_A;
-int This_mi;
-
 assembly* load_pdb(char* file_name)
 {
   char* temp;
@@ -18,27 +10,54 @@ assembly* load_pdb(char* file_name)
   temp = sufc; strcpy(temp,"_change.txt"); ACT='0';
   DEBUG=-1;LASTRES=-1;LASTOKX=0;LASTOKY=0;LASTOKZ=0;
   UNCTOL=0;CRYX=0;CRYY=0;CRYZ=0;LASTX=0;LASTY=0;LASTZ=0;
-  //int resNum;
-  int ma;
-// int mi;
-  //molecule* mol;
+  int ma,ra;
   assembly* asmbl;
   IN = myfopen(file_name, "r");
- /*scans pdb file for number of lines
-  allocates memory for line structures
-  initializes structures that contain line formats*/
+  char find_LINK='n',find_CONECT='n';
+  /*
+  init_struct() scans pdb file for number of lines
+  allocates memory for line structures initializes 
+  structures that contain line formats
+
+  This, among other PDB functions, needs to be made less "global".
+  */
   init_struct();
   rewind(IN);
-  //Read in lines to ln structure
+  /*Read in lines to ln structure */
   printf("Reading in %s...\n",file_name);
   for(ma=0;ma<INWC;ma++){
   if(DEBUG>=1){printf("made it to here main line loop %d ...\n", ma);} 
 	rwm_line(ma+1); 
+	if(strncmp(ln[ma].f[0].c,"CONECT",6)==0) find_CONECT='y';
+	if(strncmp(ln[ma].f[0].c,"LINK",4)==0) find_LINK='y';
 	}
 
-  //Determine the number of molecules in the pdb
+  /*Determine the number of molecules in the pdb */
   printf("There are %d molecule(s)\n",howManyMolecules());
   asmbl = getAssembly();
+  set_assembly_molindexes(asmbl);
+  if(find_CONECT=='y')
+    { 
+    set_assembly_atom_molbonds_from_PDB_CONECT(asmbl, ln, file_name, INWC); 
+    for(ma=0;ma<asmbl[0].nm;ma++)
+        {
+        for(ra=0;ra<asmbl[0].m[ma][0].nr;ra++)
+            {
+            set_residue_atom_nodes_from_bonds(&asmbl[0].m[ma][0].r[ra]);
+            }
+        set_molecule_atom_nodes_from_bonds(asmbl[0].m[ma]);
+        /*
+        The atom-level CONECT cards are more trusted than LINK cards,
+        so they are used unless there are no CONECT cards.
+        */
+        set_molecule_residue_molbonds(asmbl[0].m[ma]);
+        set_molecule_residue_nodes_from_bonds(asmbl[0].m[ma]);
+        }
+    }
+  if((find_LINK=='y')&&(find_CONECT=='n'))
+    { 
+    set_assembly_residue_molbonds_from_PDB_LINK(asmbl, ln, file_name, INWC); 
+    }
   printf("PDB Information Successfully Read.\n");
   free(ln);
   return asmbl;
@@ -57,6 +76,134 @@ molecule load_pdb_from_slurp(fileslurp in){
  INWC = in.n;
  return (*getMolecule());
 }
+
+void set_assembly_atom_molbonds_from_PDB_CONECT(assembly *A, linedef *ln, const char *file_name, int nlines)
+{
+int ai,bi,li,ncurrent=-1,this_n,that_n,list_loc,na=A[0].na;
+char badorder='n';
+molindex_set found_a;
+int this_ai,alist[na],bonds[na],blist[na],llist[na];
+int conect_first=-1,conect_last=-1,tmpi,tmpj;
+/*
+    0.  Check that atoms are all in order.  Complain if not, but try anyway.
+*/
+ for(ai=0;ai<A[0].na;ai++){
+  if(A[0].a[ai][0].n<=ncurrent) { badorder = 'y'; }
+/*printf("ncurrent is %d ; n is %d \n",ncurrent,A[0].a[ai][0].n); */
+  ncurrent=A[0].a[ai][0].n;
+  }
+ if(badorder=='y')
+  {
+  printf("\nAtoms serials (numbers) in file %s are not in increasing order.\n",file_name);
+  printf("This might cause bonding problems and is not proper PDB format.\n");
+  }
+for(ai=0;ai<A[0].na;ai++) 
+  { 
+  alist[ai]=-1; 
+  blist[ai]=-1; 
+  llist[ai]=-1; 
+  bonds[ai]=0; 
+  }
+/*
+    1.  Find numbers for atoms and number of bonds for each.
+*/ 
+ncurrent=0;
+ for(li=0;li<nlines;li++)
+  {
+  if(strcmp(ln[li].f[0].c,"CONECT")==0)
+   { 
+   if(conect_first==-1) conect_first=li;
+   sscanf(ln[li].f[1].c,"%d",&this_n);
+   list_loc=-1;
+   for(ai=0;ai<ncurrent;ai++) { if(alist[ai]==this_n) list_loc=ai; }
+/*printf("this_n is %d ; list_loc is %d \n",this_n,list_loc); */
+   if(list_loc<0)
+    { 
+    list_loc=ncurrent;
+    ncurrent++;
+    alist[list_loc]=this_n;
+    llist[list_loc]=li;
+    }
+/*printf(" ---  list_loc is %d \n",list_loc); */
+   for(bi=2;bi<15;bi++)
+    {
+    if(ln[li].f[bi].c==NULL) break;
+    tmpi=sscanf(ln[li].f[bi].c,"%d",&tmpj); 
+    if(tmpi<=0) { continue; }
+/*printf("\t\ttmpi is %d ; tmpj is %d\n",tmpi,tmpj); */
+    bonds[list_loc]++;
+    }
+/*printf("\t\tbonds[%d] is  %d\n",list_loc,bonds[list_loc]); */
+    conect_last=li;
+   }
+  }
+/*printf("conect first/last are:  %d   %d  \n",conect_first,conect_last); */
+/*
+    2.  Set atom-level connections.
+*/ 
+  for(ai=0;ai<na;ai++) 
+   {
+   for(ncurrent=0;ncurrent<na;ncurrent++) { blist[ncurrent]=-1; }
+   found_a=find_assembly_top_level_atoms_by_n(A,alist[ai]);
+/*printf("found_a.nP is %d and P[0] i-m-r-a is %d-%d-%d-%d \n",found_a.nP,found_a.P[0].i,found_a.P[0].m,found_a.P[0].r,found_a.P[0].a);*/
+   if(found_a.nP==0)
+    {
+    printf("\nBonding specified in file %s for non-existent atom serial number %d\n",file_name,this_n);
+    printf("Skipping this one and hoping for better next time.\n");
+    continue;
+    }
+   if(found_a.nP>1)
+    {
+    printf("\nBonding specified in file %s for duplicated atom serial number %d\n",file_name,this_n);
+    printf("Choosing first in list and moving on.\n");
+    }
+   this_ai=found_a.P[0].i;
+   free(found_a.P);
+   A[0].a[this_ai][0].nmb=bonds[ai];
+   A[0].a[this_ai][0].mb=(molbond*)calloc(bonds[ai],sizeof(molbond));
+   list_loc=0;
+   for(li=conect_first;li<=conect_last;li++)
+    {
+    tmpi=sscanf(ln[li].f[1].c,"%d",&tmpj);
+    if(tmpi<=0) {mywhine("trouble reading ln[li].f[1].c in set_assembly_atom_molbonds_from_PDB_CONECT");} 
+    if(tmpj==alist[ai])
+     {
+     for(bi=2;bi<15;bi++)
+      {
+      if(ln[li].f[bi].c==NULL) break;
+      tmpi=sscanf(ln[li].f[bi].c,"%d",&that_n); 
+      if(tmpi<=0) { continue; }
+      /* If there is an entry in this location */
+      found_a=find_assembly_top_level_atoms_by_n(A,that_n);
+      if(found_a.nP==0)
+       {
+       printf("\nBonding specified in file %s for non-existent atom serial number %d\n",file_name,that_n);
+       printf("Skipping this one and hoping for better next time.\n");
+       continue;
+       }
+      if(found_a.nP>1)
+       {
+        printf("\nBonding specified in file %s for duplicated atom serial number %d\n",file_name,that_n);
+        printf("Choosing first in list and moving on.\n");
+        } 
+       A[0].a[this_ai][0].mb[list_loc].s=A[0].a[this_ai][0].moli;
+       A[0].a[this_ai][0].mb[list_loc].t=found_a.P[0];
+       free(found_a.P);
+       list_loc++;
+       if(list_loc>A[0].a[this_ai][0].nmb){mywhine("list_loc>A[0].a[this_ai][0].nmb in set_assembly_atom_molbonds_from_PDB_CONECT");}
+       }
+     }
+    }
+   if(list_loc<A[0].a[this_ai][0].nmb){mywhine("list_loc<A[0].a[this_ai][0].nmb in set_assembly_atom_molbonds_from_PDB_CONECT");}
+   }
+return;
+}
+
+void set_assembly_residue_molbonds_from_PDB_LINK(assembly *asmbl, linedef *ln, const char *file_name, int nlines)
+{
+mywhine("The function set_assembly_residue_molbonds_from_PDB_LINK has not been written yet.\n");
+}
+
 
 fileslurp isolateInputPDB(fileslurp S){
  int i,itr;
@@ -144,8 +291,6 @@ assembly* getAssembly()
   char atmName[5], atmElem[3], resName[4],*temp; 
   assembly* asmbl = (assembly*) calloc (1 , sizeof(assembly));
   (*asmbl).nm = molNum;
-  This_A=&asmbl[0];
-  This_mi=j;
   molecule *curMol=NULL; residue* curRes=NULL; 
   atom* curAtm;// atom* atm;
   /* made further changes for molecule double pointers in assembly
@@ -161,6 +306,9 @@ assembly* getAssembly()
   (*asmbl).na = 0; // initializing 
   (*asmbl).a = (atom**) calloc(1, sizeof(atom*));
   i=0; 
+  strcpy(atmName,"");
+  strcpy(resName,"");
+  strcpy(atmElem,"");
 /*printf("First allocate of residues and atoms:\n");*/
 /*printf("\t molecule %d, init is %d; residue %d -- nm is %d, A.nr is %d, A.na is %d\n",j,init,k,(*asmbl).nm,(*asmbl).nr,(*asmbl).na);*/
 /* 
@@ -305,7 +453,6 @@ for(i = 0; i < INWC; i++) {
 		i++;
 		} /* close while we are in a molecule */
 	j++;
-	This_mi=j;
 	}
 /*printf("ka=%d ; (*asmbl).nr=%d ; la=%d ; (*asmbl).na=%d\n",ka,(*asmbl).nr,la,(*asmbl).na);*/
 if((*asmbl).na != la){mywhine("(*asmbl).na != la in load_pdb's getAssembly");}

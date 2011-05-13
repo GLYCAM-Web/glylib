@@ -48,6 +48,10 @@ void dXprint_atype(atype *t,int i){
 return;
 }
 
+void dXprint_molbond(molbond *mb){
+	printf("molbond s (m,r,a=%d,%d,%d) t (m,r,a=%d,%d,%d) o %20.12f\n",mb[0].s.m,mb[0].s.r,mb[0].s.a,mb[0].t.m,mb[0].t.r,mb[0].t.a,mb[0].o);
+return;
+}
 void dXprint_bond(bond *b){
 	printf("bond s (m,r,a=%d,%d,%d) t (m,r,a=%d,%d,%d) o %20.12f\n",b[0].s.m,b[0].s.r,b[0].s.a,b[0].t.m,b[0].t.r,b[0].t.a,b[0].o);
 return;
@@ -61,9 +65,9 @@ void dXprint_atom(atom *a,int i){
 		a[0].t,a[0].nb,a[0].nalt,a[0].nvec);
 	printf("\tcoords x y z \t%20.12f \t%20.12f \t%20.12f\n",a[0].x.i,a[0].x.j,a[0].x.k); 
 	if(i>0){
-		for(pa=0;((pa<i)&&(pa<a[0].nb));pa++){
-			printf("\tbond set %d:  ",pa);
-			dXprint_bond(&(a[0].b[pa])); 
+		for(pa=0;((pa<i)&&(pa<a[0].nmb));pa++){
+			printf("\tmolbond set %d:  ",pa);
+			dXprint_molbond(&(a[0].mb[pa])); 
 			}
 		for(pa=0;((pa<i)&&(pa<a[0].nalt));pa++){
 			printf("\talt coord set %d:  ",pa);
@@ -107,10 +111,6 @@ void dXprint_residue(residue *r,int i){
 		for(pa=0;((pa<i)&&(pa<r[0].nbs));pa++){
 			printf("\tconsec. lin, bondset set %d\n",pa);
 			dXprint_molbondset(&(r[0].bs[pa]),i); 
-			}
-		for(pa=0;((pa<i)&&(pa<r[0].nrbs));pa++){
-			printf("\tconsec. ring bondset set %d\n",pa);
-			dXprint_molbondset(&(r[0].rbs[pa]),i); 
 			}
 		for(pa=0;((pa<i)&&(pa<r[0].nrc));pa++){
 			printf("\tconsec ring coords set %d:  ",pa);

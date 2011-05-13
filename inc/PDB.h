@@ -44,6 +44,9 @@ int NUMAT;  /* Would like to get rid of this eventually */
 fileslurp get_ensemble_PDB_ATOM_lines(ensemble *E,char isource, int savei,char raltname, int xs);
 
 fileslurp get_assembly_PDB_ATOM_lines(assembly *A,char isource, int savei,char raltname, int xs);
+fileslurp get_assembly_PDB_CONECT_lines(assembly *A, char isource, int savei);
+fileslurp get_molecule_PDB_CONECT_lines(molecule *m, int savei);
+fileslurp get_atom_PDB_CONECT_lines_assembly(assembly *A, atom *a, int savei);
 
 const char *get_PDB_line_for_ATOM(atom *a, residue *r,int ai, int ri, int asave, char raltname, int xs);
 

@@ -217,10 +217,8 @@ void deallocateParameterSet(parameter_set *ps){
  return ;
 }
 /********** structures from molecules.h ****************/
-void deallocateRingEnsindex(ring_ensindex *re){
- if(re[0].P != NULL && re[0].P != 0x0){free(re[0].P);} //ensindex is simple -- no deallocation
- if(re[0].in != NULL && re[0].in != 0x0){free(re[0].in);} 
- if(re[0].out != NULL && re[0].out != 0x0){free(re[0].out);} 
+void deallocateMolindexSet(molindex_set *ms){
+ if(ms[0].P != NULL && ms[0].P != 0x0){free(ms[0].P);} //molindex is simple -- no deallocation
  return ;
 }
 void deallocateResidueTreeIndex(residue_tree_index *rti){
@@ -354,9 +352,6 @@ void deallocateResidue(residue *r){
  if(r[0].bs != NULL && r[0].bs != 0x0){
  	for(i=0;i<r[0].nbs;i++){deallocateMolbondset(&r[0].bs[i]);}
  	free(r[0].bs);}
- if(r[0].rbs != NULL && r[0].rbs != 0x0){
- 	for(i=0;i<r[0].nrbs;i++){deallocateMolbondset(&r[0].rbs[i]);}
- 	free(r[0].rbs);}
  // free each
  if(r[0].OD != NULL && r[0].OD != 0x0){
  	for(i=0;i<r[0].nOD;i++){if(r[0].OD[i] != NULL && r[0].OD[i] != 0x0){free(r[0].OD[i]);}}

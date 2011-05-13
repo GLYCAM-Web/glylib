@@ -12,36 +12,32 @@ File begun May 2007 by Lachele Foley and modified continually ever since
 /** \addtogroup MAIN_STRUCTURES
  * @{
  */
-char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; ///< locations of type databases,
-	// to be set by the program, but globally visible
+char *ATYPESFILE,*RTYPESFILE,*MTYPESFILE; /**< locations of type databases, */
+	/* to be set internally by programs, but globally visible */
 
 typedef struct {
-	int i; ///< general index
-	int m; ///< molecule index
-	int r; ///< residue index
-	int a; ///< atom index
-} molindex; ///< Index to describe position in a molecule
+	int i; /**< general index */
+	int m; /**< molecule index */
+	int r; /**< residue index */
+	int a; /**< atom index */
+} molindex; /**< Index to describe position in a molecule */
 typedef struct {
-	int i; ///< general index
-	int E; ///< ensemble index
-	int A; ///< assembly index
-	int m; ///< molecule index
-	int r; ///< residue index
-	int a; ///< atom index
-} ensindex; ///< Index to describe position in an ensemble
+	int i; /**< general index */
+	int E; /**< ensemble index */
+	int A; /**< assembly index */
+	int m; /**< molecule index */
+	int r; /**< residue index */
+	int a; /**< atom index */
+} ensindex; /**< Index to describe position in an ensemble */
 typedef struct {
-	int nP; ///< number of positions in the ring
-	molindex *P; ///< the nP relevant positions
-	int nin,*in; ///< reference integers in *P for other ring members with incoming bonds
-	int nout,*out; ///< reference integers in *P for other ring members with outgoing bonds
-} ring_molindex; ///< Structure holding ensemble indices for a ring, plus maybe other info
-typedef struct {
-	int nP; ///< number of positions in the ring
-	ensindex *P; ///< the nP relevant positions
-	int nin,*in; ///< reference integers in *P for other ring members with incoming bonds
-	int nout,*out; ///< reference integers in *P for other ring members with outgoing bonds
-} ring_ensindex; ///< Structure holding ensemble indices for a ring, plus maybe other info
+	int nP; /**< number of positions */
+	molindex *P; /**< the nP relevant positions */
+	double s; /**< size (e.g., total length of chain) */
+} molindex_set; /**< Structure holding molecule indices (for rings and such) */
 
+/* 
+Structures for making selections.
+*/
 typedef struct { 
 	int na, *ai; ///< na atom indices and the na indices 
 } residue_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
@@ -53,7 +49,6 @@ typedef struct {
 	int nm, *mi; ///< nm molecule indices and the nm indices
 	molecule_tree_index *m; ///< nm molecule_tree_index structures
 } ensemble_tree_index; ///< for storing indices within a structure like E[ei].m[mi].r[ri].a[ai].i
-
 typedef struct {
 	int posneg; ///< Is this a positive (1), negative (-1) or brand new (0) selection set?
 	int nmN,nmi,nmn,*mn,*mi; ///< # of molecule names, numbers & indicies, nmn numbers and nmi indices
@@ -64,8 +59,7 @@ typedef struct {
 	char **aN; ///< naN names
 } moiety_selection; 
 
-/* 20100127 BLFoley: I'm changing the bond structure.  With luck, this will 
-only break the vibrations program I'm rewriting... */
+
 typedef struct { 
 	ensindex s; ///< "source" -- index to first atom in bond
 	ensindex t; ///< "target" -- index to the other atom in the bond
@@ -204,9 +198,9 @@ typedef struct {
 	int nbs; ///< number of bond sets 
 	molbondset *bs; ///< (consecutive bonds, use these for plotting, etc.)
 	int nring; ///< number of simple rings (no cage structures, etc.)
-	ring_molindex *ring; ///< molecule indices for the nring rings
-	int nrbs; ///< number of ring bondsets defined
-	molbondset *rbs; ///< bondsets for rings
+	molindex_set *ring; ///< molecule indices for the nring rings
+//	int nrbs; ///< number of ring bondsets defined
+//	molbondset *rbs; ///< bondsets for rings
 	int nrc; // number of ring/reference coordinate sets defined
 	coord_3D *rc; ///< coordinates for ring/reference centers
 	int nrp; ///< number of ring planes defined
@@ -389,13 +383,13 @@ void print_vectormag_3D(vectormag_3D*),print_coord_3D(coord_3D*);
 void dprint_molecule(molecule*,int),dprint_residue(residue*,int);
 void dprint_bondset(bondset*,int);
 void dprint_molbondset(molbondset*,int);
-void dprint_atom(atom*,int),dprint_bond(bond*);
+void dprint_atom(atom*,int),dprint_bond(bond*),dprint_molbond(molbond *mb);
 void dprint_atype(atype*,int),dprint_plane(plane*);
 void dprint_vectormag_3D(vectormag_3D*),dprint_coord_3D(coord_3D*);
 //
 void dXprint_molecule(molecule*,int),dXprint_residue(residue*,int);
 void dXprint_bondset(bondset*,int),dXprint_atom(atom*,int),dXprint_bond(bond*);
-void dXprint_molbondset(molbondset*,int);
+void dXprint_molbondset(molbondset*,int),dXprint_molbond(molbond *mb);
 void dXprint_atype(atype*,int),dXprint_plane(plane*);
 void dXprint_vectormag_3D(vectormag_3D*),dXprint_coord_3D(coord_3D*);
 /** @}*/
@@ -522,11 +516,26 @@ ensindex copy_moli_to_ensi(molindex moli);
 char is_consistent_ensi_moli(ensindex ensi, molindex moli);
 char is_consistent_moli_moli(molindex mone, molindex mtwo);
 char is_consistent_molbond_molbond(molbond mb1, molbond mb2);
+char is_consistent_molbond_molbond_inverse(molbond mb1, molbond mb2);
 char is_consistent_ensi_ensi(ensindex eone, ensindex etwo);
 void set_ensemble_molindexes(ensemble *E);
 void set_assembly_molindexes(assembly *A);
 void set_molecule_molindexes(molecule *m, int mi);
 void set_residue_molindexes(residue *r, int mi, int ri);
+/*
+Find atoms/residues named N -- searches for a.N or r.N
+*/
+molindex_set find_residue_atoms_by_N(residue *r, const char *name); /**< searches for a.N */
+molindex_set find_molecule_atoms_by_N(molecule *m, const char *name); /**< searches for a.N */
+molindex_set find_molecule_residues_by_N(molecule *m, const char *name); /**< searches for r.N */
+molindex_set find_assembly_top_level_atoms_by_N(assembly *a, const char *name); /**< searches for a.N, saves i in A.a[i] to moli.i */
+/*
+Find atoms/residues numbered n -- searches for a.n or r.n
+*/
+molindex_set find_residue_atoms_by_n(residue *r, int number); /**< searches for a.n */
+molindex_set find_molecule_atoms_by_n(molecule *m, int number); /**< searches for a.n */
+molindex_set find_molecule_residues_by_n(molecule *m, int number); /**< searches for r.n */
+molindex_set find_assembly_top_level_atoms_by_n(assembly *a, int number); /**< searches for a.n, saves i in A.a[i] to moli.i */
 /** @}*/
 
 
@@ -535,9 +544,9 @@ void set_residue_molindexes(residue *r, int mi, int ri);
  */
 void set_molecule_atom_nodes_from_bonds(molecule *m);
 int follow_molecule_atom_nodes_from_bonds(molecule *m, int iTree, atom *a);
+void set_molecule_residue_molbonds(molecule *m);
 void set_residue_atom_nodes_from_bonds(residue *r);
 int follow_residue_atom_nodes_from_bonds(residue *r, int iTree, atom *a);
-void set_molecule_residue_molbonds(molecule *m);
 void set_molecule_residue_nodes_from_bonds(molecule *m);
 int follow_molecule_residue_nodes_from_bonds(molecule *m, int iTree, residue *r);
 
@@ -589,7 +598,7 @@ void deallocateMolecule(molecule *mol);
 /** \addtogroup STRUCTURE_UTILS
  * @{
  */
-//Functions that add or remove structures from other structures
+void set_atom_element_best_guess(atom *a);
 void add_assembly_to_ensemble(
         assembly *A, ///< pointer to the assembly being added (SEE DOCS)
         ensemble *E ///< pointer to the ensemble being grown
