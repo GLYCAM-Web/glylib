@@ -77,6 +77,7 @@ for(ri=0;ri<m[0].nr;ri++)
     m[0].r[ri].mTi=-ri-1;
     m[0].rT[ri].isorigin='N';
     m[0].rT[ri].ID=copy_moli_to_ensi(m[0].r[ri].moli);
+    m[0].rT[ri].ID.i=ri;
     if(ri>0)
         {
         ensisame=is_consistent_ensi_ensi(m[0].rT[ri].ID,m[0].rT[ri-1].ID);
@@ -197,6 +198,7 @@ for(oi=0;oi<m[0].rT[iTree].nmbo;oi++)
         bi=rt[0].mTi;
         } 
     else{bi=-(rt[0].mTi+1);}
+    m[0].rT[iTree].mbo[oi][0].i=bi;
     /* 
     identify current residue as incoming to the target atom
     */
@@ -238,6 +240,7 @@ for(ai=0;ai<r[0].na;ai++)
     r[0].a[ai].rTi=-ai-1;
     r[0].aT[ai].isorigin='N';
     r[0].aT[ai].ID=copy_moli_to_ensi(r[0].a[ai].moli);
+    r[0].aT[ai].ID.i=ai;
     if(ai>0)
         {
         ensisame=is_consistent_ensi_ensi(r[0].aT[ai].ID,r[0].aT[ai-1].ID);
@@ -350,6 +353,7 @@ for(oi=0;oi<r[0].aT[iTree].no;oi++)
     */
     if(at[0].rTi>=0) { continue; } 
     else{bi=-(at[0].rTi+1);}
+    r[0].aT[iTree].o[oi][0].i=bi;
     /* 
     identify current atom as incoming to the target atom
     */
@@ -404,6 +408,7 @@ for(ai=0;ai<m[0].r[ri].na;ai++)
     m[0].r[ri].a[ai].mTi=-aai-1;
     m[0].aT[aai].isorigin='N';
     m[0].aT[aai].ID=copy_moli_to_ensi(m[0].r[ri].a[ai].moli);
+    m[0].aT[aai].ID.i=aai;
     /*  The following isn't a comprehensive check.  Just a spot-check. */
     if(aai>0)
         {
@@ -523,6 +528,7 @@ for(oi=0;oi<m[0].aT[iTree].no;oi++)
     */
     if(at[0].mTi>=0) { continue; } 
     else{bi=-(at[0].mTi+1);}
+    m[0].aT[iTree].o[oi][0].i=bi;
     /* 
     identify current atom as incoming to the target atom
     */

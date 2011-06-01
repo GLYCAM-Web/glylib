@@ -599,10 +599,10 @@ if(bondinfocomplete=='n')
     }
 /* find the number of TER cards */
 b=0; /* the number of TER cards needed */
-if(resconnects[0]>1){b++;}
+if(resconnects[0]!=1){b++;}
 for(i=1;i<mol[0].nr;i++)
-    { if(resconnects[i]>2){ b++; } }
-b++; /* for the final TER card */
+    { if(resconnects[i]!=2){ b++; } }
+//b++; /* for the final TER card */
 FM.n=ntot+b;
 FM.L=(char**)calloc(FM.n,sizeof(char*));
 b=0; /* now, it's the total number of lines */
@@ -615,7 +615,7 @@ for(i=0;i<mol[0].nr;i++)
         }
     if(i==0)
         {
-        if(resconnects[0]>1)
+        if(resconnects[0]!=1)
             {
             FM.L[b]=strdup("TER   \n");
             b++;
@@ -623,15 +623,15 @@ for(i=0;i<mol[0].nr;i++)
         }
     else
         {
-        if(resconnects[i]>2)
+        if(resconnects[i]!=2)
             {
             FM.L[b]=strdup("TER   \n");
             b++;
             }
         }
     }
-if(b>(FM.n-1)){mywhine("something went wrong in get_molecule_PDB_ATOM_lines");}
-FM.L[b]=strdup("TER   \n");
+if(b>(FM.n)){mywhine("something went wrong in get_molecule_PDB_ATOM_lines");}
+//FM.L[b]=strdup("TER   \n");
 
 return FM;
 }
