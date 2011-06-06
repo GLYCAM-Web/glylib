@@ -263,6 +263,8 @@ typedef struct {
 typedef struct{
 	int i; ///< index
 	int n; ///< number of docked structures represented
+	int numClusters;
+	int *clusterRank;
 	coord_3D RC, *TR; ///< reference coordinate ; translation for docked structure
         vectormag_3D *Q, *QN, *QN0; ///< Quaternion x,y,z,w ; Quaternion nx,ny,nz,angle
 	///< NOTE!! do -not- use typical vectormag_3D functions on these structures

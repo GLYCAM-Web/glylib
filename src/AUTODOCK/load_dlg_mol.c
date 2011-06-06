@@ -15,15 +15,20 @@
 
 dockinfo *load_dlg_mol(fileset F,types *T){
 
-int a=0,b=0,ndock=0,ai=0,di=0,ri=0,ti=0,distVer=0;
+int a=0,b=0,ndock=0,ai=0,di=0,ri=0,ti=0,distVer=0,startRanking=0;
+int runNum[1], dumi[1];
 int *AI,nat=0,localdebug=1;
 char line[501],dum1[50]; // maybe no lines longer than 500...
 char whinetext[501]; char* ptr;
 double xl=0,xh=0,yl=0,yh=0,zl=0,zh=0,fullVer=0;
+double dumd[1];
 atype* AT = T[0].a;
 dockinfo *D;
 fileslurp sl;
 molecule alt;
+//dumd=(double*)calloc(1,sizeof(double));
+//dumi=(int*)calloc(1,sizeof(int));
+//runNum=(int*)calloc(1,sizeof(int));
 //First, the function determines which version of Autodock generated the file
 while(fgets(line,500,F.F)!=NULL){
 	//Find the line with the Autodock version on is
@@ -45,6 +50,7 @@ if(localdebug>0){printf("load_dlg_mol: At top.\n");}
 D=(dockinfo*)calloc(1,sizeof(dockinfo));
 D[0].DOCK_PROGRAM = strdup("Autodock");	//Set autodock as the name of the docking program
 D[0].VERSION = (char*)calloc(5,sizeof(char));
+D[0].numClusters=0;
 sprintf(D[0].VERSION,"%.2lf",fullVer);	//Set the version number
 rewind(F.F);
 sl = slurp_file(F);			//Called from fileslurp.c
@@ -139,6 +145,7 @@ D[0].TFE=(double*)calloc(ndock,sizeof(double));// (3) Torsional Free Energy
 D[0].USE=(double*)calloc(ndock,sizeof(double));// (4) Unbound System's Energy
 D[0].M.nrc=ndock;
 D[0].M.rc=(coord_3D*)calloc(ndock,sizeof(coord_3D)); // for alt struct mol COM's
+D[0].clusterRank=(int*)calloc(ndock,sizeof(int));// Cluster Rank for the corresponding run
 for(a=0;a<D[0].M.nr;a++){
 	D[0].M.r[a].nrc=ndock;
 	D[0].M.r[a].rc=(coord_3D*)calloc(ndock,sizeof(coord_3D)); // for alt struct res COM's
@@ -245,8 +252,26 @@ while(fgets(line,500,F.F)!=NULL){
 		}
 		di++;
 	}
-}
-
+	if(strstr(line,"RMSD TABLE") != NULL){
+		while(strstr(line,"_____|_") == NULL){
+		fgets(line,500,F.F);
+		}
+		startRanking=1;
+	}
+	if(startRanking==1){
+		startRanking++;
+		fgets(line,500,F.F);
+		sscanf(line,"%d %lf %d %lf %lf %lf %s",dumi,dumd,runNum,dumd,dumd,dumd,dum1);
+		D[0].clusterRank[runNum[0]-1]=dumi[0];
+//printf("load_dlg_mol: 1.) Run %d: Cluster Rank: %d\n",runNum[0],D[0].clusterRank[runNum[0]-1]);
+		while(strstr(line,"_______") == NULL){
+			fgets(line,500,F.F);
+			sscanf(line,"%d %lf %d %lf %lf %lf %s",dumi,dumd,runNum,dumd,dumd,dumd,dum1);
+	                D[0].clusterRank[runNum[0]-1]=dumi[0];
+//printf("load_dlg_mol: 2.) Run %d: Cluster Rank: %d\n",runNum[0],D[0].clusterRank[runNum[0]-1]);
+		}
+	}
+	}
 
 /// Add BOX information to the molecule structure.
 D[0].M.nBOX=1;
