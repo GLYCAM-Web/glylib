@@ -424,7 +424,8 @@ pdb_a[2].b[1].c[8]	=	4;   resSeq		(23-26)
 if(ri==-1) rhere=r[0].n;
 else rhere=ri;
 if(rhere>9999){mywhine("Can not have residue serial > 9999 in pdb write utils.\n");}
-strcat(line,get_float_string((double)rhere, 'r', 4, 0));
+sprintf(tmp,"%d",rhere);
+strncat(line,tmp,4);
 /*
 pdb_a[2].b[1].c[9]	=	1;   iCode		(27)
 */
