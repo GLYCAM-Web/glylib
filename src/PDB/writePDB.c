@@ -356,7 +356,8 @@ pdb_a[2].b[1].c[1]	=	5;   serial		(7-11)
 if(ai==-1) ahere=a[0].n;
 else ahere=ai;
 if(ahere>99999){mywhine("Can not have atom serial > 99999 in pdb write utils.\n");}
-strcat(line,get_float_string((double)ahere, 'r', 5, 0));
+sprintf(tmp,"%d",ahere);
+strncat(line,tmp,5);
 if(asave>=0){a[0].i[asave]=ahere;}
 /*
 pdb_a[2].b[1].c[2]	=	1;   N/A 		(12)
