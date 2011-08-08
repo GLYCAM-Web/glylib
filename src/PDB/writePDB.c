@@ -356,8 +356,8 @@ pdb_a[2].b[1].c[1]	=	5;   serial		(7-11)
 if(ai==-1) ahere=a[0].n;
 else ahere=ai;
 if(ahere>99999){mywhine("Can not have atom serial > 99999 in pdb write utils.\n");}
-sprintf(tmp,"%d",ahere);
-strncat(line,tmp,5);
+sprintf(tmp,"%5d",ahere);
+strcat(line,tmp);
 if(asave>=0){a[0].i[asave]=ahere;}
 /*
 pdb_a[2].b[1].c[2]	=	1;   N/A 		(12)
@@ -424,8 +424,8 @@ pdb_a[2].b[1].c[8]	=	4;   resSeq		(23-26)
 if(ri==-1) rhere=r[0].n;
 else rhere=ri;
 if(rhere>9999){mywhine("Can not have residue serial > 9999 in pdb write utils.\n");}
-sprintf(tmp,"%d",rhere);
-strncat(line,tmp,4);
+sprintf(tmp,"%4d",rhere);
+strcat(line,tmp);
 /*
 pdb_a[2].b[1].c[9]	=	1;   iCode		(27)
 */
