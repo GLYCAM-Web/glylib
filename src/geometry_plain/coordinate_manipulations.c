@@ -26,9 +26,9 @@ double get_angle_ABC_points(coord_3D a, coord_3D b, coord_3D c)
 	the angle is zero.  */
 double get_dihedral_ABCD_points(coord_3D a, coord_3D b, coord_3D c, coord_3D d)
 {
-	vectormag_3D b1 = coord_to_vec(subtract_coord(a, b));
-	vectormag_3D b2 = coord_to_vec(subtract_coord(b, c));
-	vectormag_3D b3 = coord_to_vec(subtract_coord(c, d));
+	vectormag_3D b1 = coord_to_vec(subtract_coord(b, a));
+	vectormag_3D b2 = coord_to_vec(subtract_coord(c, b));
+	vectormag_3D b3 = coord_to_vec(subtract_coord(d, c));
 
 	return atan2( get_dotprod(scalarmult_vec(b1, b2.d), get_crossprod(b2,b3)),
 		get_dotprod(get_crossprod(b1,b2), get_crossprod(b2,b3)) ) ;

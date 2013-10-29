@@ -79,7 +79,7 @@ void rotate_vector_to_Z_list(coord_3D*,int,vectormag_3D); // int is n
 coord_3D get_geometric_center(coord_3D *c,int nc); // int is n
 coord_3D get_geometric_center_dp(coord_3D **c,int nc); // int is n
 plane get_plane(coord_3D,coord_3D,coord_3D);
-plane get_plane_for_ring(int n,coord_3D *r); // gets the C-P average plane, atoms must be in order
+plane get_plane_for_ring(int n,coord_3D **r); // gets the C-P average plane, atoms must be in order
 vectormag_3D normalize_vec(vectormag_3D);
 vectormag_3D scalarmult_vec(vectormag_3D,double);
 vectormag_3D add_vec(vectormag_3D,vectormag_3D); // add two vectors

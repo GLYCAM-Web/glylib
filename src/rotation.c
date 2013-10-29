@@ -50,7 +50,7 @@ void pitchMolecule(molecule* mol, double rad)
 void yawMolecule(molecule* mol, double rad)
 {
   //Tells the user what's going on
-  printf("Yawing molecule approx. %.0lf degrees...\n",(rad*57.2957795));
+  //printf("Yawing molecule approx. %.0lf degrees...\n",(rad*57.2957795));
   int i,j;
   residue* curRes; atom* curAtm;
   coord_3D temp; temp.i = 0; temp.j = 0; temp.k = 0;

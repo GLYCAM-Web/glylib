@@ -24,7 +24,7 @@ assembly* load_pdb(char* file_name)
   init_struct();
   rewind(IN);
   /*Read in lines to ln structure */
-  printf("Reading in %s...\n",file_name);
+  //printf("Reading in %s...\n",file_name);
   for(ma=0;ma<INWC;ma++){
   if(DEBUG>=1){printf("made it to here main line loop %d ...\n", ma);} 
 	rwm_line(ma+1); 
@@ -33,7 +33,7 @@ assembly* load_pdb(char* file_name)
 	}
 
   /*Determine the number of molecules in the pdb */
-  printf("There are %d molecule(s)\n",howManyMolecules());
+  //printf("There are %d molecule(s)\n",howManyMolecules());
   asmbl = getAssembly();
   set_assembly_molindexes(asmbl);
   if(find_CONECT=='y')
@@ -58,7 +58,7 @@ assembly* load_pdb(char* file_name)
     { 
     set_assembly_residue_molbonds_from_PDB_LINK(asmbl, ln, file_name, INWC); 
     }
-  printf("PDB Information Successfully Read.\n");
+  //printf("PDB Information Successfully Read.\n");
   free(ln);
   return asmbl;
 }
@@ -425,8 +425,8 @@ for(i = 0; i < INWC; i++) {
 				//Getting the atom name //temp  = (*(ln+i)).f[3].c;
 				if(((*(ln+i)).f[3].c==NULL)||((*(ln+i)).f[3].c[0]=='\0')){strcpy(atmName,"    ");}
 				else{sscanf( (*(ln+i)).f[3].c ,"%s",atmName);}
-				if(((*(ln+i)).f[18].c==NULL)||((*(ln+i)).f[18].c[0]=='\0')){strcpy(atmElem,"  ");}
-				else{sscanf( (*(ln+i)).f[18].c ,"%s",atmElem); }
+				if(((*(ln+i)).f[17].c==NULL)||((*(ln+i)).f[17].c[0]=='\0')){strcpy(atmElem,"  ");}
+				else{sscanf( (*(ln+i)).f[17].c ,"%s",atmElem); }
 /*printf("\t atmName is >>>%s<<< atmElem is >>>%s<<<\n",atmName,atmElem); */
 				//Getting the X, Y and Z coordinates
 				sscanf( (*(ln+i)).f[11].c ,"%lf",&x);

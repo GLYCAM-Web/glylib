@@ -48,5 +48,7 @@ while(fgets(templine,2000,F.F)!=NULL){
 	S.L[S.n-1]=strdup(line);
 	} // close the while loop
 
+fclose(F.F);
+
 return S;
 } 

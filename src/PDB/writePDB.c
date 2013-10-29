@@ -596,8 +596,8 @@ for(i=0;i<mol[0].nr;i++){
 */
 if(bondinfocomplete=='n')
     {
-    printf("\nBonding info not complete or not present in write PDB utils.\n");
-    printf("\tCannot set LINK and CONECT cards or TER cards within molecules:\n");
+    //printf("\nBonding info not complete or not present in write PDB utils.\n");
+    //printf("\tCannot set LINK and CONECT cards or TER cards within molecules:\n");
     }
 /* find the number of TER cards */
 b=0; /* the number of TER cards needed */
