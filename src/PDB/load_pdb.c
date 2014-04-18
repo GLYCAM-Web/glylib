@@ -74,6 +74,7 @@ molecule load_pdb_from_slurp(fileslurp in){
   }
  }
  INWC = in.n;
+// printf("%d\n",INWC);
  return (*getMolecule());
 }
 
@@ -346,7 +347,7 @@ for(i = 0; i < INWC; i++) {
 		for(ri = 0; ri < (*curMol).nr; ri++){
 			(*curMol).r[ri].a = (atom*) calloc ((*curMol).r[ri].na,sizeof(atom));
 			natoms+=(*curMol).r[ri].na;
-/*printf("na is %d for residue %d(ka=%d)\n",(*curMol).r[ri].na,ri,ka);*/
+//printf("na is %d for residue %d(ka=%d)\n",(*curMol).r[ri].na,ri,ka);
 			}
 		/* Allocate the top-level atoms and residues for this molecule */
 		(*asmbl).nr+=(*curMol).nr;
@@ -387,10 +388,11 @@ for(i = 0; i < INWC; i++) {
 				is_same_residue='y';
 				temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&resNum);
 				temp = (*(ln+i)).f[5].c; sscanf(temp,"%s",resName);
+//printf("0. resnum is %d ; resname is >>%s<< *curres.n is %d ; (*curRes).N is >>%s<<\n",resNum,resName,(*curRes).n,(*curRes).N);
 				if((*curRes).n!=resNum){ is_same_residue='n';}
 				if(strcmp((*curRes).N,resName)!=0){ is_same_residue='n';}
 				if((*curRes).IC[0]!=ln[i].f[9].c[0]){ is_same_residue='n';}
-/*printf("Is same residue = %c\n",is_same_residue);*/
+//printf("1. Is same residue = %c\n",is_same_residue);
 				if(is_same_residue=='n'){ /* try the rest of the residues */
 				Kref=k+1;
 				for(k=Kref;k<(*curMol).nr;k++) {
@@ -401,7 +403,7 @@ for(i = 0; i < INWC; i++) {
 					if((*curRes).n!=resNum){ is_same_residue='n';}
 					if(strcmp((*curRes).N,resName)!=0){ is_same_residue='n';}
 					if((*curRes).IC[0]!=ln[i].f[9].c[0]){ is_same_residue='n';}
-/*printf("\tIs same residue (N=%s  n=%d IC=%c) = %c\n",(*curRes).N,(*curRes).n,(*curRes).IC[0],is_same_residue);*/
+//printf("\t2. Is same residue (N=%s  n=%d IC=%c) = %c\n",(*curRes).N,(*curRes).n,(*curRes).IC[0],is_same_residue);
 					if(is_same_residue=='y') { break; }
 					}}
 				if(is_same_residue=='n'){ /* try the first residues */
@@ -413,7 +415,7 @@ for(i = 0; i < INWC; i++) {
 					if((*curRes).n!=resNum){ is_same_residue='n';}
 					if(strcmp((*curRes).N,resName)!=0){ is_same_residue='n';}
 					if((*curRes).IC[0]!=ln[i].f[9].c[0]){ is_same_residue='n';}
-/*printf("\tIs same residue (N=%s  n=%d IC=%c) = %c\n",(*curRes).N,(*curRes).n,(*curRes).IC[0],is_same_residue);*/
+//printf("\t3. Is same residue (N=%s  n=%d IC=%c) = %c\n",(*curRes).N,(*curRes).n,(*curRes).IC[0],is_same_residue);
 					if(is_same_residue=='y') { break; }
 					}}
 				if(is_same_residue=='n'){mywhine("Can't find residue in load_pdb's getAssembly.");}
@@ -469,8 +471,9 @@ int findTotalResidue(int start)
   char *knownI = (char*)calloc(1,sizeof(char));
 
 //printf(" i is %d, and INWC is %d and ln[i].a-b are %d-%d\n",i,INWC,ln[i].a,ln[i].b);
-
-  while( (i!=INWC) && (isAtom((ln+i))==0) ) { i++; }
+//printf("isAtomln+i is %d\n",isAtom(ln+i));
+//printf("endof Mol is %d\n",endOfMol(ln+i));  
+while( (i!=INWC) && (isAtom((ln+i))==0) ) { i++; }
 
   while( (i != INWC) && (endOfMol((ln+i)) == 0) )
   {
@@ -495,7 +498,8 @@ int findTotalResidue(int start)
     }
    i++;
   }
-  free(known);
+free(known);
+ //printf("count is %d\n",count);
   return count;
 }
 
@@ -547,16 +551,24 @@ residue* curRes = (res+0);
 char name [10];char* temp;char* resName = name;
 char IC=' ';
 
-/*printf("\n**1.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);*/
+//printf("\n**1.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
 
 while( (current_status == 0) && (i<INWC) ){ 
 	current_status = isAtom(ln+i); /* find out if we have an atom line  */
 	i++; } /* if not, check the next line */
+//printf("i is %d  and INWC is %d \n",i,INWC);
+//printf("current ststus is %d\n",current_status);
 if(i==INWC){ /* if we got to the end with no atoms */
+//if current status is that we have an atom and i==1 then break
+	if(current_status==1 && i==1){
+	
+	}
+	else{
 	(*curRes).N = strdup("EMPTY_RESIDUE");
 	(*curRes).n = -100;
 	(*curRes).na = 0;
 	return INWC;
+	}
 	} 
 i--; /* still here? decrement the counter to undo the while loop above */
 
@@ -614,13 +626,16 @@ molecule* getMolecule(void){
   atom* curAtm;// atom* atm;
   //Get all the information for the first molecule
   (*mol).nr = findTotalResidue(i);
+  //printf("the number of residues are %d\n",(*mol).nr);
   (*mol).r = (residue*)calloc((*mol).nr,sizeof(residue));
   //Initialize the residue numbers to -1 so the program knows they're not used yet
   for(j = 0; j < (*mol).nr; j++){(*mol).r[j].n = -1;}
   next_mol_line=getResInfo((*mol).r,i);
+//printf("next_mol_line is %d\n",next_mol_line);
   int l[(*mol).nr];
   for(i = 0; i < (*mol).nr; i++){
-   (*mol).r[i].a = (atom*)calloc((*mol).r[i].na,sizeof(atom));
+   	//printf("the number of atoms are %d\n",(*mol).r[i].na);
+	(*mol).r[i].a = (atom*)calloc((*mol).r[i].na,sizeof(atom));
    l[i] = 0;
   }
   //Set the current residue, and residue index to 0
@@ -630,7 +645,7 @@ molecule* getMolecule(void){
   {
     if(isAtom((ln+i)) == 1)
     {
-/*printf("in loop for isAtom\n");*/
+//printf("in loop for isAtom\n");
       temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&ntX);
       icode  = (*(ln+i)).f[9].c[0]; 
       if(((*curRes).n != ntX)||(icode!=curRes[0].IC[0]))//If the residue numbers do not match
@@ -671,8 +686,11 @@ molecule* getMolecule(void){
       temp  = (*(ln+i)).f[13].c; sscanf(temp,"%lf",&dblY); (*curAtm).x.k = dblY;   
 
       l[rI]++;
+//printf("the current atom's xyz are: %f  %f  %f \n",(*curAtm).x.i,(*curAtm).x.j,(*curAtm).x.k);
     }
   }
+
+//printf("the number of atoms in the molecule's first residue is %d\n",(*mol).r[0].na);
 
  return mol;
 }
