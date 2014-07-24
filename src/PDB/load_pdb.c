@@ -91,6 +91,7 @@ int conect_first=-1,conect_last=-1,tmpi,tmpj;
  for(ai=0;ai<A[0].na;ai++){
   if(A[0].a[ai][0].n<=ncurrent) { badorder = 'y'; }
 /*printf("ncurrent is %d ; n is %d \n",ncurrent,A[0].a[ai][0].n); */
+/*if((A[0].a[ai][0].n-ncurrent)!=1) printf("ncurrent (%d) differs from n (%d) by %d\n",ncurrent,A[0].a[ai][0].n,A[0].a[ai][0].n-ncurrent);*/
   ncurrent=A[0].a[ai][0].n;
   }
  if(badorder=='y')
@@ -117,7 +118,7 @@ ncurrent=0;
    sscanf(ln[li].f[1].c,"%d",&this_n);
    list_loc=-1;
    for(ai=0;ai<ncurrent;ai++) { if(alist[ai]==this_n) list_loc=ai; }
-/*printf("this_n is %d ; list_loc is %d \n",this_n,list_loc); */
+printf("this_n is %d ; list_loc is %d \n",this_n,list_loc); 
    if(list_loc<0)
     { 
     list_loc=ncurrent;
@@ -125,16 +126,16 @@ ncurrent=0;
     alist[list_loc]=this_n;
     llist[list_loc]=li;
     }
-/*printf(" ---  list_loc is %d \n",list_loc); */
+printf(" ---  list_loc is %d \n",list_loc); 
    for(bi=2;bi<15;bi++)
     {
     if(ln[li].f[bi].c==NULL) break;
     tmpi=sscanf(ln[li].f[bi].c,"%d",&tmpj); 
     if(tmpi<=0) { continue; }
-/*printf("\t\ttmpi is %d ; tmpj is %d\n",tmpi,tmpj); */
+printf("\t\ttmpi is %d ; tmpj is %d\n",tmpi,tmpj); 
     bonds[list_loc]++;
     }
-/*printf("\t\tbonds[%d] is  %d\n",list_loc,bonds[list_loc]); */
+printf("\t\tbonds[%d] is  %d\n",list_loc,bonds[list_loc]); 
     conect_last=li;
    }
   }
@@ -144,9 +145,12 @@ ncurrent=0;
 */ 
   for(ai=0;ai<na;ai++) 
    {
+   if(alist[ai]==-1) continue;
    for(ncurrent=0;ncurrent<na;ncurrent++) { blist[ncurrent]=-1; }
    found_a=find_assembly_top_level_atoms_by_n(A,alist[ai]);
-/*printf("found_a.nP is %d and P[0] i-m-r-a is %d-%d-%d-%d \n",found_a.nP,found_a.P[0].i,found_a.P[0].m,found_a.P[0].r,found_a.P[0].a);*/
+printf("found_a.nP is %d and P[0] i-m-r-a is %d-%d-%d-%d n=%d N=%s\n",found_a.nP,\
+	found_a.P[0].i,found_a.P[0].m,found_a.P[0].r,found_a.P[0].a,\
+	A[0].m[found_a.P[0].m][0].r[found_a.P[0].r].a[found_a.P[0].a].n,A[0].m[found_a.P[0].m][0].r[found_a.P[0].r].a[found_a.P[0].a].N);
    if(found_a.nP==0)
     {
     printf("\nBonding specified in file %s for non-existent atom serial number %d\n",file_name,this_n);
@@ -388,11 +392,11 @@ for(i = 0; i < INWC; i++) {
 				is_same_residue='y';
 				temp  = (*(ln+i)).f[8].c; sscanf(temp,"%d",&resNum);
 				temp = (*(ln+i)).f[5].c; sscanf(temp,"%s",resName);
-//printf("0. resnum is %d ; resname is >>%s<< *curres.n is %d ; (*curRes).N is >>%s<<\n",resNum,resName,(*curRes).n,(*curRes).N);
+printf("0. resnum is %d ; resname is >>%s<< *curres.n is %d ; (*curRes).N is >>%s<<\n",resNum,resName,(*curRes).n,(*curRes).N);
 				if((*curRes).n!=resNum){ is_same_residue='n';}
 				if(strcmp((*curRes).N,resName)!=0){ is_same_residue='n';}
 				if((*curRes).IC[0]!=ln[i].f[9].c[0]){ is_same_residue='n';}
-//printf("1. Is same residue = %c\n",is_same_residue);
+printf("1. Is same residue = %c\n",is_same_residue);
 				if(is_same_residue=='n'){ /* try the rest of the residues */
 				Kref=k+1;
 				for(k=Kref;k<(*curMol).nr;k++) {

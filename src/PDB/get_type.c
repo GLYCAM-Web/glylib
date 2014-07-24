@@ -134,7 +134,7 @@ if(strcmp(gca,"MODRES")==0){
 	gtlt.a=2;
 	gtlt.b=10;
 	}  /* MODRES */
-if(strcmp(gca,"MTRIXn")==0){
+if(strncmp(gca,"MTRIXn",5)==0){
 	gtlt.a=2;
 	gtlt.b=11;
 	}  /* MTRIXn */
