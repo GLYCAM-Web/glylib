@@ -386,7 +386,6 @@ for(i = 0; i < INWC; i++) {
 			printf("Got to i=INWC while in a molecule.  Go fix code.\n"); }
 		else { printf("Got to i=INWC for an uncoded value of nr.  Go fix code.\n");}
 		}
-
 	while( (i<INWC) && (in_molecule_switch=='y') ) 
 		{ /* while we are in a molecule */
 /*printf("line %d: >>%s<<\n",i,(*(ln+i)).f[0].c);*/
@@ -397,7 +396,7 @@ for(i = 0; i < INWC; i++) {
 			}
 		else {
 			if(isAtom((ln+i)) == 1) {
-//printf("k = %d ; ka = %d ; j = %d ; i = %d\n",k,ka,j,i);
+//printf("\nTOP:  k = %d ; ka = %d ; j = %d ; i = %d\n",k,ka,j,i);
 				/* Figure out which residue the atom goes in */
 				is_same_residue='y';
 				temp  = ln[i].f[8].c; sscanf(temp,"%d",&resNum);
@@ -420,8 +419,8 @@ printf("   *curres.n is %d ; (*curRes).N is >>%s<< (*curRes).cID is >>%s<< (*cur
 					temp = ln[i].f[5].c; sscanf(temp,"%s",resName);
 					IC = ln[i].f[9].c[0];
 					cID = ln[i].f[7].c[0];
-					if(curRes[0].na==1) break;
 					curRes = &curMol[0].r[k];
+					if(curRes[0].na==1) break;
 /*
 printf("2. resnum is %d ;    resname is >>%s<<     cID is >>%c<<           IC is >>%c<< \n",resNum,resName,cID,IC);
 printf("   *curres.n is %d ; (*curRes).N is >>%s<< (*curRes).cID is >>%s<< (*curRes).IC is >>%s<< \n",(*curRes).n,(*curRes).N,(*curRes).cID,(*curRes).IC);
@@ -452,7 +451,6 @@ printf("\t3. Is same residue (N=%s  n=%d IC=%c cID=%c) = %c\n",(*curRes).N,(*cur
 */
 					if(is_same_residue=='y') { break; }
 					}}
-
 				if(is_same_residue=='n'){mywhine("Can't find residue in load_pdb's getAssembly.");}
 //printf("ni is %d and na is %d \n",(*curRes).ni,(*curRes).na);
 				if((*curRes).ni==(*curRes).na){mywhine("(*curRes).ni==(*curRes).na in getAssembly\n");}
@@ -465,7 +463,9 @@ printf("\t3. Is same residue (N=%s  n=%d IC=%c cID=%c) = %c\n",(*curRes).N,(*cur
 				else{sscanf( (*(ln+i)).f[3].c ,"%s",atmName);}
 				if(((*(ln+i)).f[17].c==NULL)||((*(ln+i)).f[17].c[0]=='\0')){strcpy(atmElem,"  ");}
 				else{sscanf( (*(ln+i)).f[17].c ,"%s",atmElem); }
-/*printf("\t atmName is >>>%s<<< atmElem is >>>%s<<<\n",atmName,atmElem); */
+/*
+printf("\t atmName is >>>%s<<< atmElem is >>>%s<<<\n",atmName,atmElem);
+*/ 
 				//Getting the X, Y and Z coordinates
 				sscanf( (*(ln+i)).f[11].c ,"%lf",&x);
 				sscanf( (*(ln+i)).f[12].c ,"%lf",&y);
@@ -473,19 +473,22 @@ printf("\t3. Is same residue (N=%s  n=%d IC=%c cID=%c) = %c\n",(*curRes).N,(*cur
 				(*curAtm).n = atom_num;//set the atom #
 				(*curAtm).N = strdup(atmName);//set the atom name
 				(*curAtm).E = strdup(atmElem);//set the atom element
-				//Get the chain identifier
-/*				(*curAtm).cID = (char*)calloc(2,sizeof(char));
+				// Record the chain identifier at the atom level
 				if((*(ln+i)).f[7].c!=NULL){
+					(*curAtm).cID=(char*)calloc(2,sizeof(char));
 					(*curAtm).cID[0] = (*(ln+i)).f[7].c[0];
 					(*curAtm).cID[1] = '\0';
 					}
 				else{strcpy((*curAtm).cID," ");}
+/*
+printf("\t the (*curAtm).cID is >>>%s<<< E is >>>%s<<<  the atom serial is %d\n",(*curAtm).cID,(*curAtm).E,(*curAtm).n); 
 */
-/*printf("\t the (*curAtm).cID is >>>%s<<< E is >>>%s<<<\n",(*curAtm).cID,(*curAtm).E); */
 				//set the atom's coordinates
 				(*curAtm).x.i = x; (*curAtm).x.j = y; (*curAtm).x.k = z;
 				(*curAtm).moli.m=j; (*curAtm).moli.r=k; (*curAtm).moli.a=(*curRes).ni;
-				if((*curRes).na!=1) (*curRes).ni++;
+				(*curRes).ni++;
+				if(((*curRes).na==1)&&(k<(*curMol).nr)) { curAtm = (*curRes).a; }
+				if((*curRes).ni==(*curRes).na) (*curRes).ni=0;
 				la++;
 				}
 			}
