@@ -39,6 +39,7 @@ assembly* load_pdb(char* file_name)
   if(find_CONECT=='y')
     { 
     set_assembly_atom_molbonds_from_PDB_CONECT(asmbl, ln, file_name, INWC); 
+
 /* 
  * dropping this because apparently not working...
     for(ma=0;ma<asmbl[0].nm;ma++)
@@ -82,7 +83,9 @@ molecule load_pdb_from_slurp(fileslurp in){
   }
  }
  INWC = in.n;
-// printf("%d\n",INWC);
+/*
+printf("INWC = %d\n",INWC);
+*/
  return (*getMolecule());
 }
 
@@ -93,15 +96,31 @@ char badorder='n';
 molindex_set found_a;
 int this_ai,alist[na],bonds[na],blist[na],llist[na];
 int conect_first=-1,conect_last=-1,tmpi,tmpj;
+int checkNum=34685;
 /*
     0.  Check that atoms are all in order.  Complain if not, but try anyway.
 */
+/*
+printf("A[0].na is %d\n",A[0].na);
+printf("0. A[0].a[checkNum][0].n is %d and (*A).a[checkNum+1][0].n is %d\n",A[0].a[checkNum][0].n,A[0].a[checkNum+1][0].n);
+*/
  for(ai=0;ai<A[0].na;ai++){
-  if(A[0].a[ai][0].n<=ncurrent) { badorder = 'y'; }
-/*printf("ncurrent is %d ; n is %d \n",ncurrent,A[0].a[ai][0].n); */
-/*if((A[0].a[ai][0].n-ncurrent)!=1) printf("ncurrent (%d) differs from n (%d) by %d\n",ncurrent,A[0].a[ai][0].n,A[0].a[ai][0].n-ncurrent);*/
-  ncurrent=A[0].a[ai][0].n;
-  }
+  if(A[0].a[ai][0].n<=ncurrent) 
+	{ 
+
+printf("A[0].a[%d][0].n (%d) is less than ncurrent (%d), and this concerns us\n",ai,A[0].a[ai][0].n,ncurrent);
+
+	badorder = 'y'; 
+	}
+/*
+printf("ncurrent is %d ; n is %d \n",ncurrent,A[0].a[ai][0].n); 
+if((A[0].a[ai][0].n-ncurrent)!=1) printf("ncurrent (%d) differs from n (%d) by %d\n",ncurrent,A[0].a[ai][0].n,A[0].a[ai][0].n-ncurrent);
+*/
+	ncurrent=A[0].a[ai][0].n;
+	}
+/*
+printf("1. A[0].a[checkNum][0].n is %d and (*A).a[checkNum+1][0].n is %d\n",A[0].a[checkNum][0].n,A[0].a[checkNum+1][0].n);
+*/
  if(badorder=='y')
   {
   printf("\nAtoms serials (numbers) in file %s are not in increasing order.\n",file_name);
@@ -117,6 +136,9 @@ for(ai=0;ai<A[0].na;ai++)
 /*
     1.  Find numbers for atoms and number of bonds for each.
 */ 
+/*
+printf("2. A[0].a[checkNum][0].n is %d and (*A).a[checkNum+1][0].n is %d\n",A[0].a[checkNum][0].n,A[0].a[checkNum+1][0].n);
+*/
 ncurrent=0;
  for(li=0;li<nlines;li++)
   {
@@ -147,6 +169,9 @@ ncurrent=0;
     conect_last=li;
    }
   }
+/*
+printf("3. A[0].a[checkNum][0].n is %d and (*A).a[checkNum+1][0].n is %d\n",A[0].a[checkNum][0].n,A[0].a[checkNum+1][0].n);
+*/
 /*printf("conect first/last are:  %d   %d  \n",conect_first,conect_last); */
 /*
     2.  Set atom-level connections.
@@ -210,6 +235,9 @@ ncurrent=0;
     }
    if(list_loc<A[0].a[this_ai][0].nmb){mywhine("list_loc<A[0].a[this_ai][0].nmb in set_assembly_atom_molbonds_from_PDB_CONECT");}
    }
+/*
+printf("4. A[0].a[checkNum][0].n is %d and (*A).a[checkNum+1][0].n is %d\n",A[0].a[checkNum][0].n,A[0].a[checkNum+1][0].n);
+*/
 return;
 }
 
@@ -360,7 +388,9 @@ for(i = 0; i < INWC; i++) {
 		for(ri = 0; ri < (*curMol).nr; ri++){
 			(*curMol).r[ri].a = (atom*) calloc ((*curMol).r[ri].na,sizeof(atom));
 			natoms+=(*curMol).r[ri].na;
-//printf("na is %d for residue %d(ka=%d)\n",(*curMol).r[ri].na,ri,ka);
+/*
+printf("na is %d for residue %d(ka=%d)\n",(*curMol).r[ri].na,ri,ka);
+*/
 			}
 		/* Allocate the top-level atoms and residues for this molecule */
 		(*asmbl).nr+=(*curMol).nr;
@@ -388,7 +418,7 @@ for(i = 0; i < INWC; i++) {
 		}
 	while( (i<INWC) && (in_molecule_switch=='y') ) 
 		{ /* while we are in a molecule */
-/*printf("line %d: >>%s<<\n",i,(*(ln+i)).f[0].c);*/
+		/* 2014-08-29 BLFoley -- fixed logic issues that affected single-atom residues */
 		if(endOfMol((ln+i)) == 1){
 			in_molecule_switch='n';
 			if(next_mol_line!=i) {printf("i is %d and next_mol_line is %d ... should match.\n",i,next_mol_line);}
@@ -396,7 +426,9 @@ for(i = 0; i < INWC; i++) {
 			}
 		else {
 			if(isAtom((ln+i)) == 1) {
-//printf("\nTOP:  k = %d ; ka = %d ; j = %d ; i = %d\n",k,ka,j,i);
+/*
+printf("\nTOP:  k = %d ; ka = %d ; j = %d ; i = %d\n",k,ka,j,i);
+*/
 				/* Figure out which residue the atom goes in */
 				is_same_residue='y';
 				temp  = ln[i].f[8].c; sscanf(temp,"%d",&resNum);
@@ -413,15 +445,14 @@ printf("   *curres.n is %d ; (*curRes).N is >>%s<< (*curRes).cID is >>%s<< (*cur
 				if((*curRes).cID[0]!=cID){ is_same_residue='n';}
 				if(is_same_residue=='n'){ /* try the rest of the residues */
 				Kref=k+1;
+/*
+printf("checking other residues: curRes.na=%d ; i=%d ; Kref=%d \n",curRes[0].na,i,Kref);
+*/
 				for(k=Kref;k<(*curMol).nr;k++) {
 					is_same_residue='y';
-					temp  = ln[i].f[8].c; sscanf(temp,"%d",&resNum);
-					temp = ln[i].f[5].c; sscanf(temp,"%s",resName);
-					IC = ln[i].f[9].c[0];
-					cID = ln[i].f[7].c[0];
 					curRes = &curMol[0].r[k];
-					if(curRes[0].na==1) break;
 /*
+printf("checking the rest of the residues: curMol.nr=%d ; k=%d ; Kref=%d \n",curMol[0].nr,k,Kref);
 printf("2. resnum is %d ;    resname is >>%s<<     cID is >>%c<<           IC is >>%c<< \n",resNum,resName,cID,IC);
 printf("   *curres.n is %d ; (*curRes).N is >>%s<< (*curRes).cID is >>%s<< (*curRes).IC is >>%s<< \n",(*curRes).n,(*curRes).N,(*curRes).cID,(*curRes).IC);
 */
@@ -434,28 +465,46 @@ printf("\t2. Is same residue (N=%s  n=%d IC=%c cID=%c) = %c\n",(*curRes).N,(*cur
 */
 					if(is_same_residue=='y') { break; }
 					}}
+
+
 				if(is_same_residue=='n'){ /* try the first residues */
-				for(k=0;k<Kref;k++) {
+				for(k=0;k<(Kref-1);k++) {
 					is_same_residue='y';
-					temp  = ln[i].f[8].c; sscanf(temp,"%d",&resNum);
-					temp = ln[i].f[5].c; sscanf(temp,"%s",resName);
-					IC = ln[i].f[9].c[0];
-					cID = ln[i].f[7].c[0];
 					curRes = &(*curMol).r[k];
+/*
+printf("checking the first residues: curMol.nr=%d ; k=%d ; Kref=%d \n",curMol[0].nr,k,Kref);
+*/
 					if((*curRes).n!=resNum){ is_same_residue='n';}
 					if(strcmp((*curRes).N,resName)!=0){ is_same_residue='n';}
 					if((*curRes).IC[0]!=IC){ is_same_residue='n';}
 					if((*curRes).cID[0]!=cID){ is_same_residue='n';}
+
 /*
 printf("\t3. Is same residue (N=%s  n=%d IC=%c cID=%c) = %c\n",(*curRes).N,(*curRes).n,(*curRes).IC[0],(*curRes).cID[0],is_same_residue);
 */
+
 					if(is_same_residue=='y') { break; }
 					}}
 				if(is_same_residue=='n'){mywhine("Can't find residue in load_pdb's getAssembly.");}
-//printf("ni is %d and na is %d \n",(*curRes).ni,(*curRes).na);
+/*
+printf("ni is %d and na is %d \n",(*curRes).ni,(*curRes).na);
+*/
 				if((*curRes).ni==(*curRes).na){mywhine("(*curRes).ni==(*curRes).na in getAssembly\n");}
 				curAtm = &(*curRes).a[(*curRes).ni];
 				asmbl[0].a[la] = &(*curRes).a[(*curRes).ni];
+				if(curAtm[0].n!=0)
+					{
+					mywhine("curAtm[0].n!=0 in a place where it really should be.\n");
+/*
+printf("\nWe have a problem:\n");
+printf("\tla=%d ; curRes[0].ni=%d ; k=%d ; ka=%d ; j=%d ; i=%d\n",la,curRes[0].ni,k,ka,j,i);
+printf("ln[i].f[1].c=>>%s<<\n",ln[i].f[1].c);
+printf("\tcurAtm[0].n=%d ; curRes[0].na=%d \n",curAtm[0].n,curRes[0].na);
+printf("\tcurRes[0].n=%d ; curRes[0].IC=>>%s<< ; curRes[0].cID=>>%s<< \n",curRes[0].n,curRes[0].IC,curRes[0].cID);
+fflush(stdout);
+*/
+					}
+
 				//Getting the atom # //
 				sscanf( (*(ln+i)).f[1].c ,"%d",&atom_num);
 				//Getting the atom name //temp  = (*(ln+i)).f[3].c;
@@ -496,9 +545,12 @@ printf("\t the (*curAtm).cID is >>>%s<<< E is >>>%s<<<  the atom serial is %d\n"
 		} /* close while we are in a molecule */
 	j++;
 	}
-/*printf("ka=%d ; (*asmbl).nr=%d ; la=%d ; (*asmbl).na=%d\n",ka,(*asmbl).nr,la,(*asmbl).na);*/
+/*
+printf("ka=%d ; (*asmbl).nr=%d ; la=%d ; (*asmbl).na=%d\n",ka,(*asmbl).nr,la,(*asmbl).na);
+*/
 if((*asmbl).na != la){mywhine("(*asmbl).na != la in load_pdb's getAssembly");}
 if((*asmbl).nr != ka){mywhine("(*asmbl).nr != ka in load_pdb's getAssembly");}
+
 return asmbl;
 }
 
@@ -605,8 +657,10 @@ char IC=' ', cID=' ',is_same='y';
 while( (current_status == 0) && (i<INWC) ){ 
 	current_status = isAtom(ln+i); /* find out if we have an atom line  */
 	i++; } /* if not, check the next line */
-//printf("i is %d  and INWC is %d \n",i,INWC);
-//printf("current ststus is %d\n",current_status);
+/*
+printf("i is %d  and INWC is %d \n",i,INWC);
+printf("current ststus is %d\n",current_status);
+*/
 if(i==INWC){ /* if we got to the end with no atoms */
 //if current status is that we have an atom and i==1 then break
 	if(current_status==1 && i==1){
@@ -631,23 +685,29 @@ while( (i != INWC)  && (endOfMol((ln+i)) == 0) ){
 		if(resNum != (*curRes).n) is_same='n';
 		if((curRes[0].IC==NULL)||(IC!=curRes[0].IC[0])) is_same='n';
 		if((curRes[0].cID==NULL)||(cID!=curRes[0].cID[0])) is_same='n';
-/*printf("resNum is %d and (*curRes).n is %d ; resName is >%s<<\n",resNum,(*curRes).n,resName);*/
-/*printf("**2.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);*/
+/*
+printf("resNum is %d and (*curRes).n is %d ; resName is >%s<<\n",resNum,(*curRes).n,resName);
+printf("**2.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
+*/
 		//If this is a different residue than the one in the previous line
 		/*if((resNum != (*curRes).n)||(curRes[0].IC==NULL)||(IC!=curRes[0].IC[0]))*/
 		if(is_same=='n')
 			{
-/*printf("This residue is different from the previous.  Checking for broken residue.\n");*/
+/*
+printf("This residue is different from the previous.  Checking for broken residue.\n");
+*/
 			curRes = NULL;
 			for(j = 0; j < count; j++){//Cycle through all of the found residues
-				if(((*(res+j)).n==resNum)&&((*(res+j)).IC[0]==IC)){ /* if already seen... */
+				if(((*(res+j)).n==resNum)&&((*(res+j)).IC[0]==IC)&&((*(res+j)).cID[0]==cID)){ /* if already seen... */
 					curRes = (res+j); break;} /* reset residue pointer */
 				} 
 			/* If it is not a known residue, assign it a new slot */
 			if(curRes == NULL || curRes == 0x0){ curRes = (res+count); count++; }
 			}
 		if((*curRes).n < 0) { /* If this residue has not been found yet */
-/*printf("This residue has not been found yet.  Assigning values\n");*/
+/*
+printf("This residue has not been found yet.  Assigning values\n");
+*/
 			if(resName!=NULL){(*curRes).N = strdup(resName);}/* Set the residue name */
 			else{(*curRes).N = strdup("   ");}
 			curRes[0].IC=(char*)calloc(2, sizeof(char));
@@ -660,11 +720,15 @@ while( (i != INWC)  && (endOfMol((ln+i)) == 0) ){
 			(*curRes).na = 0;			/* ...and make sure the total # of atoms is 0 */
 			} /* Otherwise we can assume all of these have already been set */
 			
-/*printf("  -->  resNum is %d and (*curRes).n is %d, (*curRes).na is %d \n",resNum,(*curRes).n,(*curRes).na);*/
-/*printf("**3.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);*/
+/*
+printf("  -->  resNum is %d and (*curRes).n is %d, (*curRes).na is %d \n",resNum,(*curRes).n,(*curRes).na);
+printf("**3.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
+*/
 		(*curRes).na++;
-/*printf(" --> (curRes). n=%d, na=%d, N=%s\n",(*curRes).n,(*curRes).na,(*curRes).N);*/
-/*printf("**4.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);*/
+/*
+printf(" --> (curRes). n=%d, na=%d, N=%s\n",(*curRes).n,(*curRes).na,(*curRes).N);
+printf("**4.  i is %d; atom name is %s; atom number is %s\n",i,(*(ln+i)).f[3].c,(*(ln+i)).f[1].c);
+*/
 		}//End if an atom 
 	i++; //..and then incriment to the next line
 	} //End loop through file
