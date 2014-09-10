@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file  mylib.h
 \brief generic header file that loads utilities often needed by programmers
 
@@ -28,12 +31,15 @@ Some libraries that are often needed
 #include <general.h>
 //#include <gly_fileutils.h> // included in general.h
 //#include <gly_codeutils.h> // included in general.h
-
+    
 /**
 Defines that are are only needed for some specialized circumstances
 */
-#define _GNU_SOURCE
+//#define _GNU_SOURCE
 
 /** @}*/
 
+#endif
+#ifdef __cplusplus
+}
 #endif

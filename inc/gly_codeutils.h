@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file  gly_codeutils.h
 \brief Header file that loads utilities to facilitate programming
 */
@@ -83,4 +86,7 @@ const char * get_exp_string(double x, char j, int w, int d);
 
 /** @}*/
 
+#endif
+#ifdef __cplusplus
+}
 #endif

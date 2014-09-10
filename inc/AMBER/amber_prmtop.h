@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file amber_prmtop.h Header file for functions that read amber prmtop 
  * files into the GLYLIB structures
 
@@ -27,4 +30,7 @@ void add_trajcrds_to_prmtop_assembly(
 void deallocateAmberPrmtopSection(amber_prmtop_section *aps);
 void deallocateAmberPrmtop(amber_prmtop *ap);
 
+#endif
+#ifdef __cplusplus
+}
 #endif

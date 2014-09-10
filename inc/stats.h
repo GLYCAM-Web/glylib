@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file  stats.h  
 \brief Statistics utilities for glylib.
 
@@ -38,4 +41,7 @@ autocorr init_autocorr(); // for dynamic allocations
 autocorr get_autocorr_est_array(statsarray S,meanvar M);
 /** @}*/
 
+#endif
+#ifdef __cplusplus
+}
 #endif

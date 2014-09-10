@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file structures.h 
 \brief Very poorly named file containing structures
 pertinent to the loading of pdb files.  Recommend name change.
@@ -77,4 +80,7 @@ linedef *ln;
 queery_set QS; //only one allowed currently
 /** @}*/
 
+#endif
+#ifdef __cplusplus
+}
 #endif

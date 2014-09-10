@@ -69,7 +69,7 @@ return;
 */
 void set_molecule_residue_nodes_from_bonds(molecule *m)
 {
-int ri,finished;
+int ri;
 char ensisame='y';
 m[0].rT=(residue_node*)calloc(m[0].nr,sizeof(residue_node));
 for(ri=0;ri<m[0].nr;ri++) 
@@ -93,7 +93,7 @@ if(m[0].nr==1)
     return;
     }
 m[0].rT[0].isorigin='Y';
-finished = follow_molecule_residue_nodes_from_bonds(m, 0, &m[0].r[0]);
+follow_molecule_residue_nodes_from_bonds(m, 0, &m[0].r[0]);
 return;
 }
 int follow_molecule_residue_nodes_from_bonds(molecule *m, int iTree, residue *r)
@@ -232,7 +232,7 @@ return finished;
 
 void set_residue_atom_nodes_from_bonds(residue *r)
 {
-int ai,finished=0;
+int ai;
 char ensisame='y';
 r[0].aT=(atom_node*)calloc(r[0].na,sizeof(atom_node));
 for(ai=0;ai<r[0].na;ai++) 
@@ -256,7 +256,7 @@ if(r[0].na==1)
     return;
     }
 r[0].aT[0].isorigin='Y';
-finished = follow_residue_atom_nodes_from_bonds(r, 0, &r[0].a[0]);
+follow_residue_atom_nodes_from_bonds(r, 0, &r[0].a[0]);
 return;
 }
 int follow_residue_atom_nodes_from_bonds(residue *r, int iTree, atom *a)
@@ -386,7 +386,7 @@ return finished;
 
 void set_molecule_atom_nodes_from_bonds(molecule *m)
 {
-int ri,ai,na=0,aai,finished=0;
+int ri,ai,na=0,aai;
 char ensisame='y'; 
 
 for(ri=0;ri<m[0].nr;ri++)
@@ -427,7 +427,7 @@ if(m[0].na==1)
     return;
     }
 m[0].aT[0].isorigin='Y';
-finished = follow_molecule_atom_nodes_from_bonds(m, 0, &m[0].r[0].a[0]);
+follow_molecule_atom_nodes_from_bonds(m, 0, &m[0].r[0].a[0]);
 return;
 }
 

@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file molecules.h
 \brief  Header file for molecule structures 
 
@@ -607,4 +610,7 @@ void add_assembly_to_ensemble(
         );
 /** @}*/
 
+#endif
+#ifdef __cplusplus
+}
 #endif

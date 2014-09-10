@@ -6,6 +6,9 @@
 #include "AMBER/amber_prmtop.h"
 #include "gly_codeutils.h"
 
+int compare_array_ws(int ai, char **a, char *PRUNED, char *flag, int bi); // Function which checks for whitespace in an array and removes it to compare the length to its expected(true) length 
+int count_array_nws(int ai, char **a, char *PRUNED, char *flag); // Function to return the number of non-whitespace elements in an array - no comparison to other numbers
+
 assembly parse_amber_prmtop(amber_prmtop *P){
 assembly A;
 int *ICO,nICO;
@@ -17,60 +20,10 @@ molbond *MB,*MBTMP;
 angle_index *MANG;
 torsion_index *MTOR;
 molindex *MOLI,*MOLBNDI; // MOLI for here, MOLBNDI for assigning molecules
-char **ATNAME,**TREECLASS,*RADTYPE,tmp[80],*PRUNED;
+char **ATNAME,**TREECLASS,tmp[80],*PRUNED;
 double *R,*SC,*MASS; // radii and screening constants for IS, atom masses
 
-int compare_array_ws(int ai, char **a, char *flag, int bi){ // Function which checks for whitespace in an array and removes it to compare the length to its expected(true) length 
-/*	printf("ai is %d\n",ai);
-	printf("a[0] is %s\n",a[0]);
-	printf("flag is %s\n",flag);
-	printf("bi is %d\n",bi);
-*/
-	int ntrue=0,nwhitemid=0,i=0;// ntrue is the number of non-whitespace fields, nwhitemid is the number of non-terminal whitespace residues (>0 will cause error)
-	for(i=0;i<ai;i++){
-		PRUNED=strdup(prune_string_whitespace(a[i])); // Remove whitespace from array elements
-		if(PRUNED[0]!='\0'){ // Check for only a string terminator
-			if(ntrue==bi){ // Check that ntrue never exceeds the expected number of elements (otherwise exit with an error)
-	                        printf("ERROR: The declared number of components, %d, in FLAG %s does not equal the number found, %d!\n",(ntrue+1),flag,bi);
-				mywhine("\tExiting for an unequal number of elements between expected and found.\n");
-				}
-			if(i>(ntrue+nwhitemid)){ nwhitemid++; } // Increment the non-terminal whitespace index (note that consecutive non-terminal whitespaces are counted as 1)
-			ntrue++;
-			}
-		free(PRUNED);
-		}
-	if(ntrue!=ai){ // Test if the expected (ai) value does not equal the whitespace-removed value
-		printf("WARNING: Found whitespace at flag %s\n",flag);
-		printf("\tFound %d total",(ai-ntrue));
-			if(nwhitemid>0){
-				printf(" and at least %d non-terminal whitespace(s).\nFATAL WARNING: Non-terminal whitespace(s) can allow for mis-assignment of topology components!\n\tCheck that your topology file is correctly built.\n",nwhitemid);
-				mywhine("\tExiting because non-terminal whitespace found.\n");
-				}
-			else{ printf(" terminal whitespace(s).\n\tIgnoring whitespace(s).\n");}
-		}
-	return(ntrue);
-	}
-
-int count_array_nws(int ai, char **a, char *flag){ // Function to return the number of non-whitespace elements in an array - no comparison to other numbers
-        int ntrue=0,nwhitemid=0,i=0;// ntrue is the number of non-whitespace fields, nwhitemid is the number of non-terminal whitespace residues (>0 will cause error)
-        for(i=0;i<ai;i++){
-                PRUNED=strdup(prune_string_whitespace(a[i])); // Removing whitespace from the read-in data at position pb 
-                if(PRUNED[0]!='\0'){ // Not whitespace
-                        if(i>(ntrue+nwhitemid)){ nwhitemid++; } // Increment the number of non-terminal whitespaces
-                        ntrue++;
-                        }
-                free(PRUNED);
-                }
-        if(ntrue!=ai){
-                printf("WARNING: Found whitespace at flag %s\n",flag);
-                printf("\tFound %d total",(ai-ntrue));
-                        if(nwhitemid>0){printf(" and at least %d non-terminal whitespace(s).\nFATAL WARNING: Non-terminal whitespace(s) can allow for mis-assignment of topology components!\n\tCheck that your topology file is correctly built.\n",nwhitemid);}
-                        else{printf(" terminal whitespace(s).\n");}
-                printf("\tIgnoring whitespace(s).\n");
-                }
-	return(ntrue);
-	}
-
+//char *RADTYPE;
 //fileset F;
 //amber_prmtop *aprm;
 
@@ -240,7 +193,7 @@ if(strcmp(P[0].S[pa].N,"ATOM_NAME")==0){ // these eventually go into the molecul
   	P[0].IGRAPH=pa; // IGRAPH : the user atoms names 
 	P[0].S[pa].is_standard=0; // set as a standard section
 	// for now, add these to the straight list of Assembly atoms
-	compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
+	compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.na);
 	for(pb=0;pb<A.na;pb++){
 		sscanf(P[0].S[pa].D[pb],"%s",tmp);
 		A.a[pb][0].N=(char*)calloc((strlen(tmp)+1),sizeof(char));
@@ -253,7 +206,7 @@ if(strcmp(P[0].S[pa].N,"ATOM_NAME")==0){ // these eventually go into the molecul
 if(strcmp(P[0].S[pa].N,"CHARGE")==0){ // these go with each atom
   	P[0].CHRG   =pa; // CHRG   : the atom charges.  
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.na);
 	for(pb=0;pb<A.na;pb++){
 		A.a[pb][0].nch=1;
 		A.a[pb][0].ch=(double*)calloc(1,sizeof(double));
@@ -265,7 +218,7 @@ if(strcmp(P[0].S[pa].N,"CHARGE")==0){ // these go with each atom
 if(strcmp(P[0].S[pa].N,"MASS")==0){ // with each atom
   	P[0].AMASS  =pa; // AMASS  : the atom masses 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.na);
 	MASS=(double*)calloc(A.na,sizeof(double));
 	for(pb=0;pb<A.na;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&A.a[pb][0].m); }
 	// for(pb=0;pb<A.na;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&MASS[pb]); } // before m in atom struct
@@ -275,7 +228,7 @@ if(strcmp(P[0].S[pa].N,"MASS")==0){ // with each atom
 if(strcmp(P[0].S[pa].N,"ATOM_TYPE_INDEX")==0){ // into the atype structure
   	P[0].IAC    =pa; // IAC    : index for the atom types involved in Lennard Jones (6-12) 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.na);
 	for(pb=0;pb<A.na;pb++){
 		sscanf(P[0].S[pa].D[pb],"%d",&A.a[pb][0].t);
 		A.a[pb][0].t--;
@@ -295,7 +248,7 @@ if(strcmp(P[0].S[pa].N,"NUMBER_EXCLUDED_ATOMS")==0){ // unused for now (20080612
 if(strcmp(P[0].S[pa].N,"NONBONDED_PARM_INDEX")==0){ // 
   	P[0].ICO    =pa; // ICO    : provides the index to the nonbon parameter
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,nICO);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,nICO);
 	for(pb=0;pb<nICO;pb++){sscanf(P[0].S[pa].D[pb],"%d",&ICO[pb]);}
            	// arrays CN1, CN2 and ASOL, BSOL.  All possible 6-12
            	// or 10-12 atoms type interactions are represented.
@@ -341,7 +294,7 @@ if(strcmp(P[0].S[pa].N,"RESIDUE_LABEL")==0){ // names of residues
 if(strcmp(P[0].S[pa].N,"RESIDUE_ID")==0){// ?? Presumably residue numbers, will store there
 	P[0].IRES =pa; // START HERE -- this is probably the wrong name!!!!!
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.nr);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.nr);
 	for(pb=0;pb<A.nr;pb++){sscanf(P[0].S[pa].D[pb],"%d",&A.r[pb][0].n);}
 }
 // FORMAT(12I6)  (IPRES(i), i=1,NRES)
@@ -349,7 +302,7 @@ if(strcmp(P[0].S[pa].N,"RESIDUE_POINTER")==0){ // for adding atoms to residues
   	P[0].IPRES  =pa; // IPRES  : atoms in each residue are listed for atom "i" in
 	P[0].S[pa].is_standard=0; // set as a standard section
 	pc=0;
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.nr);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.nr);
 	for(pb=0;pb<(A.nr-1);pb++){
 		sscanf(P[0].S[pa].D[pb+1],"%d",&NextRes);
 		NextRes-=1;
@@ -387,7 +340,7 @@ if(strcmp(P[0].S[pa].N,"RESIDUE_POINTER")==0){ // for adding atoms to residues
 if(strcmp(P[0].S[pa].N,"BOND_FORCE_CONSTANT")==0){ // 
   	P[0].RK     =pa; // RK     : force constant for the bonds of each type, kcal/mol 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nBT);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.PRM[0][0].nBT);
 	for(pb=0;pb<A.PRM[0][0].nBT;pb++){
 		sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].BT[pb].k);
 		}
@@ -396,28 +349,28 @@ if(strcmp(P[0].S[pa].N,"BOND_FORCE_CONSTANT")==0){ //
 if(strcmp(P[0].S[pa].N,"BOND_EQUIL_VALUE")==0){
   	P[0].REQ    =pa; // REQ    : the equilibrium bond length for the bonds of each type, angstroms 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nBT);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.PRM[0][0].nBT);
 	for(pb=0;pb<A.PRM[0][0].nBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].BT[pb].l);}
 }
 // FORMAT(5E16.8)  (TK(i), i=1,NUMANG)
 if(strcmp(P[0].S[pa].N,"ANGLE_FORCE_CONSTANT")==0){
   	P[0].TK     =pa; // TK     : force constant for the angles of each type, kcal/mol A**2 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nANT);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.PRM[0][0].nANT);
 	for(pb=0;pb<A.PRM[0][0].nANT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].ANT[pb].k);}
 }
 // FORMAT(5E16.8)  (TEQ(i), i=1,NUMANG)
 if(strcmp(P[0].S[pa].N,"ANGLE_EQUIL_VALUE")==0){
   	P[0].TEQ    =pa; // TEQ    : the equilibrium angle for the angles of each type, radians 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nANT);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.PRM[0][0].nANT);
 	for(pb=0;pb<A.PRM[0][0].nANT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].ANT[pb].l);}
 }
 // FORMAT(5E16.8)  (PK(i), i=1,NPTRA)
 if(strcmp(P[0].S[pa].N,"DIHEDRAL_FORCE_CONSTANT")==0){
   	P[0].PK     =pa; // PK     : force constant for the dihedrals of each type, kcal/mol 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nTRT);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.PRM[0][0].nTRT);
 	for(pb=0;pb<A.PRM[0][0].nTRT;pb++){
 		if(A.PRM[0][0].TRT[pb].n>1){mywhine("A.PRM[0][0].TRT[pb].n>1 in parse_amber_prmtop!");}
 		A.PRM[0][0].TRT[pb].n=1;
@@ -429,7 +382,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRAL_FORCE_CONSTANT")==0){
 if(strcmp(P[0].S[pa].N,"DIHEDRAL_PERIODICITY")==0){
   	P[0].PN     =pa; // PN     : periodicity of the dihedral of a given type 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nTRT);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.PRM[0][0].nTRT);
 	for(pb=0;pb<A.PRM[0][0].nTRT;pb++){
 		if(A.PRM[0][0].TRT[pb].n>1){mywhine("A.PRM[0][0].TRT[pb].n>1 in parse_amber_prmtop!");}
 		A.PRM[0][0].TRT[pb].n=1;
@@ -441,7 +394,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRAL_PERIODICITY")==0){
 if(strcmp(P[0].S[pa].N,"DIHEDRAL_PHASE")==0){
   	P[0].PHASE  =pa; // PHASE  : phase of the dihedral of a given type, radians 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nTRT);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.PRM[0][0].nTRT);
 	for(pb=0;pb<A.PRM[0][0].nTRT;pb++){
 		if(A.PRM[0][0].TRT[pb].n>1){mywhine("A.PRM[0][0].TRT[pb].n>1 in parse_amber_prmtop!");}
 		A.PRM[0][0].TRT[pb].n=1;
@@ -458,7 +411,7 @@ if(strcmp(P[0].S[pa].N,"SOLTY")==0){ // not much to do here at the moment, no wh
 if(strcmp(P[0].S[pa].N,"LENNARD_JONES_ACOEF")==0){
  	P[0].CN1    =pa; // CN1    : Lennard Jones r**12 terms for all possible atom type
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nNBT);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.PRM[0][0].nNBT);
 	// record the LJ parameters to the bond type info
 	for(pb=0;pb<A.PRM[0][0].nNBT;pb++){ sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].NBT[pb].LJ12_612); }
            	// interactions, indexed by ICO and IAC; for atom i and j
@@ -470,7 +423,7 @@ if(strcmp(P[0].S[pa].N,"LENNARD_JONES_ACOEF")==0){
 if(strcmp(P[0].S[pa].N,"LENNARD_JONES_BCOEF")==0){
   	P[0].CN2    =pa; // CN2    : Lennard Jones r**6 terms for all possible atom type
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.PRM[0][0].nNBT);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.PRM[0][0].nNBT);
 	for(pb=0;pb<A.PRM[0][0].nNBT;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&A.PRM[0][0].NBT[pb].LJ6_612);}
            	// interactions.  Indexed like CN1 above.  
 }
@@ -488,7 +441,7 @@ if(strcmp(P[0].S[pa].N,"BONDS_INC_HYDROGEN")==0){
   	P[0].JBH    =pa; // JBH    : atom involved in bond "i", bond contains hydrogen
   	P[0].ICBH   =pa; // ICBH   : index into parameter arrays RK and REQ 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(3*P[0].NBONH));
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,(3*P[0].NBONH));
 	for(pb=0;pb<P[0].NBONH;pb++){
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[3*pb],"%d",&pA1);
@@ -520,7 +473,7 @@ if(strcmp(P[0].S[pa].N,"BONDS_WITHOUT_HYDROGEN")==0){
   	P[0].ICB    =pa; // ICB    : index into parameter arrays RK and REQ 
 	P[0].S[pa].is_standard=0; // set as a standard section
 	//for(pb=P[0].NBONH;pb<(P[0].NBONH+P[0].MBONA);pb++) // save this line for use later...
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(3*P[0].MBONA));
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,(3*P[0].MBONA));
 	for(pb=0;pb<P[0].MBONA;pb++){ // save this line for use later...
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[3*pb],"%d",&pA1);
@@ -554,7 +507,7 @@ if(strcmp(P[0].S[pa].N,"ANGLES_INC_HYDROGEN")==0){
   	P[0].KTH    =pa; // KTH    : atom involved in angle "i", angle contains hydrogen
   	P[0].ICTH   =pa; // ICTH   : index into parameter arrays TK and TEQ for angle
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(4*P[0].NTHETH));
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,(4*P[0].NTHETH));
 	for(pb=0;pb<P[0].NTHETH;pb++){ // angles with hydrogen
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[4*pb],"%d",&pA1);
@@ -590,7 +543,7 @@ if(strcmp(P[0].S[pa].N,"ANGLES_WITHOUT_HYDROGEN")==0){
   	P[0].KT     =pa; // KT     : atom involved in angle "i", angle does not contain hydrogen
   	P[0].ICT    =pa; // ICT    : index into parameter arrays TK and TEQ for angle
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(4*P[0].MTHETA));
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,(4*P[0].MTHETA));
 	for(pb=0;pb<P[0].MTHETA;pb++){ // angles without hydrogen
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[4*pb],"%d",&pA1);
@@ -627,7 +580,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRALS_INC_HYDROGEN")==0){
   	P[0].LPH    =pa; // LPH    : atom involved in dihedral "i", dihedral contains hydrogen
   	P[0].ICPH   =pa; // ICPH   : index into parameter arrays PK, PN, and PHASE for
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(5*P[0].NPHIH));
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,(5*P[0].NPHIH));
 	for(pb=0;pb<P[0].NPHIH;pb++){ // dihedrals with hydrogen
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[5*pb],"%d",&pA1);
@@ -670,7 +623,7 @@ if(strcmp(P[0].S[pa].N,"DIHEDRALS_WITHOUT_HYDROGEN")==0){
   	P[0].LP     =pa; // LP     : atom involved in dihedral "i", dihedral does not contain hydrogen
   	P[0].ICP    =pa; // ICP    : index into parameter arrays PK, PN, and PHASE for
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,(5*P[0].MPHIA));
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,(5*P[0].MPHIA));
 	for(pb=0;pb<P[0].MPHIA;pb++){ // dihedrals with hydrogen
 		// read in the values from the section structure
 		sscanf(P[0].S[pa].D[5*pb],"%d",&pA1);
@@ -720,7 +673,7 @@ if(strcmp(P[0].S[pa].N,"EXCLUDED_ATOMS_LIST")==0){  // Not currently stored so n
            	// excluded atoms are NATEX(IEXCL) to NATEX(IEXCL+NUMEX(i)).  
 // FORMAT(5E16.8)  (ASOL(i), i=1,NPHB)
 if(strcmp(P[0].S[pa].N,"HBOND_ACOEF")==0){
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,P[0].NPHB);// NOTE: Not sure if these values match - no files to compare to, MBT 2010-10-26
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,P[0].NPHB);// NOTE: Not sure if these values match - no files to compare to, MBT 2010-10-26
   	P[0].ASOL   =pa; // ASOL   : the value for the r**12 term for hydrogen bonds of all
 	P[0].S[pa].is_standard=0; // set as a standard section
 	if(P[0].NPHB>0){
@@ -735,7 +688,7 @@ if(strcmp(P[0].S[pa].N,"HBOND_ACOEF")==0){
            	// ICO(NTYPES*(IAC(i)-1+IAC(j)).  
 // FORMAT(5E16.8)  (BSOL(i), i=1,NPHB)
 if(strcmp(P[0].S[pa].N,"HBOND_BCOEF")==0){
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,P[0].NPHB);// NOTE: Not sure if these values match - no files to compare to, MBT 2010-10-26
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,P[0].NPHB);// NOTE: Not sure if these values match - no files to compare to, MBT 2010-10-26
   	P[0].BSOL   =pa; // BSOL   : the value for the r**10 term for hydrogen bonds of all
 	P[0].S[pa].is_standard=0; // set as a standard section
 	if(P[0].NPHB>0){
@@ -756,7 +709,7 @@ if(strcmp(P[0].S[pa].N,"AMBER_ATOM_TYPE")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
 	// Can't assume we've already read in the type numbers...
 	// read one per each atom, just like it is in the file
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.na);
 	ATNAME=(char**)calloc(A.na,sizeof(char*));
 	for(pb=0;pb<A.na;pb++){
 		ATNAME[pb]=(char*)calloc(P[0].S[pa].nc+1,sizeof(char));
@@ -767,7 +720,7 @@ if(strcmp(P[0].S[pa].N,"AMBER_ATOM_TYPE")==0){
 if(strcmp(P[0].S[pa].N,"TREE_CHAIN_CLASSIFICATION")==0){
   	P[0].ITREE  =pa; // ITREE  : the list of tree joining information, classified into five
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.na);
 	TREECLASS=(char**)calloc(A.na,sizeof(char*));
 	for(pb=0;pb<A.na;pb++){
 		TREECLASS[pb]=(char*)calloc(P[0].S[pa].nc+1,sizeof(char));
@@ -796,7 +749,7 @@ if(strcmp(P[0].S[pa].N,"SOLVENT_POINTERS")==0){
   	P[0].NSPM   =pa; // NSPM   : total number of molecules
   	P[0].NSPSOL =pa; // NSPSOL : the first solvent "molecule" 
 	P[0].S[pa].is_standard=0; // set as a standard section
-        ntrue=count_array_nws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N);
+        ntrue=count_array_nws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N);
 	if(ntrue==3){
 		sscanf(P[0].S[pa].D[0],"%d",&IPTRES);
 		sscanf(P[0].S[pa].D[1],"%d",&NSPM);
@@ -818,7 +771,7 @@ if(strcmp(P[0].S[pa].N,"BOX_DIMENSIONS")==0){
   	P[0].BETA   =pa; // BETA   : periodic box, angle between the XY and YZ planes in degrees.
   	P[0].BOX    =pa; // BOX    : the periodic box lengths in the X, Y, and Z directions 
 	P[0].S[pa].is_standard=0; // set as a standard section
-	ntrue=count_array_nws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N); // Non-comparative whitespace check
+	ntrue=count_array_nws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N); // Non-comparative whitespace check
 // Checks for box definitions
 	if(P[0].IFBOX==1 && ntrue==4){ // Cubic box definition from the header
                 sscanf(P[0].S[pa].D[0],"%lf",&A.BOX[0].C[0].D[0]); ///< Record value of BETA
@@ -847,18 +800,18 @@ if(strcmp(P[0].S[pa].N,"CAP_INFO2")==0){ // not putting this in quite yet, no wh
 }
 if(strcmp(P[0].S[pa].N,"RADIUS_SET")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
-	ntrue=count_array_nws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N); // Non-comparative whitespace check
-	if(ntrue>0){RADTYPE=strdup(P[0].S[pa].D[0]);}
+	ntrue=count_array_nws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N); // Non-comparative whitespace check
+	//if(ntrue>0){RADTYPE=strdup(P[0].S[pa].D[0]);}
 }
 if(strcmp(P[0].S[pa].N,"RADII")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.na);
 	R=(double*)calloc(A.na,sizeof(double));
 	for(pb=0;pb<A.na;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&R[pb]);}
 }
 if(strcmp(P[0].S[pa].N,"SCREEN")==0){
 	P[0].S[pa].is_standard=0; // set as a standard section
-        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,P[0].S[pa].N,A.na);
+        compare_array_ws(P[0].S[pa].nt,P[0].S[pa].D,PRUNED,P[0].S[pa].N,A.na);
 	SC=(double*)calloc(A.na,sizeof(double));
 	for(pb=0;pb<A.na;pb++){sscanf(P[0].S[pa].D[pb],"%lf",&SC[pb]);}
 }
@@ -1200,7 +1153,6 @@ printf("\t\t\tTo %s (atom number %d)\n",A.m[tm][0].r[tr].a[ta].N,A.m[tm][0].r[tr
 }
 */
 
-
 // One day when we know how the connection tree will be structured:
 // -- set local torsions and angles
 // -- set connection tree after all that...
@@ -1229,4 +1181,56 @@ if(TREECLASS!=NULL){free(TREECLASS);}
 return A;
 }
 
+int compare_array_ws(int ai, char **a, char *PRUNED, char *flag, int bi)
+{
+/*	printf("ai is %d\n",ai);
+	printf("a[0] is %s\n",a[0]);
+	printf("flag is %s\n",flag);
+	printf("bi is %d\n",bi);
+*/
+	int ntrue=0,nwhitemid=0,i=0;// ntrue is the number of non-whitespace fields, nwhitemid is the number of non-terminal whitespace residues (>0 will cause error)
+	for(i=0;i<ai;i++){
+		PRUNED=strdup(prune_string_whitespace(a[i])); // Remove whitespace from array elements
+		if(PRUNED[0]!='\0'){ // Check for only a string terminator
+			if(ntrue==bi){ // Check that ntrue never exceeds the expected number of elements (otherwise exit with an error)
+	                        printf("ERROR: The declared number of components, %d, in FLAG %s does not equal the number found, %d!\n",(ntrue+1),flag,bi);
+				mywhine("\tExiting for an unequal number of elements between expected and found.\n");
+				}
+			if(i>(ntrue+nwhitemid)){ nwhitemid++; } // Increment the non-terminal whitespace index (note that consecutive non-terminal whitespaces are counted as 1)
+			ntrue++;
+			}
+		free(PRUNED);
+		}
+	if(ntrue!=ai){ // Test if the expected (ai) value does not equal the whitespace-removed value
+		printf("WARNING: Found whitespace at flag %s\n",flag);
+		printf("\tFound %d total",(ai-ntrue));
+			if(nwhitemid>0){
+				printf(" and at least %d non-terminal whitespace(s).\nFATAL WARNING: Non-terminal whitespace(s) can allow for mis-assignment of topology components!\n\tCheck that your topology file is correctly built.\n",nwhitemid);
+				mywhine("\tExiting because non-terminal whitespace found.\n");
+				}
+			else{ printf(" terminal whitespace(s).\n\tIgnoring whitespace(s).\n");}
+		}
+return(ntrue);
+}
+
+
+int count_array_nws(int ai, char **a, char *PRUNED, char *flag){ 
+        int ntrue=0,nwhitemid=0,i=0;// ntrue is the number of non-whitespace fields, nwhitemid is the number of non-terminal whitespace residues (>0 will cause error)
+        for(i=0;i<ai;i++){
+                PRUNED=strdup(prune_string_whitespace(a[i])); // Removing whitespace from the read-in data at position pb 
+                if(PRUNED[0]!='\0'){ // Not whitespace
+                        if(i>(ntrue+nwhitemid)){ nwhitemid++; } // Increment the number of non-terminal whitespaces
+                        ntrue++;
+                        }
+                free(PRUNED);
+                }
+        if(ntrue!=ai){
+                printf("WARNING: Found whitespace at flag %s\n",flag);
+                printf("\tFound %d total",(ai-ntrue));
+                        if(nwhitemid>0){printf(" and at least %d non-terminal whitespace(s).\nFATAL WARNING: Non-terminal whitespace(s) can allow for mis-assignment of topology components!\n\tCheck that your topology file is correctly built.\n",nwhitemid);}
+                        else{printf(" terminal whitespace(s).\n");}
+                printf("\tIgnoring whitespace(s).\n");
+                }
+	return(ntrue);
+	}
 

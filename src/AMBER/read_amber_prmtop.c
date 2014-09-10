@@ -16,7 +16,7 @@
  * BUT, it should be otherwise empty  */
 void read_amber_prmtop_asis(fileset F,amber_prmtop *P){
 int aa=0,anl=0,sec=0,ent=0,fld=0; // generic, line, section, entry & field counters
-int newflag=0,newline=0,iseof=1; // utility flags
+int newflag=0,newline=0; // utility flags
 char line[501],over[501],tmp[81],*s1,*s2,*fgets_check; 
 fpos_t line_current;
 
@@ -199,7 +199,6 @@ while(newline!=0){
 	if(newflag==-1){break;}
 	if(fgets(line,500,F.F)==NULL){ 
 		if(fgetc(F.F)==EOF){
-			iseof=1;
 			newflag=-1;
 			break;}
 		else{read_fneek("Problem in FLAG line read read_amber_prmtop",anl,0,F.N);}

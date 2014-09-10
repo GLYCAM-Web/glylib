@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file read_prep.h Header file for function read_prep that reads the 
 contents of a prep file into an existing molecule structure 
 
@@ -52,4 +55,7 @@ void read_prep(molecule *M, fileset F, types *TYP);
 residue read_prepres(fileset F, types *TYP);
 atom read_prepatom(const char *line, types *TYP);
 
+#endif
+#ifdef __cplusplus
+}
 #endif

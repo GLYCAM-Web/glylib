@@ -1,6 +1,12 @@
 /** \file add_to_moiety_selection.c  Parses input string and adds selection to 
 	a "moiety_selection" structure.
 
+
+This has been inactivated because it uses the word "class" as a variable.
+That prevents g++ from compiling it.  Rewrite it or remove it.
+
+
+
 This function might not be complete -- it is being written for a certain project,
 and should be expanded as needed.
 

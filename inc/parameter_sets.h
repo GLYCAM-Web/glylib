@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file parameter_sets.h 
 \brief Structures for adding parameters to ensembles and assemblies.
 
@@ -154,4 +157,7 @@ typedef struct {
 } parameter_set;
 /** @}*/
 
+#endif
+#ifdef __cplusplus
+}
 #endif

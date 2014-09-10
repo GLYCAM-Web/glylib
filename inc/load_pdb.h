@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file  load_pdb.h
 \brief  Header file for loading pdb files into structures.
 
@@ -47,4 +50,7 @@ int LASTRES,LASTOKX,LASTOKY,LASTOKZ;
 float UNCTOL,CRYX,CRYY,CRYZ,LASTX,LASTY,LASTZ;
 int DEBUG;
 /** @}*/
+#endif
+#ifdef __cplusplus
+}
 #endif

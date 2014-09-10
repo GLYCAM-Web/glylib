@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /* \file geometries.h 
 \brief Purpose: structures related to geometries of molecules,
 	residues, atoms, etc.  Loaded when molecules.h is included.
@@ -163,4 +166,7 @@ void orient_coords2_to_coords1_dp_list(coord_3D **coords, int num_coords,
           coord_3D *tor_atom_b, coord_3D *ref_atom_b, double omega);
 /** @}*/
 
+#endif
+#ifdef __cplusplus
+}
 #endif

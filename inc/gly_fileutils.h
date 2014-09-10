@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file  gly_fileutils.h
 \brief header file that loads utilities related to file I/O
 */
@@ -117,4 +120,7 @@ gly_keysvals get_keysvals_from_file(fileset F, const char *SEP, int newline_sep,
 */
 void deallocateFileslurp(fileslurp *F);
 
+#endif
+#ifdef __cplusplus
+}
 #endif

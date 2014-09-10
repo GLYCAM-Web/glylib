@@ -57,6 +57,6 @@ dirstr=(char*)calloc(sz,sizeof(char));
 while(getcwd(dirstr, 250)==NULL){
 	if(sz>5000) {mywhine("Unbelievably long (> 5000 chars) current working directory string\n\tfound in gly_get_current_working_directory.");}
 	sz+=50;
-	dirstr=realloc(dirstr,sz*(sizeof(char))); } 
+	dirstr=(char*)realloc(dirstr,sz*(sizeof(char))); } 
 return dirstr;
 }

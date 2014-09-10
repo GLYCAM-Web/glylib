@@ -9,7 +9,8 @@ void rwm_line(int rwmln){
 int rwmdone=0, rwma=0, rwmb=0, rwmstop=-1, rwmmt=-1, rwmnl=-1;
 int shortline=-1;
 linetype rwmlt;
-char rwmaCL='I',rwmaRN='I',rwmtest='\0';
+//char rwmaCL='I',rwmaRN='I';
+char rwmtest='\0';
 /* Read in first six characters and determine line type */
 if(DEBUG>=1){printf("rwm_line 1\n");}
 for(rwma=0;rwma<6;rwma++){
@@ -60,11 +61,11 @@ if(DEBUG>=1){printf("rwmlt.a is %d and rwmlt.b is %d\n",rwmlt.a,rwmlt.b);}
 /* If get_type returned a valid class: */
 
 
-if(rwmlt.a==-1){ // If this line type is unknown
+//if(rwmlt.a==-1){ // If this line type is unknown
 // do something....
-	rwmaCL='I';
-	rwmaRN='D';
-	}
+	//rwmaCL='I';
+	//rwmaRN='D';
+	//}
 //If there line was less than 6 characters
 if(rwmstop == 0)
  return;
@@ -105,10 +106,10 @@ return;
 
 /*This function written by Michael Tessier 20080828*/
 void rwm_line_char(char* curLine, int rwmln){
-int rwmdone=0, rwma=0, rwmb=0, rwmstop=-1, rwmmt=-1, rwmnl=-1;
+int rwmdone=0, rwma=0, rwmb=0, rwmstop=-1, rwmmt=-1;
 int itr,ishorta=0,ishortb=0;
 linetype rwmlt;
-char rwmaCL='I',rwmaRN='I';
+//char rwmaCL='I',rwmaRN='I';
 /* Read in first six characters and determine line type */
 if(DEBUG>=1){printf("rwm_line 1\n");}
 for(rwma=0;rwma<6;rwma++){
@@ -119,12 +120,10 @@ if(DEBUG>=2){printf("Just got new rwmdone \n");}
 		}
 	if(((rwmdone=='\n')||(rwmdone==' '))&&(rwma==0)){
 if(DEBUG>=1){printf("Empty line found \n");}
-		if(rwmdone=='\n'){rwmnl=0;}
 		rwmmt=0;
 		}
 	if((rwmdone=='\n')||(rwmstop==0)){
 if(DEBUG>=2){printf("resetting rwmdone \n");}
-		rwmnl=0;
 		rwmdone=' ';
 		rwmstop=0;
 		}
@@ -154,11 +153,11 @@ if(DEBUG>=1){printf("rwm_line 4\n");}
 /* If get_type returned a valid class: */
 
 
-if(rwmlt.a==-1){ // If this line type is unknown
+//if(rwmlt.a==-1){ // If this line type is unknown
 // do something....
-	rwmaCL='I';
-	rwmaRN='D';
-	}
+	//rwmaCL='I';
+	//rwmaRN='D';
+	//}
 //If there line was less than 6 characters
 if(rwmstop == 0)
  return;

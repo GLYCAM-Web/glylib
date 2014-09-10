@@ -10,10 +10,13 @@ assembly* load_pdb(char* file_name)
   temp = sufc; strcpy(temp,"_change.txt"); ACT='0';
   DEBUG=-1;LASTRES=-1;LASTOKX=0;LASTOKY=0;LASTOKZ=0;
   UNCTOL=0;CRYX=0;CRYY=0;CRYZ=0;LASTX=0;LASTY=0;LASTZ=0;
-  int ma,ra;
+  int ma;
+//int ra; // used for debugging in some comments below
   assembly* asmbl;
   IN = myfopen(file_name, "r");
-  char find_LINK='n',find_CONECT='n';
+  char find_CONECT='n';
+  /* add back when LINK bits are ready
+  char find_LINK='n'; */
   /*
   init_struct() scans pdb file for number of lines
   allocates memory for line structures initializes 
@@ -29,7 +32,8 @@ assembly* load_pdb(char* file_name)
   if(DEBUG>=1){printf("made it to here main line loop %d ...\n", ma);} 
 	rwm_line(ma+1); 
 	if(strncmp(ln[ma].f[0].c,"CONECT",6)==0) find_CONECT='y';
-	if(strncmp(ln[ma].f[0].c,"LINK",4)==0) find_LINK='y';
+        /* add back when LINK bits are ready
+	if(strncmp(ln[ma].f[0].c,"LINK",4)==0) find_LINK='y'; */
 	}
 
   /*Determine the number of molecules in the pdb */
@@ -94,9 +98,10 @@ void set_assembly_atom_molbonds_from_PDB_CONECT(assembly *A, linedef *ln, const 
 int ai,bi,li,ncurrent=-1,this_n,that_n,list_loc,na=A[0].na;
 char badorder='n';
 molindex_set found_a;
-int this_ai,alist[na],bonds[na],blist[na],llist[na];
+int this_ai,alist[na],bonds[na];
 int conect_first=-1,conect_last=-1,tmpi,tmpj;
-int checkNum=34685;
+// int blist[na],llist[na]; // not sure what the original purpose was.  remove if nothing breaks
+//int checkNum=34685;  // used for some debugging
 /*
     0.  Check that atoms are all in order.  Complain if not, but try anyway.
 */
@@ -129,8 +134,8 @@ printf("1. A[0].a[checkNum][0].n is %d and (*A).a[checkNum+1][0].n is %d\n",A[0]
 for(ai=0;ai<A[0].na;ai++) 
   { 
   alist[ai]=-1; 
-  blist[ai]=-1; 
-  llist[ai]=-1; 
+  //blist[ai]=-1; 
+  //llist[ai]=-1; 
   bonds[ai]=0; 
   }
 /*
@@ -154,7 +159,7 @@ ncurrent=0;
     list_loc=ncurrent;
     ncurrent++;
     alist[list_loc]=this_n;
-    llist[list_loc]=li;
+    //llist[list_loc]=li;
     }
 //printf(" ---  list_loc is %d \n",list_loc); 
    for(bi=2;bi<15;bi++)
@@ -179,7 +184,7 @@ printf("3. A[0].a[checkNum][0].n is %d and (*A).a[checkNum+1][0].n is %d\n",A[0]
   for(ai=0;ai<na;ai++) 
    {
    if(alist[ai]==-1) continue;
-   for(ncurrent=0;ncurrent<na;ncurrent++) { blist[ncurrent]=-1; }
+   //for(ncurrent=0;ncurrent<na;ncurrent++) { blist[ncurrent]=-1; }
    found_a=find_assembly_top_level_atoms_by_n(A,alist[ai]);
 /*printf("found_a.nP is %d and P[0] i-m-r-a is %d-%d-%d-%d n=%d N=%s\n",found_a.nP,\
 	found_a.P[0].i,found_a.P[0].m,found_a.P[0].r,found_a.P[0].a,\
@@ -738,7 +743,8 @@ return i;
 molecule* getMolecule(void){
   int molNum = 1;
   int i = 0;//int j = 0;int k = 0;
-  int ntX,j,rI,next_mol_line;
+  int ntX,j,rI;
+//int next_mol_line; //used for some debugging
   double dblY;
   char* temp;char name[6] = ""; //char* atmName = name;
   char icode=' ',chainid=' ';
@@ -751,7 +757,7 @@ molecule* getMolecule(void){
   (*mol).r = (residue*)calloc((*mol).nr,sizeof(residue));
   //Initialize the residue numbers to -1 so the program knows they're not used yet
   for(j = 0; j < (*mol).nr; j++){(*mol).r[j].n = -1;}
-  next_mol_line=getResInfo((*mol).r,i);
+//next_mol_line=getResInfo((*mol).r,i);
 //printf("next_mol_line is %d\n",next_mol_line);
   int l[(*mol).nr];
   for(i = 0; i < (*mol).nr; i++){

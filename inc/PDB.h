@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** file PDB.h 
 
     Contains header info relevant to reading and writing PDB files. */
@@ -60,4 +63,7 @@ void outputMolPDB(molecule*,char*);  /* Writes a pdb using a given molecule -- d
 void outputAsmblPDB(assembly*,char*);/* Writes a pdb using a given assembly -- deprecated */
 /** @}*/
 
+#endif
+#ifdef __cplusplus
+}
 #endif

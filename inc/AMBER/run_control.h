@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file AMBER/run_control.h Contains information pertinent to amber simulations.
 
 	Begun on 20080715 by BLFoley.  
@@ -209,4 +212,7 @@ typedef struct{
 } sander_pmemd_MD_run_info;
 
 
+#endif
+#ifdef __cplusplus
+}
 #endif

@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file amber.h  Badly named file, since amber.h is not unique. 
 Recommend name change.
 
@@ -13,4 +16,7 @@ be needed by procedures related to amber. */
 #include <AMBER/amber_prmtop.h>
 #include <AMBER/amber_coords.h>
 
+#endif
+#ifdef __cplusplus
+}
 #endif

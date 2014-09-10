@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file  glylib.h
 \brief  A grand header file designed to simplify use of glylib by requiring 
 that only one header file be loaded to get most of the glylib functionality.
@@ -26,11 +29,14 @@ that only one header file be loaded to get most of the glylib functionality.
 ******************************************************************/
 #include <PDB.h>  /**< mostly for writing pdb's */
 #include <load_pdb.h> ///< Specific to pdb files
-
+    
 /**************************************************************//**
 	Structures and functions related to AMBER
 ******************************************************************/
 #include <AMBER/amber.h> ///< Specific to AMBER
 /** @}*/
 
+#endif
+#ifdef __cplusplus
+}
 #endif

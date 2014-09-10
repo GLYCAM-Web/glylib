@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file read_amber8_mden.h Header file reading in mden files 
 output by amber programs starting at around version 8.
 
@@ -14,4 +17,7 @@ Changed to current form starting on 20080528
 
 double **read_amber8_mden(int NENT,char **ENT,int NDATA,fileset F);
 
+#endif
+#ifdef __cplusplus
+}
 #endif

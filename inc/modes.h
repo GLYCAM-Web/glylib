@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
 /** \file  modes.h
 \brief  Header file for vibrational modes.
 
@@ -231,4 +234,7 @@ typedef struct { // info tied to atom number
 
 void get_transition_intensity(molecule *M, int xl, int vl, vibmode *v, atype *ATYPE, FILE *F);
 /** @}*/
+#endif
+#ifdef __cplusplus
+}
 #endif
