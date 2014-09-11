@@ -7,25 +7,36 @@ Please see http://glycam.org/glylib for detailed documentation.
 
 Briefly:
 
-Requires:  C compiler and/or C++ compiler.  Prefer GNU-compatible.
+Requires:  
+
+    C compiler and/or C++ compiler
+    make utilities
+    GNU-compatible compilers are preferred
 
 To build:
 
-	cd lib
-	make  # to make for C and C++
+    cd lib
+    make  # to make for C and C++
 
-- If you only want C:
+    - If you only want C:
 
-	make justC
+        make justC
 
-- For only C++:
+    - For only C++:
 
-	make justCpp
+        make justCpp
 
 To use:
 
-You need to make your compile aware of the inc and lib directories 
-and -lglylib or -lglylib++, depending on the compiler.
+    You need to make your compile aware of the inc and lib directories 
+    and -lglylib or -lglylib++, depending on the compiler.  In most cases, 
+    you will also need -lm.
+
+For example:
+
+    gcc mycode.c -L/path/to/glylib/lib -I/path/to/glylib/inc -lglylib -Wall -lm
+      -or- 
+    g++ mycode.c -L/path/to/glylib/lib -I/path/to/glylib/inc -lglylib++ -Wall -lm
 
 For help: glycam@gmail.com
 
