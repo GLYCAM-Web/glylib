@@ -370,6 +370,7 @@ assembly* getAssembly()
 in_molecule_switch = 'n';
 for(i = 0; i < INWC; i++) {
 	if(j==molNum){break;}
+	k=0; /* reinitialize k because it seems not to have happened elsewhere... */
 	if(in_molecule_switch == 'n'){ /* If we are not in a molecule. */
 		while( (i<(INWC)) && (isAtom(ln+i)==0) ){ i++; } /* advance to first ATOM/HETATM line */
 		if(i==INWC){break;}
