@@ -343,7 +343,7 @@ void deallocateResidue(residue *r){
  // deallocate each
  if(r[0].a != NULL && r[0].a != 0x0){
  	for(i=0;i<r[0].na;i++){deallocateAtom(&r[0].a[i]);}
- 	free(r[0].a);}
+ 	if(r[0].a != NULL && r[0].a != 0x0) free(r[0].a);}
 /*
  if(r[0].aT != NULL && r[0].aT != 0x0){
  	for(i=0;i<r[0].na;i++){deallocateConnectionTree(&r[0].aT[i]);}
