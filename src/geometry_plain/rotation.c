@@ -249,7 +249,7 @@ get_cartesian_point_from_internal_coords(coord_3D a, coord_3D b, coord_3D c,
 
     lmn_y = normalize_vec(get_crossprod(ba, cb));
     lmn_z = normalize_vec(cb);
-    lmn_x = get_crossprod(lmn_y, lmn_z);
+    lmn_x = get_crossprod(lmn_z, lmn_y);
 
     x_p = distance * sin(theta) * cos(phi);
     y_p = distance * sin(theta) * sin(phi);
