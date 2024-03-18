@@ -1,4 +1,11 @@
-2014-09-11 BLFoley
+2024-03-17 BLFoley
+
+**This version of the library is intended for use with newer code and
+to compile using modern compilers.**
+
+Certain code written before 2024 might not work with this version.
+If you want to use a legacy version that will work with older code or 
+compilers, see the old-compilers branch or the legacy branch.  
 
 This is a library designed to facilitate programming relevant to 
 molecular data.
