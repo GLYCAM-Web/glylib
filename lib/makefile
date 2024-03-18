@@ -5,7 +5,7 @@ default: $(SOURCE)
 	gcc -Wall -I$(GLYINC) -c $(SOURCE) -g
 	ar rvs libglylib.a *.o
 	rm -f *.o
-	g++ -Wall -I$(GLYINC) -c $(SOURCE) -g
+	g++ -Wall -fpermissive -I$(GLYINC) -c $(SOURCE) -g
 	ar rvs libglylib++.a *.o
 	rm -f *.o
 justC: $(SOURCE)
@@ -13,7 +13,7 @@ justC: $(SOURCE)
 	ar rvs libglylib.a *.o
 	rm -f *.o
 justCpp: $(SOURCE)
-	g++ -Wall -I$(GLYINC) -c $(SOURCE) -g
+	g++ -Wall -fpermissive -I$(GLYINC) -c $(SOURCE) -g
 	ar rvs libglylib++.a *.o
 	rm -f *.o
 clean:	
