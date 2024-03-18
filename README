@@ -1,9 +1,15 @@
-2014-09-11 BLFoley
+2024-04-17 BLFoley
+
+**This version of the library is intended for use with older code and
+is only expected to compile with older compilers.**
+Certain code written before 2024 might not work with the
+newer versions of GLYLIB, so this is an option.
+
+If you want to use a legacy version that will work with newer compilers, see
+the legacy branch.  
 
 This is a library designed to facilitate programming relevant to 
 molecular data.
-
-Please see http://glycam.org/glylib for detailed documentation.
 
 Briefly:
 
